@@ -1,6 +1,5 @@
 package account;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 class Account {
@@ -14,7 +13,7 @@ class Account {
     String aboutMe;
     String profilePictureLink;
     String birthdate;
-    ArrayList<String> matchList = ;
+    ArrayList<String> matchList;
     ArrayList<String> likeList;
     ArrayList<String> blockList;
     ArrayList<String> recentlyViewed;
