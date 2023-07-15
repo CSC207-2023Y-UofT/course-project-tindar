@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 class Account {
-    boolean status;
+    boolean isActiveStatus;
     String id;
     String email;
     String password;
@@ -24,7 +24,7 @@ class Account {
 
     Account(String id, String email, String password,
                    String display, String first, String last) {
-        this.status = true;
+        this.isActiveStatus = true;
         this.id = id;
         this.email = email;
         this.password = password;
