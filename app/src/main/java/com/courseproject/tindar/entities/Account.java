@@ -42,4 +42,5 @@ class Account {
         this.gender = null;
         this.filters = null;
     }
+
 }
