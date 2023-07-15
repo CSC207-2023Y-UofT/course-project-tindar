@@ -1,4 +1,4 @@
-package com.courseproject.tindar.account;
+package com.courseproject.tindar.entity;
 
 import java.util.ArrayList;
 
