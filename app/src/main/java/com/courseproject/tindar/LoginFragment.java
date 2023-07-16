@@ -1,21 +1,25 @@
-package com.courseproject.tindar.ui.login;
+package com.courseproject.tindar;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.courseproject.tindar.R;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,7 +64,39 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
+        View rootView = inflater.inflate(R.layout.fragment_login, container, false);
+        Button signupBtn = (Button) rootView.findViewById(R.id.btn_signup);
+        Button loginBtn = (Button) rootView.findViewById(R.id.btn_login);
+
+        signupBtn.setOnClickListener(this);
+        loginBtn.setOnClickListener(this);
+
         return inflater.inflate(R.layout.fragment_login, container, false);
     }
+
+    @Override
+    public void onClick(View view) {
+        Fragment fragment = null;
+        switch (view.getId()) {
+            case R.id.btn_signup:
+                fragment = new SignupFragment();
+                replaceFragment(fragment);
+                break;
+
+            case R.id.btn_login:
+                fragment = new LoginFragment();
+                replaceFragment(fragment);
+                break;
+        }
+    }
+
+    public void replaceFragment(Fragment someFragment) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.login_layout, someFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+
 }
