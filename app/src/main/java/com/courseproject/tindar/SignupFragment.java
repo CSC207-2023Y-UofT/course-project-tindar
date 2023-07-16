@@ -3,17 +3,19 @@ package com.courseproject.tindar;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SignupFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SignupFragment extends Fragment {
+public class SignupFragment extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,10 +57,35 @@ public class SignupFragment extends Fragment {
         }
     }
 
+    //fragments require a funky switch fragment/replace fragment thing
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View rootView = inflater.inflate(R.layout.fragment_signup, container, false);
+        Button signupBtn = (Button) rootView.findViewById(R.id.btn_register);
+        signupBtn.setOnClickListener(this);
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_signup, container, false);
+    }
+
+    @Override
+    public void onClick(View view) {
+        Fragment fragment = null;
+
+        int id = view.getId();
+        if (id == R.id.btn_register) { //signup will send you back to login page to login with your info
+            fragment = new LoginFragment();
+            replaceFragment(fragment);
+        }
+    }
+
+    // does the actual fragment switching so you go to the next screen on the button press
+    public void replaceFragment(Fragment someFragment) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.signup_layout, someFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

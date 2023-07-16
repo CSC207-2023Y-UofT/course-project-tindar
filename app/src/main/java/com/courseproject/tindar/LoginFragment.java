@@ -78,17 +78,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         Fragment fragment = null;
-        switch (view.getId()) {
-            case R.id.btn_signup:
-                fragment = new SignupFragment();
-                replaceFragment(fragment);
-                break;
 
-            case R.id.btn_login:
-                fragment = new LoginFragment();
-                replaceFragment(fragment);
-                break;
+        int id = view.getId();
+        if (id == R.id.btn_signup) {
+            fragment = new SignupFragment();
+            replaceFragment(fragment);
+        } else if (id == R.id.btn_login) { //will be linked to blank nav page when implemented
+            fragment = new LoginFragment();
+            replaceFragment(fragment);
         }
+
     }
 
     public void replaceFragment(Fragment someFragment) {
