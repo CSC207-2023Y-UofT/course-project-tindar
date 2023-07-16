@@ -1,9 +1,11 @@
 package com.courseproject.tindar.entities;
 
+import android.location.Location;
+
 import java.util.ArrayList;
 import java.util.Date;
 
-class Account {
+public class Account {
     boolean isActiveStatus;
     String id;
     String email;
@@ -22,6 +24,17 @@ class Account {
     Gender gender;
     Filters filters;
 
+    /**
+     * Initializes an Account object, which is used to store information
+     * about a user.
+     *
+     * @param id the back-end user id associated with this account
+     * @param email the email associated with this account
+     * @param password the password used to log in to this account
+     * @param display the username chosen to represent this account
+     * @param first the account owner's first name
+     * @param last the account owner's last name
+     */
     Account(String id, String email, String password,
                    String display, String first, String last) {
         this.isActiveStatus = true;
