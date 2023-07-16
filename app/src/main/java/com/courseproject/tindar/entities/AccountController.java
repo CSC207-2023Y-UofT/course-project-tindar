@@ -56,6 +56,14 @@ public interface AccountController {
     default String getEmail(Account account) {
         return account.email;
     }
+    /** Changes the email associated with the account.
+     *
+     * @param account the account having its email changed
+     * @param email the new email associated with the account
+     */
+    default void setEmail(Account account, String email) {
+        account.email = email;
+    }
     /** Returns the password of an account in the form of a String.
      *
      * @param account the account the function is reading
@@ -63,6 +71,14 @@ public interface AccountController {
      */
     default String getPassword(Account account) {
         return account.password;
+    }
+    /** Changes the password associated with the account.
+     *
+     * @param account the account having its password changed
+     * @param password the new password associated with the account
+     */
+    default void setPassword(Account account, String password) {
+        account.password = password;
     }
     /** Returns the display name of an account in the form of a String.
      *
@@ -72,6 +88,14 @@ public interface AccountController {
     default String getDisplayName(Account account) {
         return account.displayName;
     }
+    /** Changes the display name associated with the account.
+     *
+     * @param account the account having its display name changed
+     * @param display the new display name associated with the account
+     */
+    default void setDisplayName(Account account, String display) {
+        account.displayName = display;
+    }
     /** Returns the first name of an account in the form of a String.
      *
      * @param account the account the function is reading
@@ -79,6 +103,14 @@ public interface AccountController {
      */
     default String getFirstName(Account account) {
         return account.firstName;
+    }
+    /** Changes the first name associated with the account.
+     *
+     * @param account the account having its first name changed
+     * @param first the new first name associated with the account
+     */
+    default void setFirstName(Account account, String first) {
+        account.firstName = first;
     }
     /** Returns the last name of an account in the form of a String.
      *
@@ -88,6 +120,14 @@ public interface AccountController {
     default String getLastName(Account account) {
         return account.lastName;
     }
+    /** Changes the last name associated with the account.
+     *
+     * @param account the account having its last name changed
+     * @param last the new last name associated with the account
+     */
+    default void setLastName(Account account, String last) {
+        account.lastName = last;
+    }
     /** Returns the about me section of an account in the form of a String.
      *
      * @param account the account the function is reading
@@ -95,6 +135,14 @@ public interface AccountController {
      */
     default String getAboutMe(Account account) {
         return account.aboutMe;
+    }
+    /** Changes the about me section of the account.
+     *
+     * @param account the account having its about me section changed
+     * @param about the new about me section of the account
+     */
+    default void setAboutMe(Account account, String about) {
+        account.aboutMe = about;
     }
     /** Returns the link to the profile image of an account in the form of a String.
      *
@@ -104,6 +152,14 @@ public interface AccountController {
     default String getProfilePictureLink(Account account) {
         return account.profilePictureLink;
     }
+    /** Changes the profile picture associated with the account.
+     *
+     * @param account the account having its profile picture changed
+     * @param picture the link to the new profile picture associated with the account
+     */
+    default void setProfilePictureLink(Account account, String picture) {
+        account.profilePictureLink = picture;
+    }
     /** Returns the match list of an account in the form of an ArrayList.
      *
      * @param account the account the function is reading
@@ -111,6 +167,15 @@ public interface AccountController {
      */
     default ArrayList<String> getMatchList(Account account) {
         return account.matchList;
+    }
+    /** Adds the name? id? of an account to this account's match list.
+     * TODO: figure out how match and block lists work
+     *
+     * @param account the account having its match list changed
+     * @param matched the account being added to the match list
+     */
+    default void addToMatchList(Account account, String matched) {
+        account.matchList.add(matched);
     }
     /** Returns the liked list of an account in the form of an ArrayList.
      *
