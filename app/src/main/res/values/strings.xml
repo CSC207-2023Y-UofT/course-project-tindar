@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">course-project-tindar</string>
+    <string name="login">Login</string>
+    <string name="gender">Gender</string>
+    <string name="location">Location</string>
+    <string name="profile_picture_link">Profile Picture Link</string>
+    <string name="about_me">About Me</string>
+    <string name="click_to_edit_profile_picture_link">Click to edit Profile Picture Link</string>
+    <string name="click_to_edit_about_me">Click to edit About Me</string>
+    <string name="click_to_edit_location">Click to edit Location</string>
+    <string name="click_to_edit_gender">Click to edit Gender</string>
+    <string name="click_to_edit_birthdate">Click to edit Birthdate</string>
+    <string name="birthdate">Birthdate</string>
+    <string-array name="genders">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="locations">
+        <item>Toronto</item>
+        <item>Vancouver</item>
+        <item>Montreal</item>
+        <item>Calgary</item>
+    </string-array>
 </resources>
