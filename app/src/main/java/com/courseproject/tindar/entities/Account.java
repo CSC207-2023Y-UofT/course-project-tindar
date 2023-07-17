@@ -66,11 +66,12 @@ public class Account {
             return "Suspended";
         }
     }
-    /** Flips the account status from Active to Suspended, or vice versa.
+    /** Sets an account's status to newStatus
      *
+     * @param newStatus the new status of the account
      */
-    void toggleAccountStatus() {
-        this.isActiveStatus = !this.isActiveStatus;
+    void setAccountStatus(boolean newStatus) {
+        this.isActiveStatus = newStatus;
     }
     /** Returns the id of an account in the form of a String.
      *
