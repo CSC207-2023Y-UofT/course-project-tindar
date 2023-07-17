@@ -1,6 +1,5 @@
 package com.courseproject.tindar.entities;
 
-import android.location.Location;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -25,7 +24,7 @@ public class Account {
     private String gender;
     private Filters filters;
     /**
-     * Initializes an Account objectwhich is used to store information
+     * Initializes an Account object which is used to store information
      * about a user.
      *
      * @param id the back-end user id associated with this account
@@ -67,10 +66,10 @@ public class Account {
             return "Suspended";
         }
     }
-    /** Flips the account status from Active to Suspendedor vice versa.
+    /** Flips the account status from Active to Suspended, or vice versa.
      *
      */
-    void setAccountStatus() {
+    void toggleAccountStatus() {
         this.isActiveStatus = !this.isActiveStatus;
     }
     /** Returns the id of an account in the form of a String.
