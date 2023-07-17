@@ -21,8 +21,8 @@ public class Account {
     private ArrayList<String> blockList;
     private ArrayList<String> recentlyViewed;
     private Date birthdate;
-    private Location location;
-    private Gender gender;
+    private String location;
+    private String gender;
     private Filters filters;
     /**
      * Initializes an Account objectwhich is used to store information
@@ -31,19 +31,19 @@ public class Account {
      * @param id the back-end user id associated with this account
      * @param email the email associated with this account
      * @param password the password used to log in to this account
-     * @param display the username chosen to represent this account
-     * @param first the account owner's first name
-     * @param last the account owner's last name
+     * @param displayName the username chosen to represent this account
+     * @param firstName the account owner's first name
+     * @param lastName the account owner's last name
      */
     Account(String id, String email, String password,
-                   String display, String first, String last) {
+                   String displayName, String firstName, String lastName) {
         this.isActiveStatus = true;
         this.id = id;
         this.email = email;
         this.password = password;
-        this.displayName = display;
-        this.firstName = first;
-        this.lastName = last;
+        this.displayName = displayName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.aboutMe = "";
         this.profilePictureLink = "";
         this.matchList = new ArrayList<>();
@@ -117,10 +117,10 @@ public class Account {
     }
     /** Changes the display name associated with the account.
      *
-     * @param display the new display name associated with the account
+     * @param displayName the new display name associated with the account
      */
-    void setDisplayName(String display) {
-        this.displayName = display;
+    void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
     /** Returns the first name of an account in the form of a String.
      *
@@ -131,10 +131,10 @@ public class Account {
     }
     /** Changes the first name associated with the account.
      *
-     * @param first the new first name associated with the account
+     * @param firstName the new first name associated with the account
      */
-    void setFirstName(String first) {
-        this.firstName = first;
+    void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
     /** Returns the last name of an account in the form of a String.
      *
@@ -145,10 +145,10 @@ public class Account {
     }
     /** Changes the last name associated with the account.
      *
-     * @param last the new last name associated with the account
+     * @param lastName the new last name associated with the account
      */
-    void setLastName(String last) {
-        this.lastName = last;
+    void setLastName(String lastName) {
+        this.lastName = lastName;
     }
     /** Returns the about me section of an account in the form of a String.
      *
@@ -159,10 +159,10 @@ public class Account {
     }
     /** Changes the about me section of the account.
      *
-     * @param about the new about me section of the account
+     * @param aboutMe the new about me section of the account
      */
-    void setAboutMe(String about) {
-        this.aboutMe = about;
+    void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
     }
     /** Returns the link to the profile image of an account in the form of a String.
      *
@@ -173,10 +173,10 @@ public class Account {
     }
     /** Changes the profile picture associated with the account.
      *
-     * @param picture the link to the new profile picture associated with the account
+     * @param profilePictureLink the link to the new profile picture associated with the account
      */
-    void setProfilePictureLink(String picture) {
-        this.profilePictureLink = picture;
+    void setProfilePictureLink(String profilePictureLink) {
+        this.profilePictureLink = profilePictureLink;
     }
     /** Returns the match list of an account in the form of an ArrayList.
      *
@@ -277,28 +277,34 @@ public class Account {
     void setEmail(Date date) {
         this.birthdate = date;
     }
-    /** Returns a user's location from their account in the form of a Location.
+    /** Returns a user's location from their account in the form of a String.
      *
      * @return the location associated with the account
      */
-    Location getLocation() {
+    String getLocation() {
         return this.location;
     }
     /** Changes the location associated with the account.
      *
      * @param location the new location associated with the account
      */
-    void setLocation(Location location) {
+    void setLocation(String location) {
         this.location = location;
     }
-    /** Returns a user's gender from their account in the form of a Gender.
+    /** Returns a user's gender from their account in the form of a String.
      *
      * @return the gender associated with the account
      */
-    Gender getGender() {
+    String getGender() {
         return this.gender;
     }
-    // TODO: Create setGender(). Requires Gender class to be created.
+    /** Changes the gender associated with the account.
+     *
+     * @param gender the new gender associated with the account
+     */
+    void setGender(String gender) {
+        this.gender = gender;
+    }
     /** Returns the filters of an account in the form of a Filters.
      *
      * @return the filters associated with the account
