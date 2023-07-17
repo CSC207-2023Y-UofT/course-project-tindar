@@ -63,8 +63,8 @@ public class SignupFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_signup, container, false);
-        Button signupBtn = (Button) rootView.findViewById(R.id.btn_register);
-        signupBtn.setOnClickListener(this);
+        Button signupButton = (Button) rootView.findViewById(R.id.button_register);
+        signupButton.setOnClickListener(this);
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_signup, container, false);
@@ -75,7 +75,7 @@ public class SignupFragment extends Fragment implements View.OnClickListener {
         Fragment fragment = null;
 
         int id = view.getId();
-        if (id == R.id.btn_register) { //signup will send you back to login page to login with your info
+        if (id == R.id.button_register) { //signup will send you back to login page to login with your info
             fragment = new LoginFragment();
             replaceFragment(fragment);
         }
@@ -84,7 +84,7 @@ public class SignupFragment extends Fragment implements View.OnClickListener {
     // does the actual fragment switching so you go to the next screen on the button press
     public void replaceFragment(Fragment someFragment) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.signup_layout, someFragment);
+        transaction.replace(R.id.layout_signup, someFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

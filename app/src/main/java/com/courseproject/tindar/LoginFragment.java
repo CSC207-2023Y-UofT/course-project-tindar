@@ -66,11 +66,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
-        Button signupBtn = (Button) rootView.findViewById(R.id.btn_signup);
-        Button loginBtn = (Button) rootView.findViewById(R.id.btn_login);
+        Button signupButton = (Button) rootView.findViewById(R.id.button_signup);
+        Button loginButton = (Button) rootView.findViewById(R.id.button_login);
 
-        signupBtn.setOnClickListener(this);
-        loginBtn.setOnClickListener(this);
+        signupButton.setOnClickListener(this);
+        loginButton.setOnClickListener(this);
 
         return inflater.inflate(R.layout.fragment_login, container, false);
     }
@@ -80,10 +80,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         Fragment fragment = null;
 
         int id = view.getId();
-        if (id == R.id.btn_signup) {
+        if (id == R.id.button_signup) {
             fragment = new SignupFragment();
             replaceFragment(fragment);
-        } else if (id == R.id.btn_login) { //will be linked to blank nav page when implemented
+        } else if (id == R.id.button_login) { //will be linked to blank nav page when implemented
             fragment = new LoginFragment();
             replaceFragment(fragment);
         }
@@ -92,7 +92,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     public void replaceFragment(Fragment someFragment) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.login_layout, someFragment);
+        transaction.replace(R.id.layout_login, someFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
