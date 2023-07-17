@@ -272,10 +272,10 @@ public class Account {
     }
     /** Changes the birthdate associated with the account.
      *
-     * @param date the new birthdate associated with the account
+     * @param birthdate the new birthdate associated with the account
      */
-    void setEmail(Date date) {
-        this.birthdate = date;
+    void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
     }
     /** Returns a user's location from their account in the form of a String.
      *
