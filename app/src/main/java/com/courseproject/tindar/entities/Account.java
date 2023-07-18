@@ -58,7 +58,7 @@ public class Account {
      *
      * @return the status of the account
      */
-    String getAccountStatus() {
+    public String getAccountStatus() {
         if (this.isActiveStatus) {
             return "Active";
         }
@@ -68,177 +68,177 @@ public class Account {
     }
     /** Sets an account's status to newStatus
      *
-     * @param newStatus the new status of the account
+     * @param isActiveStatus the new status of the account
      */
-    void setAccountStatus(boolean newStatus) {
-        this.isActiveStatus = newStatus;
+    public void setIsActiveStatus(boolean isActiveStatus) {
+        this.isActiveStatus = isActiveStatus;
     }
     /** Returns the id of an account in the form of a String.
      *
      * @return the user id associated with the account
      */
-    String getId() {
+    public String getId() {
         return this.id;
     }
     /** Returns the email of an account in the form of a String.
      *
      * @return the email associated with the account
      */
-    String getEmail() {
+    public String getEmail() {
         return this.email;
     }
     /** Changes the email associated with the account.
      *
      * @param email the new email associated with the account
      */
-    void setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
     /** Returns the password of an account in the form of a String.
      *
      * @return the password associated with the account
      */
-    String getPassword() {
+    public String getPassword() {
         return this.password;
     }
     /** Changes the password associated with the account.
      *
      * @param password the new password associated with the account
      */
-    void setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
     /** Returns the display name of an account in the form of a String.
      *
      * @return the display name associated with the account
      */
-    String getDisplayName() {
+    public String getDisplayName() {
         return this.displayName;
     }
     /** Changes the display name associated with the account.
      *
      * @param displayName the new display name associated with the account
      */
-    void setDisplayName(String displayName) {
+    public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
     /** Returns the first name of an account in the form of a String.
      *
      * @return the first name associated with the account
      */
-    String getFirstName() {
+    public String getFirstName() {
         return this.firstName;
     }
     /** Changes the first name associated with the account.
      *
      * @param firstName the new first name associated with the account
      */
-    void setFirstName(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
     /** Returns the last name of an account in the form of a String.
      *
      * @return the last name associated with the account
      */
-    String getLastName() {
+    public String getLastName() {
         return this.lastName;
     }
     /** Changes the last name associated with the account.
      *
      * @param lastName the new last name associated with the account
      */
-    void setLastName(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
     /** Returns the about me section of an account in the form of a String.
      *
      * @return the about me section associated with the account
      */
-    String getAboutMe() {
+    public String getAboutMe() {
         return this.aboutMe;
     }
     /** Changes the about me section of the account.
      *
      * @param aboutMe the new about me section of the account
      */
-    void setAboutMe(String aboutMe) {
+    public void setAboutMe(String aboutMe) {
         this.aboutMe = aboutMe;
     }
     /** Returns the link to the profile image of an account in the form of a String.
      *
      * @return the link to the profile image associated with the account
      */
-    String getProfilePictureLink() {
+    public String getProfilePictureLink() {
         return this.profilePictureLink;
     }
     /** Changes the profile picture associated with the account.
      *
      * @param profilePictureLink the link to the new profile picture associated with the account
      */
-    void setProfilePictureLink(String profilePictureLink) {
+    public void setProfilePictureLink(String profilePictureLink) {
         this.profilePictureLink = profilePictureLink;
     }
     /** Returns the match list of an account in the form of an ArrayList.
      *
      * @return the user id associated with the account
      */
-    ArrayList<String> getMatchList() {
+    public ArrayList<String> getMatchList() {
         return this.matchList;
     }
     /** Adds the id of an account to this account's match list.
      *
      * @param matched the account being added to the match list
      */
-    void addToMatchList(String matched) {
+    public void addToMatchList(String matched) {
         this.matchList.add(matched);
     }
     /** Removes the id of an account to this account's match list.
      *
      * @param matched the account being removed from the match list
      */
-    void removeFromMatchList(String matched) {
+    public void removeFromMatchList(String matched) {
         this.matchList.remove(matched);
     }
     /** Returns the liked list of an account in the form of an ArrayList.
      *
      * @return the liked list associated with the account
      */
-    ArrayList<String> getLikeList() {
+    public ArrayList<String> getLikeList() {
         return this.likeList;
     }
     /** Adds the id of an account to this account's like list.
      *
      * @param liked the account being added to the like list
      */
-    void addToLikeList(String liked) {
+    public void addToLikeList(String liked) {
         this.likeList.add(liked);
     }
     /** Removes the id of an account to this account's like list.
      *
      * @param liked the account being removed from the like list
      */
-    void removeFromLikeList(String liked) {
+    public void removeFromLikeList(String liked) {
         this.likeList.remove(liked);
     }
     /** Returns the block list of an account in the form of an ArrayList.
      *
      * @return the block list associated with the account
      */
-    ArrayList<String> getBlockList() {
+    public ArrayList<String> getBlockList() {
         return this.blockList;
     }
     /** Adds the id of an account to this account's block list.
      *
      * @param blocked the account being added to the block list
      */
-    void addToBlockList(String blocked) {
+    public void addToBlockList(String blocked) {
         this.blockList.add(blocked);
     }
     /** Removes the id of an account to this account's block list.
      *
      * @param blocked the account being removed from the block list
      */
-    void removeFromBlockList(String blocked) {
+    public void removeFromBlockList(String blocked) {
         this.blockList.remove(blocked);
     }
     /** Returns a list of the ids of recently viewed profiles
@@ -246,21 +246,21 @@ public class Account {
      *
      * @return a list of recently viewed profiles associated with the account
      */
-    ArrayList<String> getRecentlyViewed() {
+    public ArrayList<String> getRecentlyViewed() {
         return this.recentlyViewed;
     }
     /** Adds the id of an account to this account's recently viewed profiles.
      *
      * @param viewed the account being added to the recently viewed profiles
      */
-    void addToRecentlyViewed(String viewed) {
+    public void addToRecentlyViewed(String viewed) {
         this.recentlyViewed.add(viewed);
     }
     /** Removes the id of an account to this account's recently viewed profiles.
      *
      * @param viewed the account being removed from the recently viewed profiles
      */
-    void removeFromRecentlyViewed(String viewed) {
+    public void removeFromRecentlyViewed(String viewed) {
         this.recentlyViewed.remove(viewed);
     }
     /** Returns a user's birthdate from their account in the form of a Date.
@@ -274,42 +274,42 @@ public class Account {
      *
      * @param birthdate the new birthdate associated with the account
      */
-    void setBirthdate(Date birthdate) {
+    public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;
     }
     /** Returns a user's location from their account in the form of a String.
      *
      * @return the location associated with the account
      */
-    String getLocation() {
+    public String getLocation() {
         return this.location;
     }
     /** Changes the location associated with the account.
      *
      * @param location the new location associated with the account
      */
-    void setLocation(String location) {
+    public void setLocation(String location) {
         this.location = location;
     }
     /** Returns a user's gender from their account in the form of a String.
      *
      * @return the gender associated with the account
      */
-    String getGender() {
+    public String getGender() {
         return this.gender;
     }
     /** Changes the gender associated with the account.
      *
      * @param gender the new gender associated with the account
      */
-    void setGender(String gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
     /** Returns the filters of an account in the form of a Filters.
      *
      * @return the filters associated with the account
      */
-    Filters getFilters() {
+    public Filters getFilters() {
         return this.filters;
     }
     // TODO: Create setFilters(). Requires Filters class to be created.
