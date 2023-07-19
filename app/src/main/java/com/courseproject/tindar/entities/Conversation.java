@@ -3,53 +3,54 @@ package com.courseproject.tindar.entities;
 import java.util.ArrayList;
 
 public abstract class Conversation {
-    private String users1;
-    private String users2;
+    private String user1;
+    private String user2;
     private ArrayList<Message> messages;
-    private String id;
+    private String conversationID;
 
 
     //TODO complete abstract methods
 
 
-    public abstract void addMessage();
-    public abstract void deleteMessage();
-    public abstract void addReactionToMessage();
-    public abstract void flagMessage();
+    public boolean addMessage();
+    public boolean deleteMessage();
+    public boolean addReactionToMessage();
+    public boolean flagMessage();
 
-    // Getter methods
-    public String getUsers1() {
-        return users1;
+    // Getter and setter methods
+    public String getUser1() {
+        return this.user1;
     }
 
-    public String getUsers2() {
-        return users2;
+    public String getUser2() {
+        return this.user2;
     }
 
     public ArrayList<Message> getMessages() {
-        return messages;
+        return this.messages;
     }
 
-    public String getId() {
-        return id;
+    public void setUser1(String user1) {
+        this.user1 = user1;
     }
 
-    // Setter methods
-    public void setUsers1(String users1) {
-        this.users1 = users1;
+    public void setUser2(String user2) {
+        this.user2 = user2;
     }
 
-    public void setUsers2(String users2) {
-        this.users2 = users2;
-    }
-
-    public void setMessages(ArrayList<Message> messages) {
+    protected void setMessages(ArrayList<Message> messages) {
         this.messages = messages;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    /* 
+    public String getConversationID() {
+        return this.conversationID;
     }
+
+    protected void setID(String newConversationID) {
+        this.conversationID = newConversationID;
+    }
+    */
 }
 
 

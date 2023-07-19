@@ -8,56 +8,47 @@ public class Message {
     private Timestamp timestamp;
     private String sentFrom;
     private String sentTo;
-    private String conversationId;
 
     // Getter methods
     public String getMessageID() {
-        return messageID;
+        return this.messageID;
     }
 
-    public String getText() {
-        return text;
+    public String getMessageContent() {     
+        return this.text;
     }
 
     public Timestamp getTimestamp() {
-        return timestamp;
+        return this.timestamp;
     }
 
     public String getSentFrom() {
-        return sentFrom;
+        return this.sentFrom;
     }
 
     public String getSentTo() {
-        return sentTo;
-    }
-
-    public String getConversationId() {
-        return conversationId;
+        return this.sentTo;
     }
 
     // Setter methods
-    public void setMessageID(String messageID) {
+    protected void setMessageID(String messageID) {
         this.messageID = messageID;
     }
 
-    public void setText(String text) {
+    protected void setText(String text) {
         this.text = text;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    protected void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 
-    public void setSentFrom(String sentFrom) {
+    protected void setSentFrom(String sentFrom) {
         this.sentFrom = sentFrom;
     }
 
-    public void setSentTo(String sentTo) {
+    protected void setSentTo(String sentTo) {
         this.sentTo = sentTo;
-    }
-
-    public void setConversationId(String conversationId) {
-        this.conversationId = conversationId;
     }
 }
 
