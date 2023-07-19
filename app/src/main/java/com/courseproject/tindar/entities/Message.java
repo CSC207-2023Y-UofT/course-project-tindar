@@ -6,8 +6,17 @@ public class Message {
     private String messageID;
     private String text;
     private Timestamp timestamp;
-    private String sentFrom;
-    private String sentTo;
+    private String sentFromID;
+    private String sentToID;
+
+    protected Message(String text, Timestamp timestamp, String sentFromID, String sentToID){
+        this.text = text; 
+        this.timestamp = timestamp; 
+        this.sentFromID = sentFromID; 
+        this.sentToID = sentToID;
+        this.messageID = sentFromID + sentToID + timestamp.toString(); 
+        //implementation of messageID will probably be changed
+    }
 
     // Getter methods
     public String getMessageID() {
@@ -22,12 +31,12 @@ public class Message {
         return this.timestamp;
     }
 
-    public String getSentFrom() {
-        return this.sentFrom;
+    public String getSentFromID() {
+        return this.sentFromID;
     }
 
-    public String getSentTo() {
-        return this.sentTo;
+    public String getSentToID() {
+        return this.sentToID;
     }
 
     // Setter methods
@@ -44,11 +53,11 @@ public class Message {
     }
 
     protected void setSentFrom(String sentFrom) {
-        this.sentFrom = sentFrom;
+        this.sentFrom = sentFromID;
     }
 
     protected void setSentTo(String sentTo) {
-        this.sentTo = sentTo;
+        this.sentTo = sentToID;
     }
 }
 

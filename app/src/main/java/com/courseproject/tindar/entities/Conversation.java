@@ -8,10 +8,14 @@ public abstract class Conversation {
     private ArrayList<Message> messages;
     private String conversationID;
 
+    protected Conversation(String user1, String user2){
+        this.user1 = user1;
+        this.user2 = user2;
+        this.messages = new ArrayList<Message>(); 
+        this.conversationID = user1 + user2; //implementation will probably be changed
+    }
 
     //TODO complete abstract methods
-
-
     public boolean addMessage();
     public boolean deleteMessage();
     public boolean addReactionToMessage();
