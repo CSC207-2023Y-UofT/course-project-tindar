@@ -3,24 +3,24 @@ package com.courseproject.tindar.entities;
 import java.sql.Timestamp;
 
 public class Message {
-    private String messageID;
+    private String messageId;
     private String text;
     private Timestamp timestamp;
-    private String sentFromID;
-    private String sentToID;
+    private String sentFromId;
+    private String sentToId;
 
-    protected Message(String text, Timestamp timestamp, String sentFromID, String sentToID){
+    protected Message(String text, Timestamp timestamp, String sentFromId, String sentToId){
         this.text = text; 
         this.timestamp = timestamp; 
-        this.sentFromID = sentFromID; 
-        this.sentToID = sentToID;
-        this.messageID = sentFromID + sentToID + timestamp.toString(); 
-        //implementation of messageID will probably be changed
+        this.sentFromId = sentFromId; 
+        this.sentToId = sentToId;
+        this.messageId = sentFromId + sentToId + timestamp.toString(); 
+        //implementation of messageId will probably be changed
     }
 
     // Getter methods
-    public String getMessageID() {
-        return this.messageID;
+    public String getMessageId() {
+        return this.messageId;
     }
 
     public String getMessageContent() {     
@@ -31,17 +31,17 @@ public class Message {
         return this.timestamp;
     }
 
-    public String getSentFromID() {
-        return this.sentFromID;
+    public String getSentFromId() {
+        return this.sentFromId;
     }
 
-    public String getSentToID() {
-        return this.sentToID;
+    public String getSentToId() {
+        return this.sentToId;
     }
 
     // Setter methods
-    protected void setMessageID(String messageID) {
-        this.messageID = messageID;
+    protected void setMessageId(String messageId) {
+        this.messageId = messageId;
     }
 
     protected void setText(String text) {
@@ -53,11 +53,11 @@ public class Message {
     }
 
     protected void setSentFrom(String sentFrom) {
-        this.sentFrom = sentFromID;
+        this.sentFrom = sentFromId;
     }
 
     protected void setSentTo(String sentTo) {
-        this.sentTo = sentToID;
+        this.sentTo = sentToId;
     }
 }
 

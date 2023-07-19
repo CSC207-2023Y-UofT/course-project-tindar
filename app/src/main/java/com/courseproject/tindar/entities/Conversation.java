@@ -6,13 +6,13 @@ public abstract class Conversation {
     private String user1;
     private String user2;
     private ArrayList<Message> messages;
-    private String conversationID;
+    private String conversationId;
 
     protected Conversation(String user1, String user2){
         this.user1 = user1;
         this.user2 = user2;
         this.messages = new ArrayList<Message>(); 
-        this.conversationID = user1 + user2; //implementation will probably be changed
+        this.conversationId = user1 + user2; //implementation will probably be changed
     }
 
     //TODO complete abstract methods
@@ -34,6 +34,10 @@ public abstract class Conversation {
         return this.messages;
     }
 
+    public String getConversationId() {
+        return this.conversationId;
+    }
+
     public void setUser1(String user1) {
         this.user1 = user1;
     }
@@ -46,15 +50,9 @@ public abstract class Conversation {
         this.messages = messages;
     }
 
-    /* 
-    public String getConversationID() {
-        return this.conversationID;
+    protected void setId(String newConversationId) {
+        this.conversationId = newConversationId;
     }
-
-    protected void setID(String newConversationID) {
-        this.conversationID = newConversationID;
-    }
-    */
 }
 
 
