@@ -18,7 +18,6 @@
 
     <!-- Placeholder text for unimplemented screens -->
     <string name="hello_blank_fragment">TODO - Not Implemented</string>
-    <string name="app_name">course-project-tindar</string>
     <string name="login">Login</string>
     <string name="gender">Gender</string>
     <string name="location">Location</string>
