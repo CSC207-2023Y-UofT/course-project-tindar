@@ -16,10 +16,10 @@ public abstract class Conversation {
     }
 
     //TODO complete abstract methods
-    public boolean addMessage();
-    public boolean deleteMessage();
-    public boolean addReactionToMessage();
-    public boolean flagMessage();
+    public abstract boolean addMessage();
+    public abstract boolean deleteMessage();
+    public abstract boolean addReactionToMessage();
+    public abstract boolean flagMessage();
 
     // Getter and setter methods
     public String getUser1() {
