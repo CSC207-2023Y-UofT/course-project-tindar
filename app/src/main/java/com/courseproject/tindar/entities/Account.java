@@ -22,7 +22,7 @@ public class Account {
     private Date birthdate;
     private String location;
     private String gender;
-    private Filters filters;
+    // private Filters filters;
     /**
      * Initializes an Account object which is used to store information
      * about a user.
@@ -34,7 +34,7 @@ public class Account {
      * @param firstName the account owner's first name
      * @param lastName the account owner's last name
      */
-    Account(String id, String email, String password,
+    public Account(String id, String email, String password,
                    String displayName, String firstName, String lastName) {
         this.isActiveStatus = true;
         this.id = id;
@@ -52,7 +52,7 @@ public class Account {
         this.birthdate = null;
         this.location = null;
         this.gender = null;
-        this.filters = null;
+        // this.filters = null;
     }
     /** Returns the status of an account in the form of a String.
      *
@@ -309,9 +309,10 @@ public class Account {
      *
      * @return the filters associated with the account
      */
-    public Filters getFilters() {
+    /* public Filters getFilters() {
         return this.filters;
     }
+     */
     // TODO: Create setFilters(). Requires Filters class to be created.
 
 }
