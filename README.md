@@ -12,7 +12,7 @@ It also contains workflow documents that give instructions on how to manage your
 - [ ] Use pull requests to merge finished features into main branch
 - [ ] Conduct code reviews
 
-**If your team has trouble with any of these steps, please ask on Piazza. For example, with how GitHub Classroom works, your team *may* not have permissions to do some of the first few steps, in which case we'll post alternative instructions as needed.**
+**If your team has trouble with any of these steps, please ask on Piazza. For example, with how GitHub Classroom works, your team *may* not have permissions to do some of the first few steps, in which case we'll post alternative instructions as.**
 
 ## Workflow Documents
 
