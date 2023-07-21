@@ -29,7 +29,7 @@ public class blankNav extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarBlankNav.toolbar);
-        binding.appBarBlankNav.fab.setOnClickListener(new View.OnClickListener() {
+        binding.appBarBlankNav.toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)

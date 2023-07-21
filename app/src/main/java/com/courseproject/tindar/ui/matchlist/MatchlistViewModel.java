@@ -1,14 +1,14 @@
-package com.courseproject.tindar.ui.gallery;
+package com.courseproject.tindar.ui.matchlist;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class GalleryViewModel extends ViewModel {
+public class MatchlistViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public GalleryViewModel() {
+    public MatchlistViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is gallery fragment");
     }

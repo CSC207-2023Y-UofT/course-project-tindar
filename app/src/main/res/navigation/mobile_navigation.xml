@@ -13,13 +13,13 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.courseproject.tindar.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:name="com.courseproject.tindar.ui.matchlist.MatchlistFragment"
+        android:label="@string/menu_matchlist"
+        tools:layout="@layout/fragment_matchlist" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.courseproject.tindar.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:name="com.courseproject.tindar.ui.settings.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

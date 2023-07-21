@@ -1,4 +1,4 @@
-package com.courseproject.tindar.ui.slideshow;
+package com.courseproject.tindar.ui.matchlist;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.courseproject.tindar.databinding.FragmentSlideshowBinding;
+import com.courseproject.tindar.databinding.FragmentMatchlistBinding;
 
-public class SlideshowFragment extends Fragment {
+public class MatchlistFragment extends Fragment {
 
-    private FragmentSlideshowBinding binding;
+    private FragmentMatchlistBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SlideshowViewModel slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);
+        MatchlistViewModel galleryViewModel =
+                new ViewModelProvider(this).get(MatchlistViewModel.class);
 
-        binding = FragmentSlideshowBinding.inflate(inflater, container, false);
+        binding = FragmentMatchlistBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textSlideshow;
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textGallery;
+        galleryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
