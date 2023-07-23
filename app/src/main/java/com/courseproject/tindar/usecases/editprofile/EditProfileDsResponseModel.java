@@ -2,7 +2,7 @@ package com.courseproject.tindar.usecases.editprofile;
 
 import java.util.Date;
 
-public class EditProfileResponseModel {
+public class EditProfileDsResponseModel {
 
     private final Date birthdate;
     private final String gender;
@@ -10,8 +10,8 @@ public class EditProfileResponseModel {
     private final String profilePictureLink;
     private final String aboutMe;
 
-    public EditProfileResponseModel(Date birthdate, String gender, String location, String profilePictureLink,
-                                    String aboutMe) {
+    public EditProfileDsResponseModel(Date birthdate, String gender, String location, String profilePictureLink,
+                                      String aboutMe) {
         this.birthdate = birthdate;
         this.gender = gender;
         this.location = location;

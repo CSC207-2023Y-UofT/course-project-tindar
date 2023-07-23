@@ -3,7 +3,7 @@ package com.courseproject.tindar.usecases.editprofile;
 import java.util.Date;
 
 public interface EditProfileInputBoundary {
-    EditProfileResponseModel getProfile(String userId);
+    EditProfileDsResponseModel getProfile(String userId);
 
     void updateBirthdate(String userId, Date birthdate);
 

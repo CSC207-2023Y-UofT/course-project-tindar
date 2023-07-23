@@ -7,7 +7,7 @@ import android.content.Context;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.courseproject.tindar.usecases.editprofile.EditProfileResponseModel;
+import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
 
 import org.junit.After;
 import org.junit.Before;
@@ -41,8 +41,8 @@ public class DatabaseHelperTest {
     //  reads and returns
 
     @Test
-    public void ReadProfile() {
-        EditProfileResponseModel testProfile = dbHelper.readProfile(userId);
+    public void readProfile() {
+        EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
         assertEquals("Female", testProfile.getBirthdate(), new GregorianCalendar(2003, 9, 5).getTime()) ;
         assertEquals("Female", testProfile.getGender()) ;
         assertEquals("Calgary", testProfile.getLocation());
@@ -53,35 +53,35 @@ public class DatabaseHelperTest {
     @Test
     public void updateBirthdate() {
         dbHelper.updateBirthdate(userId, new GregorianCalendar(1997, 11, 27).getTime());
-        EditProfileResponseModel testProfile = dbHelper.readProfile(userId);
+        EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
         assertEquals(new GregorianCalendar(1997, 11, 27).getTime(), testProfile.getBirthdate());
     }
 
     @Test
     public void updateGender() {
         dbHelper.updateGender(userId, "Other");
-        EditProfileResponseModel testProfile = dbHelper.readProfile(userId);
+        EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
         assertEquals("Other", testProfile.getGender());
     }
 
     @Test
     public void updateLocation() {
         dbHelper.updateLocation(userId, "Vancouver");
-        EditProfileResponseModel testProfile = dbHelper.readProfile(userId);
+        EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
         assertEquals("Vancouver", testProfile.getLocation());
     }
 
     @Test
     public void updateProfilePictureLink() {
         dbHelper.updateProfilePictureLink(userId, "https://bbb");
-        EditProfileResponseModel testProfile = dbHelper.readProfile(userId);
+        EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
         assertEquals("https://bbb", testProfile.getProfilePictureLink());
     }
 
     @Test
     public void updateAboutMe() {
         dbHelper.updateAboutMe(userId, "Nice to meet you");
-        EditProfileResponseModel testProfile = dbHelper.readProfile(userId);
+        EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
         assertEquals("Nice to meet you", testProfile.getAboutMe());
     }
 }

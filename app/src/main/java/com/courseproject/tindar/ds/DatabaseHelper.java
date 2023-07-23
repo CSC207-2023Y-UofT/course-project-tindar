@@ -9,13 +9,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsGateway;
-import com.courseproject.tindar.usecases.editprofile.EditProfileResponseModel;
+import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway {
-
     private static DatabaseHelper dbInstance;
 
     private static final String TABLE_ACCOUNTS = "accounts";
@@ -35,9 +34,9 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
 
     private static final String CREATE_TABLE_ACCOUNTS_QUERY = "CREATE TABLE " + TABLE_ACCOUNTS + " ("
         + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-        + COLUMN_IS_ACTIVE_STATUS + " NUMBER(1), "
-        + COLUMN_EMAIL + " VARCHAR(30), "
-        + COLUMN_PASSWORD + " VARCHAR(30), "
+        + COLUMN_IS_ACTIVE_STATUS + " NUMBER(1) NOT NULL, "
+        + COLUMN_EMAIL + " VARCHAR(30) NOT NULL, "
+        + COLUMN_PASSWORD + " VARCHAR(30) NOT NULL, "
         + COLUMN_DISPLAY_NAME + " VARCHAR(30), "
         + COLUMN_FIRST_NAME + " VARCHAR(30), "
         + COLUMN_LAST_NAME + " VARCHAR(30), "
@@ -129,9 +128,9 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     }
 
     @Override
-    public EditProfileResponseModel readProfile(String userId) {
+    public EditProfileDsResponseModel readProfile(String userId) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursorProfile = db.rawQuery("SELECT "
+        Cursor cursor = db.rawQuery("SELECT "
                 + COLUMN_BIRTHDATE + ", "
                 + COLUMN_GENDER + ", "
                 + COLUMN_LOCATION + ", "
@@ -141,18 +140,18 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
                 + " WHERE " + COLUMN_ID + " =?",
             new String[]{userId});
 
-        cursorProfile.moveToFirst();
+        cursor.moveToFirst();
 
-        EditProfileResponseModel profileResponse = new EditProfileResponseModel(
-            new java.util.Date(cursorProfile.getLong(0)),
-            cursorProfile.getString(1),
-            cursorProfile.getString(2),
-            cursorProfile.getString(3),
-            cursorProfile.getString(4)
+        EditProfileDsResponseModel dsResponse = new EditProfileDsResponseModel(
+            new java.util.Date(cursor.getLong(0)),
+            cursor.getString(1),
+            cursor.getString(2),
+            cursor.getString(3),
+            cursor.getString(4)
         );
 
-        cursorProfile.close();
-        return profileResponse;
+        cursor.close();
+        return dsResponse;
     }
 
     @Override

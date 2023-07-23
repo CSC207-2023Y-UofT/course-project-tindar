@@ -30,14 +30,14 @@
     <string name="click_to_edit_birthdate">Click to edit Birthdate</string>
     <string name="birthdate">Birthdate</string>
     <string-array name="genders">
-        <item>Male</item>
         <item>Female</item>
+        <item>Male</item>
         <item>Other</item>
     </string-array>
     <string-array name="locations">
+        <item>Calgary</item>
+        <item>Montreal</item>
         <item>Toronto</item>
         <item>Vancouver</item>
-        <item>Montreal</item>
-        <item>Calgary</item>
     </string-array>
 </resources>
