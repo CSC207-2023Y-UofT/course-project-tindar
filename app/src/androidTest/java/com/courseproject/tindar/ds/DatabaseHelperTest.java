@@ -7,6 +7,7 @@ import android.content.Context;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
 
 import org.junit.After;
@@ -14,6 +15,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 
 @RunWith(AndroidJUnit4.class)
@@ -27,8 +31,9 @@ public class DatabaseHelperTest {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         dbHelper = DatabaseHelper.getInstance(appContext);
         userId = dbHelper.addAccount(true, "bell@exampleemail.com", "somepassword", "bell",
-            "Bell", "Robin", new GregorianCalendar(2003, 9, 5).getTime(),
-            "Female", "Calgary", "https://ccc", "I would like to");
+                "Bell", "Robin", new GregorianCalendar(2003, 9, 5).getTime(),
+                "Female", "Calgary", "https://ccc", "I would like to",
+                "Female, Male", "Calgary, Vancouver", 19, 999);
     }
 
     @After
@@ -83,5 +88,50 @@ public class DatabaseHelperTest {
         dbHelper.updateAboutMe(userId, "Nice to meet you");
         EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
         assertEquals("Nice to meet you", testProfile.getAboutMe());
+    }
+
+    @Test
+    public void readFilters() {
+        EditFiltersDsResponseModel testFilters = dbHelper.readFilters(userId);
+        assertEquals(new ArrayList<>(Arrays.asList("Female", "Male")), testFilters.getPreferredGenders()) ;
+        assertEquals(new ArrayList<>(Arrays.asList("Calgary", "Vancouver")), testFilters.getPreferredLocations()) ;
+        assertEquals(19, testFilters.getPreferredAgeMinimum());
+        assertEquals(999, testFilters.getPreferredAgeMaximum());
+    }
+
+    @Test
+    public void updatePreferredGenders() {
+        dbHelper.updatePreferredGenders(userId, new ArrayList<>(Collections.singletonList("Female")));
+        EditFiltersDsResponseModel testFilters = dbHelper.readFilters(userId);
+        assertEquals(new ArrayList<>(Collections.singletonList("Female")), testFilters.getPreferredGenders()) ;
+    }
+
+    @Test
+    public void updatePreferredGendersEmptyList() {
+        dbHelper.updatePreferredGenders(userId, new ArrayList<>());
+        EditFiltersDsResponseModel testFilters = dbHelper.readFilters(userId);
+        assertEquals(new ArrayList<>(), testFilters.getPreferredGenders()) ;
+    }
+
+    @Test
+    public void updatePreferredLocations() {
+        dbHelper.updatePreferredGenders(userId, new ArrayList<>(Arrays.asList("Calgary", "Toronto")));
+        EditFiltersDsResponseModel testFilters = dbHelper.readFilters(userId);
+        assertEquals(new ArrayList<>(Arrays.asList("Calgary", "Toronto")), testFilters.getPreferredGenders());
+    }
+
+    @Test
+    public void updatePreferredLocationsEmptyList() {
+        dbHelper.updatePreferredLocations(userId, new ArrayList<>());
+        EditFiltersDsResponseModel testFilters = dbHelper.readFilters(userId);
+        assertEquals(new ArrayList<>(), testFilters.getPreferredLocations()) ;
+    }
+
+    @Test
+    public void updatePreferredAgeGroup() {
+        dbHelper.updatePreferredAgeGroup(userId, 21, 31);
+        EditFiltersDsResponseModel testFilters = dbHelper.readFilters(userId);
+        assertEquals(21, testFilters.getPreferredAgeMinimum()) ;
+        assertEquals(31, testFilters.getPreferredAgeMaximum()) ;
     }
 }

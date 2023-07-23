@@ -16,9 +16,7 @@
     <string name="your_name">Your Name</string>
     <string name="re_type_password">Re-type Password</string>
 
-    <!-- Placeholder text for unimplemented screens -->
-    <string name="hello_blank_fragment">TODO - Not Implemented</string>
-    <string name="login">Login</string>
+    <!-- Strings related to other screens -->
     <string name="gender">Gender</string>
     <string name="location">Location</string>
     <string name="profile_picture_link">Profile Picture Link</string>
@@ -29,6 +27,18 @@
     <string name="click_to_edit_gender">Click to edit Gender</string>
     <string name="click_to_edit_birthdate">Click to edit Birthdate</string>
     <string name="birthdate">Birthdate</string>
+    <string name="profile">profile</string>
+    <string name="filters">filters</string>
+    <string name="choose_preferred_gender">Choose Preferred Gender</string>
+    <string name="choose_preferred_location">Choose Preferred Location</string>
+    <string name="preferred_locations">Preferred Locations</string>
+    <string name="preferred_genders">Preferred Genders</string>
+    <string name="preferred_age_group">Preferred Age Group</string>
+    <string name="minimum_age">minimum age</string>
+    <string name="maximum_age">maximum age</string>
+    <string name="click_to_edit_preferred_genders">Click to edit Preferred Genders</string>
+    <string name="click_to_edit_preferred_locations">Click to edit Preferred Locations</string>
+    <string name="click_to_edit_preferred_age_group">Click to edit Preferred Age Group</string>
     <string-array name="genders">
         <item>Female</item>
         <item>Male</item>

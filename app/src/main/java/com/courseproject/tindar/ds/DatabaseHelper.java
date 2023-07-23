@@ -8,13 +8,17 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.courseproject.tindar.usecases.editfilters.EditFiltersDsGateway;
+import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsGateway;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway {
+public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway {
     private static DatabaseHelper dbInstance;
 
     private static final String TABLE_ACCOUNTS = "accounts";
@@ -31,20 +35,28 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     private static final String COLUMN_LOCATION = "location";
     private static final String COLUMN_PROFILE_PICTURE_LINK = "profile_picture_link";
     private static final String COLUMN_ABOUT_ME = "about_me";
+    private static final String COLUMN_PREFERRED_GENDERS = "preferred_genders";
+    private static final String COLUMN_PREFERRED_LOCATIONS = "preferred_locations";
+    private static final String COLUMN_PREFERRED_AGE_MINIMUM = "preferred_age_minimum";
+    private static final String COLUMN_PREFERRED_AGE_MAXIMUM = "preferred_age_maximum";
 
     private static final String CREATE_TABLE_ACCOUNTS_QUERY = "CREATE TABLE " + TABLE_ACCOUNTS + " ("
-        + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-        + COLUMN_IS_ACTIVE_STATUS + " NUMBER(1) NOT NULL, "
-        + COLUMN_EMAIL + " VARCHAR(30) NOT NULL, "
-        + COLUMN_PASSWORD + " VARCHAR(30) NOT NULL, "
-        + COLUMN_DISPLAY_NAME + " VARCHAR(30), "
-        + COLUMN_FIRST_NAME + " VARCHAR(30), "
-        + COLUMN_LAST_NAME + " VARCHAR(30), "
-        + COLUMN_BIRTHDATE + " DATE, "
-        + COLUMN_GENDER + " VARCHAR(30), "
-        + COLUMN_LOCATION + " VARCHAR(30), "
-        + COLUMN_PROFILE_PICTURE_LINK + " TEXT, "
-        + COLUMN_ABOUT_ME + " TEXT);";
+            + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COLUMN_IS_ACTIVE_STATUS + " NUMBER(1) NOT NULL, "
+            + COLUMN_EMAIL + " VARCHAR(30) NOT NULL, "
+            + COLUMN_PASSWORD + " VARCHAR(30) NOT NULL, "
+            + COLUMN_DISPLAY_NAME + " VARCHAR(30), "
+            + COLUMN_FIRST_NAME + " VARCHAR(30), "
+            + COLUMN_LAST_NAME + " VARCHAR(30), "
+            + COLUMN_BIRTHDATE + " DATE, "
+            + COLUMN_GENDER + " VARCHAR(30), "
+            + COLUMN_LOCATION + " VARCHAR(30), "
+            + COLUMN_PROFILE_PICTURE_LINK + " TEXT, "
+            + COLUMN_ABOUT_ME + " TEXT, "
+            + COLUMN_PREFERRED_GENDERS + " TEXT NOT NULL, "
+            + COLUMN_PREFERRED_LOCATIONS + " TEXT NOT NULL, "
+            + COLUMN_PREFERRED_AGE_MINIMUM + " TEXT NOT NULL, "
+            + COLUMN_PREFERRED_AGE_MAXIMUM + " TEXT NOT NULL);";
 
     /**
      * Returns DatabaseHelper instance. If the instance already exists it returns exiting instance, if not, it creates
@@ -88,17 +100,21 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
      **/
     private void addInitialData(SQLiteDatabase db) {
         addAccount(true, "jack@someemail.com", "password_jack", "jack",
-            "Jack", "Brown", new GregorianCalendar(2000, 1, 26).getTime(),
-            "Male", "Toronto", "aaa", "Hi", db);
+                "Jack", "Brown", new GregorianCalendar(2000, 1, 26).getTime(),
+                "Male", "Toronto", "aaa", "Hi", "Female, Other",
+                "Toronto", 20, 25, db);
         addAccount(true, "amy@someotheremail.com", "password_amy", "amy",
-            "Amy", "Smith", new GregorianCalendar(2000, 7, 2).getTime(),
-            "Female", "Montreal", "bbb", "Hello", db);
+                "Amy", "Smith", new GregorianCalendar(2000, 7, 2).getTime(),
+                "Female", "Montreal", "bbb", "Hello","Male",
+                "Montreal, Toronto", 23, 27, db);
     }
 
     private String addAccount(boolean isActiveStatus, String email, String password, String displayName,
                               String firstName,
                               String lastName, java.util.Date birthdate, String gender, String location,
-                              String profilePictureLink, String aboutMe, SQLiteDatabase db) {
+                              String profilePictureLink, String aboutMe, String preferredGenders,
+                              String preferredLocations, int preferredAgeMinimum,
+                              int preferredAgeMaximum, SQLiteDatabase db) {
 
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_IS_ACTIVE_STATUS, isActiveStatus ? 1 : 0);
@@ -112,6 +128,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         cv.put(COLUMN_LOCATION, location);
         cv.put(COLUMN_PROFILE_PICTURE_LINK, profilePictureLink);
         cv.put(COLUMN_ABOUT_ME, aboutMe);
+        cv.put(COLUMN_PREFERRED_GENDERS, preferredGenders);
+        cv.put(COLUMN_PREFERRED_LOCATIONS, preferredLocations);
+        cv.put(COLUMN_PREFERRED_AGE_MINIMUM, preferredAgeMinimum);
+        cv.put(COLUMN_PREFERRED_AGE_MAXIMUM, preferredAgeMaximum);
 
         long insertedId = db.insert(TABLE_ACCOUNTS, null, cv);
         return String.valueOf(insertedId);
@@ -119,35 +139,37 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
 
     public String addAccount(boolean isActiveStatus, String email, String password, String displayName, String firstName,
                              String lastName, java.util.Date birthdate, String gender, String location,
-                             String profilePictureLink, String aboutMe) {
+                             String profilePictureLink, String aboutMe, String preferredGenders,
+                             String preferredLocations, int preferredAgeMinimum, int preferredAgeMaximum) {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        return addAccount(isActiveStatus, email, password, displayName, firstName, lastName, birthdate, gender,
-            location, profilePictureLink, aboutMe, db);
+        return addAccount(isActiveStatus, email, password, displayName, firstName, lastName, birthdate, gender, location,
+                profilePictureLink, aboutMe, preferredGenders, preferredLocations, preferredAgeMinimum,
+                preferredAgeMaximum, db);
     }
 
     @Override
     public EditProfileDsResponseModel readProfile(String userId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT "
-                + COLUMN_BIRTHDATE + ", "
-                + COLUMN_GENDER + ", "
-                + COLUMN_LOCATION + ", "
-                + COLUMN_PROFILE_PICTURE_LINK + ", "
-                + COLUMN_ABOUT_ME
-                + " FROM " + TABLE_ACCOUNTS
-                + " WHERE " + COLUMN_ID + " =?",
-            new String[]{userId});
+                        + COLUMN_BIRTHDATE + ", "
+                        + COLUMN_GENDER + ", "
+                        + COLUMN_LOCATION + ", "
+                        + COLUMN_PROFILE_PICTURE_LINK + ", "
+                        + COLUMN_ABOUT_ME
+                        + " FROM " + TABLE_ACCOUNTS
+                        + " WHERE " + COLUMN_ID + " =?",
+                new String[]{userId});
 
         cursor.moveToFirst();
 
         EditProfileDsResponseModel dsResponse = new EditProfileDsResponseModel(
-            new java.util.Date(cursor.getLong(0)),
-            cursor.getString(1),
-            cursor.getString(2),
-            cursor.getString(3),
-            cursor.getString(4)
+                new java.util.Date(cursor.getLong(0)),
+                cursor.getString(1),
+                cursor.getString(2),
+                cursor.getString(3),
+                cursor.getString(4)
         );
 
         cursor.close();
@@ -203,4 +225,67 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         db.update(TABLE_ACCOUNTS, cv, COLUMN_ID + "=?", new String[]{userId});
         db.close();
     }
+
+    @Override
+    public EditFiltersDsResponseModel readFilters(String userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT "
+                        + COLUMN_PREFERRED_GENDERS + ", "
+                        + COLUMN_PREFERRED_LOCATIONS + ", "
+                        + COLUMN_PREFERRED_AGE_MINIMUM + ", "
+                        + COLUMN_PREFERRED_AGE_MAXIMUM
+                        + " FROM " + TABLE_ACCOUNTS
+                        + " WHERE " + COLUMN_ID + " =?",
+                new String[]{userId});
+
+        cursor.moveToFirst();
+
+        // converts comma separated string to an ArrayList. If string is an empty string, it creates an empty ArrayList.
+        ArrayList<String> preferredGenders = new ArrayList<>(Arrays.asList(cursor.getString(0).split(", ")));
+        ArrayList<String> preferredLocations = new ArrayList<>(Arrays.asList(cursor.getString(1).split(", ")));
+        preferredGenders.removeIf(String::isEmpty);
+        preferredLocations.removeIf(String::isEmpty);
+
+        EditFiltersDsResponseModel dsResponse = new EditFiltersDsResponseModel(
+                preferredGenders,
+                preferredLocations,
+                cursor.getInt(2),
+                cursor.getInt(3)
+        );
+
+        cursor.close();
+        return dsResponse;
+    }
+
+    @Override
+    public void updatePreferredGenders(String userId, ArrayList<String> preferredGenders) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_PREFERRED_GENDERS, String.join(", ", preferredGenders));
+
+        db.update(TABLE_ACCOUNTS, cv, COLUMN_ID + "=?", new String[]{userId});
+        db.close();
+    }
+
+    @Override
+    public void updatePreferredLocations(String userId, ArrayList<String> preferredLocations) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_PREFERRED_LOCATIONS, String.join(", ", preferredLocations));
+
+        db.update(TABLE_ACCOUNTS, cv, COLUMN_ID + "=?", new String[]{userId});
+        db.close();
+    }
+
+    @Override
+    public void updatePreferredAgeGroup(String userId, int minAge, int maxAge) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_PREFERRED_AGE_MINIMUM, minAge);
+        cv.put(COLUMN_PREFERRED_AGE_MAXIMUM, maxAge);
+
+        db.update(TABLE_ACCOUNTS, cv, COLUMN_ID + "=?", new String[]{userId});
+        db.close();
+    }
 }
+
