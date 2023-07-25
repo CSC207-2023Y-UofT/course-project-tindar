@@ -12,13 +12,13 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_matchlist"
         android:name="com.courseproject.tindar.ui.matchlist.MatchlistFragment"
         android:label="@string/menu_matchlist"
         tools:layout="@layout/fragment_matchlist" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_settings"
         android:name="com.courseproject.tindar.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
