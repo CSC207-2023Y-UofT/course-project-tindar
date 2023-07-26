@@ -9,7 +9,7 @@ public class EditProfileInteractor implements EditProfileInputBoundary {
         this.editProfileDsGateway = editProfileDsGateway;
     }
 
-    public EditProfileResponseModel getProfile(String userId) {
+    public EditProfileDsResponseModel getProfile(String userId) {
         return editProfileDsGateway.readProfile(userId);
     }
 

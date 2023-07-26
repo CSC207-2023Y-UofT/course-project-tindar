@@ -3,7 +3,7 @@ package com.courseproject.tindar.controllers.editprofile;
 import static org.junit.Assert.assertEquals;
 
 import com.courseproject.tindar.usecases.editprofile.EditProfileInputBoundary;
-import com.courseproject.tindar.usecases.editprofile.EditProfileResponseModel;
+import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
 
 import org.junit.Test;
 
@@ -18,34 +18,39 @@ public class EditProfileControllerUnitTest {
     private static final String PROFILE_PICTURE_LINK = "https://aaa";
     private static final String ABOUT_ME = "Hello!";
 
-    EditProfileResponseModel mockEditProfileResponseModel =
-        new EditProfileResponseModel(BIRTHDATE, GENDER, LOCATION, PROFILE_PICTURE_LINK, ABOUT_ME);
+    EditProfileDsResponseModel mockEditProfileResponseModel =
+        new EditProfileDsResponseModel(BIRTHDATE, GENDER, LOCATION, PROFILE_PICTURE_LINK, ABOUT_ME);
 
     private class MockEditProfileUserInput implements EditProfileInputBoundary {
-        public EditProfileResponseModel getProfile(String userId) {
+        public EditProfileDsResponseModel getProfile(String userId) {
             return mockEditProfileResponseModel;
         }
 
+        @Override
         public void updateBirthdate(String userId, Date birthdate) {
-            assertEquals(userId, USER_ID);
-            assertEquals(birthdate, BIRTHDATE);
+            assertEquals(USER_ID, userId);
+            assertEquals(BIRTHDATE, birthdate);
         }
 
+        @Override
         public void updateGender(String userId, String gender) {
-            assertEquals(userId, USER_ID);
-            assertEquals(gender, GENDER);
+            assertEquals(USER_ID, userId);
+            assertEquals(GENDER, gender);
         }
 
+        @Override
         public void updateLocation(String userId, String location) {
             assertEquals(USER_ID, userId);
             assertEquals(LOCATION, location);
         }
 
+        @Override
         public void updateProfilePictureLink(String userId, String profilePictureLink) {
             assertEquals(USER_ID, userId);
             assertEquals(PROFILE_PICTURE_LINK, profilePictureLink);
         }
 
+        @Override
         public void updateAboutMe(String userId, String aboutMe) {
             assertEquals(USER_ID, userId);
             assertEquals(ABOUT_ME, aboutMe);
@@ -57,7 +62,7 @@ public class EditProfileControllerUnitTest {
     @Test
     public void getProfile() {
         EditProfileController testEditProfileController = new EditProfileController(mockEditProfileUserInput);
-        EditProfileResponseModel testEditProfileResponseModel = testEditProfileController.getProfile(USER_ID);
+        EditProfileDsResponseModel testEditProfileResponseModel = testEditProfileController.getProfile(USER_ID);
         assertEquals(BIRTHDATE, testEditProfileResponseModel.getBirthdate());
         assertEquals(GENDER, testEditProfileResponseModel.getGender());
         assertEquals(LOCATION, testEditProfileResponseModel.getLocation());

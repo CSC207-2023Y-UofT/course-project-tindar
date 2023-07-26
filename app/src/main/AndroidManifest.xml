@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Tindar"
         tools:targetApi="31">
         <activity
+            android:name=".ui.editfilters.EditFiltersActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.editprofile.EditProfileActivity"
             android:exported="false" />
         <activity
