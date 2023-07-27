@@ -9,4 +9,15 @@
     </style>
 
     <style name="Theme.Tindar" parent="Base.Theme.Tindar" />
+
+    <style name="Theme.Tindar.Fullscreen" parent="Theme.Tindar">
+        <item name="android:actionBarStyle">@style/Widget.Theme.Tindar.ActionBar.Fullscreen</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
+
+    <style name="ThemeOverlay.Courseprojecttindar.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
 </resources>
