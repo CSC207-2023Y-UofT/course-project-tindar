@@ -16,6 +16,11 @@
             android:name=".ui.editfilters.EditFiltersActivity"
             android:exported="false" />
         <activity
+            android:name=".BlankNavActivity"
+            android:exported="false"
+            android:label="@string/title_activity_blank_nav"
+            android:theme="@style/Theme.Tindar.NoActionBar" />
+        <activity
             android:name=".ui.editprofile.EditProfileActivity"
             android:exported="false" />
         <activity

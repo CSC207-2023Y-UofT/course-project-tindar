@@ -50,4 +50,14 @@
         <item>Toronto</item>
         <item>Vancouver</item>
     </string-array>
+    <string name="title_activity_blank_nav">blankNav</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_placeholder">Placeholder</string>
+    <string name="menu_matchlist">Matches</string>
+    <string name="menu_settings">Settings</string>
 </resources>
