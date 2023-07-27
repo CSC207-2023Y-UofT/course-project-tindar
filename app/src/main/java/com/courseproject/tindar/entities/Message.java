@@ -5,7 +5,7 @@ import java.sql.Timestamp;
  public   class Message {
     private String messageId;
     private String text;
-    private Timestamp timestamp;
+    private Timestamp creationTime;
     private String sentFromId;
     private String sentToId;
 
@@ -27,8 +27,8 @@ import java.sql.Timestamp;
         return this.text;
     }
 
-    public Timestamp getTimestamp() {
-        return this.timestamp;
+    public Timestamp getCreationTime() {
+        return this.creationTime;
     }
 
     public String getSentFromId() {
