@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/nav_matchlist"
-        android:name="com.courseproject.tindar.ui.matchlist.MatchlistFragment"
+        android:name="com.courseproject.tindar.ui.matchlist.MatchListFragment"
         android:label="@string/menu_matchlist"
         tools:layout="@layout/fragment_matchlist" />
 

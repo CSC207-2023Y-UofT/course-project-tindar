@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.courseproject.tindar.databinding.ActivityBlankNavBinding;
 
-public class blankNav extends AppCompatActivity {
+public class BlankNavActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityBlankNavBinding binding;

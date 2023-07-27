@@ -12,14 +12,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.courseproject.tindar.databinding.FragmentMatchlistBinding;
 
-public class MatchlistFragment extends Fragment {
+public class MatchListFragment extends Fragment {
 
     private FragmentMatchlistBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        MatchlistViewModel galleryViewModel =
-                new ViewModelProvider(this).get(MatchlistViewModel.class);
+        MatchListViewModel galleryViewModel =
+                new ViewModelProvider(this).get(MatchListViewModel.class);
 
         binding = FragmentMatchlistBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
