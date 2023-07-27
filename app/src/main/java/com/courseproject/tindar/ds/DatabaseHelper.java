@@ -153,23 +153,25 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     public EditProfileDsResponseModel readProfile(String userId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT "
-                        + BIRTHDATE + ", "
-                        + GENDER + ", "
-                        + LOCATION + ", "
-                        + PROFILE_PICTURE_LINK + ", "
-                        + ABOUT_ME
-                        + " FROM " + TABLE_ACCOUNTS
-                        + " WHERE " + ID + " =?",
-                new String[]{userId});
+                + DISPLAY_NAME + ", "
+                + BIRTHDATE + ", "
+                + GENDER + ", "
+                + LOCATION + ", "
+                + PROFILE_PICTURE_LINK + ", "
+                + ABOUT_ME
+                + " FROM " + TABLE_ACCOUNTS
+                + " WHERE " + ID + " =?",
+            new String[]{userId});
 
         cursor.moveToFirst();
 
         EditProfileDsResponseModel dsResponse = new EditProfileDsResponseModel(
-                new java.util.Date(cursor.getLong(0)),
-                cursor.getString(1),
-                cursor.getString(2),
-                cursor.getString(3),
-                cursor.getString(4)
+            cursor.getString(0),
+            new java.util.Date(cursor.getLong(1)),
+            cursor.getString(2),
+            cursor.getString(3),
+            cursor.getString(4),
+            cursor.getString(5)
         );
 
         cursor.close();

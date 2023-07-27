@@ -48,7 +48,8 @@ public class DatabaseHelperTest {
     @Test
     public void readProfile() {
         EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
-        assertEquals("Female", testProfile.getBirthdate(), new GregorianCalendar(2003, 9, 5).getTime()) ;
+        assertEquals("Female", testProfile.getDisplayName(), "bell");
+        assertEquals("Female", testProfile.getBirthdate(), new GregorianCalendar(2003, 9, 5).getTime());
         assertEquals("Female", testProfile.getGender()) ;
         assertEquals("Calgary", testProfile.getLocation());
         assertEquals( "https://ccc", testProfile.getProfilePictureLink());

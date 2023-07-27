@@ -2,8 +2,8 @@ package com.courseproject.tindar.controllers.editprofile;
 
 import static org.junit.Assert.assertEquals;
 
-import com.courseproject.tindar.usecases.editprofile.EditProfileInputBoundary;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
+import com.courseproject.tindar.usecases.editprofile.EditProfileInputBoundary;
 
 import org.junit.Test;
 
@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class EditProfileControllerUnitTest {
+    private static final String DISPLAY_NAME = "john";
     private static final String USER_ID = "99";
     private static final Date BIRTHDATE = new GregorianCalendar(1999, 3, 10).getTime();
     private static final String GENDER = "Male";
@@ -19,7 +20,7 @@ public class EditProfileControllerUnitTest {
     private static final String ABOUT_ME = "Hello!";
 
     EditProfileDsResponseModel mockEditProfileResponseModel =
-        new EditProfileDsResponseModel(BIRTHDATE, GENDER, LOCATION, PROFILE_PICTURE_LINK, ABOUT_ME);
+        new EditProfileDsResponseModel(DISPLAY_NAME, BIRTHDATE, GENDER, LOCATION, PROFILE_PICTURE_LINK, ABOUT_ME);
 
     private class MockEditProfileUserInput implements EditProfileInputBoundary {
         public EditProfileDsResponseModel getProfile(String userId) {
@@ -63,6 +64,7 @@ public class EditProfileControllerUnitTest {
     public void getProfile() {
         EditProfileController testEditProfileController = new EditProfileController(mockEditProfileUserInput);
         EditProfileDsResponseModel testEditProfileResponseModel = testEditProfileController.getProfile(USER_ID);
+        assertEquals(DISPLAY_NAME, testEditProfileResponseModel.getDisplayName());
         assertEquals(BIRTHDATE, testEditProfileResponseModel.getBirthdate());
         assertEquals(GENDER, testEditProfileResponseModel.getGender());
         assertEquals(LOCATION, testEditProfileResponseModel.getLocation());
