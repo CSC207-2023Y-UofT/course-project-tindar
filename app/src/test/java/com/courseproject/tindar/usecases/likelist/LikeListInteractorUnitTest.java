@@ -1,8 +1,6 @@
 package com.courseproject.tindar.usecases.likelist;
 
 import static org.junit.Assert.assertEquals;
-
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -16,7 +14,7 @@ public class LikeListInteractorUnitTest {
     private static final String USER_ID_1 = "user1";
     private static final String USER_ID_2 = "user2";
 
-    private class MockLikeListDsGateway implements LikeListDsGateway {
+    private static class MockLikeListDsGateway implements LikeListDsGateway {
         /** Mock implementation of LikeListDsGateway for testing purposes **/
         boolean isLiked;
         ArrayList<String> matchList;
@@ -60,7 +58,6 @@ public class LikeListInteractorUnitTest {
         ArrayList<String> likeList = new ArrayList<>();
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(true, matchList,
                 likeList);
-
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
         likeListInteractor.addLike(USER_ID_1, USER_ID_2);
         assertEquals(USER_ID_1 + " likes " + USER_ID_2, likeList.get(0));
@@ -75,7 +72,6 @@ public class LikeListInteractorUnitTest {
         ArrayList<String> likeList = new ArrayList<>();
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(false, matchList,
                 likeList);
-
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
         likeListInteractor.addLike(USER_ID_1, USER_ID_2);
         assertEquals(USER_ID_1 + " likes " + USER_ID_2, likeList.get(0));
@@ -90,7 +86,6 @@ public class LikeListInteractorUnitTest {
         ArrayList<String> likeList = new ArrayList<>();
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(true, matchList,
                 likeList);
-
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
         likeListInteractor.addLike(USER_ID_1, USER_ID_2);
         assertEquals(USER_ID_1 + " likes " + USER_ID_2, likeList.get(0));
@@ -105,7 +100,6 @@ public class LikeListInteractorUnitTest {
         ArrayList<String> likeList = new ArrayList<>();
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(false, matchList,
                 likeList);
-
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
         likeListInteractor.addLike(USER_ID_1, USER_ID_2);
         assertEquals(USER_ID_1 + " likes " + USER_ID_2, likeList.get(0));
