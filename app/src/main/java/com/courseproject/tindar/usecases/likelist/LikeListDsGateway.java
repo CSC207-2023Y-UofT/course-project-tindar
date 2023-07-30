@@ -1,10 +1,8 @@
-package com.courseproject.tindar.usecases.matchprofiles;
-
-import java.util.ArrayList;
+package com.courseproject.tindar.usecases.likelist;
 
 public interface LikeListDsGateway {
 
-    ArrayList<String> readLikeList(String userId);
+    boolean checkLiked(String userId, String otherUserId);
 
     void addToMatched(String userId, String otherUserId);
 

@@ -1,4 +1,4 @@
-package com.courseproject.tindar.usecases.matchprofiles;
+package com.courseproject.tindar.usecases.likelist;
 
 public interface LikeListInputBoundary {
     /**

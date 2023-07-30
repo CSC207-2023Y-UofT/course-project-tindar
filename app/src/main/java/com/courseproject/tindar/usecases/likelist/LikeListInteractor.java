@@ -1,4 +1,4 @@
-package com.courseproject.tindar.usecases.matchprofiles;
+package com.courseproject.tindar.usecases.likelist;
 
 public class LikeListInteractor implements LikeListInputBoundary {
     /** This class checks if other is in userId likeList. If not, userId is added to other likeList.
@@ -14,7 +14,7 @@ public class LikeListInteractor implements LikeListInputBoundary {
     public boolean addLike(String userId, String otherUserId){
         likeListDsGateway.addLike(userId, otherUserId);
 
-        if (likeListDsGateway.readLikeList(otherUserId).contains(userId)) {
+        if (likeListDsGateway.checkLiked(otherUserId, userId)) {
             likeListDsGateway.addToMatched(userId, otherUserId);
             return true;
         }
