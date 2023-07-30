@@ -20,5 +20,11 @@ public class LikeListInteractor implements LikeListInputBoundary {
         }
         return false;
     }
+
+    @Override
+    public void removeLike(String userId, String otherUserId){
+        likeListDsGateway.removeLike(userId, otherUserId);
+        likeListDsGateway.removeFromMatched(userId, otherUserId);
+    }
 }
 

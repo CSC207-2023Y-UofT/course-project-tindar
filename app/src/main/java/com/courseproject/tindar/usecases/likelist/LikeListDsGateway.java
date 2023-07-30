@@ -7,4 +7,8 @@ public interface LikeListDsGateway {
     void addToMatched(String userId, String otherUserId);
 
     void addLike(String userId, String otherUserId);
+
+    void removeLike(String userId, String otherUserId);
+
+    void removeFromMatched(String userId, String otherUserId);
 }
