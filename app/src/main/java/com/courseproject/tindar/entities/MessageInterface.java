@@ -1,3 +1,5 @@
+package com.courseproject.tindar.entities;
+
 import java.sql.Timestamp;
 
 /**

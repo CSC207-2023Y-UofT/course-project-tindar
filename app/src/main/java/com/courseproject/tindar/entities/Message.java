@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 
     protected Message(String text, Timestamp timestamp, String sentFromId, String sentToId){
         this.text = text; 
-        this.timestamp = timestamp; 
+        this.creationTime = timestamp;
         this.sentFromId = sentFromId; 
         this.sentToId = sentToId;
         this.messageId = sentFromId + sentToId + timestamp.toString(); 

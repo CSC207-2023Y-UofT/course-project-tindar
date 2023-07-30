@@ -21,7 +21,7 @@ public abstract class Conversation {
     // should ensure that this.messages is always in order of oldest to newest. 
     public boolean addMessage(Message newMessage){
         int index = this.messages.size(); 
-        while(index >= 1 && (this.messages)[index - 1].getCreationTime() > newMessage.getCreationTime()){
+        while(index >= 1 && ((this.messages).get(index - 1)).getCreationTime().compareTo(newMessage.getCreationTime()) > 0) {
             index = index - 1; 
         }
         this.messages.add(index, newMessage);
