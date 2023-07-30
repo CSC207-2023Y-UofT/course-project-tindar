@@ -11,14 +11,12 @@ public class LikeListInteractor implements LikeListInputBoundary {
     }
 
     @Override
-    public boolean addLike(String userId, String otherUserId){
+    public void addLike(String userId, String otherUserId){
         likeListDsGateway.addLike(userId, otherUserId);
 
         if (likeListDsGateway.checkLiked(otherUserId, userId)) {
             likeListDsGateway.addToMatched(userId, otherUserId);
-            return true;
         }
-        return false;
     }
 
     @Override

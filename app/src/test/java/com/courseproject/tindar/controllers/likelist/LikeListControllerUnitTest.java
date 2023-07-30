@@ -18,10 +18,9 @@ public class LikeListControllerUnitTest {
          **/
 
         @Override
-        public boolean addLike(String userId, String otherUserId) {
+        public void addLike(String userId, String otherUserId) {
             assertEquals(USER_ID_1, userId);
             assertEquals(USER_ID_2, otherUserId);
-            return true;
         }
 
         @Override

@@ -7,7 +7,7 @@ public interface LikeListInputBoundary {
      * they will be matched. removeLike Removes userId from otherUserId like list, and removes
      * the users from each others matchLists.
      **/
-    boolean addLike(String userId, String otherUserId);
+    void addLike(String userId, String otherUserId);
 
     void removeLike(String userId, String otherUserId);
 }

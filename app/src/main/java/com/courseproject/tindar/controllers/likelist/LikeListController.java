@@ -9,8 +9,8 @@ public class LikeListController {
     public LikeListController(LikeListInputBoundary likeListUserInput){
         this.userInput = likeListUserInput;
     }
-    public boolean addLike(String userId, String otherUserId){
-        return userInput.addLike(userId, otherUserId);
+    public void addLike(String userId, String otherUserId){
+        userInput.addLike(userId, otherUserId);
     }
     void removeLike(String userId, String otherUserId){
         userInput.removeLike(userId, otherUserId);
