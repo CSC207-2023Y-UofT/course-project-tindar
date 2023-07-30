@@ -2,7 +2,7 @@ package com.courseproject.tindar.entities;
 
 import java.sql.Timestamp;
 
- public   class Message {
+ public class Message implements MessageInterface{
     private String messageId;
     private String text;
     private Timestamp creationTime;
@@ -40,6 +40,7 @@ import java.sql.Timestamp;
     }
 
     // Setter methods
+    /* 
     protected void setMessageId(String messageId) {
         this.messageId = messageId;
     }
@@ -59,5 +60,6 @@ import java.sql.Timestamp;
     protected void setSentTo(String sentTo) {
         this.sentToId = sentToId;
     }
+    */
 }
 
