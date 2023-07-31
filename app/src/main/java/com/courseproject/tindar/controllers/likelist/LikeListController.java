@@ -12,7 +12,7 @@ public class LikeListController {
     public void addLike(String userId, String otherUserId){
         userInput.addLike(userId, otherUserId);
     }
-    void removeLike(String userId, String otherUserId){
+    public void removeLike(String userId, String otherUserId){
         userInput.removeLike(userId, otherUserId);
     }
 }
