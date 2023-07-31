@@ -185,9 +185,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         Cursor cursor = db.rawQuery("SELECT "
                 + IS_ACTIVE_STATUS + ", "
                 + EMAIL + ", "
-                + PASSWORD + ", "
-                + FIRST_NAME + ", "
-                + LAST_NAME
+                + PASSWORD
                 + " FROM " + TABLE_ACCOUNTS
                 + " WHERE " + ID + " =?",
             new String[]{userId});
@@ -197,9 +195,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         EditAccountDsResponseModel dsResponse = new EditAccountDsResponseModel(
             Boolean.parseBoolean(cursor.getString(0)),
             cursor.getString(1),
-            cursor.getString(2),
-            cursor.getString(3),
-            cursor.getString(4)
+            cursor.getString(2)
         );
 
         cursor.close();
@@ -231,26 +227,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(PASSWORD, password);
-
-        db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
-        db.close();
-    }
-
-    @Override
-    public void updateFirstName(String userId, String firstName) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(FIRST_NAME, firstName);
-
-        db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
-        db.close();
-    }
-
-    @Override
-    public void updateLastName(String userId, String lastName) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(LAST_NAME, lastName);
 
         db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
         db.close();

@@ -4,16 +4,11 @@ public class EditAccountDsResponseModel {
     private final boolean isActiveStatus;
     private final String email;
     private final String password;
-    private final String firstName;
-    private final String lastName;
 
-    public EditAccountDsResponseModel(boolean isActiveStatus, String email, String password,
-                                            String firstName, String lastName) {
+    public EditAccountDsResponseModel(boolean isActiveStatus, String email, String password) {
         this.isActiveStatus = isActiveStatus;
         this.email = email;
         this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
     }
 
     public boolean getIsActiveStatus() {
@@ -22,14 +17,6 @@ public class EditAccountDsResponseModel {
 
     public String getEmail() {
         return this.email;
-    }
-
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    public String getLastName() {
-        return this.lastName;
     }
 
     public String getPassword() {

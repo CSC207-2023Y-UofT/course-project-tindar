@@ -8,9 +8,4 @@ public interface EditAccountInputBoundary {
     void updateEmail(String userId, String email);
 
     void updatePassword(String userId, String password);
-
-    void updateFirstName(String userId, String firstName);
-
-    void updateLastName(String userId, String lastName);
-
 }

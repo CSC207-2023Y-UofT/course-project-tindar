@@ -25,12 +25,4 @@ public class EditAccountController {
     public void updatePassword(String userId, String password) {
         this.userInput.updatePassword(userId, password);
     }
-
-    public void updateFirstName(String userId, String firstName) {
-        this.userInput.updateFirstName(userId, firstName);
-    }
-
-    public void updateLastName(String userId, String lastName) {
-        this.userInput.updateLastName(userId, lastName);
-    }
 }

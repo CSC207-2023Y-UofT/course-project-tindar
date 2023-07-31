@@ -31,18 +31,15 @@ public class Account {
      * @param email the email associated with this account
      * @param password the password used to log in to this account
      * @param displayName the username chosen to represent this account
-     * @param firstName the account owner's first name
-     * @param lastName the account owner's last name
      */
-    public Account(String id, String email, String password,
-                   String displayName, String firstName, String lastName) {
+    public Account(String id, String email, String password, String displayName) {
         this.isActiveStatus = true;
         this.id = id;
         this.email = email;
         this.password = password;
         this.displayName = displayName;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstName = "";
+        this.lastName = "";
         this.aboutMe = "";
         this.profilePictureLink = "";
         this.matchList = new ArrayList<>();

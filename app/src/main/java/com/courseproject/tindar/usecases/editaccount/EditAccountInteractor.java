@@ -22,12 +22,4 @@ public class EditAccountInteractor implements EditAccountInputBoundary {
     public void updatePassword(String userId, String password) {
         this.editAccountDsGateway.updatePassword(userId, password);
     }
-
-    public void updateFirstName(String userId, String firstName) {
-        this.editAccountDsGateway.updateFirstName(userId, firstName);
-    }
-
-    public void updateLastName(String userId, String lastName) {
-        this.editAccountDsGateway.updateLastName(userId, lastName);
-    }
 }
