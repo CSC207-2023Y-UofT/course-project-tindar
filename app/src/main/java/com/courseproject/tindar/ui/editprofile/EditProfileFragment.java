@@ -1,23 +1,30 @@
 package com.courseproject.tindar.ui.editprofile;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import com.courseproject.tindar.BlankNavViewModel;
 import com.courseproject.tindar.R;
 import com.courseproject.tindar.controllers.editprofile.EditProfileController;
+import com.courseproject.tindar.databinding.FragmentEditProfileBinding;
 import com.courseproject.tindar.ds.DatabaseHelper;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsGateway;
+import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileInputBoundary;
 import com.courseproject.tindar.usecases.editprofile.EditProfileInteractor;
-import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -25,8 +32,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class EditProfileActivity extends AppCompatActivity {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class EditProfileFragment extends Fragment {
 
+    private String userId;
     private TextView birthdateTextView;
     private AutoCompleteTextView genderAutoCompleteTextView, locationAutoCompleteTextView;
     private EditText profilePictureLinkEditText, aboutMeEditText;
@@ -35,28 +46,33 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditProfileDsResponseModel profileDsResponse;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_profile);
+        BlankNavViewModel blankNavViewModel = new ViewModelProvider(requireActivity()).get(BlankNavViewModel.class);
+        blankNavViewModel.getUserId().observe(requireActivity(), it -> userId = it);
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        FragmentEditProfileBinding binding = FragmentEditProfileBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
 
         // finds components and assigns each to a variable
-        birthdateTextView = findViewById(R.id.text_view_birthday);
-        genderAutoCompleteTextView = findViewById(R.id.auto_complete_text_view_gender);
-        locationAutoCompleteTextView = findViewById(R.id.auto_complete_text_view_location);
-        profilePictureLinkEditText = findViewById(R.id.edit_text_profile_picture_link);
-        aboutMeEditText = findViewById(R.id.edit_text_about_me);
-        birthdateEditButton = findViewById(R.id.button_edit_birthday);
-        genderEditButton = findViewById(R.id.button_edit_gender);
-        locationEditButton = findViewById(R.id.button_edit_location);
-        profilePictureLinkEditButton = findViewById(R.id.button_edit_profile_picture_link);
-        aboutMeEditButton = findViewById(R.id.button_edit_about_me);
-
-        // retrieves user Id passed from other activity
-        Intent intent = getIntent();
-        String userId = intent.getStringExtra("user_id");
+        birthdateTextView = root.findViewById(R.id.text_view_birthday);
+        genderAutoCompleteTextView = root.findViewById(R.id.auto_complete_text_view_gender);
+        locationAutoCompleteTextView = root.findViewById(R.id.auto_complete_text_view_location);
+        profilePictureLinkEditText = root.findViewById(R.id.edit_text_profile_picture_link);
+        aboutMeEditText = root.findViewById(R.id.edit_text_about_me);
+        birthdateEditButton = root.findViewById(R.id.button_edit_birthday);
+        genderEditButton = root.findViewById(R.id.button_edit_gender);
+        locationEditButton = root.findViewById(R.id.button_edit_location);
+        profilePictureLinkEditButton = root.findViewById(R.id.button_edit_profile_picture_link);
+        aboutMeEditButton = root.findViewById(R.id.button_edit_about_me);
 
         // gets profile for the user
-        EditProfileDsGateway editProfileDatabaseHelper = DatabaseHelper.getInstance(EditProfileActivity.this);
+        EditProfileDsGateway editProfileDatabaseHelper = DatabaseHelper.getInstance(getActivity());
         EditProfileInputBoundary editProfileInteractor = new EditProfileInteractor(editProfileDatabaseHelper);
         editProfileController = new EditProfileController(editProfileInteractor);
         profileDsResponse = editProfileController.getProfile(userId);
@@ -70,12 +86,12 @@ public class EditProfileActivity extends AppCompatActivity {
 
         // creates dropdown menu for the gender
         String[] genders = getResources().getStringArray(R.array.genders);
-        ArrayAdapter<String> genderArrayAdapter = new ArrayAdapter<>(this, R.layout.dropdown_item, genders);
+        ArrayAdapter<String> genderArrayAdapter = new ArrayAdapter<>(getContext(), R.layout.dropdown_item, genders);
         genderAutoCompleteTextView.setAdapter(genderArrayAdapter);
 
         // creates dropdown menu for the location
         String[] locations = getResources().getStringArray(R.array.locations);
-        ArrayAdapter<String> locationArrayAdapter = new ArrayAdapter<>(this, R.layout.dropdown_item, locations);
+        ArrayAdapter<String> locationArrayAdapter = new ArrayAdapter<>(getContext(), R.layout.dropdown_item, locations);
         locationAutoCompleteTextView.setAdapter(locationArrayAdapter);
 
         // edit / save button click listeners to update the profile information
@@ -104,7 +120,7 @@ public class EditProfileActivity extends AppCompatActivity {
         });
         profilePictureLinkEditButton.setOnClickListener(view -> {
             String profilePictureLink =
-                getEditTextInputValue("Profile Picture Link", profilePictureLinkEditText, profilePictureLinkEditButton);
+                    getEditTextInputValue("Profile Picture Link", profilePictureLinkEditText, profilePictureLinkEditButton);
             if (profilePictureLink != null) {
                 editProfileController.updateProfilePictureLink(userId, profilePictureLink);
             }
@@ -115,6 +131,8 @@ public class EditProfileActivity extends AppCompatActivity {
                 editProfileController.updateAboutMe(userId, aboutMe);
             }
         });
+
+        return root;
     }
 
     /**
@@ -147,7 +165,7 @@ public class EditProfileActivity extends AppCompatActivity {
             };
 
             // creates and shows DatePickerDialog
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this, dateSetListener, year, month, day);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), dateSetListener, year, month, day);
             datePickerDialog.show();
 
             return null;
