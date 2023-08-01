@@ -11,7 +11,7 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimary">
         <TextView
             android:id="@+id/conversation_partner_display_name"
             android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:textSize="32sp"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:layout_toRightOf="@id/back_button"
+            android:layout_toEndOf="@id/back_button"
             />
         <ImageButton
             android:id="@+id/back_button"
@@ -45,7 +45,7 @@
         android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentBottom="true">
         <!--this part seems to have the wrong parent?-->
         <EditText
             android:id="@+id/new_chat_input"
