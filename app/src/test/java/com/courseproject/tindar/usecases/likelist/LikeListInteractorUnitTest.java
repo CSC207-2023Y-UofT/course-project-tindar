@@ -48,7 +48,7 @@ public class LikeListInteractorUnitTest {
 
         @Override
         public void removeFromMatched(String MOCK_USER_ID, String MOCK_OTHER_USER_ID) {
-            matchList.remove(MOCK_USER_ID + " unmatched with " + MOCK_OTHER_USER_ID);
+            matchList.remove(MOCK_USER_ID + " is matched " + MOCK_OTHER_USER_ID);
         }
     }
     @Test
@@ -92,6 +92,7 @@ public class LikeListInteractorUnitTest {
         assertEquals(USER_ID_1 + " is matched " + USER_ID_2, matchList.get(0));
         likeListInteractor.removeLike(USER_ID_1, USER_ID_2);
         assertTrue(likeList.isEmpty());
+        assertTrue(matchList.isEmpty());
     }
 
     @Test
