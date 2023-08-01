@@ -10,18 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.courseproject.tindar.databinding.FragmentMatchlistBinding;
+import com.courseproject.tindar.databinding.FragmentMatchListBinding;
 
 public class MatchListFragment extends Fragment {
 
-    private FragmentMatchlistBinding binding;
+    private FragmentMatchListBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         MatchListViewModel galleryViewModel =
                 new ViewModelProvider(this).get(MatchListViewModel.class);
 
-        binding = FragmentMatchlistBinding.inflate(inflater, container, false);
+        binding = FragmentMatchListBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textGallery;

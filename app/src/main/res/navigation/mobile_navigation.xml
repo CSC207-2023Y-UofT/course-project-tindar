@@ -12,14 +12,21 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_matchlist"
+        android:id="@+id/nav_match_list"
         android:name="com.courseproject.tindar.ui.matchlist.MatchListFragment"
-        android:label="@string/menu_matchlist"
-        tools:layout="@layout/fragment_matchlist" />
+        android:label="@string/menu_match_list"
+        tools:layout="@layout/fragment_match_list" />
 
     <fragment
-        android:id="@+id/nav_settings"
-        android:name="com.courseproject.tindar.ui.settings.SettingsFragment"
-        android:label="@string/menu_settings"
-        tools:layout="@layout/fragment_settings" />
+        android:id="@+id/nav_profile"
+        android:name="com.courseproject.tindar.ui.editprofile.EditProfileFragment"
+        android:label="@string/menu_my_profile"
+        tools:layout="@layout/fragment_edit_profile" />
+
+    <fragment
+        android:id="@+id/nav_filters"
+        android:name="com.courseproject.tindar.ui.editfilters.EditFiltersFragment"
+        android:label="@string/menu_filters"
+        tools:layout="@layout/fragment_edit_filters" />
+
 </navigation>
