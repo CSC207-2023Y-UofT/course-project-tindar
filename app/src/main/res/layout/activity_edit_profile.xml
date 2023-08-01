@@ -24,10 +24,10 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center"
                 android:text="@string/birthdate"
-                android:labelFor="@id/birthdateTextView" />
+                android:labelFor="@id/text_view_birthday" />
 
             <ImageButton
-                android:id="@+id/birthdateEditButton"
+                android:id="@+id/button_edit_birthday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#00FFFFFF"
@@ -36,7 +36,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/birthdateTextView"
+            android:id="@+id/text_view_birthday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -55,10 +55,10 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center"
                 android:text="@string/gender"
-                android:labelFor="@id/genderAutoCompleteTextView" />
+                android:labelFor="@id/auto_complete_text_view_gender" />
 
             <ImageButton
-                android:id="@+id/genderEditButton"
+                android:id="@+id/button_edit_gender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#00FFFFFF"
@@ -73,7 +73,7 @@
             android:layout_margin="10dp">
 
             <AutoCompleteTextView
-                android:id="@+id/genderAutoCompleteTextView"
+                android:id="@+id/auto_complete_text_view_gender"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="none"
@@ -94,10 +94,10 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center"
                 android:text="@string/location"
-                android:labelFor="@id/locationAutoCompleteTextView" />
+                android:labelFor="@id/auto_complete_text_view_location" />
 
             <ImageButton
-                android:id="@+id/locationEditButton"
+                android:id="@+id/button_edit_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#00FFFFFF"
@@ -112,7 +112,7 @@
             android:layout_margin="10dp">
 
             <AutoCompleteTextView
-                android:id="@+id/locationAutoCompleteTextView"
+                android:id="@+id/auto_complete_text_view_location"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="none"
@@ -133,10 +133,10 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center"
                 android:text="@string/profile_picture_link"
-                android:labelFor="@id/profilePictureLinkEditText" />
+                android:labelFor="@id/edit_text_profile_picture_link" />
 
             <ImageButton
-                android:id="@+id/profilePictureLinkEditButton"
+                android:id="@+id/button_edit_profile_picture_link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#00FFFFFF"
@@ -145,14 +145,13 @@
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/profilePictureLinkTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp">
 
             <EditText
-                android:id="@+id/profilePictureLinkEditText"
+                android:id="@+id/edit_text_profile_picture_link"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:enabled="false"
@@ -174,10 +173,10 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center"
                 android:text="@string/about_me"
-                android:labelFor="@id/aboutMeEditText" />
+                android:labelFor="@id/edit_text_about_me" />
 
             <ImageButton
-                android:id="@+id/aboutMeEditButton"
+                android:id="@+id/button_edit_about_me"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#00FFFFFF"
@@ -186,14 +185,13 @@
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/aboutMeTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp">
 
             <EditText
-                android:id="@+id/aboutMeEditText"
+                android:id="@+id/edit_text_about_me"
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
                 android:enabled="false"

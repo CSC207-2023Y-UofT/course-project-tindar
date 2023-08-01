@@ -1,7 +1,7 @@
 package com.courseproject.tindar.controllers.editprofile;
 
 import com.courseproject.tindar.usecases.editprofile.EditProfileInputBoundary;
-import com.courseproject.tindar.usecases.editprofile.EditProfileResponseModel;
+import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
 
 import java.util.Date;
 
@@ -12,7 +12,7 @@ public class EditProfileController {
         this.userInput = editProfileUserInput;
     }
 
-    public EditProfileResponseModel getProfile(String userId) {
+    public EditProfileDsResponseModel getProfile(String userId) {
         return userInput.getProfile(userId);
     }
 

@@ -17,7 +17,7 @@ import com.courseproject.tindar.ds.DatabaseHelper;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsGateway;
 import com.courseproject.tindar.usecases.editprofile.EditProfileInputBoundary;
 import com.courseproject.tindar.usecases.editprofile.EditProfileInteractor;
-import com.courseproject.tindar.usecases.editprofile.EditProfileResponseModel;
+import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -27,15 +27,12 @@ import java.util.GregorianCalendar;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    TextView birthdateTextView;
-    AutoCompleteTextView genderAutoCompleteTextView, locationAutoCompleteTextView;
-    EditText profilePictureLinkEditText, aboutMeEditText;
-    ImageButton birthdateEditButton, genderEditButton, locationEditButton, profilePictureLinkEditButton,
-        aboutMeEditButton;
-    EditProfileDsGateway databaseHelper;
-    EditProfileInputBoundary interactor;
-    EditProfileController editProfileController;
-    EditProfileResponseModel profile;
+    private TextView birthdateTextView;
+    private AutoCompleteTextView genderAutoCompleteTextView, locationAutoCompleteTextView;
+    private EditText profilePictureLinkEditText, aboutMeEditText;
+    private ImageButton birthdateEditButton, genderEditButton, locationEditButton, profilePictureLinkEditButton, aboutMeEditButton;
+    private EditProfileController editProfileController;
+    private EditProfileDsResponseModel profileDsResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,33 +40,33 @@ public class EditProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
 
         // finds components and assigns each to a variable
-        birthdateTextView = findViewById(R.id.birthdateTextView);
-        genderAutoCompleteTextView = findViewById(R.id.genderAutoCompleteTextView);
-        locationAutoCompleteTextView = findViewById(R.id.locationAutoCompleteTextView);
-        profilePictureLinkEditText = findViewById(R.id.profilePictureLinkEditText);
-        aboutMeEditText = findViewById(R.id.aboutMeEditText);
-        birthdateEditButton = findViewById(R.id.birthdateEditButton);
-        genderEditButton = findViewById(R.id.genderEditButton);
-        locationEditButton = findViewById(R.id.locationEditButton);
-        profilePictureLinkEditButton = findViewById(R.id.profilePictureLinkEditButton);
-        aboutMeEditButton = findViewById(R.id.aboutMeEditButton);
+        birthdateTextView = findViewById(R.id.text_view_birthday);
+        genderAutoCompleteTextView = findViewById(R.id.auto_complete_text_view_gender);
+        locationAutoCompleteTextView = findViewById(R.id.auto_complete_text_view_location);
+        profilePictureLinkEditText = findViewById(R.id.edit_text_profile_picture_link);
+        aboutMeEditText = findViewById(R.id.edit_text_about_me);
+        birthdateEditButton = findViewById(R.id.button_edit_birthday);
+        genderEditButton = findViewById(R.id.button_edit_gender);
+        locationEditButton = findViewById(R.id.button_edit_location);
+        profilePictureLinkEditButton = findViewById(R.id.button_edit_profile_picture_link);
+        aboutMeEditButton = findViewById(R.id.button_edit_about_me);
 
         // retrieves user Id passed from other activity
         Intent intent = getIntent();
         String userId = intent.getStringExtra("user_id");
 
         // gets profile for the user
-        databaseHelper = DatabaseHelper.getInstance(EditProfileActivity.this);
-        interactor = new EditProfileInteractor(databaseHelper);
-        editProfileController = new EditProfileController(interactor);
-        profile = editProfileController.getProfile(userId);
+        EditProfileDsGateway editProfileDatabaseHelper = DatabaseHelper.getInstance(EditProfileActivity.this);
+        EditProfileInputBoundary editProfileInteractor = new EditProfileInteractor(editProfileDatabaseHelper);
+        editProfileController = new EditProfileController(editProfileInteractor);
+        profileDsResponse = editProfileController.getProfile(userId);
 
         // renders user profile to the screen
-        birthdateTextView.setText(DateFormat.getDateInstance().format(profile.getBirthdate()));
-        genderAutoCompleteTextView.setText(profile.getGender());
-        locationAutoCompleteTextView.setText(profile.getLocation());
-        profilePictureLinkEditText.setText(profile.getProfilePictureLink());
-        aboutMeEditText.setText(profile.getAboutMe());
+        birthdateTextView.setText(DateFormat.getDateInstance().format(profileDsResponse.getBirthdate()));
+        genderAutoCompleteTextView.setText(profileDsResponse.getGender());
+        locationAutoCompleteTextView.setText(profileDsResponse.getLocation());
+        profilePictureLinkEditText.setText(profileDsResponse.getProfilePictureLink());
+        aboutMeEditText.setText(profileDsResponse.getAboutMe());
 
         // creates dropdown menu for the gender
         String[] genders = getResources().getStringArray(R.array.genders);
@@ -81,13 +78,13 @@ public class EditProfileActivity extends AppCompatActivity {
         ArrayAdapter<String> locationArrayAdapter = new ArrayAdapter<>(this, R.layout.dropdown_item, locations);
         locationAutoCompleteTextView.setAdapter(locationArrayAdapter);
 
-        // edit button click listeners to update the profile information
+        // edit / save button click listeners to update the profile information
         birthdateEditButton.setOnClickListener(view -> {
             Date birthdate = null;
             try {
                 birthdate = getDatePickerInputValue(birthdateTextView, birthdateEditButton);
             } catch (ParseException e) {
-                birthdateTextView.setText(DateFormat.getDateInstance().format(profile.getBirthdate()));
+                birthdateTextView.setText(DateFormat.getDateInstance().format(profileDsResponse.getBirthdate()));
             }
             if (birthdate != null) {
                 editProfileController.updateBirthdate(userId, birthdate);
@@ -128,7 +125,7 @@ public class EditProfileActivity extends AppCompatActivity {
      * @param button   edit / save button component
      * @return user input value. Returns null when the user clicks button to start editing.
      */
-    public Date getDatePickerInputValue(TextView textView, ImageButton button) throws ParseException {
+    private Date getDatePickerInputValue(TextView textView, ImageButton button) throws ParseException {
         if (textView.isEnabled()) {
             textView.setEnabled(false);
             button.setImageResource(R.drawable.ic_edit);
@@ -136,7 +133,7 @@ public class EditProfileActivity extends AppCompatActivity {
         } else {
             // gets year, month, day of the birthdate currently saved
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(profile.getBirthdate());
+            calendar.setTime(profileDsResponse.getBirthdate());
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -166,15 +163,15 @@ public class EditProfileActivity extends AppCompatActivity {
      * @param button               edit / save button component
      * @return user input value. Returns null when the user clicks button to start editing.
      */
-    public String getDropdownInputValue(String field, AutoCompleteTextView autoCompleteTextView, ImageButton button) {
+    private String getDropdownInputValue(String field, AutoCompleteTextView autoCompleteTextView, ImageButton button) {
         if (autoCompleteTextView.isEnabled()) {
             autoCompleteTextView.setEnabled(false);
-            autoCompleteTextView.setContentDescription("Click to edit " + field);
+            button.setContentDescription("Click to edit " + field);
             button.setImageResource(R.drawable.ic_edit);
             return autoCompleteTextView.getText().toString();
         } else {
             autoCompleteTextView.setEnabled(true);
-            autoCompleteTextView.setContentDescription("Click to save " + field);
+            button.setContentDescription("Click to save " + field);
             button.setImageResource(R.drawable.ic_save);
             return null;
         }
@@ -189,15 +186,15 @@ public class EditProfileActivity extends AppCompatActivity {
      * @param button   edit / save button component
      * @return user input value. Returns null when the user clicks button to start editing.
      */
-    public String getEditTextInputValue(String field, EditText editText, ImageButton button) {
+    private String getEditTextInputValue(String field, EditText editText, ImageButton button) {
         if (editText.isEnabled()) {
             editText.setEnabled(false);
-            editText.setContentDescription("Click to edit " + field);
+            button.setContentDescription("Click to edit " + field);
             button.setImageResource(R.drawable.ic_edit);
             return editText.getText().toString();
         } else {
             editText.setEnabled(true);
-            editText.setContentDescription("Click to save " + field);
+            button.setContentDescription("Click to save " + field);
             button.setImageResource(R.drawable.ic_save);
             return null;
         }

@@ -9,4 +9,13 @@
     </style>
 
     <style name="Theme.Tindar" parent="Base.Theme.Tindar" />
+
+    <style name="Theme.Tindar.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Tindar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Tindar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

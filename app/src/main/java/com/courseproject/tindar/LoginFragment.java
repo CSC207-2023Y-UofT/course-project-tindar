@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.courseproject.tindar.ui.home.HomeFragment;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link LoginFragment#newInstance} factory method to
@@ -84,7 +86,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             fragment = new SignupFragment();
             replaceFragment(fragment);
         } else if (id == R.id.button_login) { //will be linked to blank nav page when implemented
-            fragment = new LoginFragment();
+            fragment = new HomeFragment();
             replaceFragment(fragment);
         }
 

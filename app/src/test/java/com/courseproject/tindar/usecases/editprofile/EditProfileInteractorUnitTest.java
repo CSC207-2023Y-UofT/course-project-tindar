@@ -9,6 +9,7 @@ import java.util.GregorianCalendar;
 
 public class EditProfileInteractorUnitTest {
 
+    private static final String DISPLAY_NAME = "john";
     private static final String USER_ID = "99";
     private static final Date BIRTHDATE = new GregorianCalendar(1999, 3, 10).getTime();
     private static final String GENDER = "Male";
@@ -16,34 +17,39 @@ public class EditProfileInteractorUnitTest {
     private static final String PROFILE_PICTURE_LINK = "https://aaa";
     private static final String ABOUT_ME = "Hello!";
 
-    EditProfileResponseModel mockEditProfileResponseModel =
-        new EditProfileResponseModel(BIRTHDATE, GENDER, LOCATION, PROFILE_PICTURE_LINK, ABOUT_ME);
+    EditProfileDsResponseModel mockEditProfileResponseModel =
+        new EditProfileDsResponseModel(DISPLAY_NAME, BIRTHDATE, GENDER, LOCATION, PROFILE_PICTURE_LINK, ABOUT_ME);
 
     private class MockEditProfileDsGateway implements EditProfileDsGateway {
-        public EditProfileResponseModel readProfile(String userId) {
+        public EditProfileDsResponseModel readProfile(String userId) {
             return mockEditProfileResponseModel;
         }
 
+        @Override
         public void updateBirthdate(String userId, Date birthdate) {
-            assertEquals(userId, USER_ID);
-            assertEquals(birthdate, BIRTHDATE);
+            assertEquals(USER_ID, userId);
+            assertEquals(BIRTHDATE, birthdate);
         }
 
+        @Override
         public void updateGender(String userId, String gender) {
-            assertEquals(userId, USER_ID);
-            assertEquals(gender, GENDER);
+            assertEquals(USER_ID, userId);
+            assertEquals(GENDER, gender);
         }
 
+        @Override
         public void updateLocation(String userId, String location) {
             assertEquals(USER_ID, userId);
             assertEquals(LOCATION, location);
         }
 
+        @Override
         public void updateProfilePictureLink(String userId, String profilePictureLink) {
             assertEquals(USER_ID, userId);
             assertEquals(PROFILE_PICTURE_LINK, profilePictureLink);
         }
 
+        @Override
         public void updateAboutMe(String userId, String aboutMe) {
             assertEquals(USER_ID, userId);
             assertEquals(ABOUT_ME, aboutMe);
@@ -55,7 +61,8 @@ public class EditProfileInteractorUnitTest {
     @Test
     public void getProfile() {
         EditProfileInteractor testEditProfileInteractor = new EditProfileInteractor(mockEditProfileDsGateway);
-        EditProfileResponseModel testEditProfileResponseModel = testEditProfileInteractor.getProfile(USER_ID);
+        EditProfileDsResponseModel testEditProfileResponseModel = testEditProfileInteractor.getProfile(USER_ID);
+        assertEquals(DISPLAY_NAME, testEditProfileResponseModel.getDisplayName());
         assertEquals(BIRTHDATE, testEditProfileResponseModel.getBirthdate());
         assertEquals(GENDER, testEditProfileResponseModel.getGender());
         assertEquals(LOCATION, testEditProfileResponseModel.getLocation());
