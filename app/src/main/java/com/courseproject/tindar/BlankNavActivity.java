@@ -28,6 +28,7 @@ public class BlankNavActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String userId = intent.getStringExtra("user_id");
 
+        // instantiates the blank nav view model and sets the user id that is currently logged in
         BlankNavViewModel blankNavViewModel = new ViewModelProvider(this).get(BlankNavViewModel.class);
         blankNavViewModel.setUserId(userId);
 

@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link Fragment} subclass. This is a fragment for editing filters screen in the blank nav activity.
  */
 public class EditFiltersFragment extends Fragment {
 

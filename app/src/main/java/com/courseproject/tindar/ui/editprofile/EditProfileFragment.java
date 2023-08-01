@@ -33,7 +33,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link Fragment} subclass. This is a fragment for editing profile screen in the blank nav activity.
  */
 public class EditProfileFragment extends Fragment {
 
