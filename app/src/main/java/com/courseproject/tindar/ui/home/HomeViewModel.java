@@ -1,55 +1,29 @@
 package com.courseproject.tindar.ui.home;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.courseproject.tindar.ds.DatabaseHelper;
+
+import java.util.ArrayList;
 
 public class HomeViewModel extends ViewModel {
 
-    private final MutableLiveData<String> DisplayNameText;
-    private final MutableLiveData<String> GenderText;
-    private final MutableLiveData<String> BirthdayText;
-    private final MutableLiveData<String> LocationText;
-    private final MutableLiveData<String> AboutMeText;
+    private ArrayList<String> potentialProfiles
 
     public HomeViewModel() {
-        DisplayNameText = new MutableLiveData<>();
-        GenderText = new MutableLiveData<>();
-        BirthdayText = new MutableLiveData<>();
-        LocationText = new MutableLiveData<>();
-        AboutMeText = new MutableLiveData<>();
-//        add code to get list of profiles that exist in database
+        ArrayList<String> potentialProfiles = new ArrayList<String>();
 
-        DisplayNameText.setValue("Display Name");
-        GenderText.setValue("Gender");
-        BirthdayText.setValue("Birthday");
-        LocationText.setValue("Location");
-        AboutMeText.setValue("About Me");
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        readProfile(potentialProfiles.get(0));
+
     }
 
-    public void updateShownProfile(){
-        // get values of next profile and set values as the new ones
-        DisplayNameText.setValue("Display Name");
-        GenderText.setValue("Gender");
-        BirthdayText.setValue("Birthday");
-        LocationText.setValue("Location");
-        AboutMeText.setValue("About Me");
+    public String updateShownProfile(){
+        String nextProfile = this.potentialProfiles.get(0);
+        this.potentialProfiles.remove(0);
+
+        return nextProfile;
     }
 
-    public LiveData<String> getDisplayName() {
-        return DisplayNameText;
-    }
-    public LiveData<String> getGender() {
-        return GenderText;
-    }
-    public LiveData<String> getBirthday() {
-        return BirthdayText;
-    }
-    public LiveData<String> getLocation() {
-        return LocationText;
-    }
-    public LiveData<String> getAboutMe() {
-        return AboutMeText;
-    }
 
 }

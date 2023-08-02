@@ -16,6 +16,7 @@ import com.courseproject.tindar.BlankNavActivity;
 import com.courseproject.tindar.MainActivity;
 import com.courseproject.tindar.R;
 import com.courseproject.tindar.databinding.FragmentHomeBinding;
+import com.courseproject.tindar.presenters.viewprofiles.ViewProfilesPresenter;
 
 public class HomeFragment extends Fragment {
 
@@ -23,26 +24,26 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        ViewProfilesPresenter viewProfilesPresenter =
+                new ViewModelProvider(this).get(ViewProfilesPresenter.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView displayNameView = binding.displayName;
-        homeViewModel.getDisplayName().observe(getViewLifecycleOwner(), displayNameView::setText);
+        viewProfilesPresenter.getDisplayName().observe(getViewLifecycleOwner(), displayNameView::setText);
 
         final TextView genderView = binding.gender;
-        homeViewModel.getGender().observe(getViewLifecycleOwner(), genderView::setText);
+        viewProfilesPresenter.getGender().observe(getViewLifecycleOwner(), genderView::setText);
 
         final TextView birthdayView = binding.birthday;
-        homeViewModel.getBirthday().observe(getViewLifecycleOwner(), birthdayView::setText);
+        viewProfilesPresenter.getBirthday().observe(getViewLifecycleOwner(), birthdayView::setText);
 
         final TextView locationView = binding.location;
-        homeViewModel.getLocation().observe(getViewLifecycleOwner(), locationView::setText);
+        viewProfilesPresenter.getLocation().observe(getViewLifecycleOwner(), locationView::setText);
 
         final TextView aboutMeView = binding.aboutMe;
-        homeViewModel.getAboutMe().observe(getViewLifecycleOwner(), aboutMeView::setText);
+        viewProfilesPresenter.getAboutMe().observe(getViewLifecycleOwner(), aboutMeView::setText);
 
         return root;
     }
