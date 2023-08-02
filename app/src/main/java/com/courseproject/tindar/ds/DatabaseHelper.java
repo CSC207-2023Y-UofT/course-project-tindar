@@ -270,7 +270,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
 
         cursor.moveToFirst();
 
-        // converts comma separated string to an ArrayList. If string is an empty string, it creates an empty ArrayList.
+        // converts comma separated string to an ArrayList. If string is an empty string,
+        // it creates an empty ArrayList.
         ArrayList<String> preferredGenders = new ArrayList<>(Arrays.asList(cursor.getString(0).split(", ")));
         ArrayList<String> preferredLocations = new ArrayList<>(Arrays.asList(cursor.getString(1).split(", ")));
         preferredGenders.removeIf(String::isEmpty);
@@ -336,7 +337,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return false;
     }
 
-    // precondition: userId < otherUserId. This is to avoid duplicate of
+    // precondition: userId < otherUserId. This is to avoid duplicates of
     // (userId, otherUserId) and (otherUserId, userId)
     public void addToMatched(String userId, String otherUserId, SQLiteDatabase db) {
         ContentValues cv = new ContentValues();
@@ -376,9 +377,9 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
                 new String[]{userId, otherUserId});
     }
 
-    // precondition: userId < otherUserId. Since matches should not duplicate
-    // (userId, otherUserId) and (otherUserId, userId), we have to respect the order when
-    // adding/deleting record of userId pair.
+    // precondition: userId < otherUserId. Since matches should not have duplicate of
+    // (userId, otherUserId) and (otherUserId, userId), we should respect the order when
+    // adding/deleting records of userId pair.
     @Override
     public void removeFromMatched(String userId, String otherUserId) {
         SQLiteDatabase db = this.getWritableDatabase();
