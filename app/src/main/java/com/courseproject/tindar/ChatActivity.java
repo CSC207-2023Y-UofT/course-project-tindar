@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageButton;
-
+//test
 public class ChatActivity extends AppCompatActivity {
     /**
      * For the one-on-one chat screen for specific conversations.
