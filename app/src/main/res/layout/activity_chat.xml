@@ -67,6 +67,7 @@
             android:layout_height="48dp"
             android:background="@android:color/transparent"
             android:src="@drawable/baseline_send_32"
+            app:tint="@color/colorPrimary"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             />
