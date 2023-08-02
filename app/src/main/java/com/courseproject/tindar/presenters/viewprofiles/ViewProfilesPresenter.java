@@ -3,8 +3,12 @@ package com.courseproject.tindar.presenters.viewprofiles;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.courseproject.tindar.ds.DatabaseHelper;
+import com.courseproject.tindar.ui.home.HomeViewModel;
+import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
 
 import java.util.ArrayList;
 
@@ -14,6 +18,7 @@ public class ViewProfilesPresenter extends ViewModel{
     private MutableLiveData<String> BirthdayText;
     private MutableLiveData<String> LocationText;
     private MutableLiveData<String> AboutMeText;
+    private EditProfileDsResponseModel nextProfile;
 
     public ViewProfilesPresenter() {
         DisplayNameText = new MutableLiveData<>();
@@ -21,6 +26,25 @@ public class ViewProfilesPresenter extends ViewModel{
         BirthdayText = new MutableLiveData<>();
         LocationText = new MutableLiveData<>();
         AboutMeText = new MutableLiveData<>();
+
+        HomeViewModel homeViewModel =
+                new ViewModelProvider((ViewModelStoreOwner) this).get(HomeViewModel.class);
+
+        nextProfile = homeViewModel.updateShownProfile();
+
+    }
+
+    public void updateData() {
+        HomeViewModel homeViewModel =
+            new ViewModelProvider((ViewModelStoreOwner) this).get(HomeViewModel.class);
+        nextProfile = homeViewModel.updateShownProfile();
+
+        DisplayNameText.setValue();
+        GenderText.setValue();
+        BirthdayText.setValue();
+        LocationText.setValue();
+        AboutMeText.setValue();
+
     }
 
     public LiveData<String> getDisplayName() {
