@@ -27,23 +27,29 @@ public class ViewProfilesPresenter extends ViewModel{
         LocationText = new MutableLiveData<>();
         AboutMeText = new MutableLiveData<>();
 
+        DisplayNameText.setValue("Display Name");
+        GenderText.setValue("Gender");
+        BirthdayText.setValue("Birthday");
+        LocationText.setValue("Location");
+        AboutMeText.setValue("About Me");
+
         HomeViewModel homeViewModel =
                 new ViewModelProvider((ViewModelStoreOwner) this).get(HomeViewModel.class);
 
-        nextProfile = homeViewModel.updateShownProfile();
+//        nextProfile = homeViewModel.updateShownProfile();
 
     }
 
     public void updateData() {
         HomeViewModel homeViewModel =
             new ViewModelProvider((ViewModelStoreOwner) this).get(HomeViewModel.class);
-        nextProfile = homeViewModel.updateShownProfile();
-
-        DisplayNameText.setValue();
-        GenderText.setValue();
-        BirthdayText.setValue();
-        LocationText.setValue();
-        AboutMeText.setValue();
+//        nextProfile = homeViewModel.updateShownProfile();
+//
+//        DisplayNameText.setValue();
+//        GenderText.setValue();
+//        BirthdayText.setValue();
+//        LocationText.setValue();
+//        AboutMeText.setValue();
 
     }
 
