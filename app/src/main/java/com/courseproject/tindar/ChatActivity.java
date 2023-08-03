@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.courseproject.tindar.entities.MessageModel;
 import com.courseproject.tindar.entities.TindarMessage;
@@ -31,6 +32,7 @@ public class ChatActivity extends AppCompatActivity {
 
     // Variable here for getting other userID and display name
     // variable here for storing your userID
+    TextView conversationPartnerDisplayName;
     EditText chatInput;
     ImageButton sendMessageButton;
     ImageButton backButton;
@@ -44,9 +46,13 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        this.conversationPartnerDisplayName = findViewById(R.id.conversation_partner_display_name);
         this.chatInput = findViewById(R.id.new_chat_input);
         this.sendMessageButton = findViewById(R.id.send_message_button);
         this.backButton = findViewById(R.id.back_button);
+
+        // TODO: this.conversationPartnerDisplayName.setText();
+        // TODO: this.userID = ;
 
         this.loadMessages();
 
