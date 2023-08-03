@@ -1,19 +1,18 @@
-package com.courseproject.tindar;
+package com.courseproject.tindar.ui.login;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
+import com.courseproject.tindar.R;
+import com.courseproject.tindar.SignupFragment;
 import com.courseproject.tindar.ui.home.HomeFragment;
 
 /**
@@ -23,28 +22,19 @@ import com.courseproject.tindar.ui.home.HomeFragment;
  */
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private EditText email;
+    private EditText password;
 
     public LoginFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LoginFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static LoginFragment newInstance(String param1, String param2) {
         LoginFragment fragment = new LoginFragment();
         Bundle args = new Bundle();
@@ -70,6 +60,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
         Button signupButton = (Button) rootView.findViewById(R.id.button_signup);
         Button loginButton = (Button) rootView.findViewById(R.id.button_login);
+        email = (EditText) rootView.findViewById(R.id.et_email);
+        password = (EditText) rootView.findViewById(R.id.password);
 
         signupButton.setOnClickListener(this);
         loginButton.setOnClickListener(this);
@@ -86,8 +78,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             fragment = new SignupFragment();
             replaceFragment(fragment);
         } else if (id == R.id.button_login) { //will be linked to blank nav page when implemented
+            // connect to controller and check if password is correct
+
+            // if correct then go to home
             fragment = new HomeFragment();
             replaceFragment(fragment);
+
+            // if not correct then display error
+
         }
 
     }
