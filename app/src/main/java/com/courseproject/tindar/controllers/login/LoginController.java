@@ -8,5 +8,7 @@ public class LoginController {
     }
 
     // get profile by email, return correct password
-
+    public String getPassword(String email){
+        return "password";
+    }
 }
