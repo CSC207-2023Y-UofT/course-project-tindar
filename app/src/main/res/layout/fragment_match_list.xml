@@ -7,7 +7,7 @@
     tools:context=".ui.matchlist.MatchListFragment">
 
     <ListView
-        android:id="@+id/matchListView"
+        android:id="@+id/match_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -13,15 +13,16 @@ import androidx.fragment.app.Fragment;
 import com.courseproject.tindar.R;
 
 public class MatchListFragment extends Fragment {
-    String[] test = {"1", "2", "3"};
+    String[] test = {"front", "end", "sucks"};
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         View contentView = inflater.inflate(R.layout.fragment_match_list, container, false);
-        ListView listView = contentView.findViewById(R.id.matchListView);
+        ListView listView = contentView.findViewById(R.id.match_list_view);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(),
-                android.R.layout.simple_expandable_list_item_1, test);
+                android.R.layout.simple_list_item_1, test);
         listView.setAdapter(adapter);
         return contentView;
     }
