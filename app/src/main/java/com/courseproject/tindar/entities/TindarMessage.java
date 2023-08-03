@@ -2,7 +2,7 @@ package com.courseproject.tindar.entities;
 
 import java.sql.Timestamp;
 
- public class TindarMessage implements MessageInterface{
+ public class TindarMessage implements MessageModel {
     private String messageId;
     private String text;
     private Timestamp creationTime;

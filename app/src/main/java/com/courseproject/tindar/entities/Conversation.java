@@ -6,20 +6,20 @@ import java.sql.Timestamp;
 public abstract class Conversation {
     private String user1;
     private String user2;
-    private ArrayList<MessageInterface> messages;
+    private ArrayList<MessageModel> messages;
     private String conversationId;
     private Timestamp timeOfLastMessage;
 
     protected Conversation(String user1, String user2){
         this.user1 = user1;
         this.user2 = user2;
-        this.messages = new ArrayList<MessageInterface>();
+        this.messages = new ArrayList<MessageModel>();
         this.conversationId = user1 + user2; //implementation will probably be changed
     }
 
     // TODO: when would this return false? 
     // should ensure that this.messages is always in order of oldest to newest. 
-    public boolean addMessage(MessageInterface newMessage){
+    public boolean addMessage(MessageModel newMessage){
         int index = this.messages.size(); 
         while(index >= 1 && ((this.messages).get(index - 1)).getCreationTime().compareTo(
                 newMessage.getCreationTime()) > 0) {
@@ -48,7 +48,7 @@ public abstract class Conversation {
         return this.user2;
     }
 
-    public ArrayList<MessageInterface> getMessages() {
+    public ArrayList<MessageModel> getMessages() {
         return this.messages;
     }
 
@@ -64,7 +64,7 @@ public abstract class Conversation {
         this.user2 = user2;
     }
 
-    protected void setMessages(ArrayList<MessageInterface> messages) {
+    protected void setMessages(ArrayList<MessageModel> messages) {
         this.messages = messages;
     }
 
