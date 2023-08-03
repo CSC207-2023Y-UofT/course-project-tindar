@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -32,27 +33,35 @@ public class ChatActivity extends AppCompatActivity {
 
     // Variable here for getting other userID and display name
     // variable here for storing your userID
-    TextView conversationPartnerDisplayName;
+
+    String userID;
+    String otherUserID;
+    String conversationPartnerDisplayName;
+    TextView conversationPartnerDisplayNameDisplay;
     EditText chatInput;
     ImageButton sendMessageButton;
     ImageButton backButton;
     RecyclerView chatRecyclerView;
 
     ArrayList<MessageModel> loadedMessages;
-    String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        this.conversationPartnerDisplayName = findViewById(R.id.conversation_partner_display_name);
+        this.conversationPartnerDisplayNameDisplay = findViewById(R.id.conversation_partner_display_name);
         this.chatInput = findViewById(R.id.new_chat_input);
         this.sendMessageButton = findViewById(R.id.send_message_button);
         this.backButton = findViewById(R.id.back_button);
 
-        // TODO: this.conversationPartnerDisplayName.setText();
-        // TODO: this.userID = ;
+        // TODO:
+        // TODO:
+        this.userID = "user1";
+        this.otherUserID = "user2";
+        this.conversationPartnerDisplayName = "User 2";
+
+        this.conversationPartnerDisplayNameDisplay.setText(this.conversationPartnerDisplayName);
 
         this.loadMessages();
 
@@ -63,6 +72,18 @@ public class ChatActivity extends AppCompatActivity {
         this.chatRecyclerView = findViewById(R.id.chat_recycler_view);
         this.chatRecyclerView.setAdapter(adapter);
         this.chatRecyclerView.setLayoutManager(linearLayoutManager);
+    }
+
+    // TODO: this should probably be refactored.
+    // both to make future implementation of other message types easier,
+    // and because I feel like the sending and creation of the new message should go elsewhere.
+    // I don't think we should be importing Tindar messages.
+    // TODO: timezone support?
+    public void sentMessage(View v){
+        String input = (this.chatInput.getText()).toString();
+        MessageModel newMessage = new TindarMessage(input, new Timestamp(System.currentTimeMillis()),
+                this.userID, this.otherUserID);
+        this.loadedMessages.add(newMessage);
     }
 
     //TODO: this should be implemented properly
