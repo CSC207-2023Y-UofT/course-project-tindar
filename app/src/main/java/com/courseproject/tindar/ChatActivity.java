@@ -44,6 +44,7 @@ public class ChatActivity extends AppCompatActivity {
     RecyclerView chatRecyclerView;
 
     ArrayList<MessageModel> loadedMessages;
+    ChatRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,7 @@ public class ChatActivity extends AppCompatActivity {
 
         this.loadMessages();
 
-        ChatRecyclerViewAdapter adapter = new ChatRecyclerViewAdapter(this, loadedMessages,
+        this.adapter = new ChatRecyclerViewAdapter(this, loadedMessages,
                 this.userID);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
@@ -74,7 +75,7 @@ public class ChatActivity extends AppCompatActivity {
         this.chatRecyclerView.setLayoutManager(linearLayoutManager);
     }
 
-    // TODO: this should probably be refactored.
+    // TODO: this should be refactored.
     // both to make future implementation of other message types easier,
     // and because I feel like the sending and creation of the new message should go elsewhere.
     // I don't think we should be importing Tindar messages.
@@ -84,6 +85,8 @@ public class ChatActivity extends AppCompatActivity {
         MessageModel newMessage = new TindarMessage(input, new Timestamp(System.currentTimeMillis()),
                 this.userID, this.otherUserID);
         this.loadedMessages.add(newMessage);
+
+        this.adapter.notifyDataSetChanged();
     }
 
     //TODO: this should be implemented properly
