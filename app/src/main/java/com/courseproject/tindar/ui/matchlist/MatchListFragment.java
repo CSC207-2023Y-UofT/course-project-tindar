@@ -4,34 +4,25 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.courseproject.tindar.databinding.FragmentMatchListBinding;
+import com.courseproject.tindar.R;
 
 public class MatchListFragment extends Fragment {
-
-    private FragmentMatchListBinding binding;
+    String[] test = {"1", "2", "3"};
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        MatchListViewModel galleryViewModel =
-                new ViewModelProvider(this).get(MatchListViewModel.class);
+        View contentView = inflater.inflate(R.layout.fragment_match_list, container, false);
+        ListView listView = contentView.findViewById(R.id.matchListView);
 
-        binding = FragmentMatchListBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        final TextView textView = binding.textGallery;
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        return root;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(),
+                android.R.layout.simple_expandable_list_item_1, test);
+        listView.setAdapter(adapter);
+        return contentView;
     }
 }
