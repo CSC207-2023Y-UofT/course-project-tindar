@@ -1,6 +1,7 @@
 package com.courseproject.tindar.ds;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import android.content.Context;
 
@@ -134,5 +135,23 @@ public class DatabaseHelperTest {
         EditFiltersDsResponseModel testFilters = dbHelper.readFilters(userId);
         assertEquals(21, testFilters.getPreferredAgeMinimum()) ;
         assertEquals(31, testFilters.getPreferredAgeMaximum()) ;
+    }
+
+    @Test
+    public void ReadUserId(){
+        String userIdRead = dbHelper.ReadUserId("bell@exampleemail.com", "somepassword");
+        assertEquals(userId, userIdRead);
+    }
+
+    @Test
+    public void ReadUserIdWhenPasswordWrong(){
+        String userIdRead = dbHelper.ReadUserId("bell@exampleemail.com", "somassword");
+        assertNull(userIdRead);
+    }
+
+    @Test
+    public void ReadUserIdWhenEmailWrong(){
+        String userIdRead = dbHelper.ReadUserId("bel@exampleemail.com", "somepassword");
+        assertNull(userIdRead);
     }
 }

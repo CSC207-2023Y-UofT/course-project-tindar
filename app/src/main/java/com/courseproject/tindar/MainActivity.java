@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             email = emailText.getText().toString();
             password = passwordText.getText().toString();
 
-            if (password.equals(loginController.getPassword(email))) {
+            if (loginController.checkUserPassword(email, password)) {
                 Intent intent = new Intent(MainActivity.this, BlankNavActivity.class);
                 intent.putExtra("user_id", "1");
                 startActivity(intent);

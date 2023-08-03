@@ -12,13 +12,14 @@ import com.courseproject.tindar.usecases.editfilters.EditFiltersDsGateway;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsGateway;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
+import com.courseproject.tindar.usecases.login.LoginDsGateway;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway {
+public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway, LoginDsGateway {
     private static DatabaseHelper dbInstance;
 
     private static final String TABLE_ACCOUNTS = "accounts";
@@ -288,6 +289,27 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
 
         db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
         db.close();
+    }
+
+    @Override
+    public String ReadUserId(String email, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT "
+                        + ID
+                        + " FROM " + TABLE_ACCOUNTS
+                        + " WHERE " + EMAIL + " =? AND " + PASSWORD + " =?",
+                new String[]{email, password});
+
+        if (cursor.getCount() == 0){
+            cursor.close();
+            return null;
+        }
+
+        cursor.moveToFirst();
+        String userId = cursor.getString(0);
+        cursor.close();
+
+        return userId;
     }
 }
 
