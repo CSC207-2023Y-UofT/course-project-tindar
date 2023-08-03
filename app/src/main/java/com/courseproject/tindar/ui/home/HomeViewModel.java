@@ -25,19 +25,19 @@ public class HomeViewModel extends ViewModel {
 
         ArrayList<String> potentialProfiles = new ArrayList<String>();
 
-        EditProfileDsResponseModel readProfileResponseModel =
-                new EditProfileDsResponseModel(DisplayNameText, BirthdayText, GenderText, LocationText, ProfilePicture, AboutMeText);
-        readProfileResponseModel.readProfile(potentialProfiles.get(0));
+//        EditProfileDsResponseModel readProfileResponseModel =
+//                new EditProfileDsResponseModel(DisplayNameText, BirthdayText, GenderText, LocationText, ProfilePicture, AboutMeText);
+//        readProfileResponseModel.readProfile(potentialProfiles.get(0));
 
     }
 
-    public EditProfileDsResponseModel updateShownProfile(){
-        String nextProfile = this.potentialProfiles.get(0);
-        this.potentialProfiles.remove(0);
-        this.potentialProfiles.add(nextProfile);
-
-        return readProfile(nextProfile);
-    }
+//    public EditProfileDsResponseModel updateShownProfile(){
+//        String nextProfile = this.potentialProfiles.get(0);
+//        this.potentialProfiles.remove(0);
+//        this.potentialProfiles.add(nextProfile);
+//
+//        return readProfile(nextProfile);
+//    }
 
 
 }
