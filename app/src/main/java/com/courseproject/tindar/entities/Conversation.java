@@ -2,6 +2,7 @@ package com.courseproject.tindar.entities;
 
 import java.util.ArrayList;
 
+
 public abstract class Conversation {
     private String user1;
     private String user2;
@@ -53,7 +54,15 @@ public abstract class Conversation {
     protected void setId(String newConversationId) {
         this.conversationId = newConversationId;
     }
+
+// Sophia created a function that returns the lastest message in the conversation
+    // I will incoprate that function in the frontend
+    // TODO: also need to put the time of the lastest message into the one item of conversation as well
+
+    //
 }
+
+
 
 
 
