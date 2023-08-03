@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="8dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/left_chat_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,24 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
-            android:textSize="18sp"></TextView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/right_chat_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="80dp"
-        android:background="@drawable/text_background_rounded_corners"
-        android:backgroundTint="@color/message_color_sender"
-        android:padding="8dp">
-
-        <TextView
-            android:id="@+id/right_text_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"></TextView>
-    </LinearLayout>
+            android:textSize="18sp">
+        </TextView>
+    </RelativeLayout>
 </RelativeLayout>
