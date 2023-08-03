@@ -1,12 +1,6 @@
 package com.courseproject.tindar.ui.editfilters;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +8,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.courseproject.tindar.BlankNavViewModel;
 import com.courseproject.tindar.R;
@@ -55,7 +55,7 @@ public class EditFiltersFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // inflates the layout for this fragment
         FragmentEditFiltersBinding binding = FragmentEditFiltersBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -68,26 +68,13 @@ public class EditFiltersFragment extends Fragment {
         preferredLocationsEditButton = root.findViewById(R.id.button_edit_preferred_locations);
         preferredAgeGroupEditButton = root.findViewById(R.id.button_edit_preferred_age_group);
 
-        // gets filters for the user
+        // instantiates controller
         EditFiltersDsGateway editFiltersDatabaseHelper = DatabaseHelper.getInstance(getContext());
         EditFiltersPresenter editFiltersPresenter = new EditFiltersPresentationFormatter();
         FiltersFactory filtersFactory = new FiltersFactory();
         EditFiltersInputBoundary editFiltersInteractor =
                 new EditFiltersInteractor(editFiltersDatabaseHelper, editFiltersPresenter, filtersFactory);
         editFiltersController = new EditFiltersController(editFiltersInteractor);
-        EditFiltersDsResponseModel filtersDsResponse = editFiltersController.getFilters(userId);
-
-        // assigns each of filters to a variable
-        preferredGenders = new ArrayList<>(filtersDsResponse.getPreferredGenders());
-        preferredLocations = new ArrayList<>(filtersDsResponse.getPreferredLocations());
-        preferredAgeMinimum = filtersDsResponse.getPreferredAgeMinimum();
-        preferredAgeMaximum = filtersDsResponse.getPreferredAgeMaximum();
-
-        // renders filters to the screen
-        preferredGendersTextView.setText(String.join(", ", preferredGenders));
-        preferredLocationsTextView.setText(String.join(", ", preferredLocations));
-        preferredAgeMinimumEditText.setText(String.valueOf(preferredAgeMinimum));
-        preferredAgeMaximumEditText.setText(String.valueOf(preferredAgeMaximum));
 
         // initializes boolean array to mark for all genders available whether each is preferred by the user
         String[] genders = getResources().getStringArray(R.array.genders);
@@ -206,13 +193,34 @@ public class EditFiltersFragment extends Fragment {
         return root;
     }
 
+    @Nullable
+    @Override
+    public Object getEnterTransition() {
+        // gets filters for the user
+        EditFiltersDsResponseModel filtersDsResponse = editFiltersController.getFilters(userId);
+
+        // assigns each of filters to a variable
+        preferredGenders = new ArrayList<>(filtersDsResponse.getPreferredGenders());
+        preferredLocations = new ArrayList<>(filtersDsResponse.getPreferredLocations());
+        preferredAgeMinimum = filtersDsResponse.getPreferredAgeMinimum();
+        preferredAgeMaximum = filtersDsResponse.getPreferredAgeMaximum();
+
+        // renders filters to the screen
+        preferredGendersTextView.setText(String.join(", ", preferredGenders));
+        preferredLocationsTextView.setText(String.join(", ", preferredLocations));
+        preferredAgeMinimumEditText.setText(String.valueOf(preferredAgeMinimum));
+        preferredAgeMaximumEditText.setText(String.valueOf(preferredAgeMaximum));
+
+        return super.getEnterTransition();
+    }
+
     /**
      * returns user input value for the multi-select dropdown. It also toggles edit enabled / disabled and
      * edit / save icon of the button accordingly;
      *
-     * @param field     filters field to be updated
-     * @param textView  TextView component
-     * @param button    edit / save button component
+     * @param field    filters field to be updated
+     * @param textView TextView component
+     * @param button   edit / save button component
      * @return user input value. Returns null when the user clicks button to start editing.
      */
     private ArrayList<String> getMultiSelectDropdownInputValue(String field, TextView textView,
