@@ -26,6 +26,7 @@ public class ChatActivity extends AppCompatActivity {
         TODO:
         - un-hardcode "Username" to be the actual conversation partner's display name
         - un-hardcode userID to be the current user's userID
+        - possibly reverse the message list implementation?
      */
 
     // Variable here for getting other userID and display name
