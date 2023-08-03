@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import com.courseproject.tindar.entities.MessageInterface;
+import com.courseproject.tindar.entities.MessageModel;
+import com.courseproject.tindar.entities.TindarMessage;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class ChatActivity extends AppCompatActivity {
@@ -27,7 +29,8 @@ public class ChatActivity extends AppCompatActivity {
     ImageButton backButton;
     RecyclerView chatRecyclerView;
 
-    ArrayList<MessageInterface> loadedMessages;
+    ArrayList<MessageModel> loadedMessages;
+    String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +40,26 @@ public class ChatActivity extends AppCompatActivity {
         this.chatInput = findViewById(R.id.new_chat_input);
         this.sendMessageButton = findViewById(R.id.send_message_button);
         this.backButton = findViewById(R.id.back_button);
-        this.chatRecyclerView = findViewById(R.id.chat_recycler_view);
 
         this.loadMessages();
 
-        ChatRecyclerViewAdapter adapter = new ChatRecyclerViewAdapter(this, loadedMessages);
+        ChatRecyclerViewAdapter adapter = new ChatRecyclerViewAdapter(this, loadedMessages,
+                this.userID);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+
+        this.chatRecyclerView = findViewById(R.id.chat_recycler_view);
         this.chatRecyclerView.setAdapter(adapter);
-        this.chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        this.chatRecyclerView.setLayoutManager(linearLayoutManager);
     }
 
-    //TODO
+    //TODO: this should actually call a different class for the messages. probably conversation.
     private void loadMessages(){
-        this.loadedMessages = new ArrayList<MessageInterface>();
+        TindarMessage testMessage1 = new TindarMessage("first message sent", new Timestamp(2023, 02, 25, 18, 0, 0, 0),"user1", "user2");
+        TindarMessage testMessage2 = new TindarMessage("second message sent", new Timestamp(2023, 03, 25, 18, 0, 0, 0),"user1", "user2");
+        TindarMessage testMessage3 = new TindarMessage("first message received", new Timestamp(2023, 04, 25, 18, 0, 0, 0),"user2", "user1");
+        this.loadedMessages = new ArrayList<MessageModel>();
+        this.loadedMessages.add(testMessage1);
+        this.loadedMessages.add(testMessage2);
+        this.loadedMessages.add(testMessage2);
     }
 }
