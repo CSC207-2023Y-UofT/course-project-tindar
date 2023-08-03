@@ -1,11 +1,16 @@
 package com.courseproject.tindar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
+import com.courseproject.tindar.entities.MessageInterface;
+
+import java.util.ArrayList;
 
 public class ChatActivity extends AppCompatActivity {
     /**
@@ -22,6 +27,8 @@ public class ChatActivity extends AppCompatActivity {
     ImageButton backButton;
     RecyclerView chatRecyclerView;
 
+    ArrayList<MessageInterface> loadedMessages;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,5 +38,16 @@ public class ChatActivity extends AppCompatActivity {
         this.sendMessageButton = findViewById(R.id.send_message_button);
         this.backButton = findViewById(R.id.back_button);
         this.chatRecyclerView = findViewById(R.id.chat_recycler_view);
+
+        this.loadMessages();
+
+        ChatRecyclerViewAdapter adapter = new ChatRecyclerViewAdapter(this, loadedMessages);
+        this.chatRecyclerView.setAdapter(adapter);
+        this.chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    //TODO
+    private void loadMessages(){
+        this.loadedMessages = new ArrayList<MessageInterface>();
     }
 }
