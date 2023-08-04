@@ -43,9 +43,7 @@ public class ChatActivity extends AppCompatActivity {
             should probably be placed in a facade or something
      */
 
-    /**
-     * userID of current user. Needed to generate message models with the proper info.
-     */
+    /** userID of current user. Needed to generate message models with the proper info. */
     String userID;
     /**
      * userID of current user's conversation partner.
@@ -58,22 +56,14 @@ public class ChatActivity extends AppCompatActivity {
      */
     String conversationPartnerDisplayName;
 
-    /**
-     * Displays name of current user's conversation partner.
-     */
+    /** Displays name of current user's conversation partner. */
     TextView conversationPartnerDisplayNameDisplay;
-    /**
-     * List of messages that are already loaded and ready to be displayed by RecyclerView.
-     */
+    /** List of messages that are already loaded and ready to be displayed by RecyclerView. */
     ArrayList<MessageModel> loadedMessages;
 
-    /**
-     * Where the user types their messages.
-     */
+    /** Where the user types their messages. */
     EditText chatInput;
-    /**
-     * The user presses this button to send their typed message in chatInput
-     */
+    /** The user presses this button to send their typed message in chatInput */
     ImageButton sendMessageButton;
     /**
      * Navigation button. Current intention is for this button to take the user to their list of
@@ -81,13 +71,9 @@ public class ChatActivity extends AppCompatActivity {
      */
     ImageButton backButton;
 
-    /**
-     * Displays messages.
-     */
+    /** Displays messages. */
     RecyclerView chatRecyclerView;
-    /**
-     * Still not sure what this does. I think this manages chatRecyclerView.
-     */
+    /** Still not sure what this does. I think this manages chatRecyclerView. */
     ChatRecyclerViewAdapter adapter;
 
     @Override
