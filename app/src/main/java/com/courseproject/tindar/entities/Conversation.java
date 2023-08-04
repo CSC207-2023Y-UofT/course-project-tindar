@@ -3,7 +3,11 @@ package com.courseproject.tindar.entities;
 import java.util.ArrayList;
 import java.sql.Timestamp;
 
-
+/**
+ * This class contains the Conversation instance, where each conversation is a list of message
+ * between one user and another user
+ *
+        */
 public abstract class Conversation {
     private String user1;
     private String user2;
@@ -73,9 +77,9 @@ public abstract class Conversation {
         this.conversationId = newConversationId;
     }
 
-// Sophia created a function that returns the lastest message in the conversation
-    // I will incoprate that function in the frontend
-    // TODO: also need to put the time of the lastest message into the one item of conversation as well
+// Sophia created a function that returns the latest message in the conversation
+    // I will incorporate that function in the frontend
+    // TODO: also need to put the time of the latest message into the one item of conversation as well
 
     //
 }

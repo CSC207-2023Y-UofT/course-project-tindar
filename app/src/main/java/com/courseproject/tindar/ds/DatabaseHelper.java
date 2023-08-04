@@ -414,5 +414,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         cursor.close();
         return matchListResponse;
     }
+
+
 }
 
