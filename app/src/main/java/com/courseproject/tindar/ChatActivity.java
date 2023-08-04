@@ -58,7 +58,6 @@ public class ChatActivity extends AppCompatActivity {
         this.backButton = findViewById(R.id.back_button);
 
         // TODO:
-        // TODO:
         this.userID = "user1";
         this.otherUserID = "user2";
         this.conversationPartnerDisplayName = "User 2";
