@@ -15,4 +15,7 @@ public class LikeListController {
     public void removeLike(String userId, String otherUserId){
         this.userInput.removeLike(userId, otherUserId);
     }
+    public String[] getDisplayNamesForMatches(String userId){
+        return this.userInput.getDisplayNamesForMatches(userId);
+    }
 }

@@ -28,6 +28,11 @@ public class LikeListControllerUnitTest {
             assertEquals(USER_ID_1, userId);
             assertEquals(USER_ID_2, otherUserId);
         }
+
+        @Override
+        public String[] getDisplayNamesForMatches(String userId) {
+            return new String[]{};
+        }
     }
 
     @Test

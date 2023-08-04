@@ -16,4 +16,6 @@ public interface LikeListDsGateway {
     void removeFromMatched(String userId, String otherUserId);
 
     ArrayList<String[]> readMatchList(String userId);
+
+    ArrayList<LikeListDsResponseModel> readDisplayNames(ArrayList<String> userIds);
 }

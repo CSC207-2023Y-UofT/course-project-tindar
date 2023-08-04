@@ -56,6 +56,11 @@ public class LikeListInteractorUnitTest {
             return null;
         }
 
+        @Override
+        public ArrayList<LikeListDsResponseModel> readDisplayNames(ArrayList<String> userIds) {
+            return null;
+        }
+
     }
 
     @Test

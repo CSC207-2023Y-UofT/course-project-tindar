@@ -12,6 +12,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
+import com.courseproject.tindar.usecases.likelist.LikeListDsResponseModel;
 
 import org.junit.After;
 import org.junit.Before;
@@ -29,6 +30,7 @@ public class DatabaseHelperTest {
     private DatabaseHelper dbHelper;
     private String userId;
     private String otherUserId;
+    private String thirdUserId;
 
     @Before
     public void setUp() {
@@ -41,6 +43,10 @@ public class DatabaseHelperTest {
         otherUserId = dbHelper.addAccount(true, "rogers@exampleemail.com", "someotherpassword", "roger",
                 "roger", "fido", new GregorianCalendar(2003, 12, 3).getTime(),
                 "Female", "Calgary", "https://ccc", "I would like to",
+                "Female, Male", "Calgary, Vancouver", 19, 999);
+        thirdUserId = dbHelper.addAccount(true, "telus@exampleemail.com", "somethirdpassword", "ted",
+                "ted", "telus", new GregorianCalendar(2001, 12, 3).getTime(),
+                "Male", "Toronto", "https://ccc", "I would like to",
                 "Female, Male", "Calgary, Vancouver", 19, 999);
         dbHelper.addLike(otherUserId, userId);
     }
@@ -216,5 +222,17 @@ public class DatabaseHelperTest {
         ArrayList<String[]> secondMatchList = dbHelper.readMatchList(userId);
         assertArrayEquals(new String[]{userId, otherUserId}, secondMatchList.get(0));
         assertEquals(1, secondMatchList.size());
+    }
+
+    @Test
+    public void testReadDisplayNames() {
+        ArrayList<String> matchList = new ArrayList<>();
+        matchList.add(userId);
+        matchList.add(thirdUserId);
+        ArrayList<LikeListDsResponseModel> displayNames = dbHelper.readDisplayNames(matchList);
+        assertEquals(displayNames.get(0).getUserId(), userId);
+        assertEquals(displayNames.get(0).getDisplayName(), "bell");
+        assertEquals(displayNames.get(1).getUserId(), thirdUserId);
+        assertEquals(displayNames.get(1).getDisplayName(), "ted");
     }
 }

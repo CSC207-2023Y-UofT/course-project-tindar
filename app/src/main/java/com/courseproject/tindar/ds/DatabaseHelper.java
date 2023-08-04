@@ -13,6 +13,7 @@ import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsGateway;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
 import com.courseproject.tindar.usecases.likelist.LikeListDsGateway;
+import com.courseproject.tindar.usecases.likelist.LikeListDsResponseModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -135,6 +136,24 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
                 "Amy", "Smith", new GregorianCalendar(2000, 7, 2).getTime(),
                 "Female", "Montreal", "bbb", "Hello","Male",
                 "Montreal, Toronto", 23, 27, db);
+        addAccount(true, "bell@exampleemail.com", "somepassword", "bell",
+                "Bell", "Robin", new GregorianCalendar(2003, 9, 5).getTime(),
+                "Female", "Calgary", "https://ccc", "I would like to",
+                "Female, Male", "Calgary, Vancouver", 19, 999, db);
+        addAccount(true, "rogers@exampleemail.com", "someotherpassword", "roger",
+                "roger", "fido", new GregorianCalendar(2003, 12, 3).getTime(),
+                "Female", "Calgary", "https://ccc", "I would like to",
+                "Female, Male", "Calgary, Vancouver", 19, 999, db);
+        addAccount(true, "telus@exampleemail.com", "somethirdpassword", "ted",
+                "ted", "telus", new GregorianCalendar(2001, 12, 3).getTime(),
+                "Male", "Toronto", "https://ccc", "I would like to",
+                "Female, Male", "Calgary, Vancouver", 19, 999, db);
+        addLike("1", "2", db);
+        addLike("2", "1", db);
+        addLike("1", "5", db);
+        addLike("5", "1", db);
+        addToMatched("1", "2", db);
+        addToMatched("1", "5", db);
     }
 
     private String addAccount(boolean isActiveStatus, String email, String password, String displayName,
@@ -414,5 +433,43 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         cursor.close();
         return matchListResponse;
     }
+
+    @Override
+    public ArrayList<LikeListDsResponseModel> readDisplayNames(ArrayList<String> userIds) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        boolean doNotAddComma = true;
+        StringBuilder userIdsString = new StringBuilder("(");
+
+        for(String userId : userIds){
+            if(doNotAddComma){
+                doNotAddComma = false;
+            } else {
+                userIdsString.append(",");
+            }
+            userIdsString.append("'").append(userId).append("'");
+        }
+
+        userIdsString.append(")");
+
+        Cursor cursor = db.rawQuery("SELECT "
+                        + ID + ", "
+                        + DISPLAY_NAME
+                        + " FROM " + TABLE_ACCOUNTS
+                        + " WHERE " + ID + " IN " + userIdsString, null);
+
+        ArrayList<LikeListDsResponseModel> displayNamesResponse = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                displayNamesResponse.add(new LikeListDsResponseModel(cursor.getString(0), cursor.getString(1)));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return displayNamesResponse;
+    }
+
+
 }
 
