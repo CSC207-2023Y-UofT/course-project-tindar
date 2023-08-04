@@ -19,32 +19,28 @@ import com.courseproject.tindar.entities.TindarMessage;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+/**
+ * For the one-on-one chat screen for specific conversations.
+ * This displays the messages, bar at the top, navigation buttons, and inputs for conversing.
+ * This java file and dictates the bigger picture of one-on-one chat display
+ * and functionality of the buttons on the screen.
+ *
+ * Will add button functionality as other features are implemented.
+ *
+ * Display layout is in activity_chat.xml.
+ * Given a list of messages and basic info,
+ * ChatRecyclerViewAdapter.java handles displaying messages.
+ *
+ * @author Sophia Wan
+ */
 public class ChatActivity extends AppCompatActivity {
-    /**
-     * For the one-on-one chat screen for specific conversations.
-     * This displays the messages, bar at the top, navigation buttons, and inputs for conversing.
-     * This java file and dictates the bigger picture of one-on-one chat display
-     * and functionality of the buttons on the screen.
-     *
-     * Will add button functionality as other features are implemented.
-     *
-     * Display layout is in activity_chat.xml.
-     * Given a list of messages and basic info,
-     * ChatRecyclerViewAdapter.java handles displaying messages.
-     *
-     * @author Sophia Wan
-     */
-
     /*
         TODO:
         - un-hardcode "Username" to be the actual conversation partner's display name
         - un-hardcode userID to be the current user's userID
         - possibly reverse the message list implementation?
-     */
-
-    /*
-     * userID, otherUserID, conversationPartnerDisplayName, and probably a few other things
-     * should probably be placed in a facade or something
+        - userID, otherUserID, conversationPartnerDisplayName, and probably a few other things
+            should probably be placed in a facade or something
      */
 
     /**
