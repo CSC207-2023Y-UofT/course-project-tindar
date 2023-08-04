@@ -12,17 +12,27 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.courseproject.tindar.entities.MessageModel;
+// TODO: remove TindarMessage import when database is properly connected
 import com.courseproject.tindar.entities.TindarMessage;
 
+// TODO: consider removing Timdstamp import when database is properly connected
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class ChatActivity extends AppCompatActivity {
     /**
      * For the one-on-one chat screen for specific conversations.
-     * Unfinished; will add functionality as other features are implemented.
-     * This java file stores stat info, and dictates functionality of the buttons on the screen.
-     * Display details are in activity_chat.xml.
+     * This displays the messages, bar at the top, navigation buttons, and inputs for conversing.
+     * This java file and dictates the bigger picture of one-on-one chat display
+     * and functionality of the buttons on the screen.
+     *
+     * Will add button functionality as other features are implemented.
+     *
+     * Display layout is in activity_chat.xml.
+     * Given a list of messages and basic info,
+     * ChatRecyclerViewAdapter.java handles displaying messages.
+     *
+     * @author Sophia Wan
      */
 
     /*
@@ -32,45 +42,96 @@ public class ChatActivity extends AppCompatActivity {
         - possibly reverse the message list implementation?
      */
 
-    // Variable here for getting other userID and display name
-    // variable here for storing your userID
+    /*
+     * userID, otherUserID, conversationPartnerDisplayName, and probably a few other things
+     * should probably be placed in a facade or something
+     */
 
+    /**
+     * userID of current user. Needed to generate message models with the proper info.
+     */
     String userID;
+    /**
+     * userID of current user's conversation partner.
+     * Needed to generate message models with the proper info.
+     */
     String otherUserID;
+    /**
+     * Display name of current user's conversation partner.
+     * Needed to display the proper info onscreen so that users know who they're chatting with.
+     */
     String conversationPartnerDisplayName;
-    TextView conversationPartnerDisplayNameDisplay;
-    EditText chatInput;
-    ImageButton sendMessageButton;
-    ImageButton backButton;
-    RecyclerView chatRecyclerView;
 
+    /**
+     * Displays name of current user's conversation partner.
+     */
+    TextView conversationPartnerDisplayNameDisplay;
+    /**
+     * List of messages that are already loaded and ready to be displayed by RecyclerView.
+     */
     ArrayList<MessageModel> loadedMessages;
+
+    /**
+     * Where the user types their messages.
+     */
+    EditText chatInput;
+    /**
+     * The user presses this button to send their typed message in chatInput
+     */
+    ImageButton sendMessageButton;
+    /**
+     * Navigation button. Current intention is for this button to take the user to their list of
+     * conversations. In future, should take them to wherever they were prior to opening this chat.
+     */
+    ImageButton backButton;
+
+    /**
+     * Displays messages.
+     */
+    RecyclerView chatRecyclerView;
+    /**
+     * Still not sure what this does. I think this manages chatRecyclerView.
+     */
     ChatRecyclerViewAdapter adapter;
 
     @Override
+    /**
+     * I think this runs when a new ChatActivity object is made.
+     * @param savedInstanceState still have no idea what this is to be honest.
+     * @return void
+     */
     protected void onCreate(Bundle savedInstanceState) {
+        // This "came with the class." I assume it's right and it works, so I'm not touching it.
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.activity_chat); // tells us the layout follows activity_chat.xml
 
-        this.conversationPartnerDisplayNameDisplay = findViewById(R.id.conversation_partner_display_name);
-        this.chatInput = findViewById(R.id.new_chat_input);
-        this.sendMessageButton = findViewById(R.id.send_message_button);
-        this.backButton = findViewById(R.id.back_button);
-
-        // TODO:
+        // TODO: actually get info passed in, rather than hardcoding this
+        // TODO: see if we can have this info passed and stored in some sort of facade or model
+        //      - flagged in issue #51
         this.userID = "user1";
         this.otherUserID = "user2";
         this.conversationPartnerDisplayName = "User 2";
 
+        // setting input and view instance variables to match what's in the display
+        this.conversationPartnerDisplayNameDisplay
+                = findViewById(R.id.conversation_partner_display_name);
+        this.chatInput = findViewById(R.id.new_chat_input);
+        this.sendMessageButton = findViewById(R.id.send_message_button);
+        this.backButton = findViewById(R.id.back_button);
+
+        // getting the screen to display the correct name for the conversation partner
         this.conversationPartnerDisplayNameDisplay.setText(this.conversationPartnerDisplayName);
 
-        this.loadMessages();
+        // Everything after this in this method handles messages and message display.
+        // To be honest, I still don't fully understand all of it
+
+        this.loadMessages(); // calling the method that loads messages from the database
 
         this.adapter = new ChatRecyclerViewAdapter(this, loadedMessages,
                 this.userID);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
-        this.chatRecyclerView = findViewById(R.id.chat_recycler_view);
+        this.chatRecyclerView = findViewById(R.id.chat_recycler_view); // matches recycler to layout
         this.chatRecyclerView.setAdapter(adapter);
         this.chatRecyclerView.setLayoutManager(linearLayoutManager);
     }
