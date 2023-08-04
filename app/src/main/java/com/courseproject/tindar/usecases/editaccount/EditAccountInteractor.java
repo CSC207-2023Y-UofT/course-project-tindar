@@ -15,11 +15,11 @@ public class EditAccountInteractor implements EditAccountInputBoundary {
         this.editAccountDsGateway.updateIsActiveStatus(userId, isActiveStatus);
     }
 
-    public void updateEmail(String userId, String email) {
-        this.editAccountDsGateway.updateEmail(userId, email);
+    public boolean updateEmail(String userId, String email) {
+        return this.editAccountDsGateway.updateEmail(userId, email);
     }
 
-    public void updatePassword(String userId, String password) {
-        this.editAccountDsGateway.updatePassword(userId, password);
+    public boolean updatePassword(String userId, String password) {
+        return this.editAccountDsGateway.updatePassword(userId, password);
     }
 }

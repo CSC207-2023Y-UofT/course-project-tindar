@@ -3,6 +3,7 @@ package com.courseproject.tindar.ds;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -53,7 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     private static final String CREATE_TABLE_ACCOUNTS_QUERY = "CREATE TABLE " + TABLE_ACCOUNTS + " ("
             + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + IS_ACTIVE_STATUS + " NUMBER(1) NOT NULL, "
-            + EMAIL + " VARCHAR(30) NOT NULL, "
+            + EMAIL + " VARCHAR(30) NOT NULL UNIQUE, "
             + PASSWORD + " VARCHAR(30) NOT NULL, "
             + DISPLAY_NAME + " VARCHAR(30), "
             + FIRST_NAME + " VARCHAR(30), "
@@ -213,23 +214,40 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     }
 
     @Override
-    public void updateEmail(String userId, String email) {
+    public boolean updateEmail(String userId, String email) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(EMAIL, email);
-
-        db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
+        try {
+            db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
+        }
+        catch (SQLiteConstraintException e){
+            db.close();
+            return false;
+        }
         db.close();
+        return true;
+    }
+
+    public void deleteAccounts() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from "+ TABLE_ACCOUNTS);
+    }
+
+    public void deleteLikeLists() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from "+ TABLE_LIKES);
     }
 
     @Override
-    public void updatePassword(String userId, String password) {
+    public boolean updatePassword(String userId, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(PASSWORD, password);
 
         db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
         db.close();
+        return true;
     }
 
     @Override

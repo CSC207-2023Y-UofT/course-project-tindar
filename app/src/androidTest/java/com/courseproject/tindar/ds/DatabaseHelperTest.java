@@ -10,12 +10,11 @@ import android.content.Context;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ import java.util.GregorianCalendar;
 
 @RunWith(AndroidJUnit4.class)
 public class DatabaseHelperTest {
-
     private DatabaseHelper dbHelper;
     private String userId;
     private String otherUserId;
@@ -47,6 +45,8 @@ public class DatabaseHelperTest {
 
     @After
     public void tearDown() {
+        dbHelper.deleteLikeLists();
+        dbHelper.deleteAccounts();
         dbHelper.close();
     }
 
@@ -216,5 +216,26 @@ public class DatabaseHelperTest {
         ArrayList<String[]> secondMatchList = dbHelper.readMatchList(userId);
         assertArrayEquals(new String[]{userId, otherUserId}, secondMatchList.get(0));
         assertEquals(1, secondMatchList.size());
+    }
+
+    @Test
+    public void testUpdateEmail() {
+        dbHelper.updateEmail(userId, "something@email.com");
+        EditAccountDsResponseModel account = dbHelper.readAccount(userId);
+        assertEquals(account.getEmail(), "something@email.com");
+    }
+
+    @Test
+    public void testUpdateEmailNotUnique() {
+        dbHelper.updateEmail(userId, "rogers@exampleemail.com");
+        EditAccountDsResponseModel account = dbHelper.readAccount(userId);
+        boolean test = false;
+        try {
+            assertEquals(account.getEmail(), "rogers@exampleemail.com");
+        }
+        catch (AssertionError e) {
+            test = true;
+        }
+        assertTrue(test);
     }
 }

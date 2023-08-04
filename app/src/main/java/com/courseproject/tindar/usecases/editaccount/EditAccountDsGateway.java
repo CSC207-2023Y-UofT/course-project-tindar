@@ -5,7 +5,7 @@ public interface EditAccountDsGateway {
 
     void updateIsActiveStatus(String userId, boolean isActiveStatus);
 
-    void updateEmail(String userId, String email);
+    boolean updateEmail(String userId, String email);
 
-    void updatePassword(String userId, String password);
+    boolean updatePassword(String userId, String password);
 }

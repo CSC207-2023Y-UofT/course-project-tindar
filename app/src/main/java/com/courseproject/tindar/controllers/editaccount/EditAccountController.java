@@ -12,24 +12,57 @@ public class EditAccountController {
         this.userInput = EditAccountUserInput;
     }
 
+    /** Retrieves the status, email, and password of an account.
+     *
+     * @param userId the user id of the account
+     * @return an object holding the details of the account
+     */
     public EditAccountDsResponseModel getAccount(String userId) {
         return userInput.getAccount(userId);
     }
 
-    public boolean validateChanges(String userId, String password) {
-        String vPassword = this.userInput.getAccount(userId).getPassword();
+    /** Compares an inputted password to the password of an account.
+     *
+     * @param userId the user id of the account
+     * @param password the password that was inputted
+     * @return true if the passwords match
+     */
+    public boolean validatePassword(String userId, String password) {
+        String vPassword = getAccount(userId).getPassword();
         return Objects.equals(vPassword, password);
     }
 
+    /** Change the status of an account to another status.
+     *
+     * @param userId the user id of the account
+     * @param isActiveStatus the status for the account to be changed to
+     */
     public void updateIsActiveStatus(String userId, boolean isActiveStatus) {
         this.userInput.updateIsActiveStatus(userId, isActiveStatus);
     }
 
-    public void updateEmail(String userId, String email) {
-        this.userInput.updateEmail(userId, email);
+    /** Change the email associated with an account.
+     * Returns false if an email is already used by an account.
+     *
+     * @param userId the user id of the account
+     * @param email the new email to be associated with the account
+     * @return true if email was successfully updated
+     */
+    public boolean updateEmail(String userId, String email) {
+        return this.userInput.updateEmail(userId, email);
     }
 
-    public void updatePassword(String userId, String password) {
-        this.userInput.updatePassword(userId, password);
+    /** Change the password associated with an account.
+     *
+     * @param userId the user id of the account
+     * @param password the new password to be associated with the account
+     */
+    public boolean updatePassword(String userId, String password) {
+        if (password.length() == 0) {
+            return false;
+        }
+        else {
+            return this.userInput.updatePassword(userId, password);
+        }
     }
 }
