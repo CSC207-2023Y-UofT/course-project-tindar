@@ -35,9 +35,7 @@ public class ChatRecyclerViewAdapter
      * Might later refactor such that we don't need this.
      */
     private final String _userID;
-    /**
-     * List of messages to be displayed. Slight misnomer, but private so it doesn't really matter.
-     */
+    /** List of messages to be displayed. Misnomer, but private so it doesn't really matter. */
     private ArrayList<MessageModel> _displayedMessages;
 
     /**
@@ -52,6 +50,7 @@ public class ChatRecyclerViewAdapter
     }
 
     /**
+     * Creates and adds TindarMessageViewHolder objects to the parent ViewGroup
      * @param parent   The ViewGroup into which the new View will be added after it is bound to
      *                 an adapter position.
      * @param viewType The view type of the new View.
@@ -82,6 +81,8 @@ public class ChatRecyclerViewAdapter
     }
 
     /**
+     * Updates a message TindarMessageViewHolder with the relevant details
+     * from the corresponding MessageModel
      * @param holder   The ViewHolder which should be updated to represent the contents of the
      *                 item at the given position in the data set.
      * @param position The position of the item within the adapter's data set.
@@ -93,7 +94,7 @@ public class ChatRecyclerViewAdapter
     }
 
     /**
-     * @return
+     * @return number of items within the adapter's data set.
      */
     @Override
     public int getItemCount() {
@@ -101,8 +102,14 @@ public class ChatRecyclerViewAdapter
         return (this._displayedMessages).size();
     }
 
-    @Override
     // TODO: refactor
+    /**
+     * Categorizes items being cycled through
+     * Feeds into onCreateViewHolder.
+     * @param position
+     * @return 0 if the message originated from the current user; 1 otherwise
+     */
+    @Override
     public int getItemViewType(int position){
         if (this._displayedMessages.get(position).getSentFromId().equals(_userID)){
             return 0;
@@ -111,15 +118,11 @@ public class ChatRecyclerViewAdapter
         }
     }
 
-    /**
-     * Holds the views for individual messages (I think)
-     */
+    /** Holds the views for individual messages (I think) */
     public static class TindarMessageViewHolder extends RecyclerView.ViewHolder{
         // grabs views from row layout file and assigns them to variables
 
-        /**
-         * Contains the outer shell for the layout for a given message
-         */
+        /** Contains the outer shell for the layout for a given message */
         RelativeLayout messageLayout;
         /**
          * Contains the text portion of the layout for a given message.
@@ -130,6 +133,7 @@ public class ChatRecyclerViewAdapter
         /**
          * TindarMessageViewHolder constructor.
          * @param itemView the view that this view holder is supposed to hold
+         * @return new TindarMessageViewHolder
          */
         public TindarMessageViewHolder(@NonNull View itemView) {
             super(itemView);

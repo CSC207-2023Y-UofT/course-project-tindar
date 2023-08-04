@@ -76,12 +76,12 @@ public class ChatActivity extends AppCompatActivity {
     /** Still not sure what this does. I think this manages chatRecyclerView. */
     ChatRecyclerViewAdapter adapter;
 
-    @Override
     /**
      * I think this runs when a new ChatActivity object is made.
      * @param savedInstanceState still have no idea what this is to be honest.
      * @return void
      */
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         // This "came with the class." I assume it's right and it works, so I'm not touching it.
         super.onCreate(savedInstanceState);
