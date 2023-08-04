@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public interface LikeListDsGateway {
 /** This class accesses and distributes data from database to be manipulated by likeList functions
- * and allows for users to like and match with each other **/
+ * and allows for users to like and match with each other, documentation where methods are
+ * implemented in DatabaseHelper**/
     boolean checkLiked(String userId, String otherUserId);
 
     void addToMatched(String userId, String otherUserId);

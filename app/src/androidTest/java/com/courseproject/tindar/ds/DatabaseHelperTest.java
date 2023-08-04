@@ -34,6 +34,7 @@ public class DatabaseHelperTest {
 
     @Before
     public void setUp() {
+        // Fake users for testing purposes
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         dbHelper = DatabaseHelper.getInstance(appContext);
         userId = dbHelper.addAccount(true, "bell@exampleemail.com", "somepassword", "bell",
@@ -153,12 +154,14 @@ public class DatabaseHelperTest {
 
     @Test
     public void testAddLikeAndCheckLiked(){
+        // Test userId "likes" otherUseId, and are added to likeList
         dbHelper.addLike(userId, otherUserId);
         assertTrue(dbHelper.checkLiked(userId, otherUserId));
     }
 
     @Test
     public void testRemoveLikeAndCheckLikedWhenRecordExist() {
+        // Test userID "unlikes" otherUserId and is removed from like list when previously there
         assertTrue(dbHelper.checkLiked(otherUserId, userId));
         dbHelper.removeLike(otherUserId, userId);
         assertFalse(dbHelper.checkLiked(otherUserId, userId));
@@ -166,6 +169,7 @@ public class DatabaseHelperTest {
 
     @Test
     public void testRemoveLikeAndCheckLikedWhenRecordNotExist() {
+        // Test userID "unlikes" otherUserId and is removed from like list when not previously there
         assertFalse(dbHelper.checkLiked(userId, otherUserId));
         dbHelper.removeLike(userId, otherUserId);
         assertFalse(dbHelper.checkLiked(userId, otherUserId));
@@ -173,6 +177,7 @@ public class DatabaseHelperTest {
 
     @Test
     public void testTwoAddLikeDoesNotProduceDuplicateRecord() {
+        // Test that userId "liking" otherUserId twice does not add two of the same Id into likeList
         dbHelper.addLike(userId, otherUserId);
         assertTrue(dbHelper.checkLiked(userId, otherUserId));
         dbHelper.addLike(userId, otherUserId);
@@ -183,6 +188,7 @@ public class DatabaseHelperTest {
 
     @Test
     public void testAddToMatchedAndReadMatchList() {
+        // Test two users are matched and added to the match list in database
         dbHelper.addToMatched(userId, otherUserId);
         ArrayList<String[]> matchList = dbHelper.readMatchList(userId);
         assertArrayEquals(new String[]{userId, otherUserId}, matchList.get(0));
@@ -194,6 +200,8 @@ public class DatabaseHelperTest {
 
     @Test
     public void testRemoveFromMatchedWhenRecordExist() {
+        // Test the matched users are removed from match list then removeFromMatched is called
+        // and both users are recorded in match list
         dbHelper.addToMatched(userId, otherUserId);
         ArrayList<String[]> matchList = dbHelper.readMatchList(userId);
         assertArrayEquals(new String[]{userId, otherUserId}, matchList.get(0));
@@ -205,6 +213,8 @@ public class DatabaseHelperTest {
 
     @Test
     public void testRemoveFromMatchedWhenRecordNotExist() {
+        // Test the matched users are removed from match list then removeFromMatched is called
+        // and both users are not recorded in match list
         ArrayList<String[]> matchList = dbHelper.readMatchList(userId);
         assertTrue(matchList.isEmpty());
         dbHelper.removeFromMatched(userId, otherUserId);
@@ -214,6 +224,7 @@ public class DatabaseHelperTest {
 
     @Test
     public void testTwoAddToMatchedDoesNotProduceDuplicate() {
+        // Test adding two users to match list does not produce duplicate in list
         dbHelper.addToMatched(userId, otherUserId);
         ArrayList<String[]> matchList = dbHelper.readMatchList(userId);
         assertArrayEquals(new String[]{userId, otherUserId}, matchList.get(0));
@@ -226,6 +237,7 @@ public class DatabaseHelperTest {
 
     @Test
     public void testReadDisplayNames() {
+        // Test read display names returns list of user display names from database
         ArrayList<String> matchList = new ArrayList<>();
         matchList.add(userId);
         matchList.add(thirdUserId);

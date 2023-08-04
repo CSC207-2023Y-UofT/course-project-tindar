@@ -37,6 +37,7 @@ public class LikeListControllerUnitTest {
 
     @Test
     public void testAddLike() {
+        // Test that a user is added to like list when addLike is called
         LikeListInputBoundary testLikeListUserInput = new MockLikeListUserInput();
         LikeListController testLikeListController = new LikeListController(testLikeListUserInput);
         testLikeListController.addLike(USER_ID_1, USER_ID_2);
@@ -44,6 +45,7 @@ public class LikeListControllerUnitTest {
 
     @Test
     public void testRemoveLike() {
+        // Test that a user is removed from like list when removeLike is called
         LikeListInputBoundary testLikeListUserInput = new MockLikeListUserInput();
         LikeListController testLikeListController = new LikeListController(testLikeListUserInput);
         testLikeListController.removeLike(USER_ID_1, USER_ID_2);

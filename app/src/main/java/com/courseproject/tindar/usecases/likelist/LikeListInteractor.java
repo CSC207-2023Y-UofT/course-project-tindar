@@ -16,6 +16,8 @@ public class LikeListInteractor implements LikeListInputBoundary {
 
     @Override
     public void addLike(String userId, String otherUserId){
+        // This method adds otherUserId to list of userId 'likes', if the two uusers already liked
+        // each other, they are matched and added to match list
         likeListDsGateway.addLike(userId, otherUserId);
 
         if (likeListDsGateway.checkLiked(otherUserId, userId)) {
@@ -31,6 +33,8 @@ public class LikeListInteractor implements LikeListInputBoundary {
 
     @Override
     public void removeLike(String userId, String otherUserId){
+        // This method removes otherUserId from userId like list and unmatches them if they are
+        // currently matched
         likeListDsGateway.removeLike(userId, otherUserId);
         likeListDsGateway.removeFromMatched(userId, otherUserId);
 
@@ -46,6 +50,7 @@ public class LikeListInteractor implements LikeListInputBoundary {
 
     @Override
     public String[] getDisplayNamesForMatches(String userId) {
+        // This method returns the display names if the users in the match list for display purposes
         ArrayList<String[]> arrayListMatches = likeListDsGateway.readMatchList(userId);
         ArrayList<String> matches = new ArrayList<>();
         for (String[] arrayListMatch : arrayListMatches) {
