@@ -136,22 +136,17 @@ public class ChatActivity extends AppCompatActivity {
         this.chatRecyclerView.setLayoutManager(linearLayoutManager);
     }
 
-    // TODO: this should be refactored.
-    // both to make future implementation of other message types easier,
-    // and because I feel like the sending and creation of the new message should go elsewhere.
-    // I don't think we should be importing Tindar messages.
-    // TODO: timezone support?
-    public void sentMessage(View v){
-        String input = (this.chatInput.getText()).toString();
-        MessageModel newMessage = new TindarMessage(input, new Timestamp(System.currentTimeMillis()),
-                this.userID, this.otherUserID);
-        this.loadedMessages.add(newMessage);
-
-        this.adapter.notifyDataSetChanged();
-    }
-
-    //TODO: this should be implemented properly
+    // TODO: this should be implemented properly
     // and call a different class for the messages. probably conversation.
+    /**
+     * Loads or adds to the list of messages to be displayed,
+     * which is stored in the instance variable loadedMessages.
+     * Called by OnCreate. Should also be called whenever the user wants to load more messages.
+     *
+     * Currently implemented with hardcoded tests; will be reimplemented with the database.
+     *
+     * @return void
+     */
     private void loadMessages(){
         TindarMessage testMessage1 = new TindarMessage("first message sent", new Timestamp(2023, 02, 25, 18, 0, 0, 0),"user1", "user2");
         TindarMessage testMessage2 = new TindarMessage("second message sent", new Timestamp(2023, 03, 25, 18, 0, 0, 0),"user1", "user2");
@@ -169,5 +164,33 @@ public class ChatActivity extends AppCompatActivity {
         this.loadedMessages.add(testMessage3);
         this.loadedMessages.add(testMessage4);
         this.loadedMessages.add(testMessage5);
+    }
+
+    // TODO: this should be refactored.
+    //      both to make future implementation of other message types easier,
+    //      and because I feel like the sending and creation of the new message should go elsewhere.
+    //      I don't think we should be importing Tindar messages.
+    // TODO: timezone support?
+
+    // TODO: chatInput should clear once the button is pressed, so that people don't have to delete
+    //          the previous message to send a new one
+    // TODO: shouldn't send empty messages
+    /**
+     * Called when sendMessageButton is called. Creates the new message, and informs adapter
+     * that it needs to update the display.
+     *
+     * Currently just adds the message to loadedMessages.
+     * Will probably call some sort of conversationManager class and be slightly reimplemented
+     * with the database.
+     *
+     * @return void
+     */
+    public void sentMessage(View v){
+        String input = (this.chatInput.getText()).toString();
+        MessageModel newMessage = new TindarMessage(input, new Timestamp(System.currentTimeMillis()),
+                this.userID, this.otherUserID);
+        this.loadedMessages.add(newMessage);
+
+        this.adapter.notifyDataSetChanged();
     }
 }
