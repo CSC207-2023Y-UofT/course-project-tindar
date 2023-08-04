@@ -123,7 +123,7 @@ public class ChatActivity extends AppCompatActivity {
 
         this.loadMessages(); // calling the method that loads messages from the database
 
-        this.adapter = new ChatRecyclerViewAdapter(this, loadedMessages,
+        this.adapter = new ChatRecyclerViewAdapter(loadedMessages,
                 this.userID);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 

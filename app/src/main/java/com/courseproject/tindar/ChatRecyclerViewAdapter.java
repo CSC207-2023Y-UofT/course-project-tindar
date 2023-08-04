@@ -22,15 +22,22 @@ import java.util.ArrayList;
     - constants for switch/if-else statements or remove them entirely
  */
 
+
+/**
+ * Still very confused about what it actually does.
+ * I think this feeds into the RecyclerView for the one-on-one chat messages.
+ * @author Sophia Wan
+ */
 public class ChatRecyclerViewAdapter
         extends RecyclerView.Adapter<ChatRecyclerViewAdapter.TindarMessageViewHolder>{
-    private Context _context;
+    /**
+     * userID of current user. Needed to generate message models with the proper info.
+     */
     private final String _userID;
     private ArrayList<MessageModel> _displayedMessages;
 
-    public ChatRecyclerViewAdapter(Context context, ArrayList<MessageModel> displayedMessages,
+    public ChatRecyclerViewAdapter(ArrayList<MessageModel> displayedMessages,
                                    String userID){
-        this._context = context;
         this._displayedMessages = displayedMessages;
         this._userID = userID;
     }
