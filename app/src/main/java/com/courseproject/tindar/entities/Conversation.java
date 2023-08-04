@@ -18,7 +18,7 @@ public abstract class Conversation {
     }
 
     // TODO: when would this return false? 
-    // should ensure that this.messages is always in order of oldest to newest. 
+    // should ensure that this.messages is always in order of oldest to newest.
     public boolean addMessage(MessageModel newMessage){
         int index = this.messages.size(); 
         while(index >= 1 && ((this.messages).get(index - 1)).getCreationTime().compareTo(

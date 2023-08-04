@@ -2,11 +2,6 @@ package com.courseproject.tindar.ui.editprofile;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +10,11 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.courseproject.tindar.BlankNavViewModel;
 import com.courseproject.tindar.R;
@@ -55,7 +55,7 @@ public class EditProfileFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // inflates the layout for this fragment
         FragmentEditProfileBinding binding = FragmentEditProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -71,18 +71,10 @@ public class EditProfileFragment extends Fragment {
         profilePictureLinkEditButton = root.findViewById(R.id.button_edit_profile_picture_link);
         aboutMeEditButton = root.findViewById(R.id.button_edit_about_me);
 
-        // gets profile for the user
+        // instantiates controller
         EditProfileDsGateway editProfileDatabaseHelper = DatabaseHelper.getInstance(getActivity());
         EditProfileInputBoundary editProfileInteractor = new EditProfileInteractor(editProfileDatabaseHelper);
         editProfileController = new EditProfileController(editProfileInteractor);
-        profileDsResponse = editProfileController.getProfile(userId);
-
-        // renders user profile to the screen
-        birthdateTextView.setText(DateFormat.getDateInstance().format(profileDsResponse.getBirthdate()));
-        genderAutoCompleteTextView.setText(profileDsResponse.getGender());
-        locationAutoCompleteTextView.setText(profileDsResponse.getLocation());
-        profilePictureLinkEditText.setText(profileDsResponse.getProfilePictureLink());
-        aboutMeEditText.setText(profileDsResponse.getAboutMe());
 
         // creates dropdown menu for the gender
         String[] genders = getResources().getStringArray(R.array.genders);
@@ -133,6 +125,22 @@ public class EditProfileFragment extends Fragment {
         });
 
         return root;
+    }
+
+    @Nullable
+    @Override
+    public Object getEnterTransition() {
+        // gets user profile
+        profileDsResponse = editProfileController.getProfile(userId);
+
+        // renders user profile to the screen
+        birthdateTextView.setText(DateFormat.getDateInstance().format(profileDsResponse.getBirthdate()));
+        genderAutoCompleteTextView.setText(profileDsResponse.getGender());
+        locationAutoCompleteTextView.setText(profileDsResponse.getLocation());
+        profilePictureLinkEditText.setText(profileDsResponse.getProfilePictureLink());
+        aboutMeEditText.setText(profileDsResponse.getAboutMe());
+
+        return super.getEnterTransition();
     }
 
     /**

@@ -15,7 +15,13 @@ public class LikeListInteractor implements LikeListInputBoundary {
         likeListDsGateway.addLike(userId, otherUserId);
 
         if (likeListDsGateway.checkLiked(otherUserId, userId)) {
-            likeListDsGateway.addToMatched(userId, otherUserId);
+            // to satisfy addToMatched precondition: userId < otherUserId. This is to avoid
+            // duplicate records of (userId, otherUserId) and (otherUserId, userId) in the database
+            if (Integer.parseInt(userId) < Integer.parseInt(otherUserId)) {
+                likeListDsGateway.addToMatched(userId, otherUserId);
+            } else {
+                likeListDsGateway.addToMatched(otherUserId, userId);
+            }
         }
     }
 
@@ -23,6 +29,15 @@ public class LikeListInteractor implements LikeListInputBoundary {
     public void removeLike(String userId, String otherUserId){
         likeListDsGateway.removeLike(userId, otherUserId);
         likeListDsGateway.removeFromMatched(userId, otherUserId);
+
+        // to satisfy removeFromMatched precondition: userId < otherUserId. This is needed because
+        // matches table does not have duplicate records of (userId, otherUserId) and (otherUserId, userId) in the database
+        // and want to make sure we delete the record with correct order the database would have
+        if (Integer.parseInt(userId) < Integer.parseInt(otherUserId)) {
+            likeListDsGateway.removeFromMatched(userId, otherUserId);
+        } else {
+            likeListDsGateway.removeFromMatched(otherUserId, userId);
+        }
     }
 }
 
