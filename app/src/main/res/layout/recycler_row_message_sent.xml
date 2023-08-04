@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--Layout for any message sent by the current user-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/message_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_marginStart="80dp"
+    android:background="@drawable/text_background_rounded_corners"
+    android:backgroundTint="@color/message_color_sender"
     android:padding="8dp">
-    <RelativeLayout
-        android:id="@+id/message_layout"
+
+    <TextView
+        android:id="@+id/message_content_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="80dp"
-        android:background="@drawable/text_background_rounded_corners"
-        android:backgroundTint="@color/message_color_sender"
-        android:padding="8dp">
-
-        <TextView
-            android:id="@+id/message_content_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:textSize="18sp">
-        </TextView>
-    </RelativeLayout>
+        android:textColor="@android:color/white"
+        android:textSize="18sp">
+    </TextView>
 </RelativeLayout>

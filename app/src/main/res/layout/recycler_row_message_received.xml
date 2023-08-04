@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--Layout for any message received by the current user but not sent by them-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/message_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginEnd="80dp"
+    android:background="@drawable/text_background_rounded_corners"
+    android:backgroundTint="@color/message_color_receiver"
     android:padding="8dp">
 
-    <RelativeLayout
-        android:id="@+id/message_layout"
+    <TextView
+        android:id="@+id/message_content_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="80dp"
-        android:background="@drawable/text_background_rounded_corners"
-        android:backgroundTint="@color/message_color_receiver"
-        android:padding="8dp">
-
-        <TextView
-            android:id="@+id/message_content_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:textSize="18sp">
-        </TextView>
-    </RelativeLayout>
+        android:textColor="@android:color/white"
+        android:textSize="18sp">
+    </TextView>
 </RelativeLayout>
