@@ -10,11 +10,11 @@ public class LoginInteractor implements LoginInputBoundary {
 
     @Override
     public Boolean checkUserPassword(String email, String password){
-        return true;
+        return !(loginDsGateway.readUserId(email, password) == null);
     }
 
     @Override
     public String getUserId(String email, String password){
-        return loginDsGateway.ReadUserId(email, password);
+        return loginDsGateway.readUserId(email, password);
     }
 }

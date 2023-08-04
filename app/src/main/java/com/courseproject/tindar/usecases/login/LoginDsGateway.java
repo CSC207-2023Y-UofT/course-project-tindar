@@ -1,5 +1,5 @@
 package com.courseproject.tindar.usecases.login;
 
 public interface LoginDsGateway {
-    public String ReadUserId(String email, String password);
+    public String readUserId(String email, String password);
 }

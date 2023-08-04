@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -138,20 +139,20 @@ public class DatabaseHelperTest {
     }
 
     @Test
-    public void ReadUserId(){
-        String userIdRead = dbHelper.ReadUserId("bell@exampleemail.com", "somepassword");
+    public void readUserId(){
+        String userIdRead = dbHelper.readUserId("bell@exampleemail.com", "somepassword");
         assertEquals(userId, userIdRead);
     }
 
     @Test
-    public void ReadUserIdWhenPasswordWrong(){
-        String userIdRead = dbHelper.ReadUserId("bell@exampleemail.com", "somassword");
+    public void readUserIdWhenPasswordWrong(){
+        String userIdRead = dbHelper.readUserId("bell@exampleemail.com", "somassword");
         assertNull(userIdRead);
     }
 
     @Test
-    public void ReadUserIdWhenEmailWrong(){
-        String userIdRead = dbHelper.ReadUserId("bel@exampleemail.com", "somepassword");
+    public void readUserIdWhenEmailWrong(){
+        String userIdRead = dbHelper.readUserId("bel@exampleemail.com", "somepassword");
         assertNull(userIdRead);
     }
 }

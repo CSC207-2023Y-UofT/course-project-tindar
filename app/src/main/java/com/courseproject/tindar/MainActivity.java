@@ -1,18 +1,25 @@
 package com.courseproject.tindar;
 
-import android.content.Intent;
+
 import android.os.Bundle;
-import android.view.Gravity;
+
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+
+import android.content.Intent;
+import android.view.Gravity;
+import android.view.MotionEvent;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.courseproject.tindar.controllers.login.LoginController;
+import com.courseproject.tindar.ds.DatabaseHelper;
+import com.courseproject.tindar.usecases.login.LoginDsGateway;
+import com.courseproject.tindar.usecases.login.LoginInteractor;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,18 +36,23 @@ public class MainActivity extends AppCompatActivity {
 
         Button loginButton = findViewById(R.id.button_login);
         Button signupButton = findViewById(R.id.button_signup);
+        passwordText = (EditText) findViewById(R.id.password);
+        emailText = (EditText) findViewById(R.id.email);
 
-        LoginController loginController = new LoginController();
-        passwordText = (EditText)findViewById(R.id.password);
-        emailText = (EditText)findViewById(R.id.email);
+        LoginDsGateway loginDatabaseHelper = DatabaseHelper.getInstance(getApplicationContext());
+        LoginInteractor loginInteractor = new LoginInteractor(loginDatabaseHelper);
+        LoginController loginController = new LoginController(loginInteractor);
 
+        loginController = new LoginController(loginInteractor);
+
+        LoginController finalLoginController = loginController;
         loginButton.setOnClickListener(view -> {
             email = emailText.getText().toString();
             password = passwordText.getText().toString();
 
-            if (loginController.checkUserPassword(email, password)) {
+            if (finalLoginController.checkUserPassword(email, password)) {
                 Intent intent = new Intent(MainActivity.this, BlankNavActivity.class);
-                intent.putExtra("user_id", "1");
+                intent.putExtra("user_id", finalLoginController.getUserId(email, password));
                 startActivity(intent);
             } else {
                 LayoutInflater inflater = (LayoutInflater)
