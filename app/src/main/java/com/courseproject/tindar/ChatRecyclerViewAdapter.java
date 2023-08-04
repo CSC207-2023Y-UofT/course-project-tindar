@@ -24,18 +24,27 @@ import java.util.ArrayList;
 
 
 /**
- * Still very confused about what it actually does.
  * I think this feeds into the RecyclerView for the one-on-one chat messages.
+ * Still very confused about what it actually does.
  * @author Sophia Wan
  */
 public class ChatRecyclerViewAdapter
         extends RecyclerView.Adapter<ChatRecyclerViewAdapter.TindarMessageViewHolder>{
     /**
-     * userID of current user. Needed to generate message models with the proper info.
+     * userID of current user. Needed check whether a message was sent or received.
+     * Might later refactor such that we don't need this.
      */
     private final String _userID;
+    /**
+     * List of messages to be displayed. Slight misnomer, but private so it doesn't really matter.
+     */
     private ArrayList<MessageModel> _displayedMessages;
 
+    /**
+     * Constructor. ChatRecyclerViewAdapter is intended to be an adapter for a view.
+     * @param displayedMessages list of messages that this adapter will help display
+     * @param userID User ID of the current user using the app
+     */
     public ChatRecyclerViewAdapter(ArrayList<MessageModel> displayedMessages,
                                    String userID){
         this._displayedMessages = displayedMessages;
@@ -102,16 +111,31 @@ public class ChatRecyclerViewAdapter
         }
     }
 
+    /**
+     * Holds the views for individual messages (I think)
+     */
     public static class TindarMessageViewHolder extends RecyclerView.ViewHolder{
         // grabs views from row layout file and assigns them to variables
 
+        /**
+         * Contains the outer shell for the layout for a given message
+         */
         RelativeLayout messageLayout;
+        /**
+         * Contains the text portion of the layout for a given message.
+         * May be refactored later for better non-text support.
+         */
         TextView messageContentLayout;
+
+        /**
+         * TindarMessageViewHolder constructor.
+         * @param itemView the view that this view holder is supposed to hold
+         */
         public TindarMessageViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            messageLayout = itemView.findViewById(R.id.message_layout);
-            messageContentLayout = itemView.findViewById(R.id.message_content_layout);
+            this.messageLayout = itemView.findViewById(R.id.message_layout);
+            this.messageContentLayout = itemView.findViewById(R.id.message_content_layout);
         }
     }
 }
