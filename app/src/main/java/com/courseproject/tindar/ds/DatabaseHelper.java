@@ -3,16 +3,19 @@ package com.courseproject.tindar.ds;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsGateway;
+import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsGateway;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsGateway;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
+import com.courseproject.tindar.usecases.likelist.LikeListDsGateway;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +27,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     private static DatabaseHelper dbInstance;
 
     private static final String TABLE_ACCOUNTS = "accounts";
+    private static final String TABLE_LIKES = "likes";
+    private static final String TABLE_MATCHES = "matches";
 
     private static final String ID = "id";
     private static final String IS_ACTIVE_STATUS = "is_active_status";
@@ -41,11 +46,15 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     private static final String PREFERRED_LOCATIONS = "preferred_locations";
     private static final String PREFERRED_AGE_MINIMUM = "preferred_age_minimum";
     private static final String PREFERRED_AGE_MAXIMUM = "preferred_age_maximum";
+    private static final String USER_ID = "user_id";
+    private static final String LIKED_USER_ID = "liked_user_id";
+    private static final String USER_ID_1 = "user_id_1";
+    private static final String USER_ID_2 = "user_id_2";
 
     private static final String CREATE_TABLE_ACCOUNTS_QUERY = "CREATE TABLE " + TABLE_ACCOUNTS + " ("
             + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + IS_ACTIVE_STATUS + " NUMBER(1) NOT NULL, "
-            + EMAIL + " VARCHAR(30) NOT NULL, "
+            + EMAIL + " VARCHAR(30) NOT NULL UNIQUE, "
             + PASSWORD + " VARCHAR(30) NOT NULL, "
             + DISPLAY_NAME + " VARCHAR(30), "
             + FIRST_NAME + " VARCHAR(30), "
@@ -59,6 +68,22 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
             + PREFERRED_LOCATIONS + " TEXT NOT NULL, "
             + PREFERRED_AGE_MINIMUM + " TEXT NOT NULL, "
             + PREFERRED_AGE_MAXIMUM + " TEXT NOT NULL);";
+
+    private static final String CREATE_TABLE_LIKES_QUERY = "CREATE TABLE " + TABLE_LIKES + " ("
+            + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + USER_ID + " INTEGER, "
+            + LIKED_USER_ID + " INTEGER, "
+            + "FOREIGN KEY (" + USER_ID + ") REFERENCES " + TABLE_ACCOUNTS + "(" + ID + "), "
+            + "FOREIGN KEY (" + LIKED_USER_ID + ") REFERENCES " + TABLE_ACCOUNTS + "(" + ID + "), "
+            + "UNIQUE(" + USER_ID + ", " + LIKED_USER_ID + "));";
+
+    private static final String CREATE_TABLE_MATCHES_QUERY = "CREATE TABLE " + TABLE_MATCHES + " ("
+            + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + USER_ID_1 + " INTEGER, "
+            + USER_ID_2 + " INTEGER, "
+            + "FOREIGN KEY (" + USER_ID_1 + ") REFERENCES " + TABLE_ACCOUNTS + "(" + ID + "), "
+            + "FOREIGN KEY (" + USER_ID_2 + ") REFERENCES " + TABLE_ACCOUNTS + "(" + ID + "), "
+            + "UNIQUE(" + USER_ID_1 + ", " + USER_ID_2 + "));";
 
     /**
      * Returns DatabaseHelper instance. If the instance already exists it returns exiting instance, if not, it creates
@@ -84,6 +109,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_ACCOUNTS_QUERY);
+        db.execSQL(CREATE_TABLE_LIKES_QUERY);
+        db.execSQL(CREATE_TABLE_MATCHES_QUERY);
         addInitialData(db);
     }
 
@@ -92,6 +119,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ACCOUNTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIKES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MATCHES);
         onCreate(db);
     }
 
@@ -149,6 +178,76 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return addAccount(isActiveStatus, email, password, displayName, firstName, lastName, birthdate, gender, location,
                 profilePictureLink, aboutMe, preferredGenders, preferredLocations, preferredAgeMinimum,
                 preferredAgeMaximum, db);
+    }
+
+    @Override
+    public EditAccountDsResponseModel readAccount(String userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT "
+                + IS_ACTIVE_STATUS + ", "
+                + EMAIL + ", "
+                + PASSWORD
+                + " FROM " + TABLE_ACCOUNTS
+                + " WHERE " + ID + " =?",
+            new String[]{userId});
+
+        cursor.moveToFirst();
+
+        EditAccountDsResponseModel dsResponse = new EditAccountDsResponseModel(
+            Boolean.parseBoolean(cursor.getString(0)),
+            cursor.getString(1),
+            cursor.getString(2)
+        );
+
+        cursor.close();
+        return dsResponse;
+    }
+
+    @Override
+    public void updateIsActiveStatus(String userId, boolean isActiveStatus) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(IS_ACTIVE_STATUS, isActiveStatus);
+
+        db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
+        db.close();
+    }
+
+    @Override
+    public boolean updateEmail(String userId, String email) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(EMAIL, email);
+        try {
+            db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
+        }
+        catch (SQLiteConstraintException e){
+            db.close();
+            return false;
+        }
+        db.close();
+        return true;
+    }
+
+    public void deleteAccounts() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from "+ TABLE_ACCOUNTS);
+    }
+
+    public void deleteLikeLists() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from "+ TABLE_LIKES);
+    }
+
+    @Override
+    public boolean updatePassword(String userId, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(PASSWORD, password);
+
+        db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
+        db.close();
+        return true;
     }
 
     @Override
@@ -244,7 +343,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
 
         cursor.moveToFirst();
 
-        // converts comma separated string to an ArrayList. If string is an empty string, it creates an empty ArrayList.
+        // converts comma separated string to an ArrayList. If string is an empty string,
+        // it creates an empty ArrayList.
         ArrayList<String> preferredGenders = new ArrayList<>(Arrays.asList(cursor.getString(0).split(", ")));
         ArrayList<String> preferredLocations = new ArrayList<>(Arrays.asList(cursor.getString(1).split(", ")));
         preferredGenders.removeIf(String::isEmpty);
@@ -290,6 +390,102 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
 
         db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
         db.close();
+    }
+
+    @Override
+    public boolean checkLiked(String userId, String otherUserId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT "
+                        + ID
+                        + " FROM " + TABLE_LIKES
+                        + " WHERE " + USER_ID + " =? AND " + LIKED_USER_ID + " =?",
+                new String[]{userId, otherUserId});
+
+        if (cursor.getCount() > 0) {
+            cursor.close();
+            return true;
+        }
+
+        cursor.close();
+        return false;
+    }
+
+    // precondition: userId < otherUserId. This is to avoid duplicates of
+    // (userId, otherUserId) and (otherUserId, userId)
+    public void addToMatched(String userId, String otherUserId, SQLiteDatabase db) {
+        ContentValues cv = new ContentValues();
+        cv.put(USER_ID_1, userId);
+        cv.put(USER_ID_2, otherUserId);
+
+        db.insert(TABLE_MATCHES, null, cv);
+    }
+
+    @Override
+    public void addToMatched(String userId, String otherUserId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        addToMatched(userId, otherUserId, db);
+    }
+
+    public void addLike(String userId, String otherUserId, SQLiteDatabase db) {
+        ContentValues cv = new ContentValues();
+        cv.put(USER_ID, userId);
+        cv.put(LIKED_USER_ID, otherUserId);
+
+        db.insert(TABLE_LIKES, null, cv);
+    }
+    @Override
+    public void addLike(String userId, String otherUserId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        addLike(userId, otherUserId, db);
+    }
+
+    @Override
+    public void removeLike(String userId, String otherUserId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(USER_ID, userId);
+        cv.put(LIKED_USER_ID, otherUserId);
+
+        db.delete(TABLE_LIKES, USER_ID + "= ? and " + LIKED_USER_ID + " = ?",
+                new String[]{userId, otherUserId});
+    }
+
+    // precondition: userId < otherUserId. Since matches should not have duplicate of
+    // (userId, otherUserId) and (otherUserId, userId), we should respect the order when
+    // adding/deleting records of userId pair.
+    @Override
+    public void removeFromMatched(String userId, String otherUserId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(USER_ID_1, userId);
+        cv.put(USER_ID_2, otherUserId);
+
+        db.delete(TABLE_MATCHES, USER_ID_1 + "= ? and " + USER_ID_2 + " = ?",
+                new String[]{userId, otherUserId});
+    }
+
+    @Override
+    public ArrayList<String[]> readMatchList(String userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT "
+                        + USER_ID_1 + ", "
+                        + USER_ID_2
+                        + " FROM " + TABLE_MATCHES
+                        + " WHERE " + USER_ID_1 + " =? OR " + USER_ID_2 + " =?",
+                new String[]{userId, userId});
+
+        ArrayList<String[]> matchListResponse = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                matchListResponse.add(new String[]{
+                        cursor.getString(0),
+                        cursor.getString(1)});
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return matchListResponse;
     }
 }
 
