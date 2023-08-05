@@ -58,7 +58,7 @@ public class EditAccountController {
      * @param password the new password to be associated with the account
      */
     public boolean updatePassword(String userId, String password) {
-        if (password.length() == 0) {
+        if (password.isEmpty()) {
             return false;
         }
         else {

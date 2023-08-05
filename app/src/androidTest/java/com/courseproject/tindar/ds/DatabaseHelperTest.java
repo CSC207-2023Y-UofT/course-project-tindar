@@ -10,6 +10,7 @@ import android.content.Context;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.courseproject.tindar.usecases.editaccount.EditAccountDsGateway;
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
@@ -219,23 +220,45 @@ public class DatabaseHelperTest {
     }
 
     @Test
+    public void testReadAccount() {
+        EditAccountDsResponseModel testAccount = dbHelper.readAccount(userId);
+        assertEquals(true, testAccount.getIsActiveStatus());
+        assertEquals("bell@exampleemail.com", testAccount.getEmail());
+        assertEquals("somepassword", testAccount.getPassword());
+    }
+
+    @Test
+    public void testUpdateIsAccountStatus() {
+        dbHelper.updateIsActiveStatus(userId, false);
+        EditAccountDsResponseModel testAccount = dbHelper.readAccount(userId);
+        assertEquals(testAccount.getIsActiveStatus(), false);
+    }
+
+    @Test
     public void testUpdateEmail() {
         dbHelper.updateEmail(userId, "something@email.com");
-        EditAccountDsResponseModel account = dbHelper.readAccount(userId);
-        assertEquals(account.getEmail(), "something@email.com");
+        EditAccountDsResponseModel testAccount = dbHelper.readAccount(userId);
+        assertEquals(testAccount.getEmail(), "something@email.com");
     }
 
     @Test
     public void testUpdateEmailNotUnique() {
         dbHelper.updateEmail(userId, "rogers@exampleemail.com");
-        EditAccountDsResponseModel account = dbHelper.readAccount(userId);
+        EditAccountDsResponseModel testAccount = dbHelper.readAccount(userId);
         boolean test = false;
         try {
-            assertEquals(account.getEmail(), "rogers@exampleemail.com");
+            assertEquals(testAccount.getEmail(), "rogers@exampleemail.com");
         }
         catch (AssertionError e) {
             test = true;
         }
         assertTrue(test);
+    }
+
+    @Test
+    public void testUpdatePassword() {
+        dbHelper.updatePassword(userId, "newpassword");
+        EditAccountDsResponseModel testAccount = dbHelper.readAccount(userId);
+        assertEquals(testAccount.getPassword(), "newpassword");
     }
 }

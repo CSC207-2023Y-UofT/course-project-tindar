@@ -180,6 +180,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
                 preferredAgeMaximum, db);
     }
 
+    /** Retrieves information about an account from the database.
+     *
+     * @param userId the user id of the account
+     * @return the active status, email and password of the account
+     */
     @Override
     public EditAccountDsResponseModel readAccount(String userId) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -194,7 +199,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         cursor.moveToFirst();
 
         EditAccountDsResponseModel dsResponse = new EditAccountDsResponseModel(
-            Boolean.parseBoolean(cursor.getString(0)),
+            cursor.getInt(0) > 0,
             cursor.getString(1),
             cursor.getString(2)
         );
@@ -203,6 +208,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return dsResponse;
     }
 
+    /** Updates the active status of an account in the database.
+     *
+     * @param userId the user id of the account
+     * @param isActiveStatus the status the account will be changed to
+     */
     @Override
     public void updateIsActiveStatus(String userId, boolean isActiveStatus) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -213,6 +223,13 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         db.close();
     }
 
+    /** Updates the email associated with an account in the database.
+     * Returns false if the email is already used by an account.
+     *
+     * @param userId the user id of the account
+     * @param email the new email to be associated with the account
+     * @return true if the email was successfully updated
+     */
     @Override
     public boolean updateEmail(String userId, String email) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -229,16 +246,12 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return true;
     }
 
-    public void deleteAccounts() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from "+ TABLE_ACCOUNTS);
-    }
-
-    public void deleteLikeLists() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from "+ TABLE_LIKES);
-    }
-
+    /** Updates the password associated with an account.
+     *
+     * @param userId the user id of the account
+     * @param password the new password to be associated with the account
+     * @return true if the password was successfully updated
+     */
     @Override
     public boolean updatePassword(String userId, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -248,6 +261,16 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
         db.close();
         return true;
+    }
+
+    public void deleteAccounts() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from "+ TABLE_ACCOUNTS);
+    }
+
+    public void deleteLikeLists() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from "+ TABLE_LIKES);
     }
 
     @Override

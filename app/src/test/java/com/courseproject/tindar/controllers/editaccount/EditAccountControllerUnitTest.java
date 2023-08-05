@@ -95,7 +95,7 @@ public class EditAccountControllerUnitTest {
     @Test
     public void updatePassword() {
         EditAccountController testEditAccountController = new EditAccountController(mockEditAccountUserInput);
-        testEditAccountController.updatePassword(USER_ID, PASSWORD);
+        assertTrue(testEditAccountController.updatePassword(USER_ID, PASSWORD));
     }
 
 }
