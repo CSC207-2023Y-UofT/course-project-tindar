@@ -12,17 +12,13 @@ public class LoginInteractorUnitTest {
     private static final String USERID = "1";
 
     private static class MockLoginDsGateway implements LoginDsGateway {
-        private static final String EMAIL = "bell@exampleemail.com";
-        private static final String PASSWORD = "somepassword";
-        private static final String USERID = "1";
-
         @Override
         public String readUserId(String email, String password) {
-            boolean emailEqual = (email.equals(this.EMAIL));
-            boolean passwordEqual = (password.equals(this.PASSWORD));
+            boolean emailEqual = (email.equals(EMAIL));
+            boolean passwordEqual = (password.equals(PASSWORD));
 
             if (emailEqual && passwordEqual){
-                return this.USERID;
+                return USERID;
             } else {
                 return null;
             }
@@ -33,21 +29,21 @@ public class LoginInteractorUnitTest {
 
     @Test
     public void checkCorrectPassword(){
-        assertEquals(true, userInput.checkUserPassword(this.EMAIL, this.PASSWORD));
+        assertEquals(true, userInput.checkUserPassword(EMAIL, PASSWORD));
     }
 
     @Test
     public void checkWrongPassword(){
-        assertEquals(false, userInput.checkUserPassword(this.EMAIL, "wor"));
+        assertEquals(false, userInput.checkUserPassword(EMAIL, "wor"));
     }
 
     @Test
     public void getExistingUserId(){
-        assertEquals(this.USERID, userInput.getUserId(this.EMAIL, this.PASSWORD));
+        assertEquals(USERID, userInput.getUserId(EMAIL, PASSWORD));
     }
 
     @Test
     public void getNullUserId(){
-        assertNull(userInput.getUserId(this.EMAIL, "wor"));
+        assertNull(userInput.getUserId(EMAIL, "wor"));
     }
 }
