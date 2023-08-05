@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
         Button loginButton = findViewById(R.id.button_login);
         Button signupButton = findViewById(R.id.button_signup);
-        passwordText = (EditText) findViewById(R.id.password);
-        emailText = (EditText) findViewById(R.id.email);
+        passwordText = (EditText) findViewById(R.id.edit_text_password);
+        emailText = (EditText) findViewById(R.id.edit_text_email);
 
         LoginDsGateway loginDatabaseHelper = DatabaseHelper.getInstance(getApplicationContext());
         LoginInteractor loginInteractor = new LoginInteractor(loginDatabaseHelper);
