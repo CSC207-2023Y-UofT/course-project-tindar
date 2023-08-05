@@ -2,14 +2,14 @@ package com.courseproject.tindar.entities;
 
 import java.sql.Timestamp;
 
- public class Message implements MessageInterface{
+ public class TindarMessage implements MessageModel {
     private String messageId;
     private String text;
     private Timestamp creationTime;
     private String sentFromId;
     private String sentToId;
 
-    protected Message(String text, Timestamp timestamp, String sentFromId, String sentToId){
+    public TindarMessage(String text, Timestamp timestamp, String sentFromId, String sentToId){
         this.text = text; 
         this.creationTime = timestamp;
         this.sentFromId = sentFromId; 
