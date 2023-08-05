@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * @author Sophia Wan
  */
-public class ChatDatabaseGatewayImplementation extends SQLiteOpenHelper implements ChatDatabaseGateway {
+public class ChatDatabaseGatewayImplementation extends SQLiteOpenHelper /*implements ChatDatabaseGateway*/ {
     // Using the Singleton Pattern as outlined in:
     // https://guides.codepath.com/android/local-databases-with-sqliteopenhelper#singleton-pattern
     private static ChatDatabaseGatewayImplementation sInstance;
