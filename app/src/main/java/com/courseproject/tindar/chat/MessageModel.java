@@ -1,4 +1,4 @@
-package com.courseproject.tindar.entities;
+package com.courseproject.tindar.chat;
 
 import java.sql.Timestamp;
 

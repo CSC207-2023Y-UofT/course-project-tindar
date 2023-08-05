@@ -1,4 +1,6 @@
-package com.courseproject.tindar.entities;
+package com.courseproject.tindar.chat;
+
+import com.courseproject.tindar.chat.MessageModel;
 
 import java.util.ArrayList;
 import java.sql.Timestamp;

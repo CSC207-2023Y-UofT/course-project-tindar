@@ -11,9 +11,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.courseproject.tindar.entities.MessageModel;
+import com.courseproject.tindar.chat.MessageModel;
 // TODO: remove TindarMessage import when database is properly connected
-import com.courseproject.tindar.entities.TindarMessage;
+import com.courseproject.tindar.chat.TindarMessage;
 
 // TODO: consider removing Timdstamp import when database is properly connected
 import java.sql.Timestamp;

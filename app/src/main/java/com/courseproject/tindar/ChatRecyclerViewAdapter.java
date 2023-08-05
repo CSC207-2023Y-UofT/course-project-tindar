@@ -1,6 +1,5 @@
 package com.courseproject.tindar;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.courseproject.tindar.entities.MessageModel;
+import com.courseproject.tindar.chat.MessageModel;
 
 import java.util.ArrayList;
 
