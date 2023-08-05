@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsGateway;
-import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsGateway;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsGateway;
@@ -21,7 +20,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway,
-                                                                EditAccountDsGateway {
+        EditAccountDsGateway, LikeListDsGateway {
     private static DatabaseHelper dbInstance;
 
     private static final String TABLE_ACCOUNTS = "accounts";
@@ -150,59 +149,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return addAccount(isActiveStatus, email, password, displayName, firstName, lastName, birthdate, gender, location,
                 profilePictureLink, aboutMe, preferredGenders, preferredLocations, preferredAgeMinimum,
                 preferredAgeMaximum, db);
-    }
-
-    @Override
-    public EditAccountDsResponseModel readAccount(String userId) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT "
-                + IS_ACTIVE_STATUS + ", "
-                + EMAIL + ", "
-                + PASSWORD
-                + " FROM " + TABLE_ACCOUNTS
-                + " WHERE " + ID + " =?",
-            new String[]{userId});
-
-        cursor.moveToFirst();
-
-        EditAccountDsResponseModel dsResponse = new EditAccountDsResponseModel(
-            Boolean.parseBoolean(cursor.getString(0)),
-            cursor.getString(1),
-            cursor.getString(2)
-        );
-
-        cursor.close();
-        return dsResponse;
-    }
-
-    @Override
-    public void updateIsActiveStatus(String userId, boolean isActiveStatus) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(IS_ACTIVE_STATUS, isActiveStatus);
-
-        db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
-        db.close();
-    }
-
-    @Override
-    public void updateEmail(String userId, String email) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(EMAIL, email);
-
-        db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
-        db.close();
-    }
-
-    @Override
-    public void updatePassword(String userId, String password) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(PASSWORD, password);
-
-        db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
-        db.close();
     }
 
     @Override

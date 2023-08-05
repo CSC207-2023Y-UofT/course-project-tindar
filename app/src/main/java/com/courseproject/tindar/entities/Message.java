@@ -2,16 +2,16 @@ package com.courseproject.tindar.entities;
 
 import java.sql.Timestamp;
 
- public   class Message {
+ public class Message implements MessageInterface{
     private String messageId;
     private String text;
-    private Timestamp timestamp;
+    private Timestamp creationTime;
     private String sentFromId;
     private String sentToId;
 
     protected Message(String text, Timestamp timestamp, String sentFromId, String sentToId){
         this.text = text; 
-        this.timestamp = timestamp; 
+        this.creationTime = timestamp;
         this.sentFromId = sentFromId; 
         this.sentToId = sentToId;
         this.messageId = sentFromId + sentToId + timestamp.toString(); 
@@ -27,8 +27,8 @@ import java.sql.Timestamp;
         return this.text;
     }
 
-    public Timestamp getTimestamp() {
-        return this.timestamp;
+    public Timestamp getCreationTime() {
+        return this.creationTime;
     }
 
     public String getSentFromId() {
@@ -40,6 +40,7 @@ import java.sql.Timestamp;
     }
 
     // Setter methods
+    /* 
     protected void setMessageId(String messageId) {
         this.messageId = messageId;
     }
@@ -59,5 +60,6 @@ import java.sql.Timestamp;
     protected void setSentTo(String sentTo) {
         this.sentToId = sentToId;
     }
+    */
 }
 

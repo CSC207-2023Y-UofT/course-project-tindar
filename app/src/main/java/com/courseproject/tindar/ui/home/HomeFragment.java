@@ -1,15 +1,20 @@
 package com.courseproject.tindar.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.courseproject.tindar.BlankNavActivity;
+import com.courseproject.tindar.MainActivity;
+import com.courseproject.tindar.R;
 import com.courseproject.tindar.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
@@ -24,8 +29,21 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView displayNameView = binding.displayName;
+        homeViewModel.getDisplayName().observe(getViewLifecycleOwner(), displayNameView::setText);
+
+        final TextView genderView = binding.gender;
+        homeViewModel.getGender().observe(getViewLifecycleOwner(), genderView::setText);
+
+        final TextView birthdayView = binding.birthday;
+        homeViewModel.getBirthday().observe(getViewLifecycleOwner(), birthdayView::setText);
+
+        final TextView locationView = binding.location;
+        homeViewModel.getLocation().observe(getViewLifecycleOwner(), locationView::setText);
+
+        final TextView aboutMeView = binding.aboutMe;
+        homeViewModel.getAboutMe().observe(getViewLifecycleOwner(), aboutMeView::setText);
+
         return root;
     }
 
