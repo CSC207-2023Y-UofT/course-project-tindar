@@ -40,6 +40,7 @@ public class DatabaseHelperTest {
 
     @After
     public void tearDown() {
+        dbHelper.deleteUserId();
         dbHelper.close();
     }
 
