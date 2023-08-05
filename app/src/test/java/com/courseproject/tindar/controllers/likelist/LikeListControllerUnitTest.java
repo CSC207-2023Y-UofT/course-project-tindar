@@ -31,6 +31,7 @@ public class LikeListControllerUnitTest {
 
         @Override
         public String[] getDisplayNamesForMatches(String userId) {
+            assertEquals(USER_ID_1, userId);
             return new String[]{};
         }
     }
@@ -49,5 +50,12 @@ public class LikeListControllerUnitTest {
         LikeListInputBoundary testLikeListUserInput = new MockLikeListUserInput();
         LikeListController testLikeListController = new LikeListController(testLikeListUserInput);
         testLikeListController.removeLike(USER_ID_1, USER_ID_2);
+    }
+
+    @Test
+    public void testGetDisplayNamesForMatches() {
+        LikeListInputBoundary testLikeListUserInput = new MockLikeListUserInput();
+        LikeListController testLikeListController = new LikeListController(testLikeListUserInput);
+        testLikeListController.getDisplayNamesForMatches(USER_ID_1);
     }
 }

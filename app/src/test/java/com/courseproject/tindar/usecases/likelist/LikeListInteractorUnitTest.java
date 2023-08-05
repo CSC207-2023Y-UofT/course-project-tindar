@@ -1,5 +1,6 @@
 package com.courseproject.tindar.usecases.likelist;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -12,59 +13,70 @@ public class LikeListInteractorUnitTest {
 
     private static final String USER_ID_1 = "1";
     private static final String USER_ID_2 = "2";
+    private static final String USER_DISPLAY_NAME_1 = "rogers";
+    private static final String USER_DISPLAY_NAME_2 = "bell";
+    private static final String[] MATCH = new String[]{USER_ID_1, USER_ID_2};
+    private static final LikeListDsResponseModel DISPLAY_NAME_1 = new LikeListDsResponseModel(USER_ID_1, USER_DISPLAY_NAME_1);
+    private static final LikeListDsResponseModel DISPLAY_NAME_2 = new LikeListDsResponseModel(USER_ID_2, USER_DISPLAY_NAME_2);
 
     private static class MockLikeListDsGateway implements LikeListDsGateway {
         /** Mock implementation of LikeListDsGateway for testing purposes **/
         boolean isLiked;
         ArrayList<String> matchList;
         ArrayList<String> likeList;
+        LikeListDsResponseModel displayName;
         public MockLikeListDsGateway(boolean isLiked, ArrayList<String> matchList,
-                                     ArrayList<String> likeList) {
+                                     ArrayList<String> likeList, LikeListDsResponseModel displayName) {
             this.isLiked = isLiked;
             this.matchList = matchList;
             this.likeList = likeList;
+            this.displayName = displayName;
         }
 
         @Override
-        public boolean checkLiked(String MOCK_USER_ID, String MOCK_OTHER_USER_ID) {
-            // Method to check if MOCK_USER_ID is liked by MOCK_OTHER_USER_ID
+        public boolean checkLiked(String userId, String otherUserId) {
+            // Method to check if userId is liked by otherUserId
             return isLiked;
         }
 
         @Override
-        public void addToMatched(String MOCK_USER_ID, String MOCK_OTHER_USER_ID) {
-            // Method to add MOCK_USER_ID and MOCK_OTHER_USER_ID to each others match lists
-            matchList.add(MOCK_USER_ID + " is matched " + MOCK_OTHER_USER_ID);
+        public void addToMatched(String userId, String otherUserId) {
+            // Method to add userId and otherUserId to each others match lists
+            matchList.add(userId + " is matched " + otherUserId);
         }
 
         @Override
-        public void addLike(String MOCK_USER_ID, String MOCK_OTHER_USER_ID) {
-            // Method to add MOCK_USER_ID as a 'like' to MOCK_OTHER_USER_ID profile
-            likeList.add(MOCK_USER_ID + " likes " + MOCK_OTHER_USER_ID);
+        public void addLike(String userId, String otherUserId) {
+            // Method to add userId as a 'like' to otherUserId profile
+            likeList.add(userId + " likes " + otherUserId);
         }
 
         @Override
-        public void removeLike(String MOCK_USER_ID, String MOCK_OTHER_USER_ID) {
-            // Method for MOCK_USER_ID to 'unlike' MOCK_OTHER_USER_ID
-            likeList.remove(MOCK_USER_ID + " likes " + MOCK_OTHER_USER_ID);
+        public void removeLike(String userId, String otherUserId) {
+            // Method for userId to 'unlike' otherUserId
+            likeList.remove(userId + " likes " + otherUserId);
         }
 
         @Override
-        public void removeFromMatched(String MOCK_USER_ID, String MOCK_OTHER_USER_ID) {
-            // Method that unmatches MOCK_USER_ID and MOCK_OTHER_USER_ID
-            matchList.remove(MOCK_USER_ID + " is matched " + MOCK_OTHER_USER_ID);
+        public void removeFromMatched(String userId, String otherUserId) {
+            // Method that unmatches userId and otherUserId
+            matchList.remove(userId + " is matched " + otherUserId);
         }
 
         @Override
         public ArrayList<String[]> readMatchList(String userId) {
-            return null;
+            ArrayList<String[]> matchList = new ArrayList<>();
+            matchList.add(MATCH);
+            return matchList;
         }
         // Method that reads match list from database
 
         @Override
         public ArrayList<LikeListDsResponseModel> readDisplayNames(ArrayList<String> userIds) {
             // Method that reads the display names of the userIds in the users match list
-            return null;
+            ArrayList<LikeListDsResponseModel> displayNameList = new ArrayList<>();
+            displayNameList.add(displayName);
+            return displayNameList;
         }
 
     }
@@ -75,7 +87,7 @@ public class LikeListInteractorUnitTest {
         ArrayList<String> matchList = new ArrayList<>();
         ArrayList<String> likeList = new ArrayList<>();
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(true, matchList,
-                likeList);
+                likeList, DISPLAY_NAME_1);
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
         likeListInteractor.addLike(USER_ID_1, USER_ID_2);
         assertEquals(USER_ID_1 + " likes " + USER_ID_2, likeList.get(0));
@@ -88,7 +100,7 @@ public class LikeListInteractorUnitTest {
         ArrayList<String> matchList = new ArrayList<>();
         ArrayList<String> likeList = new ArrayList<>();
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(true, matchList,
-                likeList);
+                likeList, DISPLAY_NAME_1);
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
         likeListInteractor.addLike(USER_ID_2, USER_ID_1);
         assertEquals(USER_ID_2 + " likes " + USER_ID_1, likeList.get(0));
@@ -101,7 +113,7 @@ public class LikeListInteractorUnitTest {
         ArrayList<String> matchList = new ArrayList<>();
         ArrayList<String> likeList = new ArrayList<>();
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(false, matchList,
-                likeList);
+                likeList, DISPLAY_NAME_1);
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
         likeListInteractor.addLike(USER_ID_1, USER_ID_2);
         assertEquals(USER_ID_1 + " likes " + USER_ID_2, likeList.get(0));
@@ -115,7 +127,7 @@ public class LikeListInteractorUnitTest {
         ArrayList<String> matchList = new ArrayList<>();
         ArrayList<String> likeList = new ArrayList<>();
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(true, matchList,
-                likeList);
+                likeList, DISPLAY_NAME_1);
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
         likeListInteractor.addLike(USER_ID_1, USER_ID_2);
         assertEquals(USER_ID_1 + " likes " + USER_ID_2, likeList.get(0));
@@ -132,7 +144,7 @@ public class LikeListInteractorUnitTest {
         ArrayList<String> matchList = new ArrayList<>();
         ArrayList<String> likeList = new ArrayList<>();
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(true, matchList,
-                likeList);
+                likeList, DISPLAY_NAME_1);
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
         likeListInteractor.addLike(USER_ID_2, USER_ID_1);
         assertEquals(USER_ID_2 + " likes " + USER_ID_1, likeList.get(0));
@@ -148,7 +160,7 @@ public class LikeListInteractorUnitTest {
         ArrayList<String> matchList = new ArrayList<>();
         ArrayList<String> likeList = new ArrayList<>();
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(false, matchList,
-                likeList);
+                likeList, DISPLAY_NAME_1);
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
         likeListInteractor.addLike(USER_ID_1, USER_ID_2);
         assertEquals(USER_ID_1 + " likes " + USER_ID_2, likeList.get(0));
@@ -159,16 +171,26 @@ public class LikeListInteractorUnitTest {
 
     @Test
     public void testGetDisplayNamesForMatches() {
+        // Tests tht getDisplayNamesForMatches returns display names in userId match list
         ArrayList<String> matchList = new ArrayList<>();
         ArrayList<String> likeList = new ArrayList<>();
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(true, matchList,
-                likeList);
+                likeList, DISPLAY_NAME_2);
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
-        likeListInteractor.addLike(USER_ID_1, USER_ID_2);
-        assertEquals(USER_ID_1 + " likes " + USER_ID_2, likeList.get(0));
-        assertEquals(USER_ID_1 + " is matched " + USER_ID_2, matchList.get(0));
-//        String[] displayName = likeListInteractor.getDisplayNamesForMatches(USER_ID_1);
-//        assertEquals(matchList.get(0), displayName[0]);
+        String[] displayNames = likeListInteractor.getDisplayNamesForMatches(USER_ID_1);
+        assertArrayEquals(new String[]{USER_DISPLAY_NAME_2}, displayNames);
+    }
+
+    @Test
+    public void testGetDisplayNamesForMatchesReversed() {
+        // Tests tht getDisplayNamesForMatches returns display names in otherUserId match list
+        ArrayList<String> matchList = new ArrayList<>();
+        ArrayList<String> likeList = new ArrayList<>();
+        LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(true, matchList,
+                likeList, DISPLAY_NAME_1);
+        LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
+        String[] displayNames = likeListInteractor.getDisplayNamesForMatches(USER_ID_2);
+        assertArrayEquals(new String[]{USER_DISPLAY_NAME_1}, displayNames);
     }
 }
 
