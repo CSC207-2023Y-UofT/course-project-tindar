@@ -11,38 +11,70 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.courseproject.tindar.BlankNavActivity;
-import com.courseproject.tindar.MainActivity;
+import com.courseproject.tindar.BlankNavViewModel;
 import com.courseproject.tindar.R;
+import com.courseproject.tindar.controllers.userlist.UserListController;
+import com.courseproject.tindar.controllers.viewprofiles.ViewProfilesController;
 import com.courseproject.tindar.databinding.FragmentHomeBinding;
-import com.courseproject.tindar.presenters.viewprofiles.ViewProfilesPresenter;
+import com.courseproject.tindar.ds.DatabaseHelper;
+import com.courseproject.tindar.usecases.userlist.UserListDsGateway;
+import com.courseproject.tindar.usecases.userlist.UserListInteractor;
+import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsGateway;
+import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsResponseModel;
+import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesInteractor;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
+    ViewProfilesDsGateway viewProfilesDatabaseHelper = DatabaseHelper.getInstance(getContext());
+    ViewProfilesInteractor viewProfilesInteractor = new ViewProfilesInteractor(viewProfilesDatabaseHelper);
+    ViewProfilesController viewProfilesController = new ViewProfilesController(viewProfilesInteractor);
+
+    UserListDsGateway userListDatabaseHelper = DatabaseHelper.getInstance(getContext());
+    UserListInteractor userListInteractor = new UserListInteractor(userListDatabaseHelper);
+    UserListController userListController = new UserListController(userListInteractor);
+
     private FragmentHomeBinding binding;
+    private ArrayList<String> allUserIds;
+    private String userId;
+
+//    DateFormat dateFormat = new SimpleDateFormat("mm-dd-yyyy");
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        BlankNavViewModel blankNavViewModel = new ViewModelProvider(requireActivity()).get(BlankNavViewModel.class);
+        blankNavViewModel.getUserId().observe(requireActivity(), it -> userId = it);
+
+        allUserIds = userListController.getAllUserIds();
+//        allUserIds.remove(Integer.valueOf(userId));
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        ViewProfilesPresenter viewProfilesPresenter = new ViewProfilesPresenter();
-
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView displayNameView = binding.displayName;
-        viewProfilesPresenter.getDisplayName().observe(getViewLifecycleOwner(), displayNameView::setText);
+        ViewProfilesDsResponseModel initialProfile = viewProfilesController.readNextProfile(allUserIds.get(0));
+        allUserIds.add(allUserIds.get(0));
+        allUserIds.remove(0);
 
-        final TextView genderView = binding.gender;
-        viewProfilesPresenter.getGender().observe(getViewLifecycleOwner(), genderView::setText);
+        final TextView displayNameView = (TextView) root.findViewById(R.id.displayName);
+        displayNameView.setText(initialProfile.getDisplayName());
 
-        final TextView birthdayView = binding.birthday;
-        viewProfilesPresenter.getBirthday().observe(getViewLifecycleOwner(), birthdayView::setText);
+        final TextView genderView = (TextView) root.findViewById(R.id.gender);
+        genderView.setText(initialProfile.getGender());
 
-        final TextView locationView = binding.location;
-        viewProfilesPresenter.getLocation().observe(getViewLifecycleOwner(), locationView::setText);
+        final TextView birthdayView = (TextView) root.findViewById(R.id.birthday);
+        birthdayView.setText("100");
 
-        final TextView aboutMeView = binding.aboutMe;
-        viewProfilesPresenter.getAboutMe().observe(getViewLifecycleOwner(), aboutMeView::setText);
+        final TextView locationView = (TextView) root.findViewById(R.id.location);
+        locationView.setText(initialProfile.getLocation());
+
+        final TextView aboutMeView = (TextView) root.findViewById(R.id.aboutMe);
+        aboutMeView.setText(initialProfile.getAboutMe());
 
         return root;
     }

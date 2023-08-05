@@ -21,25 +21,10 @@ import com.courseproject.tindar.databinding.ActivityBlankNavBinding;
 
 public class BlankNavActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
-    public FragmentCommunicator fragmentCommunicator;
-    public Button likeButton;
-    public Button dislikeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_home);
-
-        Button likeButton = (Button) findViewById(R.id.likeButton);
-        Button dislikeButton = (Button) findViewById(R.id.dislikeButton);
-
-        likeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentCommunicator.updateShownProfile();
-            }
-        });
 
         // retrieves user Id passed from other activity
         Intent intent = getIntent();

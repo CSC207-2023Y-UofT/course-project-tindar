@@ -99,7 +99,9 @@
         android:clickable="true"
         android:src="@android:drawable/ic_delete"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/likeButton" />
+        app:layout_constraintEnd_toStartOf="@+id/likeButton"
+        android:focusable="true"
+        android:contentDescription="@string/dislike_button" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/likeButton"
@@ -110,7 +112,9 @@
         android:clickable="true"
         android:src="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:focusable="true"
+        android:contentDescription="@string/like_button" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -120,6 +124,7 @@
         app:layout_constraintBottom_toTopOf="@+id/gender"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/profile_picture_link" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

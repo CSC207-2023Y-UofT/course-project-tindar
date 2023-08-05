@@ -3,20 +3,14 @@ package com.courseproject.tindar.presenters.viewprofiles;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
-
-import com.courseproject.tindar.FragmentCommunicator;
-import com.courseproject.tindar.ui.home.HomeViewModel;
 
 public class ViewProfilesPresenter extends ViewModel{
+
     private MutableLiveData<String> DisplayNameText;
     private MutableLiveData<String> GenderText;
     private MutableLiveData<String> BirthdayText;
     private MutableLiveData<String> LocationText;
     private MutableLiveData<String> AboutMeText;
-
-    public FragmentCommunicator fragmentCommunicator;
 
     public ViewProfilesPresenter() {
         DisplayNameText = new MutableLiveData<>();
