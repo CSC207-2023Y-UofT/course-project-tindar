@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SignupFragment">
+    tools:context=".SignupActivity">
 
     <TextView
         android:id="@+id/tindar"
@@ -20,7 +20,7 @@
         android:layout_marginTop="60dp"/>
 
     <TextView
-        android:id="@+id/subtitle"
+        android:id="@+id/text_view_subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/filler"

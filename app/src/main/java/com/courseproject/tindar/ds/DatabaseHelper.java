@@ -12,6 +12,7 @@ import com.courseproject.tindar.usecases.editfilters.EditFiltersDsGateway;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsGateway;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
+import com.courseproject.tindar.usecases.login.LoginDsGateway;
 import com.courseproject.tindar.usecases.likelist.LikeListDsGateway;
 import com.courseproject.tindar.usecases.likelist.LikeListDsResponseModel;
 
@@ -20,8 +21,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway,
-        LikeListDsGateway {
+public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway, LoginDsGateway, LikeListDsGateway {
     private static DatabaseHelper dbInstance;
 
     private static final String TABLE_ACCOUNTS = "accounts";
@@ -339,6 +339,38 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     }
 
     @Override
+    public String readUserId(String email, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT "
+                        + ID
+                        + " FROM " + TABLE_ACCOUNTS
+                        + " WHERE " + EMAIL + " =? AND " + PASSWORD + " =?",
+                new String[]{email, password});
+
+        if (cursor.getCount() == 0){
+            cursor.close();
+            return null;
+        }
+
+        cursor.moveToFirst();
+        String userId = cursor.getString(0);
+        cursor.close();
+
+        return userId;
+    }
+
+    public void deleteAllAccounts() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + TABLE_ACCOUNTS);
+    }
+
+    public void deleteAllDbRecords(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + TABLE_ACCOUNTS);
+        db.execSQL("delete from " + TABLE_LIKES);
+        db.execSQL("delete from " + TABLE_MATCHES);
+    }
+
     public boolean checkLiked(String userId, String otherUserId) {
         // Check check if either userId or other have liked each other
         SQLiteDatabase db = this.getReadableDatabase();

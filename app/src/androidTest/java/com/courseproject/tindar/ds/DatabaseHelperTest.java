@@ -2,10 +2,12 @@ package com.courseproject.tindar.ds;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -54,6 +56,7 @@ public class DatabaseHelperTest {
 
     @After
     public void tearDown() {
+        dbHelper.deleteAllAccounts();
         dbHelper.close();
     }
 
@@ -152,6 +155,23 @@ public class DatabaseHelperTest {
         assertEquals(31, testFilters.getPreferredAgeMaximum()) ;
     }
 
+    @Test
+    public void testReadUserId(){
+        String userIdRead = dbHelper.readUserId("bell@exampleemail.com", "somepassword");
+        assertEquals(userId, userIdRead);
+    }
+
+    @Test
+    public void testReadUserIdWhenPasswordWrong(){
+        String userIdRead = dbHelper.readUserId("bell@exampleemail.com", "somassword");
+        assertNull(userIdRead);
+    }
+
+    @Test
+    public void testReadUserIdWhenEmailWrong(){
+        String userIdRead = dbHelper.readUserId("bel@exampleemail.com", "somepassword");
+        assertNull(userIdRead);
+    }
     @Test
     public void testAddLikeAndCheckLiked(){
         // Test userId "likes" otherUseId, and are added to likeList
