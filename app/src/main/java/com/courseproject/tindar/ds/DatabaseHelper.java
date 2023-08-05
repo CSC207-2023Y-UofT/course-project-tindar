@@ -15,14 +15,18 @@ import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
 import com.courseproject.tindar.usecases.login.LoginDsGateway;
 import com.courseproject.tindar.usecases.likelist.LikeListDsGateway;
 import com.courseproject.tindar.usecases.likelist.LikeListDsResponseModel;
+import com.courseproject.tindar.usecases.signup.SignUpDsGateway;
+import com.courseproject.tindar.usecases.signup.SignUpDsRequestModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway, LoginDsGateway, LikeListDsGateway {
+public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway,
+        LoginDsGateway, LikeListDsGateway, SignUpDsGateway {
     private static DatabaseHelper dbInstance;
+    private static DatabaseHelper testDbInstance;
 
     private static final String TABLE_ACCOUNTS = "accounts";
     private static final String TABLE_LIKES = "likes";
@@ -52,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     private static final String CREATE_TABLE_ACCOUNTS_QUERY = "CREATE TABLE " + TABLE_ACCOUNTS + " ("
             + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + IS_ACTIVE_STATUS + " NUMBER(1) NOT NULL, "
-            + EMAIL + " VARCHAR(30) NOT NULL, "
+            + EMAIL + " VARCHAR(30) NOT NULL UNIQUE, "
             + PASSWORD + " VARCHAR(30) NOT NULL, "
             + DISPLAY_NAME + " VARCHAR(30), "
             + FIRST_NAME + " VARCHAR(30), "
@@ -84,7 +88,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
             + "UNIQUE(" + USER_ID_1 + ", " + USER_ID_2 + "));";
 
     /**
-     * Returns DatabaseHelper instance. If the instance already exists it returns exiting instance, if not, it creates
+     * returns DatabaseHelper instance. If the instance already exists it returns exiting instance, if not, it creates
      * a instance and returns it. This insures there is only one instance of DatabaseHelper for the application.
      *
      * @param context an activity's context
@@ -96,6 +100,22 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
             dbInstance = new DatabaseHelper(context.getApplicationContext());
         }
         return dbInstance;
+    }
+
+    /**
+     * returns test DatabaseHelper instance. If the instance already exists it returns exiting instance, if not, it
+     * creates a instance and returns it. This insures there is only one instance of test DatabaseHelper for the
+     * application.
+     *
+     * @param context an activity's context
+     * @return an instance of the test DatabaseHelper
+     **/
+    public static synchronized DatabaseHelper getTestInstance(Context context) {
+        if (testDbInstance == null) {
+            // Use the application context
+            testDbInstance = new DatabaseHelper(context.getApplicationContext());
+        }
+        return testDbInstance;
     }
 
     // access modifier is private so DatabaseHelper doesn't get directly instantiated. The instantiation of
@@ -157,8 +177,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     }
 
     private String addAccount(boolean isActiveStatus, String email, String password, String displayName,
-                              String firstName,
-                              String lastName, java.util.Date birthdate, String gender, String location,
+                              String firstName, String lastName, java.util.Date birthdate, String gender, String location,
                               String profilePictureLink, String aboutMe, String preferredGenders,
                               String preferredLocations, int preferredAgeMinimum,
                               int preferredAgeMaximum, SQLiteDatabase db) {
@@ -170,7 +189,9 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         cv.put(DISPLAY_NAME, displayName);
         cv.put(FIRST_NAME, firstName);
         cv.put(LAST_NAME, lastName);
-        cv.put(BIRTHDATE, new java.sql.Date(birthdate.getTime()).getTime());
+        if (birthdate != null) {
+            cv.put(BIRTHDATE, new java.sql.Date(birthdate.getTime()).getTime());
+        }
         cv.put(GENDER, gender);
         cv.put(LOCATION, location);
         cv.put(PROFILE_PICTURE_LINK, profilePictureLink);
@@ -194,6 +215,28 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return addAccount(isActiveStatus, email, password, displayName, firstName, lastName, birthdate, gender, location,
                 profilePictureLink, aboutMe, preferredGenders, preferredLocations, preferredAgeMinimum,
                 preferredAgeMaximum, db);
+    }
+
+    @Override
+    public String addAccount(SignUpDsRequestModel signUpDsRequestModel) {
+        return addAccount(true, signUpDsRequestModel.getEmail(), signUpDsRequestModel.getPassword(),
+                signUpDsRequestModel.getDisplayName(), "", "", null, "", "",
+                "", "", "", "", 19, 999);
+    }
+
+    @Override
+    public boolean checkIfEmailAlreadyUsed(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT "
+                        + EMAIL
+                        + " FROM " + TABLE_ACCOUNTS
+                        + " WHERE " + EMAIL + " =?",
+                new String[]{email});
+
+        boolean isEmailAlreadyUsed = cursor.getCount() > 0;
+
+        cursor.close();
+        return isEmailAlreadyUsed;
     }
 
     @Override
@@ -359,11 +402,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return userId;
     }
 
-    public void deleteAllAccounts() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from " + TABLE_ACCOUNTS);
-    }
-
     public void deleteAllDbRecords(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from " + TABLE_ACCOUNTS);
@@ -512,7 +550,5 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         cursor.close();
         return displayNamesResponse;
     }
-
-
 }
 
