@@ -40,6 +40,9 @@ public class DatabaseHelperTest {
         // Fake users for testing purposes
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         dbHelper = DatabaseHelper.getTestInstance(appContext);
+
+        dbHelper.deleteAllDbRecords();
+
         userId = dbHelper.addAccount(true, "bell@exampleemail.com", "somepassword", "bell",
                 "Bell", "Robin", new GregorianCalendar(2003, 9, 5).getTime(),
                 "Female", "Calgary", "https://ccc", "I would like to",
@@ -57,7 +60,6 @@ public class DatabaseHelperTest {
 
     @After
     public void tearDown() {
-        dbHelper.deleteAllDbRecords();
         dbHelper.close();
     }
 
