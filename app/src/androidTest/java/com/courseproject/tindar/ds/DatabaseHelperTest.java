@@ -164,7 +164,7 @@ public class DatabaseHelperTest {
     public void readUserIdWhenEmailWrong(){
         String userIdRead = dbHelper.readUserId("bel@exampleemail.com", "somepassword");
         assertNull(userIdRead);
-
+    }
     @Test
     public void testAddLikeAndCheckLiked(){
         dbHelper.addLike(userId, otherUserId);
