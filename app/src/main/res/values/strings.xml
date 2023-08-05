@@ -50,7 +50,7 @@
         <item>Toronto</item>
         <item>Vancouver</item>
     </string-array>
-<<<<<<< HEAD
+
     <string name="title_activity_blank_nav">blankNav</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -59,19 +59,20 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_placeholder">Placeholder</string>
-<<<<<<< HEAD
+
     <string name="menu_match_list">Matches</string>
     <string name="menu_my_profile">My Profile</string>
     <string name="menu_filters">Filters</string>
-</resources>
-=======
+
+    <string name="menu_Conversations">Conversations</string>
+
     <string name="menu_matchlist">Matches</string>
     <string name="menu_settings">Settings</string>
-</resources>
-=======
+
+
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>
->>>>>>> 35f82caeb10aad4d5723551e7aad0c537a2d3903
->>>>>>> 8feceaf7b18a3532826182f6525cefa5d232db44
+

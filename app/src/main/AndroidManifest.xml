@@ -12,26 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tindar"
         tools:targetApi="31">
-        <activity
-<<<<<<< HEAD
-            android:name=".ChatActivity"
-=======
-<<<<<<< HEAD
-            android:name=".ui.editfilters.EditFiltersActivity"
->>>>>>> 8feceaf7b18a3532826182f6525cefa5d232db44
-            android:exported="false" />
+
         <activity
             android:name=".BlankNavActivity"
             android:exported="false"
             android:label="@string/title_activity_blank_nav"
             android:theme="@style/Theme.Tindar.NoActionBar" />
-=======
-            android:name=".FullscreenActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="false"
-            android:label="@string/title_activity_fullscreen"
-            android:theme="@style/Theme.Tindar.Fullscreen" />
->>>>>>> 35f82caeb10aad4d5723551e7aad0c537a2d3903
+
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

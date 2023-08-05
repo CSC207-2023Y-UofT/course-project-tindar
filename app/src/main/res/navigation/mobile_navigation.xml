@@ -29,4 +29,10 @@
         android:label="@string/menu_filters"
         tools:layout="@layout/fragment_edit_filters" />
 
+    <fragment
+        android:id="@+id/nav_conversation"
+        android:name="com.courseproject.tindar.ui.chats.ConvoFragment"
+        android:label="@string/menu_Conversations"
+        tools:layout="@layout/fragment_chat_list" />
+
 </navigation>
