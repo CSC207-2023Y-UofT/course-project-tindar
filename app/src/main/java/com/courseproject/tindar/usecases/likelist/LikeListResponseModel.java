@@ -8,7 +8,7 @@ public class LikeListResponseModel {
         this.userIds = userIds;
         this.displayNames = displayNames;
     }
-
+    // Two simple getter functions
     public String[] getUserIds() {
         return userIds;
     }

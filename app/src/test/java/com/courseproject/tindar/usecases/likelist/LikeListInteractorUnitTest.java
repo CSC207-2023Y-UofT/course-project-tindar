@@ -65,11 +65,11 @@ public class LikeListInteractorUnitTest {
 
         @Override
         public ArrayList<String[]> readMatchList(String userId) {
+            // Fake match list for testing purposes
             ArrayList<String[]> matchList = new ArrayList<>();
             matchList.add(MATCH);
             return matchList;
         }
-        // Method that reads match list from database
 
         @Override
         public ArrayList<LikeListDsResponseModel> readDisplayNames(ArrayList<String> userIds) {

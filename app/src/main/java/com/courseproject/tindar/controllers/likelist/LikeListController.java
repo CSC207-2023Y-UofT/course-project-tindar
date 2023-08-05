@@ -4,7 +4,7 @@ import com.courseproject.tindar.usecases.likelist.LikeListInputBoundary;
 import com.courseproject.tindar.usecases.likelist.LikeListResponseModel;
 
 public class LikeListController {
-/** This controller class accepts user input and connects it to back end likeList functions **/
+/** This controller class accepts user input and connects it to back-end likeList functions **/
     final LikeListInputBoundary userInput;
 
     public LikeListController(LikeListInputBoundary likeListUserInput){

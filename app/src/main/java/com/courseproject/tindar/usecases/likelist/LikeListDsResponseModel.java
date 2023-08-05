@@ -1,8 +1,8 @@
 package com.courseproject.tindar.usecases.likelist;
 
 public class LikeListDsResponseModel {
-    /** This class provides a response gateway form the database when called to return userId and
-     * match list display name information **/
+    /** This class provides a response gateway from the database, when called, to return userId and
+     * match list display name and userId information **/
 
     private final String userId;
     private final String displayName;
@@ -11,6 +11,7 @@ public class LikeListDsResponseModel {
         this.userId = userId;
         this.displayName = displayName;
     }
+    // simple getter functions
     public String getUserId() { return userId; }
     public String getDisplayName() {
         return displayName;

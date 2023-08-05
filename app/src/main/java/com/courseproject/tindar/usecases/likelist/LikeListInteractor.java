@@ -37,9 +37,9 @@ public class LikeListInteractor implements LikeListInputBoundary {
         likeListDsGateway.removeLike(userId, otherUserId);
         likeListDsGateway.removeFromMatched(userId, otherUserId);
 
-        // to satisfy removeFromMatched precondition: userId < otherUserId. This is needed because
-        // matches table does not have duplicate records of (userId, otherUserId) and (otherUserId, userId) in the database
-        // and want to make sure we delete the record with correct order the database would have
+        // to satisfy removeFromMatched precondition: userId < otherUserId. This is needed because the
+        // match table does not have duplicate records of (userId, otherUserId) and (otherUserId, userId) in the database
+        // and need to make sure we delete the record with correct order the database would have
         if (Integer.parseInt(userId) < Integer.parseInt(otherUserId)) {
             likeListDsGateway.removeFromMatched(userId, otherUserId);
         } else {
@@ -49,7 +49,7 @@ public class LikeListInteractor implements LikeListInputBoundary {
 
     @Override
     public LikeListResponseModel getDisplayNamesForMatches(String userId) {
-        // This method returns the display names if the users in the match list for display purposes
+        // This method returns the display names if the users in the match list for front end purposes
         ArrayList<String[]> arrayListMatches = likeListDsGateway.readMatchList(userId);
         ArrayList<String> matches = new ArrayList<>();
         for (String[] arrayListMatch : arrayListMatches) {

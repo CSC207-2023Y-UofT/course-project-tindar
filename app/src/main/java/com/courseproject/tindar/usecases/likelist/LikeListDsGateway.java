@@ -13,7 +13,7 @@ public interface LikeListDsGateway {
      * check if user with userId likes user with otherUserId
      *
      * @param userId id of user who we are trying to check if he/she likes other user
-     * @param otherUserId
+     * @param otherUserId userId of user receiving a "like"
      * @return true if user likes other user; false otherwise.
      */
     boolean checkLiked(String userId, String otherUserId);
