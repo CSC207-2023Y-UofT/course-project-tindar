@@ -30,12 +30,6 @@ public class LikeListInteractor implements LikeListInputBoundary {
             }
         }
     }
-
-    /**
-     * removes otherUserId from userId like list and unmatches them if they are currently matched
-     * @param userId
-     * @param otherUserId
-     */
     @Override
     public void removeLike(String userId, String otherUserId){
         // This method removes otherUserId from userId like list and unmatches them if they are
