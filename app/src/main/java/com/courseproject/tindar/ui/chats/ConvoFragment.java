@@ -75,10 +75,10 @@ public class ConvoFragment extends Fragment {
 
         // Create the adapter and set it to the RecyclerView
         ConvoListRecyclerViewAdapter adapter = new ConvoListRecyclerViewAdapter(convoList);
-        recyclerView.setAdapter(adapter);
+        //recyclerView.setAdapter(adapter);
 
         // Set the RecyclerView layout manager
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return view;
     }

@@ -55,8 +55,8 @@ public class ConvoListRecyclerViewAdapter extends RecyclerView.Adapter<ConvoList
             mLastTextView = binding.lastMessageText;
             mTimeView = binding.lastMessageTimeText;
         }
-        @Override
-        public String toString() {
+    @Override
+    public String toString() {
             return super.toString() + " '" + mLastTextView.getText() + "'";
         }
 
