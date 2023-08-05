@@ -1,6 +1,7 @@
 package com.courseproject.tindar.controllers.likelist;
 
 import com.courseproject.tindar.usecases.likelist.LikeListInputBoundary;
+import com.courseproject.tindar.usecases.likelist.LikeListResponseModel;
 
 public class LikeListController {
 /** This controller class accepts user input and connects it to back end likeList functions **/
@@ -18,7 +19,7 @@ public class LikeListController {
         // User input of userId unliking otherUserId
         this.userInput.removeLike(userId, otherUserId);
     }
-    public String[] getDisplayNamesForMatches(String userId){
+    public LikeListResponseModel getDisplayNamesForMatches(String userId){
         // Return display names of userId match list
         return this.userInput.getDisplayNamesForMatches(userId);
     }

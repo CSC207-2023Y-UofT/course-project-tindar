@@ -54,7 +54,7 @@ public class LikeListInteractor implements LikeListInputBoundary {
     }
 
     @Override
-    public String[] getDisplayNamesForMatches(String userId) {
+    public LikeListResponseModel getDisplayNamesForMatches(String userId) {
         // This method returns the display names if the users in the match list for display purposes
         ArrayList<String[]> arrayListMatches = likeListDsGateway.readMatchList(userId);
         ArrayList<String> matches = new ArrayList<>();
@@ -66,15 +66,17 @@ public class LikeListInteractor implements LikeListInputBoundary {
             }
         }
 
-        ArrayList<LikeListDsResponseModel> displayNameList = likeListDsGateway.readDisplayNames(matches);
+        ArrayList<LikeListDsResponseModel> matchedUsers = likeListDsGateway.readDisplayNames(matches);
 
-        int numberOfMatches = displayNameList.size();
+        int numberOfMatches = matchedUsers.size();
         String[] displayNames = new String[numberOfMatches];
+        String[] userIds = new String[numberOfMatches];
         for (int i = 0; i < numberOfMatches; i++) {
-            displayNames[i] = displayNameList.get(i).getDisplayName();
+            displayNames[i] = matchedUsers.get(i).getDisplayName();
+            userIds[i] = matchedUsers.get(i).getUserId();
         }
 
-        return displayNames;
+        return new LikeListResponseModel(userIds, displayNames);
     }
 }
 

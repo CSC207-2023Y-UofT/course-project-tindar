@@ -177,8 +177,9 @@ public class LikeListInteractorUnitTest {
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(true, matchList,
                 likeList, DISPLAY_NAME_2);
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
-        String[] displayNames = likeListInteractor.getDisplayNamesForMatches(USER_ID_1);
-        assertArrayEquals(new String[]{USER_DISPLAY_NAME_2}, displayNames);
+        LikeListResponseModel matchedUsers = likeListInteractor.getDisplayNamesForMatches(USER_ID_1);
+        assertArrayEquals(new String[]{USER_DISPLAY_NAME_2}, matchedUsers.getDisplayNames());
+        assertArrayEquals(new String[]{USER_ID_2}, matchedUsers.getUserIds());
     }
 
     @Test
@@ -189,8 +190,9 @@ public class LikeListInteractorUnitTest {
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(true, matchList,
                 likeList, DISPLAY_NAME_1);
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
-        String[] displayNames = likeListInteractor.getDisplayNamesForMatches(USER_ID_2);
-        assertArrayEquals(new String[]{USER_DISPLAY_NAME_1}, displayNames);
+        LikeListResponseModel matchedUsers = likeListInteractor.getDisplayNamesForMatches(USER_ID_2);
+        assertArrayEquals(new String[]{USER_DISPLAY_NAME_1}, matchedUsers.getDisplayNames());
+        assertArrayEquals(new String[]{USER_ID_1}, matchedUsers.getUserIds());
     }
 }
 

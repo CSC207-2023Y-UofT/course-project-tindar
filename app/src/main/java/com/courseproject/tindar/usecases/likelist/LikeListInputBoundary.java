@@ -12,6 +12,7 @@ public interface LikeListInputBoundary {
 
     void removeLike(String userId, String otherUserId);
 
-    String[] getDisplayNamesForMatches(String userId);
+    LikeListResponseModel getDisplayNamesForMatches(String userId);
+
 }
 

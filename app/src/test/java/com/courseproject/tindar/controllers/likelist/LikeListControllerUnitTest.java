@@ -1,6 +1,7 @@
 package com.courseproject.tindar.controllers.likelist;
 
 import com.courseproject.tindar.usecases.likelist.LikeListInputBoundary;
+import com.courseproject.tindar.usecases.likelist.LikeListResponseModel;
 
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -30,9 +31,9 @@ public class LikeListControllerUnitTest {
         }
 
         @Override
-        public String[] getDisplayNamesForMatches(String userId) {
+        public LikeListResponseModel getDisplayNamesForMatches(String userId) {
             assertEquals(USER_ID_1, userId);
-            return new String[]{};
+            return new LikeListResponseModel(new String[]{}, new String[]{});
         }
     }
 
