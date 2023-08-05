@@ -9,12 +9,12 @@ public class LoginInteractorUnitTest {
     /** This class tests the implementation and return values of LoginInteractor **/
     private static final String email = "bell@exampleemail.com";
     private static final String password = "somepassword";
-    private static final String UserId = "1";
+    private static final String userId = "1";
 
     private static class MockLoginDsGateway implements LoginDsGateway {
         private static final String email = "bell@exampleemail.com";
         private static final String password = "somepassword";
-        private static final String UserId = "1";
+        private static final String userId = "1";
 
         public MockLoginDsGateway(){}
 
@@ -24,7 +24,7 @@ public class LoginInteractorUnitTest {
             boolean passwordEqual = (password.equals(this.password));
 
             if (emailEqual && passwordEqual){
-                return this.UserId;
+                return this.userId;
             } else {
                 return null;
             }
@@ -45,7 +45,7 @@ public class LoginInteractorUnitTest {
 
     @Test
     public void getExistingUserId(){
-        assertEquals(this.UserId, loginInteractor.getUserId(this.email, this.password));
+        assertEquals(this.userId, loginInteractor.getUserId(this.email, this.password));
     }
 
     @Test

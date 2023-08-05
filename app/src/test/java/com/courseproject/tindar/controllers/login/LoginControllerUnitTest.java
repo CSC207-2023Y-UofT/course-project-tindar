@@ -10,6 +10,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import com.courseproject.tindar.ds.DatabaseHelper;
 import com.courseproject.tindar.usecases.login.LoginDsGateway;
 import com.courseproject.tindar.usecases.login.LoginInteractor;
+import com.courseproject.tindar.usecases.login.LoginInteractorUnitTest;
 
 import org.junit.After;
 import org.junit.Test;
@@ -23,29 +24,31 @@ public class LoginControllerUnitTest {
     public static final String email = "bell@exampleemail.com";
     public static final String password = "somepassword";
 
-    private DatabaseHelper dbHelper;
-    private String userId;
-    private LoginDsGateway loginDatabaseHelper;
-    private LoginInteractor loginInteractor;
-    private LoginController loginController;
+    public static final String userId = "1";
 
-    public void setUp() {
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        dbHelper = DatabaseHelper.getInstance(appContext);
-        userId = dbHelper.addAccount(true, "bell@exampleemail.com", "somepassword", "bell",
-                "Bell", "Robin", new GregorianCalendar(2003, 9, 5).getTime(),
-                "Female", "Calgary", "https://ccc", "I would like to",
-                "Female, Male", "Calgary, Vancouver", 19, 999);
-        loginDatabaseHelper = DatabaseHelper.getInstance(appContext);
-        loginInteractor = new LoginInteractor(loginDatabaseHelper);
-        loginController = new LoginController(loginInteractor);
+    private static class MockLoginDsGateway implements LoginDsGateway {
+        private static final String email = "bell@exampleemail.com";
+        private static final String password = "somepassword";
+        private static final String userId = "1";
+
+        public MockLoginDsGateway(){}
+
+        @Override
+        public String readUserId(String email, String password) {
+            boolean emailEqual = (email.equals(this.email));
+            boolean passwordEqual = (password.equals(this.password));
+
+            if (emailEqual && passwordEqual){
+                return this.userId;
+            } else {
+                return null;
+            }
+        }
     }
 
-    @After
-    public void tearDown() {
-        dbHelper.close();
-    }
-
+    MockLoginDsGateway mockLoginDsGateway = new MockLoginDsGateway();
+    LoginInteractor loginInteractor = new LoginInteractor(mockLoginDsGateway);
+    LoginController loginController = new LoginController(loginInteractor);
 
     @Test
     public void checkCorrectUserPassword(){
@@ -54,7 +57,7 @@ public class LoginControllerUnitTest {
 
     @Test
     public void checkIncorrectUserPassword(){
-        assertEquals(true, loginController.checkUserPassword(email, "password"));
+        assertEquals(false, loginController.checkUserPassword(email, "password"));
     }
 
     @Test
