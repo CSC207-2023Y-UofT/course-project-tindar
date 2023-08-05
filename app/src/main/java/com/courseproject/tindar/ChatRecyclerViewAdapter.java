@@ -123,12 +123,12 @@ public class ChatRecyclerViewAdapter
         // grabs views from row layout file and assigns them to variables
 
         /** Contains the outer shell for the layout for a given message */
-        RelativeLayout messageLayout;
+        private RelativeLayout messageLayout;
         /**
          * Contains the text portion of the layout for a given message.
          * May be refactored later for better non-text support.
          */
-        TextView messageContentLayout;
+        private TextView messageContentLayout;
 
         /**
          * TindarMessageViewHolder constructor.
