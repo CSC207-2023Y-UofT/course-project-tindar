@@ -44,37 +44,37 @@ public class ChatActivity extends AppCompatActivity {
      */
 
     /** userID of current user. Needed to generate message models with the proper info. */
-    String userID;
+    private String userID;
     /**
      * userID of current user's conversation partner.
      * Needed to generate message models with the proper info.
      */
-    String otherUserID;
+    private String otherUserID;
     /**
      * Display name of current user's conversation partner.
      * Needed to display the proper info onscreen so that users know who they're chatting with.
      */
-    String conversationPartnerDisplayName;
+    private String conversationPartnerDisplayName;
 
     /** Displays name of current user's conversation partner. */
-    TextView conversationPartnerDisplayNameDisplay;
+    private TextView conversationPartnerDisplayNameDisplay;
     /** List of messages that are already loaded and ready to be displayed by RecyclerView. */
-    ArrayList<MessageModel> loadedMessages;
+    private ArrayList<MessageModel> loadedMessages;
 
     /** Where the user types their messages. */
-    EditText chatInput;
+    private EditText chatInput;
     /** The user presses this button to send their typed message in chatInput */
-    ImageButton sendMessageButton;
+    private ImageButton sendMessageButton;
     /**
      * Navigation button. Current intention is for this button to take the user to their list of
      * conversations. In future, should take them to wherever they were prior to opening this chat.
      */
-    ImageButton backButton;
+    private ImageButton backButton;
 
     /** Displays messages. */
-    RecyclerView chatRecyclerView;
+    private RecyclerView chatRecyclerView;
     /** Still not sure what this does. I think this manages chatRecyclerView. */
-    ChatRecyclerViewAdapter adapter;
+    private ChatRecyclerViewAdapter adapter;
 
     /**
      * I think this runs when a new ChatActivity object is made.
@@ -98,7 +98,7 @@ public class ChatActivity extends AppCompatActivity {
         this.conversationPartnerDisplayNameDisplay
                 = findViewById(R.id.conversation_partner_display_name);
         this.chatInput = findViewById(R.id.new_chat_input);
-        this.sendMessageButton = findViewById(R.id.send_message_button);
+        this.sendMessageButton = findViewById(R.id.button_send_message);
         this.backButton = findViewById(R.id.back_button);
 
         // getting the screen to display the correct name for the conversation partner
@@ -126,8 +126,6 @@ public class ChatActivity extends AppCompatActivity {
      * Called by OnCreate. Should also be called whenever the user wants to load more messages.
      *
      * Currently implemented with hardcoded tests; will be reimplemented with the database.
-     *
-     * @return void
      */
     private void loadMessages(){
         TindarMessage testMessage1 = new TindarMessage("first message sent", new Timestamp(2023, 02, 25, 18, 0, 0, 0),"user1", "user2");

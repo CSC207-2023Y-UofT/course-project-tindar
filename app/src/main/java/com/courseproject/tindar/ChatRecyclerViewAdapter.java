@@ -85,6 +85,7 @@ public class ChatRecyclerViewAdapter
      * @param holder   The ViewHolder which should be updated to represent the contents of the
      *                 item at the given position in the data set.
      * @param position The position of the item within the adapter's data set.
+     *                 In this case, the position of the MessageModel in _displayedMessages
      */
     @Override
     public void onBindViewHolder(@NonNull TindarMessageViewHolder holder, int position) {
@@ -122,12 +123,12 @@ public class ChatRecyclerViewAdapter
         // grabs views from row layout file and assigns them to variables
 
         /** Contains the outer shell for the layout for a given message */
-        RelativeLayout messageLayout;
+        private RelativeLayout messageLayout;
         /**
          * Contains the text portion of the layout for a given message.
          * May be refactored later for better non-text support.
          */
-        TextView messageContentLayout;
+        private TextView messageContentLayout;
 
         /**
          * TindarMessageViewHolder constructor.
@@ -137,7 +138,7 @@ public class ChatRecyclerViewAdapter
         public TindarMessageViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            this.messageLayout = itemView.findViewById(R.id.message_layout);
+            this.messageLayout = itemView.findViewById(R.id.layout_message);
             this.messageContentLayout = itemView.findViewById(R.id.message_content_layout);
         }
     }
