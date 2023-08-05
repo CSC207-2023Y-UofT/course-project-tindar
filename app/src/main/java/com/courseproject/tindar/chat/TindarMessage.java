@@ -2,6 +2,9 @@ package com.courseproject.tindar.chat;
 
 import java.sql.Timestamp;
 
+/**
+ * Currently models Tindar text messages. Implements MessageModel.
+ */
  public class TindarMessage implements MessageModel {
     private String messageId;
     private String text;

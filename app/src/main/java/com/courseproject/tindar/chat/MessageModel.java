@@ -3,9 +3,8 @@ package com.courseproject.tindar.chat;
 import java.sql.Timestamp;
 
 /**
- * Why does this exist? 
+ * Interface for message models containing the info that get passed to our Views
  */
-
 public interface MessageModel {
     
     // Getter methods 
