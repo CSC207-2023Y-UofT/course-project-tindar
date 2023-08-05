@@ -1,7 +1,10 @@
 package com.courseproject.tindar.ds;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 import android.util.Log;
@@ -27,6 +30,7 @@ public class DatabaseHelperTest {
 
     private DatabaseHelper dbHelper;
     private String userId;
+    private String otherUserId;
 
     @Before
     public void setUp() {
@@ -36,6 +40,11 @@ public class DatabaseHelperTest {
                 "Bell", "Robin", new GregorianCalendar(2003, 9, 5).getTime(),
                 "Female", "Calgary", "https://ccc", "I would like to",
                 "Female, Male", "Calgary, Vancouver", 19, 999);
+        otherUserId = dbHelper.addAccount(true, "rogers@exampleemail.com", "someotherpassword", "roger",
+                "roger", "fido", new GregorianCalendar(2003, 12, 3).getTime(),
+                "Female", "Calgary", "https://ccc", "I would like to",
+                "Female, Male", "Calgary, Vancouver", 19, 999);
+        dbHelper.addLike(otherUserId, userId);
     }
 
     @After
@@ -155,5 +164,77 @@ public class DatabaseHelperTest {
     public void readUserIdWhenEmailWrong(){
         String userIdRead = dbHelper.readUserId("bel@exampleemail.com", "somepassword");
         assertNull(userIdRead);
+
+    @Test
+    public void testAddLikeAndCheckLiked(){
+        dbHelper.addLike(userId, otherUserId);
+        assertTrue(dbHelper.checkLiked(userId, otherUserId));
+    }
+
+    @Test
+    public void testRemoveLikeAndCheckLikedWhenRecordExist() {
+        assertTrue(dbHelper.checkLiked(otherUserId, userId));
+        dbHelper.removeLike(otherUserId, userId);
+        assertFalse(dbHelper.checkLiked(otherUserId, userId));
+    }
+
+    @Test
+    public void testRemoveLikeAndCheckLikedWhenRecordNotExist() {
+        assertFalse(dbHelper.checkLiked(userId, otherUserId));
+        dbHelper.removeLike(userId, otherUserId);
+        assertFalse(dbHelper.checkLiked(userId, otherUserId));
+    }
+
+    @Test
+    public void testTwoAddLikeDoesNotProduceDuplicateRecord() {
+        dbHelper.addLike(userId, otherUserId);
+        assertTrue(dbHelper.checkLiked(userId, otherUserId));
+        dbHelper.addLike(userId, otherUserId);
+        assertTrue(dbHelper.checkLiked(userId, otherUserId));
+        dbHelper.removeLike(userId, otherUserId);
+        assertFalse(dbHelper.checkLiked(userId, otherUserId));
+    }
+
+    @Test
+    public void testAddToMatchedAndReadMatchList() {
+        dbHelper.addToMatched(userId, otherUserId);
+        ArrayList<String[]> matchList = dbHelper.readMatchList(userId);
+        assertArrayEquals(new String[]{userId, otherUserId}, matchList.get(0));
+        assertEquals(1, matchList.size());
+        ArrayList<String[]> otherMatchList = dbHelper.readMatchList(otherUserId);
+        assertArrayEquals(new String[]{userId, otherUserId}, otherMatchList.get(0));
+        assertEquals(1, otherMatchList.size());
+    }
+
+    @Test
+    public void testRemoveFromMatchedWhenRecordExist() {
+        dbHelper.addToMatched(userId, otherUserId);
+        ArrayList<String[]> matchList = dbHelper.readMatchList(userId);
+        assertArrayEquals(new String[]{userId, otherUserId}, matchList.get(0));
+        assertEquals(1, matchList.size());
+        dbHelper.removeFromMatched(userId, otherUserId);
+        ArrayList<String[]> matchListAfterRemove = dbHelper.readMatchList(userId);
+        assertTrue(matchListAfterRemove.isEmpty());
+    }
+
+    @Test
+    public void testRemoveFromMatchedWhenRecordNotExist() {
+        ArrayList<String[]> matchList = dbHelper.readMatchList(userId);
+        assertTrue(matchList.isEmpty());
+        dbHelper.removeFromMatched(userId, otherUserId);
+        ArrayList<String[]> matchListAfterRemove = dbHelper.readMatchList(userId);
+        assertTrue(matchListAfterRemove.isEmpty());
+    }
+
+    @Test
+    public void testTwoAddToMatchedDoesNotProduceDuplicate() {
+        dbHelper.addToMatched(userId, otherUserId);
+        ArrayList<String[]> matchList = dbHelper.readMatchList(userId);
+        assertArrayEquals(new String[]{userId, otherUserId}, matchList.get(0));
+        assertEquals(1, matchList.size());
+        dbHelper.addToMatched(userId, otherUserId);
+        ArrayList<String[]> secondMatchList = dbHelper.readMatchList(userId);
+        assertArrayEquals(new String[]{userId, otherUserId}, secondMatchList.get(0));
+        assertEquals(1, secondMatchList.size());
     }
 }

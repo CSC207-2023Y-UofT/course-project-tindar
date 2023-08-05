@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Tindar"
         tools:targetApi="31">
         <activity
+            android:name=".ChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".BlankNavActivity"
             android:exported="false"
             android:label="@string/title_activity_blank_nav"
@@ -27,5 +30,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

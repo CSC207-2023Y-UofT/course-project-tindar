@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Layout and colour scheme for the one-on-one chat screen for specific conversations.-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatActivity">
+
+    <!--Header with back button and name of conversation partner-->
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/colorPrimary">
+        <TextView
+            android:id="@+id/conversation_partner_display_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Username"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_toEndOf="@id/back_button"
+            />
+        <ImageButton
+            android:id="@+id/back_button"
+            android:background="@android:color/transparent"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/baseline_arrow_back_32_white"
+            />
+    </RelativeLayout>
+
+    <!--Message display-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/header"
+        android:layout_above="@id/bottom_layout"
+        android:id="@+id/chat_recycler_view"
+        />
+
+
+    <!--Send stuff-->
+    <RelativeLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true">
+        <!--this part seems to have the wrong parent?-->
+        <EditText
+            android:id="@+id/new_chat_input"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/send_message_button"
+            android:hint="Message"
+            android:inputType="text"
+            />
+        <ImageButton
+            android:id="@+id/send_message_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/baseline_send_32"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+</RelativeLayout>
