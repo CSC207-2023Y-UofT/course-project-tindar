@@ -340,9 +340,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return userId;
     }
 
-    public void deleteUserId(){
+    public void deleteUserId() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from " + TABLE_ACCOUNTS);
+    }
 
     public boolean checkLiked(String userId, String otherUserId) {
         SQLiteDatabase db = this.getReadableDatabase();
