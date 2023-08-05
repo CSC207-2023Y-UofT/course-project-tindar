@@ -1,6 +1,5 @@
 package com.courseproject.tindar;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,7 +137,7 @@ public class ChatRecyclerViewAdapter
         public TindarMessageViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            this.messageLayout = itemView.findViewById(R.id.message_layout);
+            this.messageLayout = itemView.findViewById(R.id.layout_message);
             this.messageContentLayout = itemView.findViewById(R.id.message_content_layout);
         }
     }
