@@ -1,2 +1,4 @@
-package com.courseproject.tindar.chat;public class ChatInteractor {
+package com.courseproject.tindar.chat;
+
+public class ChatInteractor {
 }

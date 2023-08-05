@@ -1,2 +1,4 @@
-package com.courseproject.tindar.chat;public class ChatSendInputBoundary {
+package com.courseproject.tindar.chat;
+
+public interface ChatSendInputBoundary {
 }
