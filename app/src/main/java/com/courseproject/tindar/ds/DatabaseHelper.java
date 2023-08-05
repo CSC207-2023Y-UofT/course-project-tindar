@@ -15,6 +15,7 @@ import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
 import com.courseproject.tindar.usecases.login.LoginDsGateway;
 import com.courseproject.tindar.usecases.likelist.LikeListDsGateway;
 import com.courseproject.tindar.usecases.likelist.LikeListDsResponseModel;
+import com.courseproject.tindar.usecases.userlist.UserListDsGateway;
 import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsGateway;
 import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsResponseModel;
 
@@ -23,7 +24,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway, LoginDsGateway, LikeListDsGateway, ViewProfilesDsGateway {
+public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway, LoginDsGateway, LikeListDsGateway, ViewProfilesDsGateway, UserListDsGateway {
     private static DatabaseHelper dbInstance;
 
     private static final String TABLE_ACCOUNTS = "accounts";
@@ -545,5 +546,24 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     }
 
 
+    @Override
+    public ArrayList<String> getAllUserIds() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT "
+                + ID
+                + " FROM " + TABLE_ACCOUNTS, null);
+
+        ArrayList<String> userIdsResponse = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                userIdsResponse.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return userIdsResponse;
+    }
 }
 
