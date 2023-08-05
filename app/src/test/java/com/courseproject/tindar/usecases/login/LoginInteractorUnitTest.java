@@ -9,7 +9,7 @@ public class LoginInteractorUnitTest {
     /** This class tests the implementation and return values of userInput **/
     private static final String EMAIL = "bell@exampleemail.com";
     private static final String PASSWORD = "somepassword";
-    private static final String USERID = "1";
+    private static final String USER_ID = "1";
 
     private static class MockLoginDsGateway implements LoginDsGateway {
         @Override
@@ -18,7 +18,7 @@ public class LoginInteractorUnitTest {
             boolean passwordEqual = (password.equals(PASSWORD));
 
             if (emailEqual && passwordEqual){
-                return USERID;
+                return USER_ID;
             } else {
                 return null;
             }
@@ -39,7 +39,7 @@ public class LoginInteractorUnitTest {
 
     @Test
     public void getExistingUserId(){
-        assertEquals(USERID, userInput.getUserId(EMAIL, PASSWORD));
+        assertEquals(USER_ID, userInput.getUserId(EMAIL, PASSWORD));
     }
 
     @Test

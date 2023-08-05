@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/tindar"
+        android:id="@+id/text_view_tindar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/text_view_subtitle"
@@ -30,7 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tindar"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_tindar"
         app:layout_constraintVertical_bias="0.153" />
 
     <EditText
