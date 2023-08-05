@@ -359,9 +359,16 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return userId;
     }
 
-    public void deleteUserId() {
+    public void deleteAllAccounts() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from " + TABLE_ACCOUNTS);
+    }
+
+    public void deleteAllDbRecords(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + TABLE_ACCOUNTS);
+        db.execSQL("delete from " + TABLE_LIKES);
+        db.execSQL("delete from " + TABLE_MATCHES);
     }
 
     public boolean checkLiked(String userId, String otherUserId) {

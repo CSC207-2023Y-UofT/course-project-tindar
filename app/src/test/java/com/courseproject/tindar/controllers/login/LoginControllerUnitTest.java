@@ -9,6 +9,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.courseproject.tindar.ds.DatabaseHelper;
 import com.courseproject.tindar.usecases.login.LoginDsGateway;
+import com.courseproject.tindar.usecases.login.LoginInputBoundary;
 import com.courseproject.tindar.usecases.login.LoginInteractor;
 import com.courseproject.tindar.usecases.login.LoginInteractorUnitTest;
 
@@ -47,8 +48,8 @@ public class LoginControllerUnitTest {
     }
 
     MockLoginDsGateway mockLoginDsGateway = new MockLoginDsGateway();
-    LoginInteractor loginInteractor = new LoginInteractor(mockLoginDsGateway);
-    LoginController loginController = new LoginController(loginInteractor);
+    LoginInputBoundary userInput = new LoginInteractor(mockLoginDsGateway);
+    LoginController loginController = new LoginController(userInput);
 
     @Test
     public void checkCorrectUserPassword(){

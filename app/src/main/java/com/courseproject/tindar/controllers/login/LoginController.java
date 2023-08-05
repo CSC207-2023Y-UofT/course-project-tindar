@@ -6,17 +6,17 @@ import com.courseproject.tindar.usecases.login.LoginInteractor;
 
 public class LoginController {
 
-    final LoginInteractor loginInteractor;
+    final LoginInputBoundary userInput;
 
-    public LoginController(LoginInteractor loginInteractor){
-        this.loginInteractor = loginInteractor;
+    public LoginController(LoginInputBoundary loginUserInput){
+        this.userInput = loginUserInput;
     }
 
     public Boolean checkUserPassword(String email, String password){
-        return loginInteractor.checkUserPassword(email, password);
+        return userInput.checkUserPassword(email, password);
     }
 
     public String getUserId(String email, String password){
-        return loginInteractor.getUserId(email, password);
+        return userInput.getUserId(email, password);
     }
 }

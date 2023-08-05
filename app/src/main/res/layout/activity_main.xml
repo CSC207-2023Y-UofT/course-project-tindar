@@ -11,7 +11,7 @@
         android:id="@+id/tindar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/subtitle"
+        android:layout_above="@id/text_view_subtitle"
         android:layout_marginTop="108dp"
         android:text="@string/app_name"
         android:textSize="50sp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/subtitle"
+        android:id="@+id/text_view_subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/email"

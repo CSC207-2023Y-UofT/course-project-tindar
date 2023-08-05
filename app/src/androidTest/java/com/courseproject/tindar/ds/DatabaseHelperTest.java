@@ -56,7 +56,7 @@ public class DatabaseHelperTest {
 
     @After
     public void tearDown() {
-        dbHelper.deleteUserId();
+        dbHelper.deleteAllAccounts();
         dbHelper.close();
     }
 
@@ -156,19 +156,19 @@ public class DatabaseHelperTest {
     }
 
     @Test
-    public void readUserId(){
+    public void testReadUserId(){
         String userIdRead = dbHelper.readUserId("bell@exampleemail.com", "somepassword");
         assertEquals(userId, userIdRead);
     }
 
     @Test
-    public void readUserIdWhenPasswordWrong(){
+    public void testReadUserIdWhenPasswordWrong(){
         String userIdRead = dbHelper.readUserId("bell@exampleemail.com", "somassword");
         assertNull(userIdRead);
     }
 
     @Test
-    public void readUserIdWhenEmailWrong(){
+    public void testReadUserIdWhenEmailWrong(){
         String userIdRead = dbHelper.readUserId("bel@exampleemail.com", "somepassword");
         assertNull(userIdRead);
     }

@@ -6,50 +6,48 @@ import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 public class LoginInteractorUnitTest {
-    /** This class tests the implementation and return values of LoginInteractor **/
-    private static final String email = "bell@exampleemail.com";
-    private static final String password = "somepassword";
-    private static final String userId = "1";
+    /** This class tests the implementation and return values of userInput **/
+    private static final String EMAIL = "bell@exampleemail.com";
+    private static final String PASSWORD = "somepassword";
+    private static final String USERID = "1";
 
     private static class MockLoginDsGateway implements LoginDsGateway {
-        private static final String email = "bell@exampleemail.com";
-        private static final String password = "somepassword";
-        private static final String userId = "1";
-
-        public MockLoginDsGateway(){}
+        private static final String EMAIL = "bell@exampleemail.com";
+        private static final String PASSWORD = "somepassword";
+        private static final String USERID = "1";
 
         @Override
         public String readUserId(String email, String password) {
-            boolean emailEqual = (email.equals(this.email));
-            boolean passwordEqual = (password.equals(this.password));
+            boolean emailEqual = (email.equals(this.EMAIL));
+            boolean passwordEqual = (password.equals(this.PASSWORD));
 
             if (emailEqual && passwordEqual){
-                return this.userId;
+                return this.USERID;
             } else {
                 return null;
             }
         }
     }
     MockLoginDsGateway mockLoginDsGateway = new MockLoginDsGateway();
-    LoginInteractor loginInteractor = new LoginInteractor(mockLoginDsGateway);
+    LoginInputBoundary userInput = new LoginInteractor(mockLoginDsGateway);
 
     @Test
     public void checkCorrectPassword(){
-        assertEquals(true, loginInteractor.checkUserPassword(this.email, this.password));
+        assertEquals(true, userInput.checkUserPassword(this.EMAIL, this.PASSWORD));
     }
 
     @Test
     public void checkWrongPassword(){
-        assertEquals(false, loginInteractor.checkUserPassword(this.email, "wor"));
+        assertEquals(false, userInput.checkUserPassword(this.EMAIL, "wor"));
     }
 
     @Test
     public void getExistingUserId(){
-        assertEquals(this.userId, loginInteractor.getUserId(this.email, this.password));
+        assertEquals(this.USERID, userInput.getUserId(this.EMAIL, this.PASSWORD));
     }
 
     @Test
     public void getNullUserId(){
-        assertNull(loginInteractor.getUserId(this.email, "wor"));
+        assertNull(userInput.getUserId(this.EMAIL, "wor"));
     }
 }
