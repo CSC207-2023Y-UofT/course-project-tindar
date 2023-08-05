@@ -98,7 +98,7 @@ public class ChatActivity extends AppCompatActivity {
         this.conversationPartnerDisplayNameDisplay
                 = findViewById(R.id.conversation_partner_display_name);
         this.chatInput = findViewById(R.id.new_chat_input);
-        this.sendMessageButton = findViewById(R.id.send_message_button);
+        this.sendMessageButton = findViewById(R.id.button_send_message);
         this.backButton = findViewById(R.id.back_button);
 
         // getting the screen to display the correct name for the conversation partner
