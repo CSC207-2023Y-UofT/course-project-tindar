@@ -15,6 +15,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
 import com.courseproject.tindar.usecases.likelist.LikeListDsResponseModel;
+import com.courseproject.tindar.usecases.signup.SignUpDsRequestModel;
 
 import org.junit.After;
 import org.junit.Before;
@@ -38,7 +39,10 @@ public class DatabaseHelperTest {
     public void setUp() {
         // Fake users for testing purposes
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        dbHelper = DatabaseHelper.getInstance(appContext);
+        dbHelper = DatabaseHelper.getTestInstance(appContext);
+
+        dbHelper.deleteAllDbRecords();
+
         userId = dbHelper.addAccount(true, "bell@exampleemail.com", "somepassword", "bell",
                 "Bell", "Robin", new GregorianCalendar(2003, 9, 5).getTime(),
                 "Female", "Calgary", "https://ccc", "I would like to",
@@ -56,13 +60,27 @@ public class DatabaseHelperTest {
 
     @After
     public void tearDown() {
-        dbHelper.deleteAllAccounts();
         dbHelper.close();
     }
 
     // TODO: addAccount is indirectly tested in the Read methods. addAccount to be fully tested once there is
     //  DatabaseHelper method which reads the remaining columns of accounts table other than what ReadProfile method
     //  reads and returns
+
+    @Test
+    public void testAddAccount() {
+        //TODO: get readAccount to check if the value inserted is right
+        SignUpDsRequestModel accountCredentials = new SignUpDsRequestModel("april", "april@someemail.com",
+                "aprilpassword");
+        String createdUserId = dbHelper.addAccount(accountCredentials);
+        EditProfileDsResponseModel profile = dbHelper.readProfile(createdUserId);
+        assertEquals("april", profile.getDisplayName());
+    }
+
+    @Test
+    public void testCheckIfEmailAlreadyUsed() {
+        assertTrue(dbHelper.checkIfEmailAlreadyUsed("bell@exampleemail.com"));
+    }
 
     @Test
     public void readProfile() {
@@ -175,6 +193,7 @@ public class DatabaseHelperTest {
     @Test
     public void testAddLikeAndCheckLiked(){
         // Test userId "likes" otherUseId, and are added to likeList
+        // addLike is tested since @Setup
         dbHelper.addLike(userId, otherUserId);
         assertTrue(dbHelper.checkLiked(userId, otherUserId));
     }
