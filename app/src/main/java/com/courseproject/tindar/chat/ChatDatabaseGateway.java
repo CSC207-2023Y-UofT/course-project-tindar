@@ -15,16 +15,10 @@ public interface ChatDatabaseGateway {
      * Creates a new message record in the chat database using the IDs of the users involved.
      * Requires the messageID to have already been created.
      *
-     * @param messageID a unique identifier for the message
-     * @param messageContent string representing the message content
-     * @param creationTime when the message was sent
-     * @param senderID userID of the message sender
-     * @param recipientID userID of the message recipient
+     * @param newMessage representation of the new message that this method will record.
      * @return true if successful; false otherwise (e.g. message already exists)
      */
-    public abstract boolean addMessage(String messageID, String messageContent,
-                                       Timestamp creationTime, String senderID,
-                                       String recipientID);
+    public abstract boolean addMessage(MessageModel newMessage);
 
     /**
      * @param messageID messageID of the desired message
@@ -35,11 +29,10 @@ public interface ChatDatabaseGateway {
     /**
      * Returns a list representing all messages in a given conversation
      *
-     * @param user1 userID of alphabetically first userID for users in this conversation
-     * @param user2 userID of alphabetically second userID for users in this conversation
+     * @param users userIDs of users in this conversation
      * @return
      */
-    public abstract ArrayList<MessageModel> loadAllConversationMessages(String user1, String user2);
+    public abstract ArrayList<MessageModel> loadAllConversationMessages(String[] users);
 
     /**
      * Returns a list representing all messages in a given conversation
@@ -57,14 +50,12 @@ public interface ChatDatabaseGateway {
      * Updates the conversation record if a conversation already exists with these users.
      * Called when a match is made.
      *
-     * @param users list of userIDs of users in the chat.
-     * @param newLastInteraction replaces the previous "lastInteraction" record
-     * @param newTimeLastAction replaces the previous "time of lastInteraction" record
-     * @return true if conversation creation was successful (conversation did not already exist);
-     *          false otherwise.
+     * @param newConversation representation of the new conversation to be added,
+     *                        or the state to which the existing conversation is to be modified`.
+     * @return conversation ID of the newly-created/edited conversation if successful;
+     *          null otherwise.
      */
-    public abstract boolean addOrUpdateConversation(String[] users, String newLastInteraction,
-                                            Timestamp newTimeLastAction);
+    public abstract String addOrUpdateConversation(ConversationModel newConversation);
 
     /*
     /**
