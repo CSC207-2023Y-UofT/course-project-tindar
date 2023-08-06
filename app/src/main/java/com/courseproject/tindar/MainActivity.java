@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.courseproject.tindar.controllers.login.LoginController;
 import com.courseproject.tindar.ds.DatabaseHelper;
+import com.courseproject.tindar.ui.signup.SignUpActivity;
 import com.courseproject.tindar.usecases.login.LoginDsGateway;
 import com.courseproject.tindar.usecases.login.LoginInteractor;
 
@@ -67,23 +68,19 @@ public class MainActivity extends AppCompatActivity {
                 final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
                 // show the popup window
-                // which view you pass in doesn't matter, it is only used for the window tolken
+                // which view you pass in doesn't matter, it is only used for the window token
                 popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
                 // dismiss the popup window when touched
-                popupView.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        popupWindow.dismiss();
-                        return true;
-                    }
+                popupView.setOnTouchListener((v, event) -> {
+                    popupWindow.dismiss();
+                    return true;
                 });
             }
         });
 
         signupButton.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, SignupActivity.class);
-            intent.putExtra("user_id", "1");
+            Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
             startActivity(intent);
         });
     }

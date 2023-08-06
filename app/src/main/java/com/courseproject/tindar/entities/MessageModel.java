@@ -6,7 +6,7 @@ import java.sql.Timestamp;
  * Why does this exist? 
  */
 
-public interface MessageInterface {
+public interface MessageModel {
     
     // Getter methods 
     public abstract String getMessageId();
