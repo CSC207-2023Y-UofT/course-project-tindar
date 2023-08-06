@@ -10,12 +10,12 @@ import android.content.Context;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.courseproject.tindar.usecases.editaccount.EditAccountDsGateway;
-import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
@@ -25,6 +25,7 @@ import java.util.GregorianCalendar;
 
 @RunWith(AndroidJUnit4.class)
 public class DatabaseHelperTest {
+
     private DatabaseHelper dbHelper;
     private String userId;
     private String otherUserId;
@@ -46,8 +47,6 @@ public class DatabaseHelperTest {
 
     @After
     public void tearDown() {
-        dbHelper.deleteLikeLists();
-        dbHelper.deleteAccounts();
         dbHelper.close();
     }
 
@@ -260,5 +259,18 @@ public class DatabaseHelperTest {
         dbHelper.updatePassword(userId, "newpassword");
         EditAccountDsResponseModel testAccount = dbHelper.readAccount(userId);
         assertEquals(testAccount.getPassword(), "newpassword");
+    }
+
+    @Test
+    public void testReadDisplayNames() {
+        // Test read display names returns list of user display names from database
+        ArrayList<String> matchList = new ArrayList<>();
+        matchList.add(userId);
+        matchList.add(thirdUserId);
+        ArrayList<LikeListDsResponseModel> displayNames = dbHelper.readDisplayNames(matchList);
+        assertEquals(displayNames.get(0).getUserId(), userId);
+        assertEquals(displayNames.get(0).getDisplayName(), "bell");
+        assertEquals(displayNames.get(1).getUserId(), thirdUserId);
+        assertEquals(displayNames.get(1).getDisplayName(), "ted");
     }
 }

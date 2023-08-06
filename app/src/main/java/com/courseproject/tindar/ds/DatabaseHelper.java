@@ -3,14 +3,11 @@ package com.courseproject.tindar.ds;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import com.courseproject.tindar.usecases.editaccount.EditAccountDsGateway;
-import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsGateway;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsGateway;
@@ -23,7 +20,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway,
-        EditAccountDsGateway, LikeListDsGateway {
+        EditAccountDsGateway, LoginDsGateway, LikeListDsGateway, SignUpDsGateway, {
     private static DatabaseHelper dbInstance;
 
     private static final String TABLE_ACCOUNTS = "accounts";
@@ -54,7 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     private static final String CREATE_TABLE_ACCOUNTS_QUERY = "CREATE TABLE " + TABLE_ACCOUNTS + " ("
             + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + IS_ACTIVE_STATUS + " NUMBER(1) NOT NULL, "
-            + EMAIL + " VARCHAR(30) NOT NULL UNIQUE, "
+            + EMAIL + " VARCHAR(30) NOT NULL, "
             + PASSWORD + " VARCHAR(30) NOT NULL, "
             + DISPLAY_NAME + " VARCHAR(30), "
             + FIRST_NAME + " VARCHAR(30), "
@@ -271,6 +268,28 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     public void deleteLikeLists() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from "+ TABLE_LIKES);
+    }
+
+    @Override
+    public String addAccount(SignUpDsRequestModel signUpDsRequestModel) {
+        return addAccount(true, signUpDsRequestModel.getEmail(), signUpDsRequestModel.getPassword(),
+                signUpDsRequestModel.getDisplayName(), "", "", null, "", "",
+                "", "", "", "", 19, 999);
+    }
+
+    @Override
+    public boolean checkIfEmailAlreadyUsed(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT "
+                        + EMAIL
+                        + " FROM " + TABLE_ACCOUNTS
+                        + " WHERE " + EMAIL + " =?",
+                new String[]{email});
+
+        boolean isEmailAlreadyUsed = cursor.getCount() > 0;
+
+        cursor.close();
+        return isEmailAlreadyUsed;
     }
 
     @Override

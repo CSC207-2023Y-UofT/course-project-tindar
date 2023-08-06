@@ -16,6 +16,9 @@
             android:name=".ChatActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.signup.SignUpActivity"
+            android:exported="false"/>
+        <activity
             android:name=".BlankNavActivity"
             android:exported="false"
             android:label="@string/title_activity_blank_nav"

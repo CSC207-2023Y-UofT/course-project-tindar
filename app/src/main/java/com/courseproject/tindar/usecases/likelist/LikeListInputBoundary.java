@@ -1,5 +1,6 @@
 package com.courseproject.tindar.usecases.likelist;
 
+
 public interface LikeListInputBoundary {
     /**
      * This interface initializes a like interaction between two users. the current user userID
@@ -10,5 +11,8 @@ public interface LikeListInputBoundary {
     void addLike(String userId, String otherUserId);
 
     void removeLike(String userId, String otherUserId);
+
+    LikeListResponseModel getDisplayNamesForMatches(String userId);
+
 }
 
