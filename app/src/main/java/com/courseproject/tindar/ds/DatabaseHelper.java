@@ -3,11 +3,14 @@ package com.courseproject.tindar.ds;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.courseproject.tindar.usecases.editaccount.EditAccountDsGateway;
+import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsGateway;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsGateway;
@@ -26,7 +29,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway, LoginDsGateway, SignUpDsGateway, LikeListDsGateway, ViewProfilesDsGateway, UserListDsGateway {
+public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway, LoginDsGateway, SignUpDsGateway, LikeListDsGateway, ViewProfilesDsGateway, UserListDsGateway, EditAccountDsGateway {
     private static DatabaseHelper dbInstance;
     private static DatabaseHelper testDbInstance;
 
@@ -239,6 +242,89 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
 
         cursor.close();
         return isEmailAlreadyUsed;
+    }
+
+    /** Retrieves information about an account from the database.
+     *
+     * @param userId the user id of the account
+     * @return the active status, email and password of the account
+     */
+    @Override
+    public EditAccountDsResponseModel readAccount(String userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT "
+                + IS_ACTIVE_STATUS + ", "
+                + EMAIL + ", "
+                + PASSWORD
+                + " FROM " + TABLE_ACCOUNTS
+                + " WHERE " + ID + " =?",
+            new String[]{userId});
+
+        cursor.moveToFirst();
+
+        EditAccountDsResponseModel dsResponse = new EditAccountDsResponseModel(
+            cursor.getInt(0) > 0,
+            cursor.getString(1),
+            cursor.getString(2)
+        );
+
+        cursor.close();
+        return dsResponse;
+    }
+
+    /** Updates the active status of an account in the database.
+     *
+     * @param userId the user id of the account
+     * @param isActiveStatus the status the account will be changed to
+     */
+    @Override
+    public void updateIsActiveStatus(String userId, boolean isActiveStatus) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(IS_ACTIVE_STATUS, isActiveStatus);
+
+        db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
+        db.close();
+    }
+
+    /** Updates the email associated with an account in the database.
+     * Returns false if the email is already used by an account.
+     *
+     * @param userId the user id of the account
+     * @param email the new email to be associated with the account
+     * @return true if the email was successfully updated
+     */
+    @Override
+    public boolean updateEmail(String userId, String email) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(EMAIL, email);
+        try {
+            db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
+        }
+        catch (SQLiteConstraintException e){
+            db.close();
+            return false;
+        }
+        db.close();
+        return true;
+    }
+
+    /** Updates the password associated with an account.
+     *
+     * @param userId the user id of the account
+     * @param password the new password to be associated with the account
+     * @return true if the password was successfully updated
+     */
+    @Override
+    public boolean updatePassword(String userId, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(PASSWORD, password);
+
+        db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
+        db.close();
+        return true;
     }
 
     @Override

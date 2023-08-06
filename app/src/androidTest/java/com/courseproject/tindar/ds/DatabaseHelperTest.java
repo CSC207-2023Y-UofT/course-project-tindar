@@ -12,14 +12,14 @@ import android.util.Log;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.courseproject.tindar.usecases.editaccount.EditAccountDsGateway;
+import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
 import com.courseproject.tindar.usecases.likelist.LikeListDsResponseModel;
 import com.courseproject.tindar.usecases.signup.SignUpDsRequestModel;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
@@ -29,7 +29,6 @@ import java.util.GregorianCalendar;
 
 @RunWith(AndroidJUnit4.class)
 public class DatabaseHelperTest {
-
     private DatabaseHelper dbHelper;
     private String userId;
     private String otherUserId;
@@ -288,6 +287,49 @@ public class DatabaseHelperTest {
     }
 
     @Test
+    public void testReadAccount() {
+        EditAccountDsResponseModel testAccount = dbHelper.readAccount(userId);
+        assertEquals(true, testAccount.getIsActiveStatus());
+        assertEquals("bell@exampleemail.com", testAccount.getEmail());
+        assertEquals("somepassword", testAccount.getPassword());
+    }
+
+    @Test
+    public void testUpdateIsAccountStatus() {
+        dbHelper.updateIsActiveStatus(userId, false);
+        EditAccountDsResponseModel testAccount = dbHelper.readAccount(userId);
+        assertEquals(testAccount.getIsActiveStatus(), false);
+    }
+
+    @Test
+    public void testUpdateEmail() {
+        dbHelper.updateEmail(userId, "something@email.com");
+        EditAccountDsResponseModel testAccount = dbHelper.readAccount(userId);
+        assertEquals(testAccount.getEmail(), "something@email.com");
+    }
+
+    @Test
+    public void testUpdateEmailNotUnique() {
+        dbHelper.updateEmail(userId, "rogers@exampleemail.com");
+        EditAccountDsResponseModel testAccount = dbHelper.readAccount(userId);
+        boolean test = false;
+        try {
+            assertEquals(testAccount.getEmail(), "rogers@exampleemail.com");
+        }
+        catch (AssertionError e) {
+            test = true;
+        }
+        assertTrue(test);
+    }
+
+    @Test
+    public void testUpdatePassword() {
+        dbHelper.updatePassword(userId, "newpassword");
+        EditAccountDsResponseModel testAccount = dbHelper.readAccount(userId);
+        assertEquals(testAccount.getPassword(), "newpassword");
+    }
+
+    @Test
     public void testGetAllUserIds(){
         ArrayList<String> userList = new ArrayList<>();
         userList.add(userId);
@@ -296,6 +338,5 @@ public class DatabaseHelperTest {
         ArrayList<String> dbUserList = dbHelper.getAllUserIds();
 
         assertEquals(userList, dbUserList);
-
     }
 }
