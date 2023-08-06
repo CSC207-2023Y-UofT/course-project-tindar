@@ -27,15 +27,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="21dp"
+                android:layout_marginEnd="7dp"
                 tools:text="10:00" />
         </RelativeLayout>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/text_view_last_message"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="hello, hello, testing tindar"
-            android:id="@+id/text_view_last_message"/>
+            tools:text="hello, hello, testing tindar" />
     </LinearLayout>
 
 
