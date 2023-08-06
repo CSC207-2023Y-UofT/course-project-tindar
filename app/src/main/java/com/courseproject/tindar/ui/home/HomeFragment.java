@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
     private ArrayList<String> allUserIds;
     private String userId;
 
-//    DateFormat dateFormat = new SimpleDateFormat("mm-dd-yyyy");
+    DateFormat dateFormat = new SimpleDateFormat("mm-dd-yyyy");
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment {
         genderView.setText(initialProfile.getGender());
 
         final TextView birthdayView = (TextView) root.findViewById(R.id.birthday);
-        birthdayView.setText("100");
+        birthdayView.setText(dateFormat.format(initialProfile.getBirthdate()));
 
         final TextView locationView = (TextView) root.findViewById(R.id.location);
         locationView.setText(initialProfile.getLocation());
