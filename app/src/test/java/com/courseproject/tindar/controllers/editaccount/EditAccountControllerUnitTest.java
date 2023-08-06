@@ -2,6 +2,7 @@ package com.courseproject.tindar.controllers.editaccount;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
 import com.courseproject.tindar.usecases.editaccount.EditAccountInputBoundary;
@@ -96,6 +97,12 @@ public class EditAccountControllerUnitTest {
     public void updatePassword() {
         EditAccountController testEditAccountController = new EditAccountController(mockEditAccountUserInput);
         assertTrue(testEditAccountController.updatePassword(USER_ID, PASSWORD));
+    }
+
+    @Test
+    public void updatePasswordEmpty() {
+        EditAccountController testEditAccountController = new EditAccountController(mockEditAccountUserInput);
+        assertFalse(testEditAccountController.updatePassword(USER_ID, ""));
     }
 
 }
