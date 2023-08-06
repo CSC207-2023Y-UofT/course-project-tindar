@@ -21,8 +21,8 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_filters" />
         <item
-            android:id="@+id/nav_placeholder3"
+            android:id="@+id/nav_conversations"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_placeholder" />
+            android:title="Conversations" />
     </group>
 </menu>

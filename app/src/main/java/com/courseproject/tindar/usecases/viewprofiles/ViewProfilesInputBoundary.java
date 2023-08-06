@@ -1,4 +1,5 @@
 package com.courseproject.tindar.usecases.viewprofiles;
 
-public class ViewProfilesInputBoundary {
+public interface ViewProfilesInputBoundary {
+    ViewProfilesDsResponseModel readNextProfile(String userId);
 }

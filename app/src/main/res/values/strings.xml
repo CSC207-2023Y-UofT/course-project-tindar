@@ -61,4 +61,6 @@
     <string name="menu_match_list">Matches</string>
     <string name="menu_my_profile">My Profile</string>
     <string name="menu_filters">Filters</string>
+    <string name="like_button">like button</string>
+    <string name="dislike_button">dislike button</string>
 </resources>
