@@ -14,7 +14,7 @@ public class ChatPresenter {
     public ChatPresenter(String[] userIDs){
         this.userIDs = userIDs;
         this.messageList = new ArrayList<>();
-        //this.chatDatabaseGateway = new ChatDatabaseGatewayImplementation(this.userIDs); // TODO
+        //this.chatDatabaseGateway = new ChatDatabaseHelper(this.userIDs); // TODO
     }
 
     public ArrayList<MessageModel> getMessageList(){

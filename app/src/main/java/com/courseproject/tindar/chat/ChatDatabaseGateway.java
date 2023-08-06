@@ -13,6 +13,7 @@ public interface ChatDatabaseGateway {
 
     /**
      * Creates a new message record in the chat database using the IDs of the users involved.
+     * Requires the messageID to have already been created.
      *
      * @param messageID a unique identifier for the message
      * @param messageContent string representing the message content

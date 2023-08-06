@@ -7,10 +7,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * @author Sophia Wan
  */
-public class ChatDatabaseGatewayImplementation extends SQLiteOpenHelper /*implements ChatDatabaseGateway*/ {
+public class ChatDatabaseHelper extends SQLiteOpenHelper /*implements ChatDatabaseGateway*/ {
     // Using the Singleton Pattern as outlined in:
     // https://guides.codepath.com/android/local-databases-with-sqliteopenhelper#singleton-pattern
-    private static ChatDatabaseGatewayImplementation sInstance;
+    private static ChatDatabaseHelper sInstance;
 
     // Database info
     private static final String DATABASE_NAME = "messagesDatabase";
@@ -43,8 +43,24 @@ public class ChatDatabaseGatewayImplementation extends SQLiteOpenHelper /*implem
      * JavaDoc from:
      * https://guides.codepath.com/android/local-databases-with-sqliteopenhelper#singleton-pattern
      */
-    private ChatDatabaseGatewayImplementation(Context context){
+    private ChatDatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    /**
+     * Copying from site; no idea how this works and contributes to the singleton pattern.
+     * will figure it out later.
+     * @param context
+     * @return
+     */
+    public static synchronized ChatDatabaseHelper getInstance(Context context) {
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (sInstance == null) {
+            sInstance = new ChatDatabaseHelper(context.getApplicationContext());
+        }
+        return sInstance;
     }
 
     /**
@@ -61,7 +77,8 @@ public class ChatDatabaseGatewayImplementation extends SQLiteOpenHelper /*implem
 
     /**
      * Called when the database is created for the FIRST time.
-     * Not called if a database already exists on disk with the same DATABASE_NAME
+     * Not called if a database already exists on disk with the same DATABASE_NAME.
+     * Creates empty message and conversation tables.
      * Javadocs from https://guides.codepath.com/android/local-databases-with-sqliteopenhelper
      * @param db
      */
@@ -69,7 +86,7 @@ public class ChatDatabaseGatewayImplementation extends SQLiteOpenHelper /*implem
     public void onCreate(SQLiteDatabase db) {
         String CREATE_MESSAGES_TABLE = "CREATE TABLE " + TABLE_MESSAGES +
                 "(" +
-                KEY_MESSAGE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," // Define a primary key
+                KEY_MESSAGE_ID + " INTEGER NOT NULL PRIMARY KEY," // Define a primary key
                 // KEY_MESSAGE_SENDER_ID + " INTEGER REFERENCES " + TABLE_USERS + "," // Define a foreign key
                 + KEY_MESSAGE_CREATION_TIME + " TIMESTAMP, "
                 + KEY_MESSAGE_CONTENT + " TEXT, "
@@ -78,7 +95,7 @@ public class ChatDatabaseGatewayImplementation extends SQLiteOpenHelper /*implem
                 + ")";
         String CREATE_CONVERSATIONS_TABLE = "CREATE TABLE " + TABLE_MESSAGES +
                 "(" +
-                KEY_CONVERSATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," // Define a primary key
+                KEY_CONVERSATION_ID + " INTEGER NOT NULL PRIMARY KEY," // Define a primary key
                 + KEY_USER_1 + " INTEGER, "
                 + KEY_USER_2 + " INTEGER, "
                 + KEY_CONVERSATION_LAST_INTERACTION_TIME + " TIMESTAMP, "
@@ -92,9 +109,9 @@ public class ChatDatabaseGatewayImplementation extends SQLiteOpenHelper /*implem
      * Called when the database needs to be upgraded.
      * This method will only be called if a database already exists on disk with the same DATABASE_NAME,
      * but the DATABASE_VERSION is different than the version of the database that exists on disk.
-     * @param db
-     * @param oldVersion
-     * @param newVersion
+     * @param db database to update
+     * @param oldVersion old version number
+     * @param newVersion new version number
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
