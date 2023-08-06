@@ -2,13 +2,13 @@
 This project was made for a software design course. The aim of the project was to learn about good software design and its importance via making a group project.
 
 ## Project description
-In the finished project: users should be able to sign up, log in, edit their profiles, like profiles and match when both users like each other's profiles, view their match list, and converse with people they've matched with.
+In the finished project: users should be able to sign up, log in, edit their profiles, like profiles, and match when both users like each other's profiles, view their matches and converse with people they've matched with.
 
 This project was mostly intended to be a learning experience in software design rather than an exercise in learning to use as many new tools as we could. We used Java rather than Kotlin because we wanted to focus on how to make good software given a language, rather than on learning a new programming language. We used SQLite since it was readily available, but the project is designed such that it should be reasonably easy to swap that out for a different database.
 ### Challenges and future directions
 This project doesn't fully work yet. I think fixing that is our main priority.
 
-Once the basics are done, it would be be interesting to explore:
+Once the basics are done, it would be interesting to explore:
 - How to manage both a client and a server, and the possibility of many simultaneous users.
 - How to reduce and handle privacy issues and security vulnerabilities.
 - Automatic moderation for things like unsolicited pictures of sexual natures.
@@ -17,10 +17,18 @@ Once the basics are done, it would be be interesting to explore:
 ## Installation and running the project
 Though this is supposedly an Android app, we haven't actually tried running this on a real Android device yet. We have been testing and developing this app using emulators in [Android Studio](https://developer.android.com/studio/install).
 
-I have no idea how to check which versions of android work with this app; someone please help. Here's the info that I've gathered which may or may not be correct:
-- Gradle version 8.0
-- Android Gradle Plugin Version 8.0.2
-- Minimum SDK version 24
+To run the app on the Android Studio
+- Open an Android Studio
+- Go to Tools > Device Manage and click on Create device. Make sure the Virtual tab is selected.
+- Select Phone > Pixel 6 as Hardware and click Next
+- Make sure Recommended tab is selected and select API 34 as System Image. Click Next.
+- Click Finish
+- Run the app on the Pixel 6 API 34 device
+
+## Demo
+- To test the app functionality, you can use the following credentials to login
+  - email: jack@someemail.com
+  - password: password_jack
 
 ## Credits
 ### Contributors
