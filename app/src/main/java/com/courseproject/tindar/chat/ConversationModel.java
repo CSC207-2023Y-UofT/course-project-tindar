@@ -1,2 +1,4 @@
-package com.courseproject.tindar.chat;public interface ConversationModel {
+package com.courseproject.tindar.chat;
+
+public interface ConversationModel{
 }
