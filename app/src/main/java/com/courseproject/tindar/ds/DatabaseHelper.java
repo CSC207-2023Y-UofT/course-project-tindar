@@ -15,6 +15,9 @@ import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
 import com.courseproject.tindar.usecases.login.LoginDsGateway;
 import com.courseproject.tindar.usecases.likelist.LikeListDsGateway;
 import com.courseproject.tindar.usecases.likelist.LikeListDsResponseModel;
+import com.courseproject.tindar.usecases.userlist.UserListDsGateway;
+import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsGateway;
+import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsResponseModel;
 import com.courseproject.tindar.usecases.signup.SignUpDsGateway;
 import com.courseproject.tindar.usecases.signup.SignUpDsRequestModel;
 
@@ -23,8 +26,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway,
-        LoginDsGateway, LikeListDsGateway, SignUpDsGateway {
+public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway, LoginDsGateway, SignUpDsGateway, LikeListDsGateway, ViewProfilesDsGateway, UserListDsGateway {
     private static DatabaseHelper dbInstance;
     private static DatabaseHelper testDbInstance;
 
@@ -150,15 +152,15 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     private void addInitialData(SQLiteDatabase db) {
         addAccount(true, "jack@someemail.com", "password_jack", "jack",
                 "Jack", "Brown", new GregorianCalendar(2000, 1, 26).getTime(),
-                "Male", "Toronto", "aaa", "Hi", "Female, Other",
+                "Male", "Toronto", "https://media.cnn.com/api/v1/images/stellar/prod/190503220200-spongebob-squarepants-story-top.jpg?q=x_2,y_0,h_1041,w_1849,c_crop/h_720,w_1280", "Hi", "Female, Other",
                 "Toronto", 20, 25, db);
         addAccount(true, "amy@someotheremail.com", "password_amy", "amy",
                 "Amy", "Smith", new GregorianCalendar(2000, 7, 2).getTime(),
-                "Female", "Montreal", "bbb", "Hello","Male",
+                "Female", "Montreal", "https://assets.nick.com/uri/mgid:arc:imageassetref:shared.nick.us:5232d654-03b3-458e-b30e-37a09e7492bd?quality=0.7&gen=ntrn&legacyStatusCode=true", "Hello","Male",
                 "Montreal, Toronto", 23, 27, db);
         addAccount(true, "bell@exampleemail.com", "somepassword", "bell",
                 "Bell", "Robin", new GregorianCalendar(2003, 9, 5).getTime(),
-                "Female", "Calgary", "https://ccc", "I would like to",
+                "Female", "Calgary", "https://assets.ayobandung.com/crop/0x0:0x0/750x500/webp/photo/2023/02/27/Snapinstaapp_1080_332750966_200-1013192027.jpg", "I would like to",
                 "Female, Male", "Calgary, Vancouver", 19, 999, db);
         addAccount(true, "rogers@exampleemail.com", "someotherpassword", "roger",
                 "roger", "fido", new GregorianCalendar(2003, 12, 3).getTime(),
@@ -262,6 +264,35 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
             cursor.getString(3),
             cursor.getString(4),
             cursor.getString(5)
+        );
+
+        cursor.close();
+        return dsResponse;
+    }
+
+    @Override
+    public ViewProfilesDsResponseModel readNextProfile(String userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT "
+                        + DISPLAY_NAME + ", "
+                        + BIRTHDATE + ", "
+                        + GENDER + ", "
+                        + LOCATION + ", "
+                        + PROFILE_PICTURE_LINK + ", "
+                        + ABOUT_ME
+                        + " FROM " + TABLE_ACCOUNTS
+                        + " WHERE " + ID + " =?",
+                new String[]{userId});
+
+        cursor.moveToFirst();
+
+        ViewProfilesDsResponseModel dsResponse = new ViewProfilesDsResponseModel(
+                cursor.getString(0),
+                new java.util.Date(cursor.getLong(1)),
+                cursor.getString(2),
+                cursor.getString(3),
+                cursor.getString(4),
+                cursor.getString(5)
         );
 
         cursor.close();
@@ -549,6 +580,26 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
 
         cursor.close();
         return displayNamesResponse;
+    }
+
+    @Override
+    public ArrayList<String> getAllUserIds() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT "
+                + ID
+                + " FROM " + TABLE_ACCOUNTS, null);
+
+        ArrayList<String> userIdsResponse = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                userIdsResponse.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return userIdsResponse;
     }
 }
 

@@ -286,4 +286,16 @@ public class DatabaseHelperTest {
         assertEquals(displayNames.get(1).getUserId(), thirdUserId);
         assertEquals(displayNames.get(1).getDisplayName(), "ted");
     }
+
+    @Test
+    public void testGetAllUserIds(){
+        ArrayList<String> userList = new ArrayList<>();
+        userList.add(userId);
+        userList.add(otherUserId);
+        userList.add(thirdUserId);
+        ArrayList<String> dbUserList = dbHelper.getAllUserIds();
+
+        assertEquals(userList, dbUserList);
+
+    }
 }
