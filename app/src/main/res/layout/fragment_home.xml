@@ -19,12 +19,12 @@
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/likeButton"
+        app:layout_constraintBottom_toTopOf="@+id/birthday"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.946" />
+        app:layout_constraintVertical_bias="0.934" />
 
     <TextView
         android:id="@+id/gender"
@@ -35,12 +35,12 @@
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/birthday"
+        app:layout_constraintBottom_toTopOf="@+id/location"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.914" />
+        app:layout_constraintVertical_bias="0.946" />
 
     <TextView
         android:id="@+id/birthday"
@@ -51,12 +51,12 @@
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/location"
+        app:layout_constraintBottom_toTopOf="@+id/gender"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.953" />
+        app:layout_constraintVertical_bias="0.928" />
 
     <TextView
         android:id="@+id/location"
@@ -83,12 +83,12 @@
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/displayName"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.96" />
+        app:layout_constraintVertical_bias="0.826" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/dislikeButton"
@@ -97,11 +97,11 @@
         android:layout_marginEnd="264dp"
         android:layout_marginBottom="20dp"
         android:clickable="true"
+        android:contentDescription="@string/dislike_button"
+        android:focusable="true"
         android:src="@android:drawable/ic_delete"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/likeButton"
-        android:focusable="true"
-        android:contentDescription="@string/dislike_button" />
+        app:layout_constraintEnd_toStartOf="@+id/likeButton" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/likeButton"
@@ -120,11 +120,12 @@
         android:id="@+id/imageView"
         android:layout_width="373dp"
         android:layout_height="317dp"
+        android:contentDescription="@string/profile_picture_link"
         android:src="@drawable/ic_menu_gallery"
         app:layout_constraintBottom_toTopOf="@+id/gender"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/profile_picture_link" />
+        app:layout_constraintVertical_bias="0.184" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
