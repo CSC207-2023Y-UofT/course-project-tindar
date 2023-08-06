@@ -17,6 +17,9 @@ Once the basics are done, it would be interesting to explore:
 ## Installation and running the project
 Though this is supposedly an Android app, we haven't actually tried running this on a real Android device yet. We have been testing and developing this app using emulators in [Android Studio](https://developer.android.com/studio/install).
 
+Plugin needed
+- Lombok Plugin is needed for the Android Studio. Follow the instruction from https://projectlombok.org/setup/android
+
 To run the app on the Android Studio
 - Open an Android Studio
 - Go to Tools > Device Manage and click on Create device. Make sure the Virtual tab is selected.
