@@ -99,7 +99,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     public static synchronized DatabaseHelper getInstance(Context context) {
         if (dbInstance == null) {
             // Use the application context
-            dbInstance = new DatabaseHelper(context.getApplicationContext());
+            dbInstance = new DatabaseHelper(context.getApplicationContext(), "tindar.db");
         }
         return dbInstance;
     }
@@ -115,15 +115,15 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     public static synchronized DatabaseHelper getTestInstance(Context context) {
         if (testDbInstance == null) {
             // Use the application context
-            testDbInstance = new DatabaseHelper(context.getApplicationContext());
+            testDbInstance = new DatabaseHelper(context.getApplicationContext(), "test.db");
         }
         return testDbInstance;
     }
 
     // access modifier is private so DatabaseHelper doesn't get directly instantiated. The instantiation of
     // DatabaseHelper should go through getInstance method.
-    private DatabaseHelper(@Nullable Context context) {
-        super(context, "tindar.db", null, 1);
+    private DatabaseHelper(@Nullable Context context, String databaseName) {
+        super(context, databaseName, null, 1);
     }
 
     @Override
