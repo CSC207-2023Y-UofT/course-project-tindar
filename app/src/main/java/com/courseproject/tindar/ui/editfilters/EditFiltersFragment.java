@@ -44,6 +44,8 @@ public class EditFiltersFragment extends Fragment {
     private EditFiltersController editFiltersController;
     private ArrayList<String> preferredGenders, preferredLocations;
     private int preferredAgeMinimum, preferredAgeMaximum;
+    private String[] genders, locations;
+    private boolean[] isGenderPreferredList, isLocationPreferredList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,19 +78,13 @@ public class EditFiltersFragment extends Fragment {
                 new EditFiltersInteractor(editFiltersDatabaseHelper, editFiltersPresenter, filtersFactory);
         editFiltersController = new EditFiltersController(editFiltersInteractor);
 
-        // initializes boolean array to mark for all genders available whether each is preferred by the user
-        String[] genders = getResources().getStringArray(R.array.genders);
-        boolean[] isGenderPreferredList = new boolean[genders.length];
-        for (int i = 0; i < genders.length; i++) {
-            isGenderPreferredList[i] = preferredGenders.contains(genders[i]);
-        }
+        // initializes boolean array which will mark for all genders available whether each is preferred by the user
+        genders = getResources().getStringArray(R.array.genders);
+        isGenderPreferredList = new boolean[genders.length];
 
-        // initializes boolean array to mark for all locations available whether each is preferred by the user
-        String[] locations = getResources().getStringArray(R.array.locations);
-        boolean[] isLocationPreferredList = new boolean[locations.length];
-        for (int i = 0; i < locations.length; i++) {
-            isLocationPreferredList[i] = preferredLocations.contains(locations[i]);
-        }
+        // initializes boolean array which will mark for all locations available whether each is preferred by the user
+        locations = getResources().getStringArray(R.array.locations);
+        isLocationPreferredList = new boolean[locations.length];
 
         // text view click listeners to pop-up multi-select window for preferred genders
         preferredGendersTextView.setOnClickListener(view -> {
@@ -210,6 +206,17 @@ public class EditFiltersFragment extends Fragment {
         preferredLocationsTextView.setText(String.join(", ", preferredLocations));
         preferredAgeMinimumEditText.setText(String.valueOf(preferredAgeMinimum));
         preferredAgeMaximumEditText.setText(String.valueOf(preferredAgeMaximum));
+
+        // mark for all genders available whether each is preferred by the user
+        for (int i = 0; i < genders.length; i++) {
+            isGenderPreferredList[i] = preferredGenders.contains(genders[i]);
+        }
+
+        // mark for all locations available whether each is preferred by the user
+        for (int i = 0; i < locations.length; i++) {
+            isLocationPreferredList[i] = preferredLocations.contains(locations[i]);
+        }
+
 
         return super.getEnterTransition();
     }
