@@ -27,6 +27,12 @@ public interface ChatDatabaseGateway {
                                        String recipientID);
 
     /**
+     * @param messageID messageID of the desired message
+     * @return representation of desired message if found; null otherwise
+     */
+    public abstract MessageModel getMessage(String messageID);
+
+    /**
      * Returns a list representing all messages in a given conversation
      *
      * @param user1 userID of alphabetically first userID for users in this conversation
