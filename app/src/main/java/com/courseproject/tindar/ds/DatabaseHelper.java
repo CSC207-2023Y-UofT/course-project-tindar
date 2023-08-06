@@ -325,16 +325,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return true;
     }
 
-    public void deleteAccounts() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from "+ TABLE_ACCOUNTS);
-    }
-
-    public void deleteLikeLists() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from "+ TABLE_LIKES);
-    }
-
     @Override
     public EditProfileDsResponseModel readProfile(String userId) {
         SQLiteDatabase db = this.getReadableDatabase();

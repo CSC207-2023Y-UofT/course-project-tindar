@@ -59,8 +59,6 @@ public class DatabaseHelperTest {
 
     @After
     public void tearDown() {
-        dbHelper.deleteLikeLists();
-        dbHelper.deleteAccounts();
         dbHelper.close();
     }
 
