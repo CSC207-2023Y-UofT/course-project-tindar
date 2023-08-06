@@ -327,6 +327,7 @@ public class DatabaseHelperTest {
         dbHelper.updatePassword(userId, "newpassword");
         EditAccountDsResponseModel testAccount = dbHelper.readAccount(userId);
         assertEquals(testAccount.getPassword(), "newpassword");
+    }
 
     @Test
     public void testGetAllUserIds(){
