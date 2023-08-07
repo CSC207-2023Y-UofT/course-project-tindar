@@ -1,4 +1,4 @@
-package com.courseproject.tindar.ui.conversation_list.placeholder;
+package com.courseproject.tindar.ui.conversationlist.placeholder;
 
 import java.util.ArrayList;
 import java.util.HashMap;

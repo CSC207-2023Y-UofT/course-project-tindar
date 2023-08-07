@@ -1,4 +1,4 @@
-package com.courseproject.tindar.usecases.conversation_list;
+package com.courseproject.tindar.usecases.conversationlist;
 
 public class ConversationResponseModel {
     private String userName;

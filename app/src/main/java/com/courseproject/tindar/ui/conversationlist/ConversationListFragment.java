@@ -1,4 +1,4 @@
-package com.courseproject.tindar.ui.conversation_list;
+package com.courseproject.tindar.ui.conversationlist;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,14 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.courseproject.tindar.R;
-import com.courseproject.tindar.usecases.conversation_list.ConversationResponseModel;
+import com.courseproject.tindar.usecases.conversationlist.ConversationResponseModel;
 
 import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
  */
-public class ConversationFragment extends Fragment {
+public class ConversationListFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -31,13 +31,13 @@ public class ConversationFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ConversationFragment() {
+    public ConversationListFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static ConversationFragment newInstance(int columnCount) {
-        ConversationFragment fragment = new ConversationFragment();
+    public static ConversationListFragment newInstance(int columnCount) {
+        ConversationListFragment fragment = new ConversationListFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
