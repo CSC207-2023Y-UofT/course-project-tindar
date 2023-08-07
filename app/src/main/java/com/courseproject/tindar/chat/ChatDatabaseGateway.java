@@ -18,13 +18,13 @@ public interface ChatDatabaseGateway {
      * @param newMessage representation of the new message that this method will record.
      * @return true if successful; false otherwise (e.g. message already exists)
      */
-    public abstract boolean addMessage(MessageModel newMessage);
+    boolean addMessage(MessageModel newMessage);
 
     /**
      * @param messageID messageID of the desired message
      * @return representation of desired message if found; null otherwise
      */
-    public abstract MessageModel getMessage(String messageID);
+    MessageModel getMessage(String messageID);
 
     /**
      * Returns a list representing all messages in a given conversation
@@ -32,7 +32,7 @@ public interface ChatDatabaseGateway {
      * @param users userIDs of users in this conversation
      * @return
      */
-    public abstract ArrayList<MessageModel> loadAllConversationMessages(String[] users);
+    ArrayList<MessageModel> loadAllConversationMessages(String[] users);
 
     /**
      * Returns a list representing all messages in a given conversation
@@ -40,7 +40,7 @@ public interface ChatDatabaseGateway {
      * @param conversationID conversationID of the desired conversation
      * @return
      */
-    public abstract ArrayList<MessageModel> loadAllConversationMessages(String conversationID);
+    ArrayList<MessageModel> loadAllConversationMessages(String conversationID);
 
     // Conversation table CRUD
 
@@ -55,7 +55,7 @@ public interface ChatDatabaseGateway {
      * @return conversation ID of the newly-created/edited conversation if successful;
      *          null otherwise.
      */
-    public abstract String addOrUpdateConversation(ConversationModel newConversation);
+    String addOrUpdateConversation(ConversationModel newConversation);
 
     /*
     /**
@@ -72,7 +72,7 @@ public interface ChatDatabaseGateway {
      * @return true if conversation creation was successful (conversation did not already exist);
      *          false otherwise.
      *\/
-    public abstract boolean addOrUpdateConversation(String conversationID, String[] newUsers,
+    abstract boolean addOrUpdateConversation(String conversationID, String[] newUsers,
                                                     String newLastInteraction,
                                                     Timestamp newTimeLastAction);
     Commented this out because I think it shouldn't be used.
@@ -84,7 +84,7 @@ public interface ChatDatabaseGateway {
      * @return representation of the conversation matching this unique ID.
      *          null if no such conversation is found.
      */
-    public abstract ConversationModel getConversation(String conversationID);
+    ConversationModel getConversation(String conversationID);
 
     /**
      * Returns a representation of a specified conversation.
@@ -92,43 +92,43 @@ public interface ChatDatabaseGateway {
      * @return representation of the most recently-active conversation with these users.
      *          null if no such conversation is found.
      */
-    public abstract ConversationModel getConversation(String[] users);
+    ConversationModel getConversation(String[] users);
 
     /**
      * Returns a list representing all conversations that a user is currently in.
      * @param userID the userID of the user whose list of conversations you want to retrieve
      * @return a list representing all conversations that the user is in
      */
-    public abstract ArrayList<ConversationModel> getUserConversationList(String userID);
+    ArrayList<ConversationModel> getUserConversationList(String userID);
 
     /**
      * @return list of all conversations in the database
      */
-    public abstract ArrayList<ConversationModel> getAllConversations();
+    ArrayList<ConversationModel> getAllConversations();
 
     /**
      * Deletes the record of a conversation.
      * @param conversationID conversationID ID of the to-be-deleted conversation.
      * @return true if successful; false otherwise (e.g. conversation not found).
      */
-    public abstract boolean deleteConversation(String conversationID);
+    boolean deleteConversation(String conversationID);
 
     /**
      * Deletes the record of a conversation using its list of users.
      * @param users userIDs of the members of the to-be-deleted conversation.
      * @return true if successful; false otherwise (e.g. conversation not found).
      */
-    public abstract boolean deleteConversation(String[] users);
+    boolean deleteConversation(String[] users);
 
     /**
      * Deletes all conversation records. Does not delete messages records.
      * @return true if successful; false otherwise.
      */
-    public abstract boolean deleteAllConversations();
+    boolean deleteAllConversations();
 
     /**
      * Deletes all conversation and message records.
      * @return true if successful; false otherwise.
      */
-    public abstract boolean deleteAllConversationChatRecords();
+    boolean deleteAllConversationChatRecords();
 }
