@@ -1,4 +1,4 @@
-package com.courseproject.tindar;
+package com.courseproject.tindar.ui.chat;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.courseproject.tindar.R;
 import com.courseproject.tindar.entities.MessageModel;
 // TODO: remove TindarMessage import when database is properly connected
 import com.courseproject.tindar.entities.TindarMessage;
