@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -86,13 +87,14 @@ public class ChatActivity extends AppCompatActivity {
         // This "came with the class." I assume it's right and it works, so I'm not touching it.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat); // tells us the layout follows activity_chat.xml
+        Intent intent = this.getIntent();
 
         // TODO: actually get info passed in, rather than hardcoding this
         // TODO: see if we can have this info passed and stored in some sort of facade or model
         //      - flagged in issue #51
-        this.userID = "user1";
-        this.otherUserID = "user2";
-        this.conversationPartnerDisplayName = "User 2";
+        this.userID = intent.getStringExtra("current_user_id");
+        this.otherUserID = intent.getStringExtra("conversation_partner_id");
+        this.conversationPartnerDisplayName = this.otherUserID;
 
         // setting input and view instance variables to match what's in the display
         this.conversationPartnerDisplayNameDisplay
