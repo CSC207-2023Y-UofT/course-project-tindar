@@ -1,4 +1,4 @@
-package com.courseproject.tindar.ui.conversations;
+package com.courseproject.tindar.ui.conversation_list;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
