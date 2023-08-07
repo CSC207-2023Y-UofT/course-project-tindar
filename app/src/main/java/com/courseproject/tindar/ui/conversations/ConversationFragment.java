@@ -13,8 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.courseproject.tindar.R;
-import com.courseproject.tindar.ui.conversations.placeholder.PlaceholderContent;
-import com.courseproject.tindar.usecases.conversations.ConversationResponseModel;
+import com.courseproject.tindar.usecases.conversation_list.ConversationResponseModel;
 
 import java.util.ArrayList;
 

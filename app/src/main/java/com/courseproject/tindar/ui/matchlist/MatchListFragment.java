@@ -50,7 +50,8 @@ public class MatchListFragment extends Fragment{
 
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
             Intent intent = new Intent(requireActivity(), ChatActivity.class);
-            intent.putExtra("user_id", matchedUserIds[i]);
+            intent.putExtra("current_user_id", userId);
+            intent.putExtra("conversation_partner_id", matchedUserIds[i]);
             startActivity(intent);
         });
 

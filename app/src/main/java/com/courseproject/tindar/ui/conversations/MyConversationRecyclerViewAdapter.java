@@ -7,7 +7,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.courseproject.tindar.databinding.FragmentConversationBinding;
-import com.courseproject.tindar.usecases.conversations.ConversationResponseModel;
+import com.courseproject.tindar.usecases.conversation_list.ConversationResponseModel;
 
 import java.util.List;
 
