@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.courseproject.tindar.BlankNavViewModel;
-import com.courseproject.tindar.ChatActivity;
+import com.courseproject.tindar.ui.chat.ChatActivity;
 import com.courseproject.tindar.R;
 import com.courseproject.tindar.controllers.likelist.LikeListController;
 import com.courseproject.tindar.ds.DatabaseHelper;
@@ -50,7 +50,8 @@ public class MatchListFragment extends Fragment{
 
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
             Intent intent = new Intent(requireActivity(), ChatActivity.class);
-            intent.putExtra("user_id", matchedUserIds[i]);
+            intent.putExtra("current_user_id", userId);
+            intent.putExtra("conversation_partner_id", matchedUserIds[i]);
             startActivity(intent);
         });
 
