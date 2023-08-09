@@ -39,7 +39,7 @@ public class EditProfileInteractorUnitTest {
     EditProfileDsGateway mockEditProfileDsGateway = new MockEditProfileDsGateway();
 
     @Test
-    public void getProfile() {
+    public void testGetProfile() {
         EditProfileInteractor testEditProfileInteractor = new EditProfileInteractor(mockEditProfileDsGateway);
         EditProfileResponseModel testEditProfileResponseModel = testEditProfileInteractor.getProfile(USER_ID);
         assertEquals(DISPLAY_NAME, testEditProfileResponseModel.getDisplayName());

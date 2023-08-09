@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsGateway;
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsGateway;
-import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
+import com.courseproject.tindar.usecases.editfilters.EditFiltersModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsGateway;
 import com.courseproject.tindar.usecases.editprofile.EditProfileRequestModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileResponseModel;
@@ -412,7 +412,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     }
 
     @Override
-    public EditFiltersDsResponseModel readFilters(String userId) {
+    public EditFiltersModel readFilters(String userId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT "
                         + PREFERRED_GENDERS + ", "
@@ -432,7 +432,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         preferredGenders.removeIf(String::isEmpty);
         preferredLocations.removeIf(String::isEmpty);
 
-        EditFiltersDsResponseModel dsResponse = new EditFiltersDsResponseModel(
+        EditFiltersModel dsResponse = new EditFiltersModel(
                 preferredGenders,
                 preferredLocations,
                 cursor.getInt(2),
@@ -444,31 +444,13 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     }
 
     @Override
-    public void updatePreferredGenders(String userId, ArrayList<String> preferredGenders) {
+    public void updateFilters(String userId, EditFiltersModel newFilters) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(PREFERRED_GENDERS, String.join(", ", preferredGenders));
-
-        db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
-        db.close();
-    }
-
-    @Override
-    public void updatePreferredLocations(String userId, ArrayList<String> preferredLocations) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(PREFERRED_LOCATIONS, String.join(", ", preferredLocations));
-
-        db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
-        db.close();
-    }
-
-    @Override
-    public void updatePreferredAgeGroup(String userId, int minAge, int maxAge) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(PREFERRED_AGE_MINIMUM, minAge);
-        cv.put(PREFERRED_AGE_MAXIMUM, maxAge);
+        cv.put(PREFERRED_GENDERS, String.join(", ", newFilters.getPreferredGenders()));
+        cv.put(PREFERRED_LOCATIONS, String.join(", ", newFilters.getPreferredLocations()));
+        cv.put(PREFERRED_AGE_MINIMUM, newFilters.getPreferredAgeMinimum());
+        cv.put(PREFERRED_AGE_MAXIMUM, newFilters.getPreferredAgeMaximum());
 
         db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
         db.close();

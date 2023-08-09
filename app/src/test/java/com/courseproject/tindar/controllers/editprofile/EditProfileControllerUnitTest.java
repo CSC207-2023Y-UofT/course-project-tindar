@@ -42,7 +42,7 @@ public class EditProfileControllerUnitTest {
     EditProfileInputBoundary mockEditProfileUserInput = new MockEditProfileUserInput();
 
     @Test
-    public void getProfile() {
+    public void testGetProfile() {
         EditProfileController testEditProfileController = new EditProfileController(mockEditProfileUserInput);
         EditProfileResponseModel testEditProfileResponseModel = testEditProfileController.getProfile(USER_ID);
         assertEquals(DISPLAY_NAME, testEditProfileResponseModel.getDisplayName());

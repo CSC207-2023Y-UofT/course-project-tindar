@@ -20,32 +20,22 @@ public class EditFiltersInteractorUnitTest {
     private static final int PREFERRED_AGE_MINIMUM_INVALID = 18;
     private static final int PREFERRED_AGE_MAXIMUM = 26;
 
-    EditFiltersDsResponseModel mockEditFiltersResponseModel =
-            new EditFiltersDsResponseModel(PREFERRED_GENDERS, PREFERRED_LOCATIONS, PREFERRED_AGE_MINIMUM, PREFERRED_AGE_MAXIMUM);
+    EditFiltersModel mockEditFiltersResponseModel =
+            new EditFiltersModel(PREFERRED_GENDERS, PREFERRED_LOCATIONS, PREFERRED_AGE_MINIMUM, PREFERRED_AGE_MAXIMUM);
 
     private class MockEditFiltersDsGateway implements EditFiltersDsGateway {
         @Override
-        public EditFiltersDsResponseModel readFilters(String userId) {
+        public EditFiltersModel readFilters(String userId) {
             return mockEditFiltersResponseModel;
         }
 
         @Override
-        public void updatePreferredGenders(String userId, ArrayList<String> preferredGenders) {
+        public void updateFilters(String userId, EditFiltersModel newFilters) {
             assertEquals(USER_ID, userId);
-            assertEquals(PREFERRED_GENDERS, preferredGenders);
-        }
-
-        @Override
-        public void updatePreferredLocations(String userId, ArrayList<String> preferredLocations) {
-            assertEquals(USER_ID, userId);
-            assertEquals(PREFERRED_LOCATIONS, preferredLocations);
-        }
-
-        @Override
-        public void updatePreferredAgeGroup(String userId, int minAge, int maxAge) {
-            assertEquals(USER_ID, userId);
-            assertEquals(PREFERRED_AGE_MINIMUM, minAge);
-            assertEquals(PREFERRED_AGE_MAXIMUM, maxAge);
+            assertEquals(PREFERRED_GENDERS, newFilters.getPreferredGenders());
+            assertEquals(PREFERRED_LOCATIONS, newFilters.getPreferredLocations());
+            assertEquals(PREFERRED_AGE_MINIMUM, newFilters.getPreferredAgeMinimum());
+            assertEquals(PREFERRED_AGE_MAXIMUM, newFilters.getPreferredAgeMaximum());
         }
     }
 
@@ -54,10 +44,10 @@ public class EditFiltersInteractorUnitTest {
     FiltersFactory filtersFactory = new FiltersFactory();
 
     @Test
-    public void getFilters() {
+    public void testGetFilters() {
         EditFiltersInputBoundary testEditFiltersInteractor= new EditFiltersInteractor(mockEditFiltersDsGateway,
                 editFiltersPresentationFormatter, filtersFactory);
-        EditFiltersDsResponseModel testEditFiltersResponseModel = testEditFiltersInteractor.getFilters(USER_ID);
+        EditFiltersModel testEditFiltersResponseModel = testEditFiltersInteractor.getFilters(USER_ID);
         assertEquals(PREFERRED_GENDERS, testEditFiltersResponseModel.getPreferredGenders());
         assertEquals(PREFERRED_LOCATIONS, testEditFiltersResponseModel.getPreferredLocations());
         assertEquals(PREFERRED_AGE_MINIMUM, testEditFiltersResponseModel.getPreferredAgeMinimum());
@@ -65,32 +55,22 @@ public class EditFiltersInteractorUnitTest {
     }
 
     @Test
-    public void updatePreferredGenders() {
+    public void testUpdateFilters() throws InvalidAgeGroup {
         EditFiltersInteractor testEditFiltersInteractor = new EditFiltersInteractor(mockEditFiltersDsGateway,
                 editFiltersPresentationFormatter, filtersFactory);
-        testEditFiltersInteractor.updatePreferredGenders(USER_ID, PREFERRED_GENDERS);
+        EditFiltersModel newFilters = new EditFiltersModel(PREFERRED_GENDERS, PREFERRED_LOCATIONS,
+                PREFERRED_AGE_MINIMUM, PREFERRED_AGE_MAXIMUM);
+        testEditFiltersInteractor.updateFilters(USER_ID, newFilters);
     }
 
     @Test
-    public void updatePreferredLocations() {
+    public void testUpdateFiltersInvalidPreferredAgeGroup() {
         EditFiltersInteractor testEditFiltersInteractor = new EditFiltersInteractor(mockEditFiltersDsGateway,
                 editFiltersPresentationFormatter, filtersFactory);
-        testEditFiltersInteractor.updatePreferredLocations(USER_ID, PREFERRED_LOCATIONS);
-    }
-
-    @Test
-    public void updatePreferredAgeGroup() throws InvalidAgeGroup {
-        EditFiltersInteractor testEditFiltersInteractor = new EditFiltersInteractor(mockEditFiltersDsGateway,
-                editFiltersPresentationFormatter, filtersFactory);
-        testEditFiltersInteractor.updatePreferredAgeGroup(USER_ID, PREFERRED_AGE_MINIMUM, PREFERRED_AGE_MAXIMUM);
-    }
-
-    @Test
-    public void updatePreferredAgeGroupInvalidAgeGroup() {
-        EditFiltersInteractor testEditFiltersInteractor = new EditFiltersInteractor(mockEditFiltersDsGateway,
-                editFiltersPresentationFormatter, filtersFactory);
-        Exception exception = assertThrows(InvalidAgeGroup.class, () -> testEditFiltersInteractor.updatePreferredAgeGroup(USER_ID, PREFERRED_AGE_MINIMUM_INVALID,
-                PREFERRED_AGE_MAXIMUM));
+        EditFiltersModel newFiltersWithInvalidMinAge = new EditFiltersModel(PREFERRED_GENDERS, PREFERRED_LOCATIONS,
+                PREFERRED_AGE_MINIMUM_INVALID, PREFERRED_AGE_MAXIMUM);
+        Exception exception = assertThrows(InvalidAgeGroup.class,
+                () -> testEditFiltersInteractor.updateFilters(USER_ID, newFiltersWithInvalidMinAge));
         assertEquals("Invalid age group. Minimum age should not be less than 19 or greater than maximum age.", exception.getMessage());
     }
 }

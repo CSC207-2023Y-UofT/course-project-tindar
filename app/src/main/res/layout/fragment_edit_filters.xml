@@ -6,137 +6,138 @@
     android:layout_height="match_parent"
     tools:context=".ui.editfilters.EditFiltersFragment">
 
-    <TextView
-        android:layout_width="116dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/preferred_genders" />
-
-    <ImageButton
-        android:id="@+id/button_edit_preferred_genders"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="121dp"
-        android:layout_marginTop="5dp"
-        android:backgroundTint="#00FFFFFF"
-        android:contentDescription="@string/click_to_edit_preferred_genders"
-        app:srcCompat="@drawable/ic_edit" />
-
-    <TextView
-        android:id="@+id/text_view_preferred_gender"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="50dp"
-        android:background="@android:drawable/editbox_background"
-        android:drawablePadding="16dp"
-        android:enabled="false"
-        android:hint="@string/choose_preferred_gender"
-        android:padding="12dp"
-        app:drawableEndCompat="@android:drawable/arrow_down_float" />
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
 
-    <TextView
-        android:layout_width="125dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="120dp"
-        android:text="@string/preferred_locations" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/filters"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
-    <ImageButton
-        android:id="@+id/button_edit_preferred_locations"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="105dp"
-        android:backgroundTint="#00FFFFFF"
-        android:contentDescription="@string/click_to_edit_preferred_locations"
-        app:srcCompat="@drawable/ic_edit" />
+        <ImageButton
+            android:id="@+id/button_edit_filters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:backgroundTint="#00FFFFFF"
+            android:contentDescription="@string/click_to_edit_filters"
+            app:srcCompat="@android:drawable/ic_menu_edit" />
 
-    <TextView
-        android:id="@+id/text_view_preferred_location"
+    </LinearLayout>
+
+        <TextView
+            android:layout_width="116dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="60dp"
+            android:text="@string/preferred_genders" />
+
+        <TextView
+            android:id="@+id/text_view_preferred_gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="90dp"
+            android:background="@android:drawable/editbox_background"
+            android:drawablePadding="16dp"
+            android:enabled="false"
+            android:hint="@string/choose_preferred_gender"
+            android:padding="12dp"
+            app:drawableEndCompat="@android:drawable/arrow_down_float" />
+
+        <TextView
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="160dp"
+            android:text="@string/preferred_locations" />
+
+        <TextView
+            android:id="@+id/text_view_preferred_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="190dp"
+            android:background="@android:drawable/editbox_background"
+            android:drawablePadding="16dp"
+            android:enabled="false"
+            android:hint="@string/choose_preferred_location"
+            android:padding="12dp"
+            app:drawableEndCompat="@android:drawable/arrow_down_float" />
+
+        <TextView
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="260dp"
+            android:text="@string/preferred_age_group" />
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="290dp"
+            android:labelFor="@id/edit_text_preferred_age_min"
+            android:text="@string/minimum_age" />
+
+        <EditText
+            android:id="@+id/edit_text_preferred_age_min"
+            android:layout_width="200dp"
+            android:layout_height="48dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="310dp"
+            android:importantForAutofill="no"
+            android:inputType="number" />
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="205dp"
+            android:layout_marginTop="290dp"
+            android:labelFor="@id/edit_text_preferred_age_max"
+            android:text="@string/maximum_age" />
+
+        <EditText
+            android:id="@+id/edit_text_preferred_age_max"
+            android:layout_width="200dp"
+            android:layout_height="48dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="310dp"
+            android:layout_marginEnd="4dp"
+            android:enabled="false"
+            android:importantForAutofill="no"
+            android:inputType="number" />
+
+    <Button
+        android:id="@+id/button_submit_filters"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="150dp"
-        android:background="@android:drawable/editbox_background"
-        android:drawablePadding="16dp"
-        android:enabled="false"
-        android:hint="@string/choose_preferred_location"
-        android:padding="12dp"
-        app:drawableEndCompat="@android:drawable/arrow_down_float" />
-
-    <TextView
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
+        android:layout_height="51dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="220dp"
-        android:text="@string/preferred_age_group" />
-
-    <ImageButton
-        android:id="@+id/button_edit_preferred_age_group"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="135dp"
-        android:layout_marginTop="205dp"
-        android:backgroundTint="#00FFFFFF"
-        android:contentDescription="@string/click_to_edit_preferred_age_group"
-        app:srcCompat="@drawable/ic_edit" />
-
-    <TextView
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="250dp"
-        android:text="@string/minimum_age"
-        android:labelFor="@id/edit_text_preferred_age_min"/>
-
-    <EditText
-        android:id="@+id/edit_text_preferred_age_min"
-        android:layout_width="200dp"
-        android:layout_height="48dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="270dp"
-        android:importantForAutofill="no"
-        android:inputType="number"
-        android:enabled="false" />
-
-    <TextView
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="205dp"
-        android:layout_marginTop="250dp"
-        android:text="@string/maximum_age"
-        android:labelFor="@id/edit_text_preferred_age_max"/>
-
-    <EditText
-        android:id="@+id/edit_text_preferred_age_max"
-        android:layout_width="200dp"
-        android:layout_height="48dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="270dp"
-        android:layout_marginEnd="4dp"
-        android:importantForAutofill="no"
-        android:inputType="number"
-        android:enabled="false" />
+        android:layout_centerInParent="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/submit"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>

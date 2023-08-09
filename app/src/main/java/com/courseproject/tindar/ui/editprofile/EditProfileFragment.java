@@ -86,15 +86,13 @@ public class EditProfileFragment extends Fragment {
         locationArrayAdapter = new ArrayAdapter<>(getContext(), R.layout.dropdown_item, locations);
 
         // click listener for profile edit button
-        profileEditButton.setOnClickListener(view -> {
-            setEditEnabled(true);
-        });
+        profileEditButton.setOnClickListener(view -> setEditEnabled(true));
 
         // click listener for profile submit button to update the profile
         profileSubmitButton.setOnClickListener(view -> {
             try {
-                EditProfileRequestModel updatedProfile = getProfileInputValue();
-                editProfileController.updateProfile(userId, updatedProfile);
+                EditProfileRequestModel newProfile = getProfileInputValues();
+                editProfileController.updateProfile(userId, newProfile);
                 setEditEnabled(false);
             } catch (ParseException e) {
                 birthdateTextView.setText(DateFormat.getDateInstance().format(profileDsResponse.getBirthdate()));
@@ -153,7 +151,7 @@ public class EditProfileFragment extends Fragment {
      *
      * @return profile input values.
      */
-    private EditProfileRequestModel getProfileInputValue()  throws ParseException {
+    private EditProfileRequestModel getProfileInputValues()  throws ParseException {
         return new EditProfileRequestModel(
             DateFormat.getDateInstance(DateFormat.DEFAULT).parse(birthdateTextView.getText().toString()),
             genderAutoCompleteTextView.getText().toString(),
