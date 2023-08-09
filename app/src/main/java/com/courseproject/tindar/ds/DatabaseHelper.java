@@ -284,11 +284,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
                 "Female, Male", "Calgary, Vancouver", 19, 999, db);
         addAccount(true, "rogers@exampleemail.com", "someotherpassword", "roger",
                 "roger", "fido", new GregorianCalendar(2003, 12, 3).getTime(),
-                "Female", "Calgary", "https://ccc", "I would like to",
+                "Female", "Calgary", "https://assets.ayobandung.com/crop/0x0:0x0/750x500/webp/photo/2023/02/27/Snapinstaapp_1080_332750966_200-1013192027.jpg", "I would like to",
                 "Female, Male", "Calgary, Vancouver", 19, 999, db);
         addAccount(true, "telus@exampleemail.com", "somethirdpassword", "ted",
                 "ted", "telus", new GregorianCalendar(2001, 12, 3).getTime(),
-                "Male", "Toronto", "https://ccc", "I would like to",
+                "Male", "Toronto", "https://media.cnn.com/api/v1/images/stellar/prod/190503220200-spongebob-squarepants-story-top.jpg?q=x_2,y_0,h_1041,w_1849,c_crop/h_720,w_1280", "I would like to",
                 "Female, Male", "Calgary, Vancouver", 19, 999, db);
         addLike("1", "2", db);
         addLike("2", "1", db);

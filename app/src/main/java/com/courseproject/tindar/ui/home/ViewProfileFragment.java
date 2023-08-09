@@ -17,9 +17,9 @@ import com.courseproject.tindar.BlankNavViewModel;
 import com.courseproject.tindar.R;
 import com.courseproject.tindar.controllers.userlist.UserListController;
 import com.courseproject.tindar.controllers.viewprofiles.ViewProfilesController;
-import com.courseproject.tindar.databinding.FragmentHomeBinding;
+import com.courseproject.tindar.databinding.FragmentViewProfileBinding;
 import com.courseproject.tindar.ds.DatabaseHelper;
-import com.courseproject.tindar.ui.editprofile.EditProfileFragment;
+import com.courseproject.tindar.ui.editfilters.EditFiltersFragment;
 import com.courseproject.tindar.usecases.userlist.UserListDsGateway;
 import com.courseproject.tindar.usecases.userlist.UserListInteractor;
 import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsGateway;
@@ -31,7 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class AssistantHomeFragment extends Fragment implements View.OnClickListener{
+public class ViewProfileFragment extends Fragment implements View.OnClickListener {
 
     ViewProfilesDsGateway viewProfilesDatabaseHelper = DatabaseHelper.getInstance(getContext());
     ViewProfilesInteractor viewProfilesInteractor = new ViewProfilesInteractor(viewProfilesDatabaseHelper);
@@ -41,7 +41,7 @@ public class AssistantHomeFragment extends Fragment implements View.OnClickListe
     UserListInteractor userListInteractor = new UserListInteractor(userListDatabaseHelper);
     UserListController userListController = new UserListController(userListInteractor);
 
-    private FragmentHomeBinding binding;
+    private FragmentViewProfileBinding binding;
     private ArrayList<String> allUserIds;
     private String userId;
     Button likeButton;
@@ -61,19 +61,13 @@ public class AssistantHomeFragment extends Fragment implements View.OnClickListe
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         Random r = new Random();
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentViewProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        ViewProfilesDsResponseModel initialProfile = viewProfilesController.readNextProfile(allUserIds.get(0));
-        allUserIds.add(allUserIds.get(r.nextInt(3)));
+        ViewProfilesDsResponseModel initialProfile = viewProfilesController.readNextProfile(allUserIds.get((int)(Math.random() * (5))));
 
         binding.likeButton.setOnClickListener(this);
         binding.dislikeButton.setOnClickListener(this);
-
-//        Button likeButton = (Button) root.findViewById(R.id.likeButton);
-//        Button dislikeButton = (Button) root.findViewById(R.id.dislikeButton);
-//        likeButton.setOnClickListener(this);
-//        dislikeButton.setOnClickListener(this);
 
         final TextView displayNameView = (TextView) root.findViewById(R.id.displayName);
         displayNameView.setText(initialProfile.getDisplayName());
@@ -94,17 +88,17 @@ public class AssistantHomeFragment extends Fragment implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View view) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.assistant_home_frame, new HomeFragment(), "second fragment"); //My second Fragment
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onClick(View view) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.layout_view_profile, new EditFiltersFragment(), "fourth fragment"); //My second Fragment
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }
