@@ -12,8 +12,13 @@ public class LikeListDsResponseModel {
         this.displayName = displayName;
     }
     // simple getter functions
+    /**
+     * Return userId
+     */
     public String getUserId() { return userId; }
-    public String getDisplayName() {
-        return displayName;
-    }
+
+    /**
+     * Return users display name
+     */
+    public String getDisplayName() { return displayName; }
 }
