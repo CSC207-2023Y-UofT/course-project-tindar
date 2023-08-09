@@ -14,7 +14,8 @@ import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsGateway;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsGateway;
-import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
+import com.courseproject.tindar.usecases.editprofile.EditProfileRequestModel;
+import com.courseproject.tindar.usecases.editprofile.EditProfileResponseModel;
 import com.courseproject.tindar.usecases.login.LoginDsGateway;
 import com.courseproject.tindar.usecases.likelist.LikeListDsGateway;
 import com.courseproject.tindar.usecases.likelist.LikeListDsResponseModel;
@@ -26,7 +27,6 @@ import com.courseproject.tindar.usecases.signup.SignUpDsRequestModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway, LoginDsGateway, SignUpDsGateway, LikeListDsGateway, ViewProfilesDsGateway, UserListDsGateway, EditAccountDsGateway {
@@ -327,8 +327,14 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return true;
     }
 
+    /** Retrieves profile information of a user from the database. It includes birthdate, gender, location,
+     * profile picture link, and about me statement of the user.
+     *
+     * @param userId the user id of the account
+     * @return profile information of the user
+     */
     @Override
-    public EditProfileDsResponseModel readProfile(String userId) {
+    public EditProfileResponseModel readProfile(String userId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT "
                 + DISPLAY_NAME + ", "
@@ -343,7 +349,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
 
         cursor.moveToFirst();
 
-        EditProfileDsResponseModel dsResponse = new EditProfileDsResponseModel(
+        EditProfileResponseModel dsResponse = new EditProfileResponseModel(
             cursor.getString(0),
             new java.util.Date(cursor.getLong(1)),
             cursor.getString(2),
@@ -385,51 +391,21 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return dsResponse;
     }
 
+    /** Updates the profile information of a user in the database. It includes birthdate, gender, location,
+     * profile picture link, and about me statement of the user.
+     *
+     * @param userId the user id of the account
+     * @param newProfile new profile information of the user
+     */
     @Override
-    public void updateBirthdate(String userId, Date birthdate) {
+    public void updateProfile(String userId, EditProfileRequestModel newProfile) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(BIRTHDATE, new java.sql.Date(birthdate.getTime()).getTime());
-
-        db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
-        db.close();
-    }
-
-    @Override
-    public void updateGender(String userId, String gender) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(GENDER, gender);
-
-        db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
-        db.close();
-    }
-
-    @Override
-    public void updateLocation(String userId, String location) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(LOCATION, location);
-
-        db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
-        db.close();
-    }
-
-    @Override
-    public void updateProfilePictureLink(String userId, String profilePictureLink) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(PROFILE_PICTURE_LINK, profilePictureLink);
-
-        db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
-        db.close();
-    }
-
-    @Override
-    public void updateAboutMe(String userId, String aboutMe) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(ABOUT_ME, aboutMe);
+        cv.put(BIRTHDATE, new java.sql.Date(newProfile.getBirthdate().getTime()).getTime());
+        cv.put(GENDER, newProfile.getGender());
+        cv.put(LOCATION, newProfile.getLocation());
+        cv.put(PROFILE_PICTURE_LINK, newProfile.getProfilePictureLink());
+        cv.put(ABOUT_ME, newProfile.getAboutMe());
 
         db.update(TABLE_ACCOUNTS, cv, ID + "=?", new String[]{userId});
         db.close();

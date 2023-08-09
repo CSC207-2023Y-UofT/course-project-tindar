@@ -7,15 +7,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.courseproject.tindar.usecases.editaccount.EditAccountDsGateway;
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
-import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
+import com.courseproject.tindar.usecases.editprofile.EditProfileRequestModel;
+import com.courseproject.tindar.usecases.editprofile.EditProfileResponseModel;
 import com.courseproject.tindar.usecases.likelist.LikeListDsResponseModel;
 import com.courseproject.tindar.usecases.signup.SignUpDsRequestModel;
 
@@ -72,7 +71,7 @@ public class DatabaseHelperTest {
         SignUpDsRequestModel accountCredentials = new SignUpDsRequestModel("april", "april@someemail.com",
                 "aprilpassword");
         String createdUserId = dbHelper.addAccount(accountCredentials);
-        EditProfileDsResponseModel profile = dbHelper.readProfile(createdUserId);
+        EditProfileResponseModel profile = dbHelper.readProfile(createdUserId);
         assertEquals("april", profile.getDisplayName());
     }
 
@@ -83,7 +82,7 @@ public class DatabaseHelperTest {
 
     @Test
     public void readProfile() {
-        EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
+        EditProfileResponseModel testProfile = dbHelper.readProfile(userId);
         assertEquals("bell", testProfile.getDisplayName());
         assertEquals(new GregorianCalendar(2003, 9, 5).getTime(), testProfile.getBirthdate());
         assertEquals("Female", testProfile.getGender());
@@ -93,38 +92,18 @@ public class DatabaseHelperTest {
     }
 
     @Test
-    public void updateBirthdate() {
-        dbHelper.updateBirthdate(userId, new GregorianCalendar(1997, 11, 27).getTime());
-        EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
-        assertEquals(new GregorianCalendar(1997, 11, 27).getTime(), testProfile.getBirthdate());
-    }
-
-    @Test
-    public void updateGender() {
-        dbHelper.updateGender(userId, "Other");
-        EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
-        assertEquals("Other", testProfile.getGender());
-    }
-
-    @Test
-    public void updateLocation() {
-        dbHelper.updateLocation(userId, "Vancouver");
-        EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
-        assertEquals("Vancouver", testProfile.getLocation());
-    }
-
-    @Test
-    public void updateProfilePictureLink() {
-        dbHelper.updateProfilePictureLink(userId, "https://bbb");
-        EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
-        assertEquals("https://bbb", testProfile.getProfilePictureLink());
-    }
-
-    @Test
-    public void updateAboutMe() {
-        dbHelper.updateAboutMe(userId, "Nice to meet you");
-        EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
-        assertEquals("Nice to meet you", testProfile.getAboutMe());
+    public void testUpdateProfile() {
+        EditProfileRequestModel newProfile = new EditProfileRequestModel(
+                new GregorianCalendar(1997, 11, 27).getTime(),
+                "Other", "Vancouver", "https://bbb", "Nice to meet you"
+        );
+        dbHelper.updateProfile(userId, newProfile);
+        EditProfileResponseModel updatedProfile = dbHelper.readProfile(userId);
+        assertEquals(new GregorianCalendar(1997, 11, 27).getTime(), updatedProfile.getBirthdate());
+        assertEquals("Other", updatedProfile.getGender());
+        assertEquals("Vancouver", updatedProfile.getLocation());
+        assertEquals("https://bbb", updatedProfile.getProfilePictureLink());
+        assertEquals("Nice to meet you", updatedProfile.getAboutMe());
     }
 
     @Test

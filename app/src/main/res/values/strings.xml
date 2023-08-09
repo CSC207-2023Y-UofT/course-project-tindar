@@ -17,18 +17,12 @@
     <string name="re_type_password">Re-type Password</string>
 
     <!-- Strings related to other screens -->
+    <string name="birthdate">Birthdate</string>
     <string name="gender">Gender</string>
     <string name="location">Location</string>
     <string name="profile_picture_link">Profile Picture Link</string>
     <string name="about_me">About Me</string>
-    <string name="click_to_edit_profile_picture_link">Click to edit Profile Picture Link</string>
-    <string name="click_to_edit_about_me">Click to edit About Me</string>
-    <string name="click_to_edit_location">Click to edit Location</string>
-    <string name="click_to_edit_gender">Click to edit Gender</string>
-    <string name="click_to_edit_birthdate">Click to edit Birthdate</string>
-    <string name="birthdate">Birthdate</string>
-    <string name="profile">profile</string>
-    <string name="filters">filters</string>
+    <string name="click_to_edit_profile">Click to edit Profile</string>
     <string name="choose_preferred_gender">Choose Preferred Gender</string>
     <string name="choose_preferred_location">Choose Preferred Location</string>
     <string name="preferred_locations">Preferred Locations</string>
@@ -63,4 +57,6 @@
     <string name="menu_filters">Filters</string>
     <string name="like_button">like button</string>
     <string name="dislike_button">dislike button</string>
+    <string name="submit">Submit</string>
+    <string name="my_profile">My Profile</string>
 </resources>
