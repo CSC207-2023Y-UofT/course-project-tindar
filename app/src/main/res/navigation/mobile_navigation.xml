@@ -35,4 +35,10 @@
         android:label="Conversations"
         tools:layout="@layout/fragment_conversation" />
 
+    <fragment
+        android:id="@+id/nav_assistant_home"
+        android:name="com.courseproject.tindar.ui.home.AssistantHomeFragment"
+        android:label="View Profile"
+        tools:layout="@layout/fragment_assistant_home" />
+
 </navigation>
