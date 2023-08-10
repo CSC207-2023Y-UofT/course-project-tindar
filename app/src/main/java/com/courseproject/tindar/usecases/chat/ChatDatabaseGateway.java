@@ -1,6 +1,7 @@
 package com.courseproject.tindar.usecases.chat;
 
 import java.util.ArrayList;
+import java.sql.Timestamp;
 
 public interface ChatDatabaseGateway {
     /*
@@ -59,26 +60,17 @@ public interface ChatDatabaseGateway {
      */
     String addOrUpdateConversation(ConversationModel newConversation);
 
-    /*
     /**
-     * Creates a new conversation record in the chat database if no conversation already exists
-     * with these users.
-     * Updates the conversation record if a conversation already exists with these users.
-     * Called when a match is made.
+     * Updates the conversation record if a conversation already exists with this conversationID.
      *
      * @param conversationID ID of the conversation to be modified
-     * @param newUsers list of userIDs of users in the chat.
-     *                 replaces previous list of users.
      * @param newLastInteraction replaces the previous "lastInteraction" record
      * @param newTimeLastAction replaces the previous "time of lastInteraction" record
-     * @return true if conversation creation was successful (conversation did not already exist);
+     * @return true if conversation exists and was successfully updated;
      *          false otherwise.
-     *\/
-    abstract boolean addOrUpdateConversation(String conversationID, String[] newUsers,
-                                                    String newLastInteraction,
+     */
+    String updateConversation(String conversationID, String newLastInteraction,
                                                     Timestamp newTimeLastAction);
-    Commented this out because I think it shouldn't be used.
-    */
 
     /**
      * Returns a representation of a specified conversation.

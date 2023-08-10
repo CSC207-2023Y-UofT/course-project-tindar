@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 /**
@@ -181,6 +182,20 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
      */
     @Override
     public String addOrUpdateConversation(ConversationModel newConversation) {
+        return null;
+    }
+
+    /**
+     * Updates the conversation record if a conversation already exists with this conversationID.
+     *
+     * @param conversationID     ID of the conversation to be modified
+     * @param newLastInteraction replaces the previous "lastInteraction" record
+     * @param newTimeLastAction  replaces the previous "time of lastInteraction" record
+     * @return true if conversation exists and was successfully updated;
+     * false otherwise.
+     */
+    @Override
+    public String updateConversation(String conversationID, String newLastInteraction, Timestamp newTimeLastAction) {
         return null;
     }
 
