@@ -63,4 +63,8 @@
     <string name="my_profile">My Profile</string>
 
     <string name="action_log_out">Log Out</string>
+    <string name="change_email">Change Email</string>
+    <string name="change_password">Change Password</string>
+    <string name="submit_email">Submit Email</string>
+    <string name="submit_password">Submit Password</string>
 </resources>

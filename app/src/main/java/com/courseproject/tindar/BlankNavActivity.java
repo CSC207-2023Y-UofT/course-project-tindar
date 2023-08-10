@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.courseproject.tindar.ui.settings.SettingsActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -69,6 +70,8 @@ public class BlankNavActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         } else if (currentItemId == R.id.action_settings) {
+            Intent intent = new Intent(BlankNavActivity.this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         } else {
             return super.onOptionsItemSelected(item);
