@@ -56,6 +56,9 @@ public class BlankNavActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
+    /**
+     * Populates menu with items
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -63,6 +66,12 @@ public class BlankNavActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Checks for a selection from user, then navigates there or logs out.
+     *
+     * @param item The screen selected by the user.
+     * @return The boolean result navigating to the screen.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
@@ -79,6 +88,11 @@ public class BlankNavActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Navigation to handle back button and hierarchy navigation.
+     *
+     * @return The boolean result of checking if screen can go back.
+     */
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_blank_nav);
