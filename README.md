@@ -1,39 +1,48 @@
-# Project Template
+# Tindar: How the Cool Kids Date
+This project was made for a software design course. The aim of the project was to learn about good software design and its importance via making a group project.
 
-This is a template repository for CSC 207 projects. 
-This repository contains starter code for a gradle project.
-It also contains workflow documents that give instructions on how to manage your Github repository and how to use Github Projects for efficient collaboration.
+## Project description
+In the finished project: users should be able to sign up, log in, edit their profiles, like profiles, and match when both users like each other's profiles, view their matches and converse with people they've matched with.
 
-## Checklist For Your Project
-- [ ] Verify the correct settings for your project repository
-- [ ] Set up Github Projects
-- [ ] Create the implementation plan using issues and Github Projects
-- [ ] Create deveopment branches for your features
-- [ ] Use pull requests to merge finished features into main branch
-- [ ] Conduct code reviews
+This project was mostly intended to be a learning experience in software design rather than an exercise in learning to use as many new tools as we could. We used Java rather than Kotlin because we wanted to focus on how to make good software given a language, rather than on learning a new programming language. We used SQLite since it was readily available, but the project is designed such that it should be reasonably easy to swap that out for a different database.
+### Challenges and future directions
+This project doesn't fully work yet. I think fixing that is our main priority.
 
-**If your team has trouble with any of these steps, please ask on Piazza. For example, with how GitHub Classroom works, your team *may* not have permissions to do some of the first few steps, in which case we'll post alternative instructions as.**
+Once the basics are done, it would be interesting to explore:
+- How to manage both a client and a server, and the possibility of many simultaneous users.
+- How to reduce and handle privacy issues and security vulnerabilities.
+- Automatic moderation for things like unsolicited pictures of sexual natures.
+- How to design a recommender algorithm that keeps people on the dating app for as long as possible by giving them just enough matches that are just good enough to give them hope, but not so many high-quality matches that they find fulfilling relationships and stop using the app.
 
-## Workflow Documents
+## Installation and running the project
+Though this is supposedly an Android app, we haven't actually tried running this on a real Android device yet. We have been testing and developing this app using emulators in [Android Studio](https://developer.android.com/studio/install).
 
-* Github Workflow: Please refer to the workflow that was introduced in the first lab. You should follow this when working on your code. The following document provides additional details too.
+Plugin needed
+- Lombok Plugin is needed for the Android Studio. Follow the instruction from https://projectlombok.org/setup/android
 
-* [Project Planning and Development Guide](project_plan_dev.md): This document helps you to understand how to create and maintain a project plan for your class project. **This document helps you to complete the Implementation Plan Milestone.**
+To run the app on the Android Studio
+- Open an Android Studio
+- Go to Tools > Device Manage and click on Create device. Make sure the Virtual tab is selected.
+- Select Phone > Pixel 6 as Hardware and click Next
+- Make sure Recommended tab is selected and select API 34 as System Image. Click Next.
+- Click Finish
+- Run the app on the Pixel 6 API 34 device
 
-## Gradle Project
-Import this project into your Intellij editor. It should automatically recognise this as a gradle repository.
-The starter code was built using SDK version 11.0.1. Ensure that you are using this version for this project. (You can, of course, change the SDK version as per your requirement if your team has all agreed to use a different version)
+## Demo
+- To test the app functionality, you can use the following credentials to login
+  - email: jack@someemail.com
+  - password: password_jack
 
-You have been provided with two starter files for demonstration: HelloWorld and HelloWorldTest.
+## Credits
+### Contributors
+https://github.com/jenniferjinyoungyang
+https://github.com/candidcalcifer
+https://github.com/kresimirgotovac
+https://github.com/A-Bunch-Of-Atoms
+https://github.com/navarhontes (the one writing this; blame them for anything wrong here)
+https://github.com/yiwxng
 
-You will find HelloWorld in `src/main/java/tutorial` directory. Right click on the HelloWorld file and click on `Run HelloWorld.main()`.
-This should run the program and print on your console.
-
-You will find HelloWorldTest in `src/test/java/tutorial` directory. Right click on the HelloWorldTest file and click on `Run HelloWorldTest`.
-All tests should pass. Your team can remove this sample of how testing works once you start adding your project code to the repo.
-
-Moving forward, we expect you to maintain this project structure. You *should* use Gradle as the build environment, but it is fine if your team prefers to use something else -- just remove the gradle files and push your preferred project setup. Assuming you stick with Gradle, your source code should go into `src/main/java` (you can keep creating more subdirectories as per your project requirement). Every source class can auto-generate a test file for you. For example, open HelloWorld.java file and click on the `HelloWorld` variable as shown in the image below. You should see an option `Generate` and on clicking this your should see an option `Test`. Clicking on this will generate a JUnit test file for `HelloWorld` class. This was used to generate the `HelloWorldTest`.
-
-![image](https://user-images.githubusercontent.com/5333020/196066655-d3c97bf4-fdbd-46b0-b6ae-aeb8dbcf351d.png)
-
-You can create another simple class and try generating a test for this class.
+### References
+Some reference materials that were used in the development of this project:
+- [Beginner Android Programming (Java)](https://www.youtube.com/playlist?list=PL_c9BZzLwBRJLm0QETVj_XcN4jRsV4LkR)
+- [RecyclerView | Everything You Need to Know](https://www.youtube.com/watch?v=Mc0XT58A1Z4)

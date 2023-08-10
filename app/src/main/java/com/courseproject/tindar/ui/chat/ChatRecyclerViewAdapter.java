@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.courseproject.tindar.R;
+
 import com.courseproject.tindar.usecases.chat.MessageModel;
 
 import java.util.ArrayList;

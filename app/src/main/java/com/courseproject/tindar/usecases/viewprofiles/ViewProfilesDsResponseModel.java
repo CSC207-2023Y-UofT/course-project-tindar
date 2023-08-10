@@ -1,9 +1,8 @@
-package com.courseproject.tindar.usecases.editprofile;
+package com.courseproject.tindar.usecases.viewprofiles;
 
 import java.util.Date;
 
-public class EditProfileDsResponseModel {
-
+public class ViewProfilesDsResponseModel {
     private final String displayName;
     private final Date birthdate;
     private final String gender;
@@ -11,7 +10,7 @@ public class EditProfileDsResponseModel {
     private final String profilePictureLink;
     private final String aboutMe;
 
-    public EditProfileDsResponseModel(String displayName, Date birthdate, String gender, String location,
+    public ViewProfilesDsResponseModel(String displayName, Date birthdate, String gender, String location,
                                       String profilePictureLink,
                                       String aboutMe) {
         this.displayName = displayName;

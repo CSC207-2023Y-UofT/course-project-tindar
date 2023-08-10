@@ -15,6 +15,30 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/my_profile"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+            <ImageButton
+                android:id="@+id/button_edit_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:backgroundTint="#00FFFFFF"
+                android:contentDescription="@string/click_to_edit_profile"
+                app:srcCompat="@android:drawable/ic_menu_edit" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
@@ -23,16 +47,9 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:gravity="center"
-                android:text="@string/birthdate"
-                android:labelFor="@id/text_view_birthday" />
+                android:labelFor="@id/text_view_birthday"
+                android:text="@string/birthdate" />
 
-            <ImageButton
-                android:id="@+id/button_edit_birthday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#00FFFFFF"
-                app:srcCompat="@drawable/ic_edit"
-                android:contentDescription="@string/click_to_edit_birthdate" />
         </LinearLayout>
 
         <TextView
@@ -57,13 +74,6 @@
                 android:text="@string/gender"
                 android:labelFor="@id/auto_complete_text_view_gender" />
 
-            <ImageButton
-                android:id="@+id/button_edit_gender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#00FFFFFF"
-                app:srcCompat="@drawable/ic_edit"
-                android:contentDescription="@string/click_to_edit_gender" />
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -96,13 +106,6 @@
                 android:text="@string/location"
                 android:labelFor="@id/auto_complete_text_view_location" />
 
-            <ImageButton
-                android:id="@+id/button_edit_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#00FFFFFF"
-                app:srcCompat="@drawable/ic_edit"
-                android:contentDescription="@string/click_to_edit_location" />
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -135,13 +138,6 @@
                 android:text="@string/profile_picture_link"
                 android:labelFor="@id/edit_text_profile_picture_link" />
 
-            <ImageButton
-                android:id="@+id/button_edit_profile_picture_link"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#00FFFFFF"
-                app:srcCompat="@drawable/ic_edit"
-                android:contentDescription="@string/click_to_edit_profile_picture_link" />
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -175,13 +171,6 @@
                 android:text="@string/about_me"
                 android:labelFor="@id/edit_text_about_me" />
 
-            <ImageButton
-                android:id="@+id/button_edit_about_me"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#00FFFFFF"
-                app:srcCompat="@drawable/ic_edit"
-                android:contentDescription="@string/click_to_edit_about_me" />
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -199,6 +188,17 @@
                 android:importantForAutofill="no" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/button_submit_profile"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/submit"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 
