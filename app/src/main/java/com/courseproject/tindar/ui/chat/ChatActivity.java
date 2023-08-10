@@ -96,7 +96,8 @@ public class ChatActivity extends AppCompatActivity {
         //      - flagged in issue #51
         this.userId = intent.getStringExtra("current_user_id");
         this.otherUserId = intent.getStringExtra("conversation_partner_id");
-        this.conversationPartnerDisplayName = this.otherUserId;
+        this.conversationPartnerDisplayName
+                = intent.getStringExtra("conversation_partner_display_name");
 
         // setting input and view instance variables to match what's in the display
         this.conversationPartnerDisplayNameDisplay
