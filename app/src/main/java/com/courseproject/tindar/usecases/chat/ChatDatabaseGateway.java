@@ -45,6 +45,29 @@ public interface ChatDatabaseGateway {
      */
     ArrayList<MessageModel> loadAllConversationMessages(String conversationID);
 
+    /**
+     * Deletes the record of a message using its ID.
+     *
+     * @param MessageId Message ID of the to-be-deleted message.
+     * @return true if successful; false otherwise (e.g. message not found).
+     */
+    public boolean deleteMessage(String MessageId);
+
+    /**
+     * Deletes all messages between subsets of given users. Does not delete conversation records.
+     *
+     * @param userIDs list of users to delete messages between
+     * @return true if successful; false otherwise.
+     */
+    public boolean deleteMessagesBetween(String[] userIDs);
+
+    /**
+     * Deletes all message records. Does not delete conversation records.
+     *
+     * @return true if successful; false otherwise.
+     */
+    public boolean deleteAllMessages();
+
     // Conversation table CRUD
 
     /**
