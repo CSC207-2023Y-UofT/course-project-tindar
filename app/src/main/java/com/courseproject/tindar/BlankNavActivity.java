@@ -21,6 +21,10 @@ import com.courseproject.tindar.databinding.ActivityBlankNavBinding;
 public class BlankNavActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
 
+    /**
+     * Creates the home page and navigation drawer that persists when user is logged in.
+     * Associated with each of the fragments that are accessible from the navigation drawer.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
