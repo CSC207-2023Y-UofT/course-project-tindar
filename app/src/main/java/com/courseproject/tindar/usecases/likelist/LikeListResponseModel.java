@@ -5,7 +5,11 @@ package com.courseproject.tindar.usecases.likelist;
  * conversation to transition to.
  */
 public class LikeListResponseModel {
+
+    /** List of userIds */
     private final String[] userIds;
+
+    /** List of displayNames */
     private final String[] displayNames;
 
     /**
@@ -21,14 +25,14 @@ public class LikeListResponseModel {
     // Two simple getter functions
 
     /**
-     * Return userIds in the users match list
+     * @return return userIds in the users match list
      */
     public String[] getUserIds() {
         return userIds;
     }
 
     /**
-     * Return users display names in the users match list
+     *@return  return users display names in the users match list
      */
     public String[] getDisplayNames() {
         return displayNames;

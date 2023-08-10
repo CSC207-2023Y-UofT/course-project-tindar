@@ -529,6 +529,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     /** Check if either userId or other have liked each other
      * @param userId user who initiated a 'like' interaction
      * @param otherUserId user receiving a 'like' from userId
+     * @return return true if users 'like' each other, false otherwise
      */
     public boolean checkLiked(String userId, String otherUserId) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -630,6 +631,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
 
     /** Reads match list from database and returns ArrayList<String[]> of userIds
      * @param userId user who's match list we are retrieving
+     * @return return list of userIds from match list
      */
     @Override
     public ArrayList<String[]> readMatchList(String userId) {
@@ -659,6 +661,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
      * shown on screen when plugged into MatchListFragment. Essentially returning a list of
      * display names
      * @param userIds users who's display names we are retrieving
+     * @return return list of user display names
      */
     @Override
     public ArrayList<LikeListDsResponseModel> readDisplayNames(ArrayList<String> userIds) {

@@ -62,6 +62,7 @@ public class LikeListInteractor implements LikeListInputBoundary {
      * Return two String[] lists. One containing all matched userIds, and one containing all
      * matched user displayNames.
      * @param userId id of user who we are retrieving the matched display names
+     * @return return two lists, one or userIds and one of displayNames in match list
      */
     @Override
     public LikeListResponseModel getDisplayNamesForMatches(String userId) {

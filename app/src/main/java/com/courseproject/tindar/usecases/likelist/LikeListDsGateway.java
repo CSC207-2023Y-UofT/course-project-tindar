@@ -54,7 +54,7 @@ public interface LikeListDsGateway {
      * Read and return the userIds stored in a match list
      *
      * @param userId id of user match list we are reading
-     * @return ArrayList<String[]> of userIds in the match list
+     * @return return list of userIds in the match list
      */
     ArrayList<String[]> readMatchList(String userId);
 
@@ -62,7 +62,7 @@ public interface LikeListDsGateway {
      * Read and return the display names of users stored in a match list
      *
      * @param userIds id of users in the match list
-     * @return ArrayList<LikeListDsResponseModel> of display names in the match list
+     * @return return list of display names in the match list
      */
     ArrayList<LikeListDsResponseModel> readDisplayNames(ArrayList<String> userIds);
 }

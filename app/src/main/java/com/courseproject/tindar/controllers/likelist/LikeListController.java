@@ -3,8 +3,10 @@ package com.courseproject.tindar.controllers.likelist;
 import com.courseproject.tindar.usecases.likelist.LikeListInputBoundary;
 import com.courseproject.tindar.usecases.likelist.LikeListResponseModel;
 
-public class LikeListController {
 /** This controller class accepts user input and connects it to back-end likeList functions **/
+public class LikeListController {
+
+    /** userInput is the users input, either 'like' or 'remove like' */
     final LikeListInputBoundary userInput;
 
     /**
