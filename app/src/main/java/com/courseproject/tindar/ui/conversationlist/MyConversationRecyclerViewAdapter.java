@@ -1,4 +1,4 @@
-package com.courseproject.tindar.ui.conversations;
+package com.courseproject.tindar.ui.conversationlist;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -7,7 +7,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.courseproject.tindar.databinding.FragmentConversationBinding;
-import com.courseproject.tindar.usecases.conversation_list.ConversationResponseModel;
+import com.courseproject.tindar.usecases.conversationlist.ConversationResponseModel;
 
 import java.util.List;
 
