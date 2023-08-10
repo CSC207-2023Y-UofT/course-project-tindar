@@ -17,6 +17,7 @@ import com.courseproject.tindar.usecases.editprofile.EditProfileRequestModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileResponseModel;
 import com.courseproject.tindar.usecases.likelist.LikeListDsResponseModel;
 import com.courseproject.tindar.usecases.signup.SignUpDsRequestModel;
+import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsResponseModel;
 
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -83,6 +84,17 @@ public class DatabaseHelperTest {
     @Test
     public void testReadProfile() {
         EditProfileResponseModel testProfile = dbHelper.readProfile(userId);
+        assertEquals("bell", testProfile.getDisplayName());
+        assertEquals(new GregorianCalendar(2003, 9, 5).getTime(), testProfile.getBirthdate());
+        assertEquals("Female", testProfile.getGender());
+        assertEquals("Calgary", testProfile.getLocation());
+        assertEquals("https://ccc", testProfile.getProfilePictureLink());
+        assertEquals("I would like to", testProfile.getAboutMe());
+    }
+
+    @Test
+    public void testReadNextProfile() {
+        ViewProfilesDsResponseModel testProfile = dbHelper.readNextProfile(userId);
         assertEquals("bell", testProfile.getDisplayName());
         assertEquals(new GregorianCalendar(2003, 9, 5).getTime(), testProfile.getBirthdate());
         assertEquals("Female", testProfile.getGender());
