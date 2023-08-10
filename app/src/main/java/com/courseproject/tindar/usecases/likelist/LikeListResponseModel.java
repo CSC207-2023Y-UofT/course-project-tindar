@@ -2,7 +2,8 @@ package com.courseproject.tindar.usecases.likelist;
 
 /** This class allows the match list fragment to simultaneously display users displayNames and
  * send the userIds to ChatActivity so when a  user is clicked in the match list, we know which
- * conversation to transition to. */
+ * conversation to transition to.
+ */
 public class LikeListResponseModel {
     private final String[] userIds;
     private final String[] displayNames;
