@@ -28,15 +28,9 @@ import java.util.ArrayList;
  * This displays the messages, bar at the top, navigation buttons, and inputs for conversing.
  * This java file and dictates the bigger picture of one-on-one chat display
  * and functionality of the buttons on the screen.
-<<<<<<< HEAD
- *
- * Will add button functionality as other features are implemented.
- *
-=======
  * -------------------------------------------------------------------------------------------------
  * Will add button functionality as other features are implemented.
  * -------------------------------------------------------------------------------------------------
->>>>>>> main
  * Display layout is in activity_chat.xml.
  * Given a list of messages and basic info,
  * ChatRecyclerViewAdapter.java handles displaying messages.
@@ -46,16 +40,9 @@ import java.util.ArrayList;
 public class ChatActivity extends AppCompatActivity {
     /*
         TODO:
-        - un-hardcode "Username" to be the actual conversation partner's display name
-<<<<<<< HEAD
-        - un-hardcode userID to be the current user's userID
+        - display conversation partner's display name and not userID
         - possibly reverse the message list implementation?
         - userID, otherUserID, conversationPartnerDisplayName, and probably a few other things
-=======
-        - un-hardcode userId to be the current user's userId
-        - possibly reverse the message list implementation?
-        - userId, otherUserID, conversationPartnerDisplayName, and probably a few other things
->>>>>>> main
             should probably be placed in a facade or something
      */
 
@@ -96,10 +83,6 @@ public class ChatActivity extends AppCompatActivity {
     /**
      * I think this runs when a new ChatActivity object is made.
      * @param savedInstanceState still have no idea what this is to be honest.
-<<<<<<< HEAD
-     * @return void
-=======
->>>>>>> main
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,11 +128,7 @@ public class ChatActivity extends AppCompatActivity {
      * Loads or adds to the list of messages to be displayed,
      * which is stored in the instance variable loadedMessages.
      * Called by OnCreate. Should also be called whenever the user wants to load more messages.
-<<<<<<< HEAD
-     *
-=======
      * ---------------------------------------------------------------------------------------------
->>>>>>> main
      * Currently implemented with hardcoded tests; will be reimplemented with the database.
      */
     private void loadMessages(){
@@ -183,19 +162,10 @@ public class ChatActivity extends AppCompatActivity {
     /**
      * Called when sendMessageButton is called. Creates the new message, and informs adapter
      * that it needs to update the display.
-<<<<<<< HEAD
-     *
-     * Currently just adds the message to loadedMessages.
-     * Will probably call some sort of conversationManager class and be slightly reimplemented
-     * with the database.
-     *
-     * @return void
-=======
      * ---------------------------------------------------------------------------------------------
      * Currently just adds the message to loadedMessages.
      * Will probably call some sort of conversationManager class and be slightly reimplemented
      * with the database.
->>>>>>> main
      */
     public void sentMessage(View v){
         String input = (this.chatInput.getText()).toString();
