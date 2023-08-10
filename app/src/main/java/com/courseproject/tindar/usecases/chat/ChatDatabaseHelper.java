@@ -4,10 +4,12 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 /**
  * @author Sophia Wan
  */
-public class ChatDatabaseHelper extends SQLiteOpenHelper /*implements ChatDatabaseGateway*/ {
+public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabaseGateway {
     // Using the Singleton Pattern as outlined in:
     // https://guides.codepath.com/android/local-databases-with-sqliteopenhelper#singleton-pattern
     private static ChatDatabaseHelper sInstance;
@@ -120,5 +122,150 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper /*implements ChatDataba
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_MESSAGES);
             onCreate(db);
         }
+    }
+
+    /**
+     * Creates a new message record in the chat database using the IDs of the users involved.
+     * Requires the messageID to have already been created.
+     *
+     * @param newMessage representation of the new message that this method will record.
+     * @return true if successful; false otherwise (e.g. message already exists)
+     */
+    @Override
+    public boolean addMessage(MessageModel newMessage) {
+        return false;
+    }
+
+    /**
+     * @param messageID messageID of the desired message
+     * @return representation of desired message if found; null otherwise
+     */
+    @Override
+    public MessageModel getMessage(String messageID) {
+        return null;
+    }
+
+    /**
+     * Returns a list representing all messages in a given conversation
+     *
+     * @param users userIDs of users in this conversation
+     * @return
+     */
+    @Override
+    public ArrayList<MessageModel> loadAllConversationMessages(String[] users) {
+        return null;
+    }
+
+    /**
+     * Returns a list representing all messages in a given conversation
+     *
+     * @param conversationID conversationID of the desired conversation
+     * @return list of all messages in a conversation, from oldest to newest if the conversation exists
+     * (empty list if no message); null otherwise.
+     */
+    @Override
+    public ArrayList<MessageModel> loadAllConversationMessages(String conversationID) {
+        return null;
+    }
+
+    /**
+     * Creates a new conversation record in the chat database if no conversation already exists
+     * with these users.
+     * Updates the conversation record if a conversation already exists with these users.
+     * Called when a match is made.
+     *
+     * @param newConversation representation of the new conversation to be added,
+     *                        or the state to which the existing conversation is to be modified`.
+     * @return conversation ID of the newly-created/edited conversation if successful;
+     * null otherwise.
+     */
+    @Override
+    public String addOrUpdateConversation(ConversationModel newConversation) {
+        return null;
+    }
+
+    /**
+     * Returns a representation of a specified conversation.
+     *
+     * @param conversationID ID of the desired conversation.
+     * @return representation of the conversation matching this unique ID.
+     * null if no such conversation is found.
+     */
+    @Override
+    public ConversationModel getConversation(String conversationID) {
+        return null;
+    }
+
+    /**
+     * Returns a representation of a specified conversation.
+     *
+     * @param users userIDs of the users in the conversation.
+     * @return representation of the most recently-active conversation with these users.
+     * null if no such conversation is found.
+     */
+    @Override
+    public ConversationModel getConversation(String[] users) {
+        return null;
+    }
+
+    /**
+     * Returns a list representing all conversations that a user is currently in.
+     *
+     * @param userID the userID of the user whose list of conversations you want to retrieve
+     * @return a list representing all conversations that the user is in
+     */
+    @Override
+    public ArrayList<ConversationModel> getUserConversationList(String userID) {
+        return null;
+    }
+
+    /**
+     * @return list of all conversations in the database
+     */
+    @Override
+    public ArrayList<ConversationModel> getAllConversations() {
+        return null;
+    }
+
+    /**
+     * Deletes the record of a conversation.
+     *
+     * @param conversationID conversationID ID of the to-be-deleted conversation.
+     * @return true if successful; false otherwise (e.g. conversation not found).
+     */
+    @Override
+    public boolean deleteConversation(String conversationID) {
+        return false;
+    }
+
+    /**
+     * Deletes the record of a conversation using its list of users.
+     *
+     * @param users userIDs of the members of the to-be-deleted conversation.
+     * @return true if successful; false otherwise (e.g. conversation not found).
+     */
+    @Override
+    public boolean deleteConversation(String[] users) {
+        return false;
+    }
+
+    /**
+     * Deletes all conversation records. Does not delete messages records.
+     *
+     * @return true if successful; false otherwise.
+     */
+    @Override
+    public boolean deleteAllConversations() {
+        return false;
+    }
+
+    /**
+     * Deletes all conversation and message records.
+     *
+     * @return true if successful; false otherwise.
+     */
+    @Override
+    public boolean deleteAllConversationChatRecords() {
+        return false;
     }
 }
