@@ -17,7 +17,16 @@ import java.sql.Timestamp;
         this.creationTime = timestamp;
         this.sentFromId = sentFromId; 
         this.sentToId = sentToId;
-        this.messageId = sentFromId + sentToId + timestamp.toString(); 
+        this.messageId = "" + timestamp.getTime();
+        //implementation of messageId will probably be changed
+    }
+
+    public TindarMessage(String messageId, String text, Timestamp timestamp, String sentFromId, String sentToId){
+        this.text = text;
+        this.creationTime = timestamp;
+        this.sentFromId = sentFromId;
+        this.sentToId = sentToId;
+        this.messageId = messageId;
         //implementation of messageId will probably be changed
     }
 

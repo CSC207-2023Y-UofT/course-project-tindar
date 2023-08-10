@@ -1,8 +1,14 @@
 package com.courseproject.tindar.usecases.chat;
 
+import java.util.Arrays;
+
+import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Message;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -91,7 +97,7 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
                 "(" +
                 KEY_MESSAGE_ID + " INTEGER NOT NULL PRIMARY KEY," // Define a primary key
                 // KEY_MESSAGE_SENDER_ID + " INTEGER REFERENCES " + TABLE_USERS + "," // Define a foreign key
-                + KEY_MESSAGE_CREATION_TIME + " TIMESTAMP, "
+                + KEY_MESSAGE_CREATION_TIME + " INTEGER, "
                 + KEY_MESSAGE_CONTENT + " TEXT, "
                 + KEY_MESSAGE_SENDER_ID + " INTEGER, "
                 + KEY_MESSAGE_RECIPIENT_ID + " INTEGER"
@@ -101,7 +107,7 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
                 KEY_CONVERSATION_ID + " INTEGER NOT NULL PRIMARY KEY," // Define a primary key
                 + KEY_USER_1 + " INTEGER, "
                 + KEY_USER_2 + " INTEGER, "
-                + KEY_CONVERSATION_LAST_INTERACTION_TIME + " TIMESTAMP, "
+                + KEY_CONVERSATION_LAST_INTERACTION_TIME + " INTEGER, "
                 + KEY_CONVERSATION_LAST_INTERACTION + " TEXT"
                 + ")";
         db.execSQL(CREATE_MESSAGES_TABLE);
@@ -134,7 +140,18 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
      */
     @Override
     public boolean addMessage(MessageModel newMessage) {
-        return false;
+        // TODO: this probably needs to be fixed
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_MESSAGE_ID, newMessage.getMessageId());
+        values.put(KEY_MESSAGE_CREATION_TIME, newMessage.getCreationTime().getTime());
+        values.put(KEY_MESSAGE_CONTENT, newMessage.getMessageContent());
+        values.put(KEY_MESSAGE_SENDER_ID, newMessage.getSentFromId());
+        values.put(KEY_MESSAGE_RECIPIENT_ID, newMessage.getSentToId());
+
+        db.insertOrThrow(TABLE_MESSAGES, null, values);
+        return true;
     }
 
     /**
@@ -152,9 +169,39 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
      * @param users userIDs of users in this conversation
      * @return a list representing all messages in the conversation with these users
      */
+    @SuppressLint("Range")
     @Override
     public ArrayList<MessageModel> loadAllConversationMessages(String[] users) {
-        return null;
+        int[] userIntIds = stringArrayToIntArray(users);
+        Arrays.sort(userIntIds);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT "
+                        + KEY_MESSAGE_ID + ", "
+                        + KEY_MESSAGE_CREATION_TIME + ", "
+                        + KEY_MESSAGE_CONTENT + ", "
+                        + KEY_MESSAGE_SENDER_ID + ", "
+                        + KEY_MESSAGE_RECIPIENT_ID
+                        + " FROM " + TABLE_MESSAGES
+                        + " WHERE " + KEY_USER_1 + " =? AND " + KEY_USER_2 + " =?",
+                new String[]{String.valueOf(userIntIds[0]), String.valueOf(userIntIds[1])});
+
+        ArrayList<MessageModel> messageList = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                messageList.add(new TindarMessage(
+                        cursor.getString(cursor.getColumnIndex(KEY_MESSAGE_ID)),
+                        cursor.getString(cursor.getColumnIndex(KEY_MESSAGE_CONTENT)),
+                        new Timestamp(cursor.getLong(cursor.getColumnIndex(KEY_MESSAGE_CREATION_TIME))),
+                        cursor.getString(cursor.getColumnIndex(KEY_MESSAGE_SENDER_ID)),
+                        cursor.getString(cursor.getColumnIndex(KEY_MESSAGE_RECIPIENT_ID))));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return messageList;
     }
 
     /**
@@ -324,5 +371,18 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
         db.execSQL("delete from " + TABLE_CONVERSATIONS);
         // TODO: when would this fail?
         return true;
+    }
+
+    /**
+     *
+     * @return the inputted array, with each element cast to an integer
+     */
+    private int[] stringArrayToIntArray(String[] strArr){
+        int size = strArr.length;
+        int [] intArr = new int [size];
+        for(int i=0; i<size; i++) {
+            intArr[i] = Integer.parseInt(strArr[i]);
+        }
+        return intArr;
     }
 }
