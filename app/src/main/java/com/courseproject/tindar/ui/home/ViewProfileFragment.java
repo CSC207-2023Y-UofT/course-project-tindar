@@ -53,6 +53,11 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
 
     DateFormat dateFormat = new SimpleDateFormat("mm-dd-yyyy");
 
+    /**
+     * Loads initial data for screen.
+     *
+     * @param savedInstanceState info from blank nav about user and app state.
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BlankNavViewModel blankNavViewModel = new ViewModelProvider(requireActivity()).get(BlankNavViewModel.class);
@@ -61,6 +66,13 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
         allUserIds = userListController.getAllUserIds();
     }
 
+    /**
+     * Loads first profile for user to look at.
+     *
+     * @param inflater the LayoutInflater object.
+     * @param container all associated views.
+     * @param savedInstanceState info from blank nav about user and app state.
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         Random r = new Random();
@@ -92,12 +104,20 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
         return root;
     }
 
+    /**
+     * Destroys loaded view.
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
 
+    /**
+     * Listens for button click and performs action.
+     *
+     * @param view the view the button is on.
+     */
     @Override
     public void onClick(View view) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -107,6 +127,9 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
         fragmentTransaction.commit();
     }
 
+    /**
+     * Downloads image from link.
+     */
     private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
         ImageView profilePicture;
 

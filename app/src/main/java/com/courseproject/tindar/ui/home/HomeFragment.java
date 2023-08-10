@@ -17,10 +17,22 @@ import com.courseproject.tindar.ui.editfilters.EditFiltersFragment;
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
 
+    /**
+     * Loads initial data for screen.
+     *
+     * @param savedInstanceState info from blank nav about user and app state.
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Loads View Profile screen to allow for updating the shown profile.
+     *
+     * @param inflater the LayoutInflater object.
+     * @param container all associated views.
+     * @param savedInstanceState info from blank nav about user and app state.
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -35,6 +47,9 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    /**
+     * Destroys loaded view.
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
