@@ -22,6 +22,9 @@ import com.courseproject.tindar.usecases.likelist.LikeListInteractor;
 import com.courseproject.tindar.usecases.likelist.LikeListDsGateway;
 import com.courseproject.tindar.usecases.likelist.LikeListResponseModel;
 
+/** This fragment class provides the list view for the match list, including a list view display
+ * of users by their display names. Also pass through userId of 'clicked' users to ChatActivity
+ * for conversations */
 public class MatchListFragment extends Fragment{
 
     private String userId;

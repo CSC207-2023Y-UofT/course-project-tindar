@@ -526,8 +526,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         db.execSQL("delete from " + TABLE_MATCHES);
     }
 
+    /** Check if either userId or other have liked each other
+     * @param userId user who initiated a 'like' interaction
+     * @param otherUserId user receiving a 'like' from userId
+     */
     public boolean checkLiked(String userId, String otherUserId) {
-        // Check check if either userId or other have liked each other
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT "
                         + ID
@@ -544,10 +547,14 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return false;
     }
 
-    // precondition: userId < otherUserId. This is to avoid duplicates of
-    // (userId, otherUserId) and (otherUserId, userId)
+    /** Add userId and otherUserId to match list after a match has occurred
+     * @param userId user who initiated 'like' interaction
+     * @param otherUserId user receiving a 'like from userId
+     * @param db database instance for storage of data
+     */
     public void addToMatched(String userId, String otherUserId, SQLiteDatabase db) {
-        // Add userId and otherUserId to match list after a match has occurred
+        // precondition: userId < otherUserId. This is to avoid duplicates of
+        // (userId, otherUserId) and (otherUserId, userId)
         ContentValues cv = new ContentValues();
         cv.put(USER_ID_1, userId);
         cv.put(USER_ID_2, otherUserId);
@@ -555,31 +562,45 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         db.insert(TABLE_MATCHES, null, cv);
     }
 
+    /** Calls addToMatched with userId values from LikeListInteractor
+     * @param userId user who initiated 'like' interaction
+     * @param otherUserId user receiving a 'like from userId
+     */
     @Override
     public void addToMatched(String userId, String otherUserId) {
-        // Calls addToMatched with userId values from LikeListInteractor
         SQLiteDatabase db = this.getWritableDatabase();
         addToMatched(userId, otherUserId, db);
     }
 
+    /** Adds otherUserId and userId like each other to database
+     * @param userId user who initiated 'like' interaction
+     * @param otherUserId user receiving a 'like from userId
+     * @param db database instance for storage of data
+     */
     public void addLike(String userId, String otherUserId, SQLiteDatabase db) {
-        // Adds otherUserId and userId like each other to database
         ContentValues cv = new ContentValues();
         cv.put(USER_ID, userId);
         cv.put(LIKED_USER_ID, otherUserId);
 
         db.insert(TABLE_LIKES, null, cv);
     }
+
+    /** Calls addLike above with userId values from LikeListInteractor
+     * @param userId user who initiated 'like' interaction
+     * @param otherUserId user receiving a 'like from userId
+     */
     @Override
     public void addLike(String userId, String otherUserId) {
-        // Calls addLike above with userId values from LikeListInteractor
         SQLiteDatabase db = this.getWritableDatabase();
         addLike(userId, otherUserId, db);
     }
 
+    /** Removes userId and otherUserId from like list in database
+     * @param userId user who initiated 'like' interaction
+     * @param otherUserId user who received a 'like from userId
+     */
     @Override
     public void removeLike(String userId, String otherUserId) {
-        // Removes userId and otherUserId from like list in database
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(USER_ID, userId);
@@ -589,12 +610,15 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
                 new String[]{userId, otherUserId});
     }
 
-    // precondition: userId < otherUserId. Since matches should not have duplicate of
-    // (userId, otherUserId) and (otherUserId, userId), we should respect the order when
-    // adding/deleting records of userId pair.
+    /** Removes userId and otherUserId from database match list
+     * @param userId user who initiated 'like' interaction
+     * @param otherUserId user who received a 'like from userId
+     */
     @Override
     public void removeFromMatched(String userId, String otherUserId) {
-        // Removes userId and otherUserId from database match list
+        // precondition: userId < otherUserId. Since matches should not have duplicate of
+        // (userId, otherUserId) and (otherUserId, userId), we should respect the order when
+        // adding/deleting records of userId pair.
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(USER_ID_1, userId);
@@ -604,9 +628,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
                 new String[]{userId, otherUserId});
     }
 
+    /** Reads match list from database and returns ArrayList<String[]> of userIds
+     * @param userId user who's match list we are retrieving
+     */
     @Override
     public ArrayList<String[]> readMatchList(String userId) {
-        // Reads match list from database and returns ArrayList<String[]> of userIds
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT "
                         + USER_ID_1 + ", "
@@ -629,11 +655,13 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return matchListResponse;
     }
 
+    /** Returns an ArrayList<LikeListDsResponseModel> that is used to allow display names to be
+     * shown on screen when plugged into MatchListFragment. Essentially returning a list of
+     * display names
+     * @param userIds users who's display names we are retrieving
+     */
     @Override
     public ArrayList<LikeListDsResponseModel> readDisplayNames(ArrayList<String> userIds) {
-        // Returns an ArrayList<LikeListDsResponseModel> that is used to allow display names to
-        // be shown on screen when plugged into MatchListFragment, essentially returns
-        // a list of display names
         SQLiteDatabase db = this.getReadableDatabase();
 
         boolean doNotAddComma = true;
