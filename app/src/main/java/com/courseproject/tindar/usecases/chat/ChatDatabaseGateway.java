@@ -32,7 +32,7 @@ public interface ChatDatabaseGateway {
      * Returns a list representing all messages in a given conversation
      *
      * @param users userIDs of users in this conversation
-     * @return
+     * @return a list representing all messages in the conversation with these users
      */
     ArrayList<MessageModel> loadAllConversationMessages(String[] users);
 

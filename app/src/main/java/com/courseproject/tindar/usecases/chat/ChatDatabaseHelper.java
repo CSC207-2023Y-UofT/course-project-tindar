@@ -42,9 +42,9 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
     /**
      * Constructor should be private to prevent direct instantiation.
      * Make a call to the static method "getInstance()" instead.
-     *
+     * ---------------------------------------------------------------------------------------------
      * JavaDoc from:
-     * https://guides.codepath.com/android/local-databases-with-sqliteopenhelper#singleton-pattern
+     * <a href="https://guides.codepath.com/android/local-databases-with-sqliteopenhelper#singleton-pattern">CodePath</a>
      */
     private ChatDatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -82,7 +82,7 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
      * Called when the database is created for the FIRST time.
      * Not called if a database already exists on disk with the same DATABASE_NAME.
      * Creates empty message and conversation tables.
-     * Javadocs from https://guides.codepath.com/android/local-databases-with-sqliteopenhelper
+     * Javadocs from <a href="https://guides.codepath.com/android/local-databases-with-sqliteopenhelper">CodePath</a>
      * @param db
      */
     @Override
@@ -96,7 +96,7 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
                 + KEY_MESSAGE_SENDER_ID + " INTEGER, "
                 + KEY_MESSAGE_RECIPIENT_ID + " INTEGER"
                 + ")";
-        String CREATE_CONVERSATIONS_TABLE = "CREATE TABLE " + TABLE_MESSAGES +
+        String CREATE_CONVERSATIONS_TABLE = "CREATE TABLE " + TABLE_CONVERSATIONS +
                 "(" +
                 KEY_CONVERSATION_ID + " INTEGER NOT NULL PRIMARY KEY," // Define a primary key
                 + KEY_USER_1 + " INTEGER, "
@@ -150,7 +150,7 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
      * Returns a list representing all messages in a given conversation
      *
      * @param users userIDs of users in this conversation
-     * @return
+     * @return a list representing all messages in the conversation with these users
      */
     @Override
     public ArrayList<MessageModel> loadAllConversationMessages(String[] users) {
