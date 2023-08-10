@@ -42,9 +42,10 @@ public class LikeListController {
     }
 
     /**
-     * Return display names of userId match list
+     * Takes a user ID and returns the display names of those in their match list.
      *
      * @param userId the users match list we are returning
+     * @return list of display names corresponding to the users in the match list.
      */
     public LikeListResponseModel getDisplayNamesForMatches(String userId){
         return this.userInput.getDisplayNamesForMatches(userId);
