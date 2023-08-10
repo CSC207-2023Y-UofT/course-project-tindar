@@ -27,6 +27,7 @@
             />
         <ImageButton
             android:id="@+id/back_button"
+            android:onClick="backButtonPressed"
             android:background="@android:color/transparent"
             android:layout_width="48dp"
             android:layout_height="48dp"
