@@ -170,6 +170,41 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
     }
 
     /**
+     * Deletes the record of a message using its ID.
+     *
+     * @param MessageId Message ID of the to-be-deleted message.
+     * @return true if successful; false otherwise (e.g. message not found).
+     */
+    @Override
+    public boolean deleteMessage(String MessageId) {
+        return false;
+    }
+
+    /**
+     * Deletes all messages between subsets of given users. Does not delete conversation records.
+     *
+     * @param userIDs list of users to delete messages between
+     * @return true if successful; false otherwise.
+     */
+    @Override
+    public boolean deleteMessagesBetween(String[] userIDs) {
+        return false;
+    }
+
+    /**
+     * Deletes all message records. Does not delete conversation records.
+     *
+     * @return true if successful; false otherwise.
+     */
+    @Override
+    public boolean deleteAllMessages() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + TABLE_MESSAGES);
+        // TODO: when would this fail?
+        return true;
+    }
+
+    /**
      * Creates a new conversation record in the chat database if no conversation already exists
      * with these users.
      * Updates the conversation record if a conversation already exists with these users.
@@ -271,7 +306,10 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
      */
     @Override
     public boolean deleteAllConversations() {
-        return false;
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + TABLE_CONVERSATIONS);
+        // TODO: when would this fail?
+        return true;
     }
 
     /**
@@ -281,6 +319,10 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
      */
     @Override
     public boolean deleteAllConversationChatRecords() {
-        return false;
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + TABLE_MESSAGES);
+        db.execSQL("delete from " + TABLE_CONVERSATIONS);
+        // TODO: when would this fail?
+        return true;
     }
 }
