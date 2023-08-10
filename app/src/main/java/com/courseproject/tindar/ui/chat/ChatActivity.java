@@ -173,6 +173,7 @@ public class ChatActivity extends AppCompatActivity {
         MessageModel newMessage = new TindarMessage(input, new Timestamp(System.currentTimeMillis()),
                 this.userId, this.otherUserId);
         this.loadedMessages.add(newMessage);
+        this.chatInput.getText().clear();
 
         this.adapter.notifyDataSetChanged();
     }
