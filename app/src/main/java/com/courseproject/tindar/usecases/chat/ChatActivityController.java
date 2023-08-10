@@ -1,4 +1,4 @@
-package com.courseproject.tindar.chat;
+package com.courseproject.tindar.usecases.chat;
 
 public class ChatActivityController {
     // should have a method called when something is sent

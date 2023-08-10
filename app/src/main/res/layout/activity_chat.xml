@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChatActivity">
+    tools:context=".ui.chat.ChatActivity">
 
     <!--Header with back button and name of conversation partner-->
     <RelativeLayout

@@ -1,4 +1,4 @@
-package com.courseproject.tindar.chat;
+package com.courseproject.tindar.usecases.chat;
 
 import java.util.ArrayList;
 

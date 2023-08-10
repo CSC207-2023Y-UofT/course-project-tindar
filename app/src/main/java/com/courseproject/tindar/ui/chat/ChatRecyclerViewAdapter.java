@@ -1,4 +1,4 @@
-package com.courseproject.tindar;
+package com.courseproject.tindar.ui.chat;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.courseproject.tindar.chat.MessageModel;
+import com.courseproject.tindar.R;
+import com.courseproject.tindar.usecases.chat.MessageModel;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,5 @@
-package com.courseproject.tindar.chat;
+package com.courseproject.tindar.usecases.chat;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public interface ChatDatabaseGateway {
