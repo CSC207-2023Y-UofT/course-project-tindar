@@ -50,8 +50,6 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
     private FragmentViewProfileBinding binding;
     private ArrayList<String> allUserIds;
     private String userId;
-    Button likeButton;
-    Button dislikeButton;
 
     DateFormat dateFormat = new SimpleDateFormat("mm-dd-yyyy");
 
@@ -61,7 +59,6 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
         blankNavViewModel.getUserId().observe(requireActivity(), it -> userId = it);
 
         allUserIds = userListController.getAllUserIds();
-//        allUserIds.remove(Integer.valueOf(userId));
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,

@@ -1,10 +1,14 @@
 package com.courseproject.tindar.ui.home;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,6 +30,7 @@ import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsGateway;
 import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsResponseModel;
 import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesInteractor;
 
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -74,6 +79,8 @@ public class SecondViewProfileFragment extends Fragment implements View.OnClickL
 //        likeButton.setOnClickListener(this);
 //        dislikeButton.setOnClickListener(this);
 
+        new DownloadImage((ImageView) binding.profilePicture).execute(initialProfile.getProfilePictureLink());
+
         final TextView displayNameView = (TextView) root.findViewById(R.id.displayName);
         displayNameView.setText(initialProfile.getDisplayName());
 
@@ -105,5 +112,28 @@ public class SecondViewProfileFragment extends Fragment implements View.OnClickL
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
+        ImageView profilePicture;
+
+        public DownloadImage(ImageView profilePicture) {
+            this.profilePicture = profilePicture;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            profilePicture.setImageBitmap(result);
+        }
     }
 }
