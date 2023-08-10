@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 public interface ChatDatabaseGateway {
     /*
-    - future: mark conversation as inactive
+    - TODO: active/inactive conversations
 
     either add message should keep things in chronological order on some level,
     or the loader should be able to sort things
      */
+
+    // Message table CRUD
 
     /**
      * Creates a new message record in the chat database using the IDs of the users involved.
@@ -37,7 +39,8 @@ public interface ChatDatabaseGateway {
      * Returns a list representing all messages in a given conversation
      *
      * @param conversationID conversationID of the desired conversation
-     * @return
+     * @return list of all messages in a conversation, from oldest to newest if the conversation exists
+     *          (empty list if no message); null otherwise.
      */
     ArrayList<MessageModel> loadAllConversationMessages(String conversationID);
 
