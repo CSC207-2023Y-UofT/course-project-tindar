@@ -52,7 +52,7 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
 
         public ViewHolder(FragmentConversationBinding binding) {
             super(binding.getRoot());
-            mUserName = binding.textViewUserName;
+            mUserName = binding.textViewPartnerName;
             mLastMessage = binding.textViewLastMessage;
             mLastMessageTime = binding.textViewLastMessageTime;
             

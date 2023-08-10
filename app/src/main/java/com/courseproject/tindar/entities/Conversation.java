@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.sql.Timestamp;
 
 public abstract class Conversation {
-    private String user1;
+    private String user1; //TODO change to userId
     private String user2;
     private ArrayList<MessageModel> messages;
     private String conversationId;
