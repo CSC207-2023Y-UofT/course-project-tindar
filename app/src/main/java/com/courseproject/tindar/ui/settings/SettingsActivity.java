@@ -1,7 +1,6 @@
 package com.courseproject.tindar.ui.settings;
 
 import android.content.Intent;
-import android.provider.Settings;
 import android.widget.Button;
 import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +24,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         changeEmailButton.setOnClickListener(view -> {
             Intent intent = new Intent(SettingsActivity.this, ChangeEmailActivity.class);
+            startActivity(intent);});
+
+        changePasswordButton.setOnClickListener(view -> {
+            Intent intent = new Intent(SettingsActivity.this, ChangePasswordActivity.class);
             startActivity(intent);});
 
         settingsBackButton = findViewById(R.id.button_back_settings_change);

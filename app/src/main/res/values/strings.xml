@@ -67,4 +67,10 @@
     <string name="change_password">Change Password</string>
     <string name="submit_email">Submit Email</string>
     <string name="submit_password">Submit Password</string>
+    <string name="retype_email">Retype Email</string>
+    <string name="new_email">New Email</string>
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="current_password_2">Current Password</string>
+    <string name="inputs_do_not_match">Inputs do not match</string>
 </resources>
