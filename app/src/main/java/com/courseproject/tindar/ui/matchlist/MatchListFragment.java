@@ -34,7 +34,7 @@ public class MatchListFragment extends Fragment{
     /** listView instance to display match list in list format */
     private ListView listView;
 
-    /** likeListControlle to accept use input */
+    /** likeListController to accept use input */
     private LikeListController likeListController;
 
     /** list containing userIds in the match list */
