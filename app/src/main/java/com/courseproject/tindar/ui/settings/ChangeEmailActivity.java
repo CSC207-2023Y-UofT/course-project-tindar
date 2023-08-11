@@ -10,13 +10,9 @@ import android.os.Bundle;
 import com.courseproject.tindar.BlankNavActivity;
 import com.courseproject.tindar.R;
 import com.courseproject.tindar.controllers.editaccount.EditAccountController;
-import com.courseproject.tindar.MainActivity;
-import com.courseproject.tindar.controllers.login.LoginController;
 import com.courseproject.tindar.ds.DatabaseHelper;
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsGateway;
 import com.courseproject.tindar.usecases.editaccount.EditAccountInteractor;
-import com.courseproject.tindar.usecases.login.LoginDsGateway;
-import com.courseproject.tindar.usecases.login.LoginInteractor;
 
 public class ChangeEmailActivity extends AppCompatActivity {
 
