@@ -24,15 +24,15 @@ public class LikeListResponseModel {
     }
     // Two simple getter functions
 
-    /**
-     * @return return userIds in the users match list
+    /** gets userIds
+     * @return return userIds
      */
     public String[] getUserIds() {
         return userIds;
     }
 
-    /**
-     *@return  return users display names in the users match list
+    /** gets displayNames
+     *@return  return displayNames
      */
     public String[] getDisplayNames() {
         return displayNames;
