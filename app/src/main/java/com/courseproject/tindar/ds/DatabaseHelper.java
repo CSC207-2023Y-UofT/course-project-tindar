@@ -272,23 +272,23 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     private void addInitialData(SQLiteDatabase db) {
         addAccount(true, "jack@someemail.com", "password_jack", "jack",
                 "Jack", "Brown", new GregorianCalendar(2000, 1, 26).getTime(),
-                "Male", "Toronto", "https://media.cnn.com/api/v1/images/stellar/prod/190503220200-spongebob-squarepants-story-top.jpg?q=x_2,y_0,h_1041,w_1849,c_crop/h_720,w_1280", "Hi", "Female, Other",
+                "Male", "Toronto", "https://www.cartoonbucket.com/cartoons/stanley-with-spongebob/", "Hi", "Female, Other",
                 "Toronto", 20, 25, db);
         addAccount(true, "amy@someotheremail.com", "password_amy", "amy",
                 "Amy", "Smith", new GregorianCalendar(2000, 7, 2).getTime(),
-                "Female", "Montreal", "https://assets.nick.com/uri/mgid:arc:imageassetref:shared.nick.us:5232d654-03b3-458e-b30e-37a09e7492bd?quality=0.7&gen=ntrn&legacyStatusCode=true", "Hello","Male",
+                "Female", "Montreal", "https://www.cartoonbucket.com/cartoons/stanley-with-spongebob/", "Hello","Male",
                 "Montreal, Toronto", 23, 27, db);
         addAccount(true, "bell@exampleemail.com", "somepassword", "bell",
                 "Bell", "Robin", new GregorianCalendar(2003, 9, 5).getTime(),
-                "Female", "Calgary", "https://assets.ayobandung.com/crop/0x0:0x0/750x500/webp/photo/2023/02/27/Snapinstaapp_1080_332750966_200-1013192027.jpg", "I would like to",
+                "Female", "Calgary", "https://www.cartoonbucket.com/cartoons/stanley-with-spongebob/", "I would like to",
                 "Female, Male", "Calgary, Vancouver", 19, 999, db);
         addAccount(true, "rogers@exampleemail.com", "someotherpassword", "roger",
                 "roger", "fido", new GregorianCalendar(2003, 12, 3).getTime(),
-                "Female", "Calgary", "https://ccc", "I would like to",
+                "Female", "Calgary", "https://www.cartoonbucket.com/cartoons/stanley-with-spongebob/", "I would like to",
                 "Female, Male", "Calgary, Vancouver", 19, 999, db);
         addAccount(true, "telus@exampleemail.com", "somethirdpassword", "ted",
                 "ted", "telus", new GregorianCalendar(2001, 12, 3).getTime(),
-                "Male", "Toronto", "https://ccc", "I would like to",
+                "Male", "Toronto", "https://www.cartoonbucket.com/cartoons/stanley-with-spongebob/", "I would like to",
                 "Female, Male", "Calgary, Vancouver", 19, 999, db);
         addLike("1", "2", db);
         addLike("2", "1", db);
@@ -659,8 +659,12 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return userId;
     }
 
+    /** Check if either userId or other have liked each other
+     * @param userId user who initiated a 'like' interaction
+     * @param otherUserId user receiving a 'like' from userId
+     * @return return true if users 'like' each other, false otherwise
+     */
     public boolean checkLiked(String userId, String otherUserId) {
-        // Check check if either userId or other have liked each other
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT "
                         + ID
@@ -677,10 +681,14 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return false;
     }
 
-    // precondition: userId < otherUserId. This is to avoid duplicates of
-    // (userId, otherUserId) and (otherUserId, userId)
+    /** Add userId and otherUserId to match list after a match has occurred
+     * @param userId user who initiated 'like' interaction
+     * @param otherUserId user receiving a 'like from userId
+     * @param db database instance for storage of data
+     */
     public void addToMatched(String userId, String otherUserId, SQLiteDatabase db) {
-        // Add userId and otherUserId to match list after a match has occurred
+        // precondition: userId < otherUserId. This is to avoid duplicates of
+        // (userId, otherUserId) and (otherUserId, userId)
         ContentValues cv = new ContentValues();
         cv.put(USER_ID_1, userId);
         cv.put(USER_ID_2, otherUserId);
@@ -688,31 +696,45 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         db.insert(TABLE_MATCHES, null, cv);
     }
 
+    /** Calls addToMatched with userId values from LikeListInteractor
+     * @param userId user who initiated 'like' interaction
+     * @param otherUserId user receiving a 'like from userId
+     */
     @Override
     public void addToMatched(String userId, String otherUserId) {
-        // Calls addToMatched with userId values from LikeListInteractor
         SQLiteDatabase db = this.getWritableDatabase();
         addToMatched(userId, otherUserId, db);
     }
 
+    /** Adds otherUserId and userId like each other to database
+     * @param userId user who initiated 'like' interaction
+     * @param otherUserId user receiving a 'like from userId
+     * @param db database instance for storage of data
+     */
     public void addLike(String userId, String otherUserId, SQLiteDatabase db) {
-        // Adds otherUserId and userId like each other to database
         ContentValues cv = new ContentValues();
         cv.put(USER_ID, userId);
         cv.put(LIKED_USER_ID, otherUserId);
 
         db.insert(TABLE_LIKES, null, cv);
     }
+
+    /** Calls addLike above with userId values from LikeListInteractor
+     * @param userId user who initiated 'like' interaction
+     * @param otherUserId user receiving a 'like from userId
+     */
     @Override
     public void addLike(String userId, String otherUserId) {
-        // Calls addLike above with userId values from LikeListInteractor
         SQLiteDatabase db = this.getWritableDatabase();
         addLike(userId, otherUserId, db);
     }
 
+    /** Removes userId and otherUserId from like list in database
+     * @param userId user who initiated 'like' interaction
+     * @param otherUserId user who received a 'like from userId
+     */
     @Override
     public void removeLike(String userId, String otherUserId) {
-        // Removes userId and otherUserId from like list in database
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(USER_ID, userId);
@@ -722,12 +744,15 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
                 new String[]{userId, otherUserId});
     }
 
-    // precondition: userId < otherUserId. Since matches should not have duplicate of
-    // (userId, otherUserId) and (otherUserId, userId), we should respect the order when
-    // adding/deleting records of userId pair.
+    /** Removes userId and otherUserId from database match list
+     * @param userId user who initiated 'like' interaction
+     * @param otherUserId user who received a 'like from userId
+     */
     @Override
     public void removeFromMatched(String userId, String otherUserId) {
-        // Removes userId and otherUserId from database match list
+        // precondition: userId < otherUserId. Since matches should not have duplicate of
+        // (userId, otherUserId) and (otherUserId, userId), we should respect the order when
+        // adding/deleting records of userId pair.
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(USER_ID_1, userId);
@@ -737,9 +762,12 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
                 new String[]{userId, otherUserId});
     }
 
+    /** Reads match list from database and returns ArrayList<String[]> of userIds
+     * @param userId user who's match list we are retrieving
+     * @return return list of userIds from match list
+     */
     @Override
     public ArrayList<String[]> readMatchList(String userId) {
-        // Reads match list from database and returns ArrayList<String[]> of userIds
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT "
                         + USER_ID_1 + ", "
@@ -762,11 +790,14 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return matchListResponse;
     }
 
+    /** Returns an ArrayList<LikeListDsResponseModel> that is used to allow display names to be
+     * shown on screen when plugged into MatchListFragment. Essentially returning a list of
+     * display names
+     * @param userIds users who's display names we are retrieving
+     * @return return list of user display names
+     */
     @Override
     public ArrayList<LikeListDsResponseModel> readDisplayNames(ArrayList<String> userIds) {
-        // Returns an ArrayList<LikeListDsResponseModel> that is used to allow display names to
-        // be shown on screen when plugged into MatchListFragment, essentially returns
-        // a list of display names
         SQLiteDatabase db = this.getReadableDatabase();
 
         boolean doNotAddComma = true;
@@ -802,12 +833,14 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     }
 
     @Override
-    public ArrayList<String> getAllUserIds() {
+    public ArrayList<String> getAllOtherUserIds(String userId) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery("SELECT "
                 + ID
-                + " FROM " + TABLE_ACCOUNTS, null);
+                + " FROM " + TABLE_ACCOUNTS
+                + " WHERE " + ID + " !=?",
+                new String[]{userId});
 
         ArrayList<String> userIdsResponse = new ArrayList<>();
 
