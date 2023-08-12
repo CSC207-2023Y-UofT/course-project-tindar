@@ -14,11 +14,12 @@ public class LikeListInteractor implements LikeListInputBoundary {
 
     public LikeListInteractor(LikeListDsGateway likeListDsGateway) {
         this.likeListDsGateway = likeListDsGateway;
+        // this.chatdb gateway = new cahtbd gateway
     }
 
     @Override
     public void addLike(String userId, String otherUserId){
-        // This method adds otherUserId to list of userId 'likes', if the two uusers already liked
+        // This method adds otherUserId to list of userId 'likes', if the two users already liked
         // each other, they are matched and added to match list
         likeListDsGateway.addLike(userId, otherUserId);
 
@@ -30,6 +31,7 @@ public class LikeListInteractor implements LikeListInputBoundary {
             } else {
                 likeListDsGateway.addToMatched(otherUserId, userId);
             }
+            //chat db helper - addorUpdatnewConvo(ConversationModel)
         }
     }
     @Override
