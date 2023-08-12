@@ -26,7 +26,7 @@ public interface ChatDatabaseGateway {
     boolean addMessage(MessageModel newMessage);
 
     /**
-     * @param messageID messageID of the desired message
+     * @param messageID of the desired message
      * @return representation of desired message if found; null otherwise
      */
     MessageModel getMessage(String messageID);
@@ -39,14 +39,15 @@ public interface ChatDatabaseGateway {
      */
     ArrayList<MessageModel> loadAllConversationMessages(String[] users);
 
-    /**
+    /*
      * Returns a list representing all messages in a given conversation
      *
      * @param conversationID conversationID of the desired conversation
      * @return list of all messages in a conversation, from oldest to newest if the conversation exists
      *          (empty list if no message); null otherwise.
-     */
+     *\/
     ArrayList<MessageModel> loadAllConversationMessages(String conversationID);
+     */
 
     /**
      * Deletes the record of a message using its ID.
@@ -56,13 +57,14 @@ public interface ChatDatabaseGateway {
      */
     public boolean deleteMessage(String MessageId);
 
-    /**
+    /*
      * Deletes all messages between subsets of given users. Does not delete conversation records.
      *
      * @param userIDs list of users to delete messages between
      * @return true if successful; false otherwise.
-     */
+     *\/
     public boolean deleteMessagesBetween(String[] userIDs);
+     */
 
     /**
      * Deletes all message records. Does not delete conversation records.
@@ -87,18 +89,6 @@ public interface ChatDatabaseGateway {
     String addOrUpdateConversation(ConversationModel newConversation);
 
     /**
-     * Updates the conversation record if a conversation already exists with this conversationID.
-     *
-     * @param conversationID ID of the conversation to be modified
-     * @param newLastInteraction replaces the previous "lastInteraction" record
-     * @param newTimeLastAction replaces the previous "time of lastInteraction" record
-     * @return true if conversation exists and was successfully updated;
-     *          false otherwise.
-     */
-    String updateConversation(String conversationID, String newLastInteraction,
-                                                    Timestamp newTimeLastAction);
-
-    /**
      * Returns a representation of a specified conversation.
      * @param conversationID ID of the desired conversation.
      * @return representation of the conversation matching this unique ID.
@@ -106,13 +96,14 @@ public interface ChatDatabaseGateway {
      */
     ConversationModel getConversation(String conversationID);
 
-    /**
+    /*
      * Returns a representation of a specified conversation.
      * @param users userIDs of the users in the conversation.
      * @return representation of the most recently-active conversation with these users.
      *          null if no such conversation is found.
-     */
+     *\/
     ConversationModel getConversation(String[] users);
+     */
 
     /**
      * Returns a list representing all conversations that a user is currently in.
