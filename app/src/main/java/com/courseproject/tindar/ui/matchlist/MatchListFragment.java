@@ -39,6 +39,7 @@ public class MatchListFragment extends Fragment{
 
     /** list containing userIds in the match list */
     private String[] matchedUserIds;
+    LikeListResponseModel matchedUsers;
 
     /** This method creates the match list fragment activity, allows to save and recover state
      * information
@@ -74,6 +75,8 @@ public class MatchListFragment extends Fragment{
             Intent intent = new Intent(requireActivity(), ChatActivity.class);
             intent.putExtra("current_user_id", userId);
             intent.putExtra("conversation_partner_id", matchedUserIds[i]);
+            intent.putExtra("conversation_partner_display_name",
+                    matchedUsers.getDisplayNames()[i]);
             startActivity(intent);
         });
 
@@ -86,7 +89,7 @@ public class MatchListFragment extends Fragment{
      */
     @Override
     public Object getEnterTransition() {
-        LikeListResponseModel matchedUsers = likeListController.getDisplayNamesForMatches(userId);
+        matchedUsers = likeListController.getDisplayNamesForMatches(userId);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(),
                 android.R.layout.simple_list_item_1, matchedUsers.getDisplayNames());

@@ -1,38 +1,44 @@
 package com.courseproject.tindar.controllers.editprofile;
 
 import com.courseproject.tindar.usecases.editprofile.EditProfileInputBoundary;
-import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
+import com.courseproject.tindar.usecases.editprofile.EditProfileResponseModel;
+import com.courseproject.tindar.usecases.editprofile.EditProfileRequestModel;
 
-import java.util.Date;
-
+/**
+ * controller for the Edit Profile UI
+ */
 public class EditProfileController {
+    /**
+     * interactor of the Edit Profile feature
+     */
     final EditProfileInputBoundary userInput;
 
+    /**
+     * constructs controller for the Edit Profile UI
+     *
+     * @param editProfileUserInput interactor of the Edit Profile feature
+     */
     public EditProfileController(EditProfileInputBoundary editProfileUserInput) {
         this.userInput = editProfileUserInput;
     }
 
-    public EditProfileDsResponseModel getProfile(String userId) {
+    /**
+     * gets profile information of the user
+     *
+     * @param userId the user id of the account
+     * @return profile information of the user
+     */
+    public EditProfileResponseModel getProfile(String userId) {
         return userInput.getProfile(userId);
     }
 
-    public void updateBirthdate(String userId, Date birthdate) {
-        userInput.updateBirthdate(userId, birthdate);
-    }
-
-    public void updateGender(String userId, String gender) {
-        userInput.updateGender(userId, gender);
-    }
-
-    public void updateLocation(String userId, String location) {
-        userInput.updateLocation(userId, location);
-    }
-
-    public void updateProfilePictureLink(String userId, String profilePictureLink) {
-        userInput.updateProfilePictureLink(userId, profilePictureLink);
-    }
-
-    public void updateAboutMe(String userId, String aboutMe) {
-        userInput.updateAboutMe(userId, aboutMe);
+    /**
+     * updates profile information of the user
+     *
+     * @param userId the user id of the account
+     * @param newProfile new profile information to be updated
+     */
+    public void updateProfile(String userId, EditProfileRequestModel newProfile) {
+        userInput.updateProfile(userId, newProfile);
     }
 }

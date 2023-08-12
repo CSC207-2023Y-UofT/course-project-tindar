@@ -1,35 +1,41 @@
 package com.courseproject.tindar.usecases.editprofile;
 
-import java.util.Date;
-
+/**
+ * interactor of the Edit Profile feature
+ */
 public class EditProfileInteractor implements EditProfileInputBoundary {
+    /**
+     * data-saving gateway of Edit Profile feature
+     */
     final EditProfileDsGateway editProfileDsGateway;
 
+    /**
+     * constructs the interactor of the Edit Profile feature
+     *
+     * @param editProfileDsGateway data-saving gateway of Edit Profile feature
+     */
     public EditProfileInteractor(EditProfileDsGateway editProfileDsGateway) {
         this.editProfileDsGateway = editProfileDsGateway;
     }
 
-    public EditProfileDsResponseModel getProfile(String userId) {
+    /**
+     * gets profile information of the user
+     *
+     * @param userId the user id of the account
+     * @return profile information of the user
+     */
+    public EditProfileResponseModel getProfile(String userId) {
         return editProfileDsGateway.readProfile(userId);
     }
 
-    public void updateBirthdate(String userId, Date birthdate) {
-        editProfileDsGateway.updateBirthdate(userId, birthdate);
-    }
-
-    public void updateGender(String userId, String gender) {
-        editProfileDsGateway.updateGender(userId, gender);
-    }
-
-    public void updateLocation(String userId, String location) {
-        editProfileDsGateway.updateLocation(userId, location);
-    }
-
-    public void updateProfilePictureLink(String userId, String profilePictureLink) {
-        editProfileDsGateway.updateProfilePictureLink(userId, profilePictureLink);
-    }
-
-    public void updateAboutMe(String userId, String aboutMe) {
-        editProfileDsGateway.updateAboutMe(userId, aboutMe);
+    /**
+     * updates profile information of the user
+     *
+     * @param userId the user id of the account
+     * @param newProfile new profile information of the user to be updated
+     */
+    @Override
+    public void updateProfile(String userId, EditProfileRequestModel newProfile) {
+        editProfileDsGateway.updateProfile(userId, newProfile);
     }
 }

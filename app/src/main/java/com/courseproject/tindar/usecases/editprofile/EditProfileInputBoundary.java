@@ -1,17 +1,18 @@
 package com.courseproject.tindar.usecases.editprofile;
 
-import java.util.Date;
-
+/**
+ * interactor of the Edit Profile feature
+ */
 public interface EditProfileInputBoundary {
-    EditProfileDsResponseModel getProfile(String userId);
+    /**
+     * @param userId the user id of the account
+     * @return profile information of the user
+     */
+    EditProfileResponseModel getProfile(String userId);
 
-    void updateBirthdate(String userId, Date birthdate);
-
-    void updateGender(String userId, String gender);
-
-    void updateLocation(String userId, String location);
-
-    void updateProfilePictureLink(String userId, String profilePictureLink);
-
-    void updateAboutMe(String userId, String aboutMe);
+    /**
+     * @param userId the user id of the account
+     * @param newProfile new profile information of the user to be updated
+     */
+    void updateProfile(String userId, EditProfileRequestModel newProfile);
 }
