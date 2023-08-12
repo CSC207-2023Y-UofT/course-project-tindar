@@ -3,9 +3,10 @@ package com.courseproject.tindar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
-import android.widget.Button;
+import android.view.MenuItem;
 
+import com.courseproject.tindar.ui.login.LoginActivity;
+import com.courseproject.tindar.ui.settings.SettingsActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -21,6 +22,7 @@ import com.courseproject.tindar.databinding.ActivityBlankNavBinding;
 
 public class BlankNavActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +30,12 @@ public class BlankNavActivity extends AppCompatActivity {
 
         // retrieves user Id passed from other activity
         Intent intent = getIntent();
-        String userId = intent.getStringExtra("user_id");
+        userId = intent.getStringExtra("user_id");
 
         // instantiates the blank nav view model and sets the user id that is currently logged in
         BlankNavViewModel blankNavViewModel = new ViewModelProvider(this).get(BlankNavViewModel.class);
         blankNavViewModel.setUserId(userId);
+        blankNavViewModel.setViewProfileUserIdIndex(0);
 
         ActivityBlankNavBinding binding = ActivityBlankNavBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -58,6 +61,25 @@ public class BlankNavActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.blank_nav, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        int currentItemId = item.getItemId();
+
+        if (currentItemId == R.id.action_log_out) {
+            Intent intent = new Intent(BlankNavActivity.this, LoginActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (currentItemId == R.id.action_settings) {
+            Intent intent = new Intent(BlankNavActivity.this, SettingsActivity.class);
+            intent.putExtra("user_id", userId);
+            startActivity(intent);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

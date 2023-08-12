@@ -67,11 +67,12 @@ public class ChatActivity extends AppCompatActivity {
     private EditText chatInput;
     /** The user presses this button to send their typed message in chatInput */
     private ImageButton sendMessageButton;
-    /**
-     * Navigation button. Current intention is for this button to take the user to their list of
-     * conversations. In future, should take them to wherever they were prior to opening this chat.
-     */
-    private ImageButton backButton;
+// --Commented out by Inspection START (2023-08-12 09:10):
+//    /**
+//     * Tak them to wherever they were prior to opening this chat.
+//     */
+//    private ImageButton backButton;
+// --Commented out by Inspection STOP (2023-08-12 09:10)
 
     /** Displays messages. */
     private RecyclerView chatRecyclerView;
@@ -94,14 +95,15 @@ public class ChatActivity extends AppCompatActivity {
         //      - flagged in issue #51
         this.userId = intent.getStringExtra("current_user_id");
         this.otherUserId = intent.getStringExtra("conversation_partner_id");
-        this.conversationPartnerDisplayName = this.otherUserId;
+        this.conversationPartnerDisplayName
+                = intent.getStringExtra("conversation_partner_display_name");
 
         // setting input and view instance variables to match what's in the display
         this.conversationPartnerDisplayNameDisplay
                 = findViewById(R.id.conversation_partner_display_name);
         this.chatInput = findViewById(R.id.new_chat_input);
         this.sendMessageButton = findViewById(R.id.button_send_message);
-        this.backButton = findViewById(R.id.back_button);
+        // this.backButton = findViewById(R.id.back_button);
 
         // getting the screen to display the correct name for the conversation partner
         this.conversationPartnerDisplayNameDisplay.setText(this.conversationPartnerDisplayName);
@@ -130,13 +132,13 @@ public class ChatActivity extends AppCompatActivity {
      * Currently implemented with hardcoded tests; will be reimplemented with the database.
      */
     private void loadMessages(){
-        TindarMessage testMessage1 = new TindarMessage("first message sent", new Timestamp(2023, 02, 25, 18, 0, 0, 0),"user1", "user2");
-        TindarMessage testMessage2 = new TindarMessage("second message sent", new Timestamp(2023, 03, 25, 18, 0, 0, 0),"user1", "user2");
-        TindarMessage testMessage3 = new TindarMessage("first message received", new Timestamp(2023, 04, 25, 18, 0, 0, 0),"user2", "user1");
-        TindarMessage testMessage4 = new TindarMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus erat nisl, a scelerisque leo euismod nec. Ut dapibus auctor augue, quis tempor tellus tincidunt vel. Fusce ut odio mauris. Nam nec finibus enim. Duis et nisi tristique, luctus leo id, facilisis dolor. Phasellus ac auctor odio, non mollis magna. Suspendisse tortor ipsum, consectetur vitae metus et, accumsan luctus erat. Sed gravida, ipsum vel mattis maximus, orci arcu convallis nunc, sed sagittis metus felis ac sapien. Integer non pellentesque massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et dignissim erat. Integer at nibh ac mi ultricies pulvinar. Morbi nec arcu nisi. Duis eu ligula auctor, dictum tortor a, condimentum velit. Suspendisse potenti. Sed fermentum lobortis blandit.", new Timestamp(2023, 5, 25, 18, 0, 0, 0),"user1", "user2");
-        TindarMessage testMessage5 = new TindarMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus erat nisl, a scelerisque leo euismod nec. Ut dapibus auctor augue, quis tempor tellus tincidunt vel. Fusce ut odio mauris. Nam nec finibus enim. Duis et nisi tristique, luctus leo id, facilisis dolor. Phasellus ac auctor odio, non mollis magna. Suspendisse tortor ipsum, consectetur vitae metus et, accumsan luctus erat. Sed gravida, ipsum vel mattis maximus, orci arcu convallis nunc, sed sagittis metus felis ac sapien. Integer non pellentesque massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et dignissim erat. Integer at nibh ac mi ultricies pulvinar. Morbi nec arcu nisi. Duis eu ligula auctor, dictum tortor a, condimentum velit. Suspendisse potenti. Sed fermentum lobortis blandit.", new Timestamp(2023, 5, 25, 18, 0, 0, 0),"user2", "user1");
+        TindarMessage testMessage1 = new TindarMessage("message sent", new Timestamp(2023, 2, 25, 18, 0, 0, 0), this.userId, "user2");
+        TindarMessage testMessage2 = new TindarMessage("message sent", new Timestamp(2023, 3, 25, 18, 0, 0, 0), this.userId, "user2");
+        TindarMessage testMessage3 = new TindarMessage("message received", new Timestamp(2023, 4, 25, 18, 0, 0, 0),"user2", this.userId);
+        TindarMessage testMessage4 = new TindarMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus erat nisl, a scelerisque leo euismod nec. Ut dapibus auctor augue, quis tempor tellus tincidunt vel. Fusce ut odio mauris. Nam nec finibus enim. Duis et nisi tristique, luctus leo id, facilisis dolor. Phasellus ac auctor odio, non mollis magna. Suspendisse tortor ipsum, consectetur vitae metus et, accumsan luctus erat. Sed gravida, ipsum vel mattis maximus, orci arcu convallis nunc, sed sagittis metus felis ac sapien. Integer non pellentesque massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et dignissim erat. Integer at nibh ac mi ultricies pulvinar. Morbi nec arcu nisi. Duis eu ligula auctor, dictum tortor a, condimentum velit. Suspendisse potenti. Sed fermentum lobortis blandit.", new Timestamp(2023, 5, 25, 18, 0, 0, 0), this.userId, "user2");
+        TindarMessage testMessage5 = new TindarMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus erat nisl, a scelerisque leo euismod nec. Ut dapibus auctor augue, quis tempor tellus tincidunt vel. Fusce ut odio mauris. Nam nec finibus enim. Duis et nisi tristique, luctus leo id, facilisis dolor. Phasellus ac auctor odio, non mollis magna. Suspendisse tortor ipsum, consectetur vitae metus et, accumsan luctus erat. Sed gravida, ipsum vel mattis maximus, orci arcu convallis nunc, sed sagittis metus felis ac sapien. Integer non pellentesque massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et dignissim erat. Integer at nibh ac mi ultricies pulvinar. Morbi nec arcu nisi. Duis eu ligula auctor, dictum tortor a, condimentum velit. Suspendisse potenti. Sed fermentum lobortis blandit.", new Timestamp(2023, 5, 25, 18, 0, 0, 0),"user2", this.userId);
 
-        this.loadedMessages = new ArrayList<MessageModel>();
+        this.loadedMessages = new ArrayList<>();
         this.loadedMessages.add(testMessage1);
         this.loadedMessages.add(testMessage2);
         this.loadedMessages.add(testMessage3);
@@ -170,7 +172,12 @@ public class ChatActivity extends AppCompatActivity {
         MessageModel newMessage = new TindarMessage(input, new Timestamp(System.currentTimeMillis()),
                 this.userId, this.otherUserId);
         this.loadedMessages.add(newMessage);
+        this.chatInput.getText().clear();
 
         this.adapter.notifyDataSetChanged();
+    }
+
+    public void backButtonPressed(View v){
+        super.onBackPressed();
     }
 }

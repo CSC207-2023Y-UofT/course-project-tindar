@@ -1,13 +1,22 @@
 package com.courseproject.tindar.usecases.editfilters;
 
-import java.util.ArrayList;
-
+/**
+ * interface for the data-saving gateway of Edit Filters feature
+ */
 public interface EditFiltersDsGateway {
-    EditFiltersDsResponseModel readFilters(String userId);
+    /**
+     * retrieves filters information of the user
+     *
+     * @param userId the user id of the account
+     * @return filters information of the user
+     */
+    EditFiltersModel readFilters(String userId);
 
-    void updatePreferredGenders(String userId, ArrayList<String> preferredGenders);
-
-    void updatePreferredLocations(String userId, ArrayList<String> preferredLocations);
-
-    void updatePreferredAgeGroup(String userId, int minAge, int maxAge);
+    /**
+     * updates filters information of the user
+     *
+     * @param userId the user id of the account
+     * @param newFilters new filters information of the user to be updated
+     */
+    void updateFilters(String userId, EditFiltersModel newFilters);
 }

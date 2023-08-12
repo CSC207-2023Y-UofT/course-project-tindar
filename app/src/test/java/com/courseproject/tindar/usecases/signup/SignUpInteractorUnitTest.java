@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
 import com.courseproject.tindar.entities.AccountFactory;
-import com.courseproject.tindar.presenters.signup.InvalidCredentials;
+import com.courseproject.tindar.presenters.signup.InvalidSignUpCredentials;
 import com.courseproject.tindar.presenters.signup.SignUpPresentationFormatter;
 
 import org.junit.Test;
@@ -18,7 +18,7 @@ public class SignUpInteractorUnitTest {
     private static final String PASSWORD = "bell_password";
     private static final String EMAIL_ALREADY_IN_USE = "emailalreadyinuse@sometestemail.com";
 
-    private class MockSignUpDsGateway implements SignUpDsGateway {
+    private static class MockSignUpDsGateway implements SignUpDsGateway {
 
         private final String createdUserId;
         private final String email;
@@ -44,11 +44,11 @@ public class SignUpInteractorUnitTest {
         }
     }
 
-    SignUpPresenter signUpsPresentationFormatter = new SignUpPresentationFormatter();
-    AccountFactory accountFactory = new AccountFactory();
+    final SignUpPresenter signUpsPresentationFormatter = new SignUpPresentationFormatter();
+    final AccountFactory accountFactory = new AccountFactory();
 
     @Test
-    public void testCreateAccountSuccess() throws InvalidCredentials {
+    public void testCreateAccountSuccess() throws InvalidSignUpCredentials {
         SignUpDsGateway mockSignUpDsGateway = new MockSignUpDsGateway(USER_ID, EMAIL, PASSWORD);
         SignUpInteractor testSignUpInteractor = new SignUpInteractor(mockSignUpDsGateway,
                 signUpsPresentationFormatter, accountFactory);
@@ -64,7 +64,7 @@ public class SignUpInteractorUnitTest {
                 signUpsPresentationFormatter, accountFactory);
         SignUpRequestModel accountCredentials = new SignUpRequestModel(DISPLAY_NAME, EMAIL, PASSWORD,
                 "some_other_password");
-        Exception exception = assertThrows(InvalidCredentials.class,
+        Exception exception = assertThrows(InvalidSignUpCredentials.class,
                 () -> testSignUpInteractor.createAccount(accountCredentials));
         assertEquals("Password and re-typed password do not match.", exception.getMessage());
     }
@@ -76,7 +76,7 @@ public class SignUpInteractorUnitTest {
                 signUpsPresentationFormatter, accountFactory);
         SignUpRequestModel accountCredentials = new SignUpRequestModel(DISPLAY_NAME, EMAIL, "short",
                 "short");
-        Exception exception = assertThrows(InvalidCredentials.class,
+        Exception exception = assertThrows(InvalidSignUpCredentials.class,
                 () -> testSignUpInteractor.createAccount(accountCredentials));
         assertEquals("Invalid password. The password has to be at least 6 characters long.", exception.getMessage());
     }
@@ -88,7 +88,7 @@ public class SignUpInteractorUnitTest {
                 signUpsPresentationFormatter, accountFactory);
         SignUpRequestModel accountCredentials = new SignUpRequestModel(DISPLAY_NAME, EMAIL_ALREADY_IN_USE, PASSWORD,
                 PASSWORD);
-        Exception exception = assertThrows(InvalidCredentials.class,
+        Exception exception = assertThrows(InvalidSignUpCredentials.class,
                 () -> testSignUpInteractor.createAccount(accountCredentials));
         assertEquals("Email is already in use.", exception.getMessage());
     }
@@ -99,7 +99,7 @@ public class SignUpInteractorUnitTest {
         SignUpInteractor testSignUpInteractor = new SignUpInteractor(mockSignUpDsGateway,
                 signUpsPresentationFormatter, accountFactory);
         SignUpRequestModel accountCredentials = new SignUpRequestModel(DISPLAY_NAME, EMAIL, PASSWORD, PASSWORD);
-        Exception exception = assertThrows(InvalidCredentials.class,
+        Exception exception = assertThrows(InvalidSignUpCredentials.class,
                 () -> testSignUpInteractor.createAccount(accountCredentials));
         assertEquals("Unknown error. Fail to create an account. Please try it again.", exception.getMessage());
     }

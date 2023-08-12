@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -24,7 +25,7 @@ import com.courseproject.tindar.entities.FiltersFactory;
 import com.courseproject.tindar.presenters.editfilters.EditFiltersPresentationFormatter;
 import com.courseproject.tindar.presenters.editfilters.InvalidAgeGroup;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsGateway;
-import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
+import com.courseproject.tindar.usecases.editfilters.EditFiltersModel;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersInputBoundary;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersInteractor;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersPresenter;
@@ -37,16 +38,77 @@ import java.util.Collections;
  */
 public class EditFiltersFragment extends Fragment {
 
+    /**
+     * the user id of the current logged-in user
+     */
     private String userId;
-    private TextView preferredGendersTextView, preferredLocationsTextView;
-    private EditText preferredAgeMinimumEditText, preferredAgeMaximumEditText;
-    private ImageButton preferredGendersEditButton, preferredLocationsEditButton, preferredAgeGroupEditButton;
+    /**
+     * the text view to show user's preferred genders for the potential match
+     */
+    private TextView preferredGendersTextView;
+    /**
+     * the text view to show user's preferred locations for the potential match
+     */
+    private TextView preferredLocationsTextView;
+    /**
+     * the text view to show minimum age of user's preferred age group for the potential match
+     */
+    private EditText preferredAgeMinimumEditText;
+    /**
+     * the text view to show maximum age of user's preferred age group for the potential match
+     */
+    private EditText preferredAgeMaximumEditText;
+    /**
+     * the button to enable editing on the Edit Filters screen
+     */
+    private ImageButton filtersEditButton;
+    /**
+     * the button to submit the current input values of the filters information to update
+     */
+    private Button filtersSubmitButton;
+    /**
+     * controller for the Edit Filters UI
+     */
     private EditFiltersController editFiltersController;
-    private ArrayList<String> preferredGenders, preferredLocations;
-    private int preferredAgeMinimum, preferredAgeMaximum;
-    private String[] genders, locations;
-    private boolean[] isGenderPreferredList, isLocationPreferredList;
+    /**
+     * user's choices of preferred genders for the potential match
+     */
+    private ArrayList<String> preferredGenders;
+    /**
+     * user's choices of preferred locations for the potential match
+     */
+    private ArrayList<String> preferredLocations;
+    /**
+     * minimum age of user's preferred age group for the potential match
+     */
+    private int preferredAgeMinimum;
+    /**
+     * maximum age of user's preferred age group for the potential match
+     */
+    private int preferredAgeMaximum;
+    /**
+     * all possible choices of preferred genders for the potential match
+     */
+    private String[] genders;
+    /**
+     * all possible choices of preferred locations for the potential match
+     */
+    private String[] locations;
+    /**
+     * boolean array to show for each of possible choices of preferred genders whether that's selected by the user
+     */
+    private boolean[] isGenderPreferredList;
+    /**
+     * boolean array to show for each of possible choices of preferred locations whether that's selected by the user
+     */
+    private boolean[] isLocationPreferredList;
 
+    /**
+     * creates Edit Filters fragment. Shared View Model is used to retrieve currently logged in user id, which is
+     * shared among the blank nav activity and the fragments under the activity
+     *
+     * @param savedInstanceState If the fragment is being re-created from a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +116,20 @@ public class EditFiltersFragment extends Fragment {
         blankNavViewModel.getUserId().observe(requireActivity(), it -> userId = it);
     }
 
+    /**
+     * creates Edit Filters view. It instantiates Edit Filters controller, defines behaviour for the edit button and
+     * submit button, and define behaviour of multi-select pop-up for preferred genders and preferred locations
+     * selection on click of preferred genders text view and preferred locations text view, respectively
+     *
+     * @param inflater           The LayoutInflater object that can be used to inflate
+     *                           any views in the fragment,
+     * @param container          If non-null, this is the parent view that the fragment's
+     *                           UI should be attached to.  The fragment should not add the view itself,
+     *                           but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     *                           from a previous saved state as given here.
+     * @return created view
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -66,9 +142,8 @@ public class EditFiltersFragment extends Fragment {
         preferredLocationsTextView = root.findViewById(R.id.text_view_preferred_location);
         preferredAgeMinimumEditText = root.findViewById(R.id.edit_text_preferred_age_min);
         preferredAgeMaximumEditText = root.findViewById(R.id.edit_text_preferred_age_max);
-        preferredGendersEditButton = root.findViewById(R.id.button_edit_preferred_genders);
-        preferredLocationsEditButton = root.findViewById(R.id.button_edit_preferred_locations);
-        preferredAgeGroupEditButton = root.findViewById(R.id.button_edit_preferred_age_group);
+        filtersEditButton = root.findViewById(R.id.button_edit_filters);
+        filtersSubmitButton = root.findViewById(R.id.button_submit_filters);
 
         // instantiates controller
         EditFiltersDsGateway editFiltersDatabaseHelper = DatabaseHelper.getInstance(getContext());
@@ -86,7 +161,34 @@ public class EditFiltersFragment extends Fragment {
         locations = getResources().getStringArray(R.array.locations);
         isLocationPreferredList = new boolean[locations.length];
 
-        // text view click listeners to pop-up multi-select window for preferred genders
+        // click listener for filters edit button
+        filtersEditButton.setOnClickListener(view -> setEditEnabled(true));
+
+        // click listener for filters submit button to update the filters
+        filtersSubmitButton.setOnClickListener(view -> {
+            EditFiltersModel newFilters  = getFiltersInputValues();
+            if (newFilters != null) {
+                try {
+                    editFiltersController.updateFilters(userId, newFilters);
+                    preferredAgeMinimum = newFilters.getPreferredAgeMinimum();
+                    preferredAgeMaximum = newFilters.getPreferredAgeMaximum();
+                    setEditEnabled(false);
+
+                // if age group the user enters is invalid, error message window will pop-up, and preferred age
+                // values will reset to the old values.
+                } catch (InvalidAgeGroup e) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
+                    dialog.setMessage(e.getMessage());
+                    dialog.setPositiveButton("OK", (dialogInterface, index) -> {
+                        preferredAgeMinimumEditText.setText(String.valueOf(preferredAgeMinimum));
+                        preferredAgeMaximumEditText.setText(String.valueOf(preferredAgeMaximum));
+                    });
+                    dialog.show();
+                }
+            }
+        });
+
+        // text view click listener to pop-up multi-select window for preferred genders
         preferredGendersTextView.setOnClickListener(view -> {
             AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
             dialog.setTitle("Choose Preferred Gender");
@@ -111,7 +213,7 @@ public class EditFiltersFragment extends Fragment {
             dialog.show();
         });
 
-        // text view click listeners to pop-up multi-select window for preferred locations
+        // text view click listener to pop-up multi-select window for preferred locations
         preferredLocationsTextView.setOnClickListener(view -> {
             AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
             dialog.setTitle("Choose Preferred Location");
@@ -136,64 +238,23 @@ public class EditFiltersFragment extends Fragment {
             dialog.show();
         });
 
-        // edit / save button click listeners to update filters information
-        preferredGendersEditButton.setOnClickListener(view -> {
-            ArrayList<String> selectedGenders = getMultiSelectDropdownInputValue(
-                    "Preferred Genders",
-                    preferredGendersTextView,
-                    preferredGendersEditButton,
-                    preferredGenders
-            );
-            if (selectedGenders != null) {
-                editFiltersController.updatePreferredGenders(userId, selectedGenders);
-            }
-        });
-        preferredLocationsEditButton.setOnClickListener(view -> {
-            ArrayList<String> selectedLocations = getMultiSelectDropdownInputValue(
-                    "Preferred Locations",
-                    preferredLocationsTextView,
-                    preferredLocationsEditButton,
-                    preferredLocations
-            );
-            if (selectedLocations != null) {
-                editFiltersController.updatePreferredLocations(userId, selectedLocations);
-            }
-        });
-        preferredAgeGroupEditButton.setOnClickListener(view -> {
-            int[] selectedAgeGroup = getTwoEditTextNumberInputValue(
-                    "Preferred Age Group",
-                    preferredAgeMinimumEditText,
-                    preferredAgeMaximumEditText,
-                    preferredAgeGroupEditButton
-            );
-            if (selectedAgeGroup != null) {
-                try {
-                    editFiltersController.updatePreferredAgeGroup(userId, selectedAgeGroup[0], selectedAgeGroup[1]);
-                    preferredAgeMinimum = selectedAgeGroup[0];
-                    preferredAgeMaximum = selectedAgeGroup[1];
-
-                    // if age group the user enters is invalid, error message window will pop-up, and preferred age
-                    // values will reset to the old values.
-                } catch (InvalidAgeGroup e) {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
-                    dialog.setMessage(e.getMessage());
-                    dialog.setPositiveButton("OK", (dialogInterface, index) -> {
-                        preferredAgeMinimumEditText.setText(String.valueOf(preferredAgeMinimum));
-                        preferredAgeMaximumEditText.setText(String.valueOf(preferredAgeMaximum));
-                    });
-                    dialog.show();
-                }
-            }
-        });
-
         return root;
     }
 
+    /**
+     * defines behaviour when user enters the fragment. It disables the edit on the screen and re-fetches the data
+     * whenever user leaves and re-enters the fragment, so non-saved data wouldn't have remained on the screen.
+     *
+     * @return the Transition that will be used to move Views into the initial scene.
+     */
     @Nullable
     @Override
     public Object getEnterTransition() {
+        // editing is disabled on enter transition
+        setEditEnabled(false);
+
         // gets filters for the user
-        EditFiltersDsResponseModel filtersDsResponse = editFiltersController.getFilters(userId);
+        EditFiltersModel filtersDsResponse = editFiltersController.getFilters(userId);
 
         // assigns each of filters to a variable
         preferredGenders = new ArrayList<>(filtersDsResponse.getPreferredGenders());
@@ -217,70 +278,42 @@ public class EditFiltersFragment extends Fragment {
             isLocationPreferredList[i] = preferredLocations.contains(locations[i]);
         }
 
-
         return super.getEnterTransition();
     }
 
     /**
-     * returns user input value for the multi-select dropdown. It also toggles edit enabled / disabled and
-     * edit / save icon of the button accordingly;
+     * returns filters input values gathering texts from each edit fields
      *
-     * @param field    filters field to be updated
-     * @param textView TextView component
-     * @param button   edit / save button component
-     * @return user input value. Returns null when the user clicks button to start editing.
+     * @return filters input values.
      */
-    private ArrayList<String> getMultiSelectDropdownInputValue(String field, TextView textView,
-                                                               ImageButton button, ArrayList<String> selections) {
-        if (textView.isEnabled()) {
-            textView.setEnabled(false);
-            button.setContentDescription("Click to edit " + field);
-            button.setImageResource(R.drawable.ic_edit);
-            return selections;
-        } else {
-            textView.setEnabled(true);
-            button.setContentDescription("Click to save " + field);
-            button.setImageResource(R.drawable.ic_save);
+    private EditFiltersModel getFiltersInputValues() {
+        // shows error message if user tries to submit without minimum / maximum preferred age
+        boolean isNoMinimumPreferredAge = TextUtils.isEmpty(preferredAgeMinimumEditText.getText().toString());
+        boolean isNoMaximumPreferredAge = TextUtils.isEmpty(preferredAgeMaximumEditText.getText().toString());
+        if (isNoMinimumPreferredAge || isNoMaximumPreferredAge) {
+            if (isNoMinimumPreferredAge) {preferredAgeMinimumEditText.setError("Please enter minimum age.");}
+            if (isNoMaximumPreferredAge) {preferredAgeMaximumEditText.setError("Please enter maximum age.");}
             return null;
         }
+
+        return new EditFiltersModel(preferredGenders, preferredLocations,
+                Integer.parseInt(preferredAgeMinimumEditText.getText().toString()),
+                Integer.parseInt(preferredAgeMaximumEditText.getText().toString())
+        );
     }
 
     /**
-     * returns user number input value for the two EditTexts. It also toggles edit enabled / disabled and edit / save
-     * icon of the button accordingly;
+     * enables(disables) editing. set all edit fields enabled(disabled), filters submit button enabled(disabled),
+     * and filters edit button invisible(visible).
      *
-     * @param field     filters field to be updated
-     * @param editText1 first EditText component
-     * @param editText2 second EditText component
-     * @param button    edit / save button component
-     * @return user number input values from two edit texts. Returns null when the user clicks button to start editing.
+     * @param enabled indicates whether to enable or disable editing
      */
-    public int[] getTwoEditTextNumberInputValue(String field, EditText editText1, EditText editText2,
-                                                ImageButton button) {
-        if (editText1.isEnabled()) {
-            // shows error message if user tries to save without input value
-            if(TextUtils.isEmpty(editText1.getText().toString())) {
-                editText1.setError("Please input some number.");
-                return null;
-            }
-            if (TextUtils.isEmpty(editText2.getText().toString())) {
-                editText2.setError("Please input some number.");
-                return null;
-            }
-
-            editText1.setEnabled(false);
-            editText2.setEnabled(false);
-            button.setContentDescription("Click to edit " + field);
-            button.setImageResource(R.drawable.ic_edit);
-            int number1 = Integer.parseInt(editText1.getText().toString());
-            int number2 = Integer.parseInt(editText2.getText().toString());
-            return new int []{number1, number2};
-        } else {
-            editText1.setEnabled(true);
-            editText2.setEnabled(true);
-            button.setContentDescription("Click to save " + field);
-            button.setImageResource(R.drawable.ic_save);
-            return null;
-        }
+    private void setEditEnabled(boolean enabled) {
+        filtersEditButton.setVisibility(enabled ? View.INVISIBLE : View.VISIBLE);
+        filtersSubmitButton.setEnabled(enabled);
+        preferredGendersTextView.setEnabled(enabled);
+        preferredLocationsTextView.setEnabled(enabled);
+        preferredAgeMinimumEditText.setEnabled(enabled);
+        preferredAgeMaximumEditText.setEnabled(enabled);
     }
 }

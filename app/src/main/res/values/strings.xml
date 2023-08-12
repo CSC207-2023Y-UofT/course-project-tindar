@@ -17,18 +17,14 @@
     <string name="re_type_password">Re-type Password</string>
 
     <!-- Strings related to other screens -->
+    <string name="birthdate">Birthdate</string>
     <string name="gender">Gender</string>
     <string name="location">Location</string>
     <string name="profile_picture_link">Profile Picture Link</string>
     <string name="about_me">About Me</string>
-    <string name="click_to_edit_profile_picture_link">Click to edit Profile Picture Link</string>
-    <string name="click_to_edit_about_me">Click to edit About Me</string>
-    <string name="click_to_edit_location">Click to edit Location</string>
-    <string name="click_to_edit_gender">Click to edit Gender</string>
-    <string name="click_to_edit_birthdate">Click to edit Birthdate</string>
-    <string name="birthdate">Birthdate</string>
-    <string name="profile">profile</string>
-    <string name="filters">filters</string>
+    <string name="click_to_edit_profile">Click to edit Profile</string>
+    <string name="filters">Filters</string>
+    <string name="click_to_edit_filters">Click to edit Filters</string>
     <string name="choose_preferred_gender">Choose Preferred Gender</string>
     <string name="choose_preferred_location">Choose Preferred Location</string>
     <string name="preferred_locations">Preferred Locations</string>
@@ -61,6 +57,28 @@
     <string name="menu_match_list">Matches</string>
     <string name="menu_my_profile">My Profile</string>
     <string name="menu_filters">Filters</string>
-    <string name="like_button">like button</string>
-    <string name="dislike_button">dislike button</string>
+    <string name="submit">Submit</string>
+    <string name="my_profile">My Profile</string>
+
+    <string name="start_search">Start search!</string>
+    <string name="next_button">next button</string>
+    <string name="previous_button">previous button</string>
+    <string name="home_image">home image</string>
+    <string name="like_or_dislike">like or dislike</string>
+
+    <string name="action_log_out">Log Out</string>
+    <string name="change_email">Change Email</string>
+    <string name="change_password">Change Password</string>
+    <string name="submit_email">Submit Email</string>
+    <string name="submit_password">Submit Password</string>
+    <string name="retype_email">Retype Email</string>
+    <string name="new_email">New Email</string>
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="current_password_2">Current Password</string>
+    <string name="inputs_do_not_match">Inputs do not match</string>
+    <string name="email_already_used">Email already used</string>
+    <string name="current_password_incorrect">Current password incorrect</string>
+    <string name="password_validation">Current password</string>
+    <string name="password_not_six_long">Passwords must be at least 6 characters long.</string>
 </resources>

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -22,9 +23,10 @@ import com.courseproject.tindar.controllers.editprofile.EditProfileController;
 import com.courseproject.tindar.databinding.FragmentEditProfileBinding;
 import com.courseproject.tindar.ds.DatabaseHelper;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsGateway;
-import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
+import com.courseproject.tindar.usecases.editprofile.EditProfileResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileInputBoundary;
 import com.courseproject.tindar.usecases.editprofile.EditProfileInteractor;
+import com.courseproject.tindar.usecases.editprofile.EditProfileRequestModel;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -37,14 +39,63 @@ import java.util.GregorianCalendar;
  */
 public class EditProfileFragment extends Fragment {
 
+    /**
+     * the user id of the current logged-in user
+     */
     private String userId;
+    /**
+     * the text view to show user's birthdate
+     */
     private TextView birthdateTextView;
-    private AutoCompleteTextView genderAutoCompleteTextView, locationAutoCompleteTextView;
-    private EditText profilePictureLinkEditText, aboutMeEditText;
-    private ImageButton birthdateEditButton, genderEditButton, locationEditButton, profilePictureLinkEditButton, aboutMeEditButton;
+    /**
+     * the auto complete text view to show user's gender. auto complete text view is used to creates a dropdown for
+     * all possible choices of gender on click.
+     */
+    private AutoCompleteTextView genderAutoCompleteTextView;
+    /**
+     * the auto complete text view to show user's location. auto complete text view is used to creates a dropdown
+     * for all possible choices of gender on click.
+     */
+    private AutoCompleteTextView locationAutoCompleteTextView;
+    /**
+     * the array adapter to contain all possible choices of gender
+     */
+    private ArrayAdapter<String> genderArrayAdapter;
+    /**
+     * the array adapter to contain all possible choices of location
+     */
+    private ArrayAdapter<String> locationArrayAdapter;
+    /**
+     * the edit text to input link of profile picture
+     */
+    private EditText profilePictureLinkEditText;
+    /**
+     * the edit text to input statement to introduce the user to other users
+     */
+    private EditText aboutMeEditText;
+    /**
+     * the button to enable editing on the Edit Profile screen
+     */
+    private ImageButton profileEditButton;
+    /**
+     * the button to submit the current input values of the profile information to update
+     */
+    private Button profileSubmitButton;
+    /**
+     * controller for the Edit Profile UI
+     */
     private EditProfileController editProfileController;
-    private EditProfileDsResponseModel profileDsResponse;
+    /**
+     * saved profile information retrieved
+     */
+    private EditProfileResponseModel profileDsResponse;
 
+    /**
+     * creates Edit Profile fragment. Shared View Model is used to retrieve currently logged in user id, which is
+     * shared among the blank nav activity and the fragments under the activity
+     *
+     * @param savedInstanceState If the fragment is being re-created from a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +103,21 @@ public class EditProfileFragment extends Fragment {
         blankNavViewModel.getUserId().observe(requireActivity(), it -> userId = it);
     }
 
+    /**
+     * creates Edit Profile view. It instantiates Edit Profile controller, prepares dropdown menu for the
+     * possible choices of genders and locations, defines behaviour for the edit button and
+     * submit button, and define behaviour of date-picker pop-up for the birthdate edit on click of birthdate
+     * text view
+     *
+     * @param inflater           The LayoutInflater object that can be used to inflate
+     *                           any views in the fragment,
+     * @param container          If non-null, this is the parent view that the fragment's
+     *                           UI should be attached to.  The fragment should not add the view itself,
+     *                           but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     *                           from a previous saved state as given here.
+     * @return
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,98 +131,38 @@ public class EditProfileFragment extends Fragment {
         locationAutoCompleteTextView = root.findViewById(R.id.auto_complete_text_view_location);
         profilePictureLinkEditText = root.findViewById(R.id.edit_text_profile_picture_link);
         aboutMeEditText = root.findViewById(R.id.edit_text_about_me);
-        birthdateEditButton = root.findViewById(R.id.button_edit_birthday);
-        genderEditButton = root.findViewById(R.id.button_edit_gender);
-        locationEditButton = root.findViewById(R.id.button_edit_location);
-        profilePictureLinkEditButton = root.findViewById(R.id.button_edit_profile_picture_link);
-        aboutMeEditButton = root.findViewById(R.id.button_edit_about_me);
+        profileEditButton = root.findViewById(R.id.button_edit_profile);
+        profileSubmitButton = root.findViewById(R.id.button_submit_profile);
 
         // instantiates controller
         EditProfileDsGateway editProfileDatabaseHelper = DatabaseHelper.getInstance(getActivity());
         EditProfileInputBoundary editProfileInteractor = new EditProfileInteractor(editProfileDatabaseHelper);
         editProfileController = new EditProfileController(editProfileInteractor);
 
-        // creates dropdown menu for the gender
+        // prepares dropdown menu for the gender
         String[] genders = getResources().getStringArray(R.array.genders);
-        ArrayAdapter<String> genderArrayAdapter = new ArrayAdapter<>(getContext(), R.layout.dropdown_item, genders);
-        genderAutoCompleteTextView.setAdapter(genderArrayAdapter);
+        genderArrayAdapter = new ArrayAdapter<>(getContext(), R.layout.dropdown_item, genders);
 
-        // creates dropdown menu for the location
+        // prepares dropdown menu for the location
         String[] locations = getResources().getStringArray(R.array.locations);
-        ArrayAdapter<String> locationArrayAdapter = new ArrayAdapter<>(getContext(), R.layout.dropdown_item, locations);
-        locationAutoCompleteTextView.setAdapter(locationArrayAdapter);
+        locationArrayAdapter = new ArrayAdapter<>(getContext(), R.layout.dropdown_item, locations);
 
-        // edit / save button click listeners to update the profile information
-        birthdateEditButton.setOnClickListener(view -> {
-            Date birthdate = null;
+        // click listener for profile edit button
+        profileEditButton.setOnClickListener(view -> setEditEnabled(true));
+
+        // click listener for profile submit button to update the profile
+        profileSubmitButton.setOnClickListener(view -> {
             try {
-                birthdate = getDatePickerInputValue(birthdateTextView, birthdateEditButton);
+                EditProfileRequestModel newProfile = getProfileInputValues();
+                editProfileController.updateProfile(userId, newProfile);
+                setEditEnabled(false);
             } catch (ParseException e) {
                 birthdateTextView.setText(DateFormat.getDateInstance().format(profileDsResponse.getBirthdate()));
             }
-            if (birthdate != null) {
-                editProfileController.updateBirthdate(userId, birthdate);
-            }
-        });
-        genderEditButton.setOnClickListener(view -> {
-            String gender = getDropdownInputValue("Gender", genderAutoCompleteTextView, genderEditButton);
-            if (gender != null) {
-                editProfileController.updateGender(userId, gender);
-            }
-        });
-        locationEditButton.setOnClickListener(view -> {
-            String location = getDropdownInputValue("Location", locationAutoCompleteTextView, locationEditButton);
-            if (location != null) {
-                editProfileController.updateLocation(userId, location);
-            }
-        });
-        profilePictureLinkEditButton.setOnClickListener(view -> {
-            String profilePictureLink =
-                    getEditTextInputValue("Profile Picture Link", profilePictureLinkEditText, profilePictureLinkEditButton);
-            if (profilePictureLink != null) {
-                editProfileController.updateProfilePictureLink(userId, profilePictureLink);
-            }
-        });
-        aboutMeEditButton.setOnClickListener(view -> {
-            String aboutMe = getEditTextInputValue("About Me", aboutMeEditText, aboutMeEditButton);
-            if (aboutMe != null) {
-                editProfileController.updateAboutMe(userId, aboutMe);
-            }
         });
 
-        return root;
-    }
-
-    @Nullable
-    @Override
-    public Object getEnterTransition() {
-        // gets user profile
-        profileDsResponse = editProfileController.getProfile(userId);
-
-        // renders user profile to the screen
-        birthdateTextView.setText(DateFormat.getDateInstance().format(profileDsResponse.getBirthdate()));
-        genderAutoCompleteTextView.setText(profileDsResponse.getGender());
-        locationAutoCompleteTextView.setText(profileDsResponse.getLocation());
-        profilePictureLinkEditText.setText(profileDsResponse.getProfilePictureLink());
-        aboutMeEditText.setText(profileDsResponse.getAboutMe());
-
-        return super.getEnterTransition();
-    }
-
-    /**
-     * returns user input value for the date picker. It also toggles edit enabled / disabled and
-     * edit / save icon of the button accordingly;
-     *
-     * @param textView TextView component
-     * @param button   edit / save button component
-     * @return user input value. Returns null when the user clicks button to start editing.
-     */
-    private Date getDatePickerInputValue(TextView textView, ImageButton button) throws ParseException {
-        if (textView.isEnabled()) {
-            textView.setEnabled(false);
-            button.setImageResource(R.drawable.ic_edit);
-            return DateFormat.getDateInstance(DateFormat.DEFAULT).parse(textView.getText().toString());
-        } else {
+        // click listener for birthdate text view to pop-up date picker
+        birthdateTextView.setOnClickListener(view -> {
             // gets year, month, day of the birthdate currently saved
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(profileDsResponse.getBirthdate());
@@ -168,61 +174,75 @@ public class EditProfileFragment extends Fragment {
             DatePickerDialog.OnDateSetListener dateSetListener = (datePicker, year1, month1, day1) -> {
                 Date newBirthdate = new GregorianCalendar(year1, month1, day1).getTime();
                 birthdateTextView.setText(DateFormat.getDateInstance().format(newBirthdate));
-                textView.setEnabled(true);
-                button.setImageResource(R.drawable.ic_save);
             };
 
             // creates and shows DatePickerDialog
             DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), dateSetListener, year, month, day);
             datePickerDialog.show();
-
-            return null;
-        }
+        });
+        return root;
     }
 
     /**
-     * returns user input value for the dropdown. It also toggles edit enabled / disabled and
-     * edit / save icon of the button accordingly;
+     * defines behaviour when user enters the fragment. It disables edit on the screen and re-fetches the data whenever
+     * user leaves and re-enters the fragment, so non-saved data wouldn't have remained on the screen.
+     * It also connects auto complete text view with the dropdown menu prepared.
      *
-     * @param field                profile field to be updated
-     * @param autoCompleteTextView AutoCompleteTextView component
-     * @param button               edit / save button component
-     * @return user input value. Returns null when the user clicks button to start editing.
+     * @return the Transition that will be used to move Views into the initial scene.
      */
-    private String getDropdownInputValue(String field, AutoCompleteTextView autoCompleteTextView, ImageButton button) {
-        if (autoCompleteTextView.isEnabled()) {
-            autoCompleteTextView.setEnabled(false);
-            button.setContentDescription("Click to edit " + field);
-            button.setImageResource(R.drawable.ic_edit);
-            return autoCompleteTextView.getText().toString();
-        } else {
-            autoCompleteTextView.setEnabled(true);
-            button.setContentDescription("Click to save " + field);
-            button.setImageResource(R.drawable.ic_save);
-            return null;
-        }
+    @Nullable
+    @Override
+    public Object getEnterTransition() {
+        // editing is disabled on enter transition
+        setEditEnabled(false);
+
+        // gets user profile
+        profileDsResponse = editProfileController.getProfile(userId);
+
+        // renders user profile to the screen
+        birthdateTextView.setText(DateFormat.getDateInstance().format(profileDsResponse.getBirthdate()));
+        genderAutoCompleteTextView.setText(profileDsResponse.getGender());
+        locationAutoCompleteTextView.setText(profileDsResponse.getLocation());
+        profilePictureLinkEditText.setText(profileDsResponse.getProfilePictureLink());
+        aboutMeEditText.setText(profileDsResponse.getAboutMe());
+
+        // connects dropdown menu for gender field
+        genderAutoCompleteTextView.setAdapter(genderArrayAdapter);
+
+        // connects dropdown menu for location field
+        locationAutoCompleteTextView.setAdapter(locationArrayAdapter);
+
+        return super.getEnterTransition();
     }
 
     /**
-     * returns user input value for the EditText. It also toggles edit enabled / disabled and edit / save icon of
-     * the button accordingly;
+     * returns profile input values gathering texts from each edit fields
      *
-     * @param field    profile field to be updated
-     * @param editText EditText component
-     * @param button   edit / save button component
-     * @return user input value. Returns null when the user clicks button to start editing.
+     * @return profile input values.
      */
-    private String getEditTextInputValue(String field, EditText editText, ImageButton button) {
-        if (editText.isEnabled()) {
-            editText.setEnabled(false);
-            button.setContentDescription("Click to edit " + field);
-            button.setImageResource(R.drawable.ic_edit);
-            return editText.getText().toString();
-        } else {
-            editText.setEnabled(true);
-            button.setContentDescription("Click to save " + field);
-            button.setImageResource(R.drawable.ic_save);
-            return null;
-        }
+    private EditProfileRequestModel getProfileInputValues()  throws ParseException {
+        return new EditProfileRequestModel(
+            DateFormat.getDateInstance(DateFormat.DEFAULT).parse(birthdateTextView.getText().toString()),
+            genderAutoCompleteTextView.getText().toString(),
+            locationAutoCompleteTextView.getText().toString(),
+            profilePictureLinkEditText.getText().toString(),
+            aboutMeEditText.getText().toString()
+        );
+    }
+
+    /**
+     * enables(disables) editing. set all edit fields enabled(disabled), profile submit button enabled(disabled),
+     * and profile edit button invisible(visible).
+     *
+     * @param enabled indicates whether to enable or disable editing
+     */
+    private void setEditEnabled(boolean enabled) {
+        profileEditButton.setVisibility(enabled ? View.INVISIBLE : View.VISIBLE);
+        profileSubmitButton.setEnabled(enabled);
+        birthdateTextView.setEnabled(enabled);
+        genderAutoCompleteTextView.setEnabled(enabled);
+        locationAutoCompleteTextView.setEnabled(enabled);
+        profilePictureLinkEditText.setEnabled(enabled);
+        aboutMeEditText.setEnabled(enabled);
     }
 }

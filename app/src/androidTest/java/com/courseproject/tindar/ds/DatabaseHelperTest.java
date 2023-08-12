@@ -7,17 +7,17 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.courseproject.tindar.usecases.editaccount.EditAccountDsGateway;
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
-import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
-import com.courseproject.tindar.usecases.editprofile.EditProfileDsResponseModel;
+import com.courseproject.tindar.usecases.editfilters.EditFiltersModel;
+import com.courseproject.tindar.usecases.editprofile.EditProfileRequestModel;
+import com.courseproject.tindar.usecases.editprofile.EditProfileResponseModel;
 import com.courseproject.tindar.usecases.likelist.LikeListDsResponseModel;
 import com.courseproject.tindar.usecases.signup.SignUpDsRequestModel;
+import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsResponseModel;
 
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -72,7 +72,7 @@ public class DatabaseHelperTest {
         SignUpDsRequestModel accountCredentials = new SignUpDsRequestModel("april", "april@someemail.com",
                 "aprilpassword");
         String createdUserId = dbHelper.addAccount(accountCredentials);
-        EditProfileDsResponseModel profile = dbHelper.readProfile(createdUserId);
+        EditProfileResponseModel profile = dbHelper.readProfile(createdUserId);
         assertEquals("april", profile.getDisplayName());
     }
 
@@ -82,8 +82,8 @@ public class DatabaseHelperTest {
     }
 
     @Test
-    public void readProfile() {
-        EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
+    public void testReadProfile() {
+        EditProfileResponseModel testProfile = dbHelper.readProfile(userId);
         assertEquals("bell", testProfile.getDisplayName());
         assertEquals(new GregorianCalendar(2003, 9, 5).getTime(), testProfile.getBirthdate());
         assertEquals("Female", testProfile.getGender());
@@ -93,43 +93,34 @@ public class DatabaseHelperTest {
     }
 
     @Test
-    public void updateBirthdate() {
-        dbHelper.updateBirthdate(userId, new GregorianCalendar(1997, 11, 27).getTime());
-        EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
-        assertEquals(new GregorianCalendar(1997, 11, 27).getTime(), testProfile.getBirthdate());
+    public void testReadNextProfile() {
+        ViewProfilesDsResponseModel testProfile = dbHelper.readNextProfile(userId);
+        assertEquals("bell", testProfile.getDisplayName());
+        assertEquals(new GregorianCalendar(2003, 9, 5).getTime(), testProfile.getBirthdate());
+        assertEquals("Female", testProfile.getGender());
+        assertEquals("Calgary", testProfile.getLocation());
+        assertEquals("https://ccc", testProfile.getProfilePictureLink());
+        assertEquals("I would like to", testProfile.getAboutMe());
     }
 
     @Test
-    public void updateGender() {
-        dbHelper.updateGender(userId, "Other");
-        EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
-        assertEquals("Other", testProfile.getGender());
+    public void testUpdateProfile() {
+        EditProfileRequestModel newProfile = new EditProfileRequestModel(
+                new GregorianCalendar(1997, 11, 27).getTime(),
+                "Other", "Vancouver", "https://bbb", "Nice to meet you"
+        );
+        dbHelper.updateProfile(userId, newProfile);
+        EditProfileResponseModel updatedProfile = dbHelper.readProfile(userId);
+        assertEquals(new GregorianCalendar(1997, 11, 27).getTime(), updatedProfile.getBirthdate());
+        assertEquals("Other", updatedProfile.getGender());
+        assertEquals("Vancouver", updatedProfile.getLocation());
+        assertEquals("https://bbb", updatedProfile.getProfilePictureLink());
+        assertEquals("Nice to meet you", updatedProfile.getAboutMe());
     }
 
     @Test
-    public void updateLocation() {
-        dbHelper.updateLocation(userId, "Vancouver");
-        EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
-        assertEquals("Vancouver", testProfile.getLocation());
-    }
-
-    @Test
-    public void updateProfilePictureLink() {
-        dbHelper.updateProfilePictureLink(userId, "https://bbb");
-        EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
-        assertEquals("https://bbb", testProfile.getProfilePictureLink());
-    }
-
-    @Test
-    public void updateAboutMe() {
-        dbHelper.updateAboutMe(userId, "Nice to meet you");
-        EditProfileDsResponseModel testProfile = dbHelper.readProfile(userId);
-        assertEquals("Nice to meet you", testProfile.getAboutMe());
-    }
-
-    @Test
-    public void readFilters() {
-        EditFiltersDsResponseModel testFilters = dbHelper.readFilters(userId);
+    public void testReadFilters() {
+        EditFiltersModel testFilters = dbHelper.readFilters(userId);
         assertEquals(new ArrayList<>(Arrays.asList("Female", "Male")), testFilters.getPreferredGenders()) ;
         assertEquals(new ArrayList<>(Arrays.asList("Calgary", "Vancouver")), testFilters.getPreferredLocations()) ;
         assertEquals(19, testFilters.getPreferredAgeMinimum());
@@ -137,39 +128,30 @@ public class DatabaseHelperTest {
     }
 
     @Test
-    public void updatePreferredGenders() {
-        dbHelper.updatePreferredGenders(userId, new ArrayList<>(Collections.singletonList("Female")));
-        EditFiltersDsResponseModel testFilters = dbHelper.readFilters(userId);
-        assertEquals(new ArrayList<>(Collections.singletonList("Female")), testFilters.getPreferredGenders()) ;
+    public void testUpdateFilters() {
+        EditFiltersModel newFilters = new EditFiltersModel(
+                new ArrayList<>(Collections.singletonList("Female")),
+                new ArrayList<>(Arrays.asList("Calgary", "Toronto")),
+                21, 31
+        );
+        dbHelper.updateFilters(userId, newFilters);
+        EditFiltersModel updatedFilters = dbHelper.readFilters(userId);
+        assertEquals(new ArrayList<>(Collections.singletonList("Female")), updatedFilters.getPreferredGenders());
+        assertEquals(new ArrayList<>(Arrays.asList("Calgary", "Toronto")), updatedFilters.getPreferredLocations());
+        assertEquals(21, updatedFilters.getPreferredAgeMinimum());
+        assertEquals(31, updatedFilters.getPreferredAgeMaximum());
     }
 
     @Test
-    public void updatePreferredGendersEmptyList() {
-        dbHelper.updatePreferredGenders(userId, new ArrayList<>());
-        EditFiltersDsResponseModel testFilters = dbHelper.readFilters(userId);
-        assertEquals(new ArrayList<>(), testFilters.getPreferredGenders()) ;
-    }
-
-    @Test
-    public void updatePreferredLocations() {
-        dbHelper.updatePreferredGenders(userId, new ArrayList<>(Arrays.asList("Calgary", "Toronto")));
-        EditFiltersDsResponseModel testFilters = dbHelper.readFilters(userId);
-        assertEquals(new ArrayList<>(Arrays.asList("Calgary", "Toronto")), testFilters.getPreferredGenders());
-    }
-
-    @Test
-    public void updatePreferredLocationsEmptyList() {
-        dbHelper.updatePreferredLocations(userId, new ArrayList<>());
-        EditFiltersDsResponseModel testFilters = dbHelper.readFilters(userId);
-        assertEquals(new ArrayList<>(), testFilters.getPreferredLocations()) ;
-    }
-
-    @Test
-    public void updatePreferredAgeGroup() {
-        dbHelper.updatePreferredAgeGroup(userId, 21, 31);
-        EditFiltersDsResponseModel testFilters = dbHelper.readFilters(userId);
-        assertEquals(21, testFilters.getPreferredAgeMinimum()) ;
-        assertEquals(31, testFilters.getPreferredAgeMaximum()) ;
+    public void testUpdateFiltersEmptyList() {
+        EditFiltersModel newFilters = new EditFiltersModel(
+                new ArrayList<>(), new ArrayList<>(), 23, 25);
+        dbHelper.updateFilters(userId, newFilters);
+        EditFiltersModel updatedFilters = dbHelper.readFilters(userId);
+        assertTrue(updatedFilters.getPreferredGenders().isEmpty());
+        assertTrue(updatedFilters.getPreferredLocations().isEmpty());
+        assertEquals(23, updatedFilters.getPreferredAgeMinimum());
+        assertEquals(25, updatedFilters.getPreferredAgeMaximum());
     }
 
     @Test
@@ -289,7 +271,7 @@ public class DatabaseHelperTest {
     @Test
     public void testReadAccount() {
         EditAccountDsResponseModel testAccount = dbHelper.readAccount(userId);
-        assertEquals(true, testAccount.getIsActiveStatus());
+        assertTrue(testAccount.getIsActiveStatus());
         assertEquals("bell@exampleemail.com", testAccount.getEmail());
         assertEquals("somepassword", testAccount.getPassword());
     }
@@ -298,7 +280,7 @@ public class DatabaseHelperTest {
     public void testUpdateIsAccountStatus() {
         dbHelper.updateIsActiveStatus(userId, false);
         EditAccountDsResponseModel testAccount = dbHelper.readAccount(userId);
-        assertEquals(testAccount.getIsActiveStatus(), false);
+        assertFalse(testAccount.getIsActiveStatus());
     }
 
     @Test
@@ -332,10 +314,9 @@ public class DatabaseHelperTest {
     @Test
     public void testGetAllUserIds(){
         ArrayList<String> userList = new ArrayList<>();
-        userList.add(userId);
         userList.add(otherUserId);
         userList.add(thirdUserId);
-        ArrayList<String> dbUserList = dbHelper.getAllUserIds();
+        ArrayList<String> dbUserList = dbHelper.getAllOtherUserIds(userId);
 
         assertEquals(userList, dbUserList);
     }
