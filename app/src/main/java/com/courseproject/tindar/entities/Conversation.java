@@ -13,7 +13,7 @@ public abstract class Conversation {
     protected Conversation(String user1, String user2){
         this.user1 = user1;
         this.user2 = user2;
-        this.messages = new ArrayList<MessageModel>();
+        this.messages = new ArrayList<>();
         this.conversationId = user1 + user2; //implementation will probably be changed
     }
 

@@ -20,7 +20,7 @@ public class EditProfileControllerUnitTest {
     private static final String PROFILE_PICTURE_LINK = "https://aaa";
     private static final String ABOUT_ME = "Hello!";
 
-    EditProfileResponseModel mockEditProfileResponseModel =
+    final EditProfileResponseModel mockEditProfileResponseModel =
         new EditProfileResponseModel(DISPLAY_NAME, BIRTHDATE, GENDER, LOCATION, PROFILE_PICTURE_LINK, ABOUT_ME);
 
     private class MockEditProfileUserInput implements EditProfileInputBoundary {
@@ -39,7 +39,7 @@ public class EditProfileControllerUnitTest {
         }
     }
 
-    EditProfileInputBoundary mockEditProfileUserInput = new MockEditProfileUserInput();
+    final EditProfileInputBoundary mockEditProfileUserInput = new MockEditProfileUserInput();
 
     @Test
     public void testGetProfile() {

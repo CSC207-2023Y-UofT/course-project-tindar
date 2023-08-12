@@ -21,10 +21,10 @@ public class LikeListInteractorUnitTest {
 
     private static class MockLikeListDsGateway implements LikeListDsGateway {
         /** Mock implementation of LikeListDsGateway for testing purposes **/
-        boolean isLiked;
-        ArrayList<String> matchList;
-        ArrayList<String> likeList;
-        LikeListDsResponseModel displayName;
+        final boolean isLiked;
+        final ArrayList<String> matchList;
+        final ArrayList<String> likeList;
+        final LikeListDsResponseModel displayName;
         public MockLikeListDsGateway(boolean isLiked, ArrayList<String> matchList,
                                      ArrayList<String> likeList, LikeListDsResponseModel displayName) {
             this.isLiked = isLiked;

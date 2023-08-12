@@ -20,7 +20,7 @@ public class EditFiltersInteractorUnitTest {
     private static final int PREFERRED_AGE_MINIMUM_INVALID = 18;
     private static final int PREFERRED_AGE_MAXIMUM = 26;
 
-    EditFiltersModel mockEditFiltersResponseModel =
+    final EditFiltersModel mockEditFiltersResponseModel =
             new EditFiltersModel(PREFERRED_GENDERS, PREFERRED_LOCATIONS, PREFERRED_AGE_MINIMUM, PREFERRED_AGE_MAXIMUM);
 
     private class MockEditFiltersDsGateway implements EditFiltersDsGateway {
@@ -39,9 +39,9 @@ public class EditFiltersInteractorUnitTest {
         }
     }
 
-    EditFiltersDsGateway mockEditFiltersDsGateway = new MockEditFiltersDsGateway();
-    EditFiltersPresenter editFiltersPresentationFormatter = new EditFiltersPresentationFormatter();
-    FiltersFactory filtersFactory = new FiltersFactory();
+    final EditFiltersDsGateway mockEditFiltersDsGateway = new MockEditFiltersDsGateway();
+    final EditFiltersPresenter editFiltersPresentationFormatter = new EditFiltersPresentationFormatter();
+    final FiltersFactory filtersFactory = new FiltersFactory();
 
     @Test
     public void testGetFilters() {
