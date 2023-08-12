@@ -44,8 +44,8 @@ public class SignUpInteractorUnitTest {
         }
     }
 
-    SignUpPresenter signUpsPresentationFormatter = new SignUpPresentationFormatter();
-    AccountFactory accountFactory = new AccountFactory();
+    final SignUpPresenter signUpsPresentationFormatter = new SignUpPresentationFormatter();
+    final AccountFactory accountFactory = new AccountFactory();
 
     @Test
     public void testCreateAccountSuccess() throws InvalidCredentials {

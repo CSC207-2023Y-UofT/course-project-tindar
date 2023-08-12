@@ -10,7 +10,7 @@ public class EditAccountInteractorUnitTest {
     private final String EMAIL = "johndoe@email.com";
     private final String PASSWORD = "goodpassword";
 
-    EditAccountDsResponseModel mockEditAccountResponseModel =
+    final EditAccountDsResponseModel mockEditAccountResponseModel =
             new EditAccountDsResponseModel(IS_ACTIVE_STATUS, EMAIL, PASSWORD);
 
     private class MockEditAccountDsGateway implements EditAccountDsGateway {
@@ -60,7 +60,7 @@ public class EditAccountInteractorUnitTest {
         }
     }
 
-    EditAccountDsGateway mockEditAccountDsGateway = new MockEditAccountDsGateway();
+    final EditAccountDsGateway mockEditAccountDsGateway = new MockEditAccountDsGateway();
 
     @Test
     public void getAccount() {

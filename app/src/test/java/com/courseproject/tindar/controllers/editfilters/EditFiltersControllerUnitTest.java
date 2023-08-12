@@ -18,7 +18,7 @@ public class EditFiltersControllerUnitTest {
     private static final int PREFERRED_AGE_MINIMUM = 19;
     private static final int PREFERRED_AGE_MAXIMUM = 26;
 
-    EditFiltersModel mockEditFiltersResponseModel =
+    final EditFiltersModel mockEditFiltersResponseModel =
             new EditFiltersModel(PREFERRED_GENDERS, PREFERRED_LOCATIONS, PREFERRED_AGE_MINIMUM, PREFERRED_AGE_MAXIMUM);
 
     private class MockEditFiltersUserInput implements EditFiltersInputBoundary {
@@ -37,7 +37,7 @@ public class EditFiltersControllerUnitTest {
         }
     }
 
-    EditFiltersInputBoundary mockEditFiltersUserInput = new MockEditFiltersUserInput();
+    final EditFiltersInputBoundary mockEditFiltersUserInput = new MockEditFiltersUserInput();
 
     @Test
     public void testGetFilters() {
