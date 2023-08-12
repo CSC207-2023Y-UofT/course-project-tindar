@@ -12,11 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.courseproject.tindar.R;
 import com.courseproject.tindar.ui.chat.ChatActivity;
+import com.courseproject.tindar.usecases.conversations.ConversationListAdapterInterface;
 import com.courseproject.tindar.usecases.conversations.ConversationResponseModel;
 
 import java.util.List;
 
- class ConversationListAdapter extends RecyclerView.Adapter<ConversationListAdapter.ViewHolder> implements ConversationListAdapterInterface {
+ public class ConversationListAdapter extends RecyclerView.Adapter<ConversationListAdapter.ViewHolder> implements ConversationListAdapterInterface {
 
     private final List<ConversationResponseModel> conversations;
     private final Context context;
@@ -61,7 +62,7 @@ import java.util.List;
         return conversations.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView partnerNameTextView;
         TextView lastMessageTextView;
         TextView lastMessageTimeTextView;

@@ -1,4 +1,4 @@
-package com.courseproject.tindar.ui.conversations;
+package com.courseproject.tindar.usecases.conversations;
 
 
 import com.courseproject.tindar.usecases.conversations.ConversationListInputBoundary;

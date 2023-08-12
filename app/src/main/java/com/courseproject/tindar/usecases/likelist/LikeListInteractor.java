@@ -4,6 +4,8 @@ package com.courseproject.tindar.usecases.likelist;
 import java.util.ArrayList;
 import java.util.Objects;
 
+
+
 public class LikeListInteractor implements LikeListInputBoundary {
     /** This class checks if other is in userId likeList. If not, userId is added to other likeList.
      If yes, other is added to userId matchList and returns true. Return false otherwise.

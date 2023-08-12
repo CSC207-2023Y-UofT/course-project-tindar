@@ -1,5 +1,14 @@
 package com.courseproject.tindar.usecases.conversations;
 
+/**
+ * What: This class is responsible for getting the information needed to display on the conversation
+ * list fragment for each conversation.
+ *
+ * Why do we need a another class and instance for information displayed on the screen from the
+ * base:
+ * Having another
+ *
+ */
 public class ConversationResponseModel {
     private final String conversationId;
     private final String conversationPartnerName;

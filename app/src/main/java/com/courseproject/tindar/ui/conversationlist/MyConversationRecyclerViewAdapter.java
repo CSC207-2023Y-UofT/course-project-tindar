@@ -7,7 +7,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.courseproject.tindar.databinding.FragmentConversationBinding;
-import com.courseproject.tindar.usecases.conversationlist.ConversationResponseModel;
+import com.courseproject.tindar.usecases.conversations.ConversationResponseModel;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mUserName.setText(mValues.get(position).getUserName());
+        holder.mUserName.setText(mValues.get(position).getConversationPartnerName());
         holder.mLastMessage.setText(mValues.get(position).getLastMessage());
         holder.mLastMessageTime.setText(mValues.get(position).getLastMessageTime());
         
