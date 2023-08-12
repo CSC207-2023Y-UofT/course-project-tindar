@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.courseproject.tindar.ui.login.LoginActivity;
 import com.courseproject.tindar.ui.settings.SettingsActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -68,7 +69,7 @@ public class BlankNavActivity extends AppCompatActivity {
         int currentItemId = item.getItemId();
 
         if (currentItemId == R.id.action_log_out) {
-            Intent intent = new Intent(BlankNavActivity.this, MainActivity.class);
+            Intent intent = new Intent(BlankNavActivity.this, LoginActivity.class);
             startActivity(intent);
             return true;
         } else if (currentItemId == R.id.action_settings) {
