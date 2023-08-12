@@ -9,6 +9,15 @@ package com.courseproject.tindar.usecases.likelist;
 public interface LikeListInputBoundary {
 
     /**
+     * check if user with userId like another user with otherUserId
+     *
+     * @param userId id of user who is checking to 'like' the other user
+     * @param otherUserId userId of user is getting checked if 'liked'
+     * @return true if user with userId 'likes' another user with otherUserId; false otherwise
+     */
+    boolean checkLiked(String userId, String otherUserId);
+
+    /**
      * Initiate a 'like' from userId to otherUserId
      *
      * @param userId id of user who is 'liking' the other user
@@ -23,11 +32,5 @@ public interface LikeListInputBoundary {
      * @param otherUserId userId of user who received a 'like'
      */
     void removeLike(String userId, String otherUserId);
-
-    /**
-     * Get display names of users matched with userId
-     * @param userId id of user who we are retrieving the matched display names
-     */
-    LikeListResponseModel getDisplayNamesForMatches(String userId);
 }
 

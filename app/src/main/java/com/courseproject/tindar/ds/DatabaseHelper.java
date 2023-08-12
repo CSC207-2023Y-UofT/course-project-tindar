@@ -15,13 +15,13 @@ import com.courseproject.tindar.usecases.editfilters.EditFiltersDsGateway;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsGateway;
 import com.courseproject.tindar.usecases.editprofile.EditProfileRequestModel;
-import com.courseproject.tindar.usecases.editprofile.EditProfileResponseModel;
 import com.courseproject.tindar.usecases.login.LoginDsGateway;
 import com.courseproject.tindar.usecases.likelist.LikeListDsGateway;
-import com.courseproject.tindar.usecases.likelist.LikeListDsResponseModel;
+import com.courseproject.tindar.usecases.matchlist.MatchListDsGateway;
+import com.courseproject.tindar.usecases.matchlist.MatchListDsResponseModel;
 import com.courseproject.tindar.usecases.userlist.UserListDsGateway;
-import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsGateway;
-import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsResponseModel;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileDsGateway;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileResponseModel;
 import com.courseproject.tindar.usecases.signup.SignUpDsGateway;
 import com.courseproject.tindar.usecases.signup.SignUpDsRequestModel;
 
@@ -34,7 +34,9 @@ import java.util.GregorianCalendar;
  * Profile, User List, Edit Account features. This also implements method on creating database, on upgrading
  * database, and to get database instance.
  */
-public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway, LoginDsGateway, SignUpDsGateway, LikeListDsGateway, ViewProfilesDsGateway, UserListDsGateway, EditAccountDsGateway {
+public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway,
+        LoginDsGateway, SignUpDsGateway, LikeListDsGateway, MatchListDsGateway, ViewProfileDsGateway,
+        UserListDsGateway, EditAccountDsGateway {
     /**
      * app database instance
      */
@@ -504,7 +506,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
      * @return profile information of the user
      */
     @Override
-    public EditProfileResponseModel readProfile(String userId) {
+    public ViewProfileResponseModel readProfile(String userId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT "
                 + DISPLAY_NAME + ", "
@@ -519,42 +521,13 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
 
         cursor.moveToFirst();
 
-        EditProfileResponseModel dsResponse = new EditProfileResponseModel(
+        ViewProfileResponseModel dsResponse = new ViewProfileResponseModel(
             cursor.getString(0),
             new java.util.Date(cursor.getLong(1)),
             cursor.getString(2),
             cursor.getString(3),
             cursor.getString(4),
             cursor.getString(5)
-        );
-
-        cursor.close();
-        return dsResponse;
-    }
-
-    @Override
-    public ViewProfilesDsResponseModel readNextProfile(String userId) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT "
-                        + DISPLAY_NAME + ", "
-                        + BIRTHDATE + ", "
-                        + GENDER + ", "
-                        + LOCATION + ", "
-                        + PROFILE_PICTURE_LINK + ", "
-                        + ABOUT_ME
-                        + " FROM " + TABLE_ACCOUNTS
-                        + " WHERE " + ID + " =?",
-                new String[]{userId});
-
-        cursor.moveToFirst();
-
-        ViewProfilesDsResponseModel dsResponse = new ViewProfilesDsResponseModel(
-                cursor.getString(0),
-                new java.util.Date(cursor.getLong(1)),
-                cursor.getString(2),
-                cursor.getString(3),
-                cursor.getString(4),
-                cursor.getString(5)
         );
 
         cursor.close();
@@ -790,14 +763,14 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return matchListResponse;
     }
 
-    /** Returns an ArrayList<LikeListDsResponseModel> that is used to allow display names to be
+    /** Returns a list of Match list that is used to allow display names to be
      * shown on screen when plugged into MatchListFragment. Essentially returning a list of
      * display names
      * @param userIds users who's display names we are retrieving
      * @return return list of user display names
      */
     @Override
-    public ArrayList<LikeListDsResponseModel> readDisplayNames(ArrayList<String> userIds) {
+    public ArrayList<MatchListDsResponseModel> readDisplayNames(ArrayList<String> userIds) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         boolean doNotAddComma = true;
@@ -820,11 +793,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
                         + " FROM " + TABLE_ACCOUNTS
                         + " WHERE " + ID + " IN " + userIdsString, null);
 
-        ArrayList<LikeListDsResponseModel> displayNamesResponse = new ArrayList<>();
+        ArrayList<MatchListDsResponseModel> displayNamesResponse = new ArrayList<>();
 
         if (cursor.moveToFirst()) {
             do {
-                displayNamesResponse.add(new LikeListDsResponseModel(cursor.getString(0), cursor.getString(1)));
+                displayNamesResponse.add(new MatchListDsResponseModel(cursor.getString(0), cursor.getString(1)));
             } while (cursor.moveToNext());
         }
 

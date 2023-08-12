@@ -1,9 +1,5 @@
 package com.courseproject.tindar.usecases.likelist;
 
-
-import java.util.ArrayList;
-import java.util.Objects;
-
 /** This class checks if other is in userId likeList. If not, userId is added to other likeList.
  If yes, other is added to userId matchList. Implementation for LikeListInputBoundary interface.
  **/
@@ -16,6 +12,19 @@ public class LikeListInteractor implements LikeListInputBoundary {
  * @param likeListDsGateway LikeListDsGateway object*/
     public LikeListInteractor(LikeListDsGateway likeListDsGateway) {
         this.likeListDsGateway = likeListDsGateway;
+    }
+
+    /**
+     * Implementation of checkLiked method from LikeListInputBoundary interface. Check if user with userId like
+     * another user with otherUserId
+     *
+     * @param userId id of user who is checking to 'like' the other user
+     * @param otherUserId userId of user is getting checked if 'liked'
+     * @return true if user with userId 'likes' another user with otherUserId; false otherwise
+     */
+    @Override
+    public boolean checkLiked(String userId, String otherUserId) {
+        return likeListDsGateway.checkLiked(userId, otherUserId);
     }
 
     /** Implementation of addLike method from LikeListInputBoundary interface. Add that userId has 'liked'
@@ -58,38 +67,6 @@ public class LikeListInteractor implements LikeListInputBoundary {
         } else {
             likeListDsGateway.removeFromMatched(otherUserId, userId);
         }
-    }
-
-    /** Implementation of getDisplayNamesForMatches method from LikeListInputBoundary interface.
-     * Return two String[] lists. One containing all matched userIds, and one containing all
-     * matched user displayNames.
-     * @param userId id of user who we are retrieving the matched display names
-     * @return return two lists, one or userIds and one of displayNames in match list
-     */
-    @Override
-    public LikeListResponseModel getDisplayNamesForMatches(String userId) {
-        // This method returns the display names if the users in the match list for front end purposes
-        ArrayList<String[]> arrayListMatches = likeListDsGateway.readMatchList(userId);
-        ArrayList<String> matches = new ArrayList<>();
-        for (String[] arrayListMatch : arrayListMatches) {
-            if (Objects.equals(arrayListMatch[0], userId)) {
-                matches.add(arrayListMatch[1]);
-            } else {
-                matches.add(arrayListMatch[0]);
-            }
-        }
-
-        ArrayList<LikeListDsResponseModel> matchedUsers = likeListDsGateway.readDisplayNames(matches);
-
-        int numberOfMatches = matchedUsers.size();
-        String[] displayNames = new String[numberOfMatches];
-        String[] userIds = new String[numberOfMatches];
-        for (int i = 0; i < numberOfMatches; i++) {
-            displayNames[i] = matchedUsers.get(i).getDisplayName();
-            userIds[i] = matchedUsers.get(i).getUserId();
-        }
-
-        return new LikeListResponseModel(userIds, displayNames);
     }
 }
 
