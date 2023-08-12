@@ -76,4 +76,5 @@
     <string name="email_already_used">Email already used</string>
     <string name="current_password_incorrect">Current password incorrect</string>
     <string name="password_validation">Current password</string>
+    <string name="password_not_six_long">Passwords must be at least 6 characters long.</string>
 </resources>
