@@ -67,11 +67,13 @@ public class ChatActivity extends AppCompatActivity {
     private EditText chatInput;
     /** The user presses this button to send their typed message in chatInput */
     private ImageButton sendMessageButton;
-    /**
-     * Navigation button. Current intention is for this button to take the user to their list of
-     * conversations. In future, should take them to wherever they were prior to opening this chat.
-     */
-    private ImageButton backButton;
+// --Commented out by Inspection START (2023-08-12 09:10):
+//    /**
+//     * Navigation button. Current intention is for this button to take the user to their list of
+//     * conversations. In future, should take them to wherever they were prior to opening this chat.
+//     */
+//    private ImageButton backButton;
+// --Commented out by Inspection STOP (2023-08-12 09:10)
 
     /** Displays messages. */
     private RecyclerView chatRecyclerView;
