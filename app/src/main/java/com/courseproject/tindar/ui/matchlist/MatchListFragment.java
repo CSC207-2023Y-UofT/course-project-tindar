@@ -22,14 +22,29 @@ import com.courseproject.tindar.usecases.likelist.LikeListInteractor;
 import com.courseproject.tindar.usecases.likelist.LikeListDsGateway;
 import com.courseproject.tindar.usecases.likelist.LikeListResponseModel;
 
+/** This fragment class provides the list view for the match list, including a list view display
+ * of users by their display names. Also pass through userId of 'clicked' users to ChatActivity
+ * for conversations
+ */
 public class MatchListFragment extends Fragment{
 
+    /** The users userId */
     private String userId;
+
+    /** listView instance to display match list in list format */
     private ListView listView;
+
+    /** likeListController to accept use input */
     private LikeListController likeListController;
+
+    /** list containing userIds in the match list */
     private String[] matchedUserIds;
     LikeListResponseModel matchedUsers;
 
+    /** This method creates the match list fragment activity, allows to save and recover state
+     * information
+     * @param savedInstanceState  saved instance state
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +53,13 @@ public class MatchListFragment extends Fragment{
 
     }
 
+    /** Creates the list view of the match list. Allows the user to see an actual list of user
+     * display names on the screen, pulls userIds and display names to generate lists
+     * @param savedInstanceState saved instance state
+     * @param container contains resource id to add fragment to
+     * @param inflater inflates
+     * @return return contentView
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -61,6 +83,10 @@ public class MatchListFragment extends Fragment{
         return contentView;
     }
 
+    /** This method allows for the match list ot refresh each time it is opened and closed, this
+     * is in case a new match is made and the view needs to be updated
+     * @return return new view given updated match list
+     */
     @Override
     public Object getEnterTransition() {
         matchedUsers = likeListController.getDisplayNamesForMatches(userId);
