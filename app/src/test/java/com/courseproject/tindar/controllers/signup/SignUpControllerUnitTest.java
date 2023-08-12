@@ -2,7 +2,7 @@ package com.courseproject.tindar.controllers.signup;
 
 import static org.junit.Assert.assertEquals;
 
-import com.courseproject.tindar.presenters.signup.InvalidCredentials;
+import com.courseproject.tindar.presenters.signup.InvalidSignUpCredentials;
 import com.courseproject.tindar.usecases.signup.SignUpInputBoundary;
 import com.courseproject.tindar.usecases.signup.SignUpRequestModel;
 
@@ -21,7 +21,7 @@ public class SignUpControllerUnitTest {
     }
 
     @Test
-    public void testCreateAccount() throws InvalidCredentials {
+    public void testCreateAccount() throws InvalidSignUpCredentials {
         SignUpInputBoundary signUpUserInput = new MockSignUpUserInput();
         SignUpController signUpController = new SignUpController(signUpUserInput);
         SignUpRequestModel accountCredentials = new SignUpRequestModel("bell", "bell@someemail.com", "password1",
