@@ -95,14 +95,14 @@ public interface ChatDatabaseGateway {
      */
     ConversationDsModel getConversation(String conversationID);
 
-    /*
+    /**
      * Returns a representation of a specified conversation.
      * @param users userIDs of the users in the conversation.
-     * @return representation of the most recently-active conversation with these users.
+     * @return representation of the unique conversation with these users.
      *          null if no such conversation is found.
-     *\/
-    ConversationDsModel getConversation(String[] users);
      */
+    ConversationDsModel getConversation(String[] users);
+
 
     /**
      * Returns a list representing all conversations that a user is currently in.
@@ -122,13 +122,6 @@ public interface ChatDatabaseGateway {
      * @return true if successful; false otherwise (e.g. conversation not found).
      */
     boolean deleteConversation(String conversationID);
-
-    /**
-     * Deletes the record of a conversation using its list of users.
-     * @param users userIDs of the members of the to-be-deleted conversation.
-     * @return true if successful; false otherwise (e.g. conversation not found).
-     */
-    boolean deleteConversation(String[] users);
 
     /**
      * Deletes all conversation records. Does not delete messages records.

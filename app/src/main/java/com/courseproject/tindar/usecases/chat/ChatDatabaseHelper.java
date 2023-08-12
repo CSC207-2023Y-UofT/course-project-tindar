@@ -43,10 +43,6 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
     private static final String KEY_CONVERSATION_ID = "conversationID";
     private static final String KEY_USER_1 = "conversationUser1"; // alphabetically first user in conversation
     private static final String KEY_USER_2 = "conversationUser2"; // alphabetically last user in conversation
-    private static final String KEY_CONVERSATION_LAST_INTERACTION
-            = "conversationLastInteraction";
-    private static final String KEY_CONVERSATION_LAST_INTERACTION_TIME
-            = "conversationLastInteractionTime";
 
     /**
      * Constructor should be private to prevent direct instantiation.
@@ -99,7 +95,6 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
         String CREATE_MESSAGES_TABLE = "CREATE TABLE " + TABLE_MESSAGES +
                 "(" +
                 KEY_MESSAGE_ID + " INTEGER NOT NULL PRIMARY KEY," // Define a primary key
-                // KEY_MESSAGE_SENDER_ID + " INTEGER REFERENCES " + TABLE_USERS + "," // Define a foreign key
                 + KEY_MESSAGE_CREATION_TIME + " INTEGER, "
                 + KEY_MESSAGE_CONTENT + " TEXT, "
                 + KEY_MESSAGE_SENDER_ID + " INTEGER, "
@@ -133,8 +128,9 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
     }
 
     /**
-     * Creates a new message record in the chat database using the IDs of the users involved.
-     * Requires the messageID to have already been created.
+     * Creates a new message record in the chat database.
+     * Requires the messageId to have already been created.
+     * In other words, the MessageModel's messageId is non-null and unique.
      *
      * @param newMessage representation of the new message that this method will record.
      * @return true if successful; false otherwise (e.g. message already exists)
@@ -166,6 +162,7 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
 
     /**
      * Returns a list representing all messages in a given conversation
+     * This is untested and might not work.
      *
      * @param users userIDs of users in this conversation
      * @return a list representing all messages in the conversation with these users
@@ -258,6 +255,18 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
     }
 
     /**
+     * Returns a representation of a specified conversation.
+     *
+     * @param users userIDs of the users in the conversation.
+     * @return representation of the unique conversation with these users.
+     * null if no such conversation is found.
+     */
+    @Override
+    public ConversationDsModel getConversation(String[] users) {
+        return null;
+    }
+
+    /**
      * Returns a list representing all conversations that a user is currently in.
      *
      * @param userID the userID of the user whose list of conversations you want to retrieve
@@ -284,17 +293,6 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
      */
     @Override
     public boolean deleteConversation(String conversationID) {
-        return false;
-    }
-
-    /**
-     * Deletes the record of a conversation using its list of users.
-     *
-     * @param users userIDs of the members of the to-be-deleted conversation.
-     * @return true if successful; false otherwise (e.g. conversation not found).
-     */
-    @Override
-    public boolean deleteConversation(String[] users) {
         return false;
     }
 
