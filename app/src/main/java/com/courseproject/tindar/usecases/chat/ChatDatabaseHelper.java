@@ -208,18 +208,6 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
     }
 
     /**
-     * Returns a list representing all messages in a given conversation
-     *
-     * @param conversationID conversationID of the desired conversation
-     * @return list of all messages in a conversation, from oldest to newest if the conversation exists
-     * (empty list if no message); null otherwise.
-     */
-    @Override
-    public ArrayList<MessageModel> loadAllConversationMessages(String conversationID) {
-        return null;
-    }
-
-    /**
      * Deletes the record of a message using its ID.
      *
      * @param MessageId Message ID of the to-be-deleted message.
@@ -227,17 +215,6 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
      */
     @Override
     public boolean deleteMessage(String MessageId) {
-        return false;
-    }
-
-    /**
-     * Deletes all messages between subsets of given users. Does not delete conversation records.
-     *
-     * @param userIDs list of users to delete messages between
-     * @return true if successful; false otherwise.
-     */
-    @Override
-    public boolean deleteMessagesBetween(String[] userIDs) {
         return false;
     }
 
@@ -271,20 +248,6 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
     }
 
     /**
-     * Updates the conversation record if a conversation already exists with this conversationID.
-     *
-     * @param conversationID     ID of the conversation to be modified
-     * @param newLastInteraction replaces the previous "lastInteraction" record
-     * @param newTimeLastAction  replaces the previous "time of lastInteraction" record
-     * @return true if conversation exists and was successfully updated;
-     * false otherwise.
-     */
-    @Override
-    public String updateConversation(String conversationID, String newLastInteraction, Timestamp newTimeLastAction) {
-        return null;
-    }
-
-    /**
      * Returns a representation of a specified conversation.
      *
      * @param conversationID ID of the desired conversation.
@@ -293,18 +256,6 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
      */
     @Override
     public ConversationModel getConversation(String conversationID) {
-        return null;
-    }
-
-    /**
-     * Returns a representation of a specified conversation.
-     *
-     * @param users userIDs of the users in the conversation.
-     * @return representation of the most recently-active conversation with these users.
-     * null if no such conversation is found.
-     */
-    @Override
-    public ConversationModel getConversation(String[] users) {
         return null;
     }
 
