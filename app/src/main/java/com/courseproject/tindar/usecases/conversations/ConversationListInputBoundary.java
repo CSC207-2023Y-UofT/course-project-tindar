@@ -16,6 +16,6 @@ import java.util.ArrayList;
 public interface ConversationListInputBoundary {
     // have same methods signature (implementation will be different) as controller
 
-    ArrayList<ConversationResponseModel> getActiveConversations (String userId);
+    ArrayList<ConversationResponseModel> addOrUpdateAllConversations (String userId);
     // QUESTION: should it be updateAll Conversations?
 }

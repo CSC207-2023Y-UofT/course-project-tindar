@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface ConversationListDsGateway {
     // Retrieve active conversation data from the data source
-    static List<ConversationDsResponseModel> getActiveConversationIds(String userId) {
+    default List<ConversationDsResponseModel> getActiveConversationIds(String userId) {
         return null;
     }
 }

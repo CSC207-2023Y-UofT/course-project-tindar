@@ -17,7 +17,13 @@ import lombok.Getter;
  */
 
 public class ConversationDsResponseModel {
+
     // Response Model for the data saving layer, information directed to the database
+    public ConversationDsResponseModel(String userId1, String userId2, String conversationId){
+        this.userId1 = userId1;
+        this.userId2 = userId2;
+        this.conversationId = conversationId;
+    }
         /**
          * Unique identifier for the conversation.
          */
@@ -40,15 +46,8 @@ public class ConversationDsResponseModel {
          * @param userId2       User ID of the second participant
          * @param conversationId Unique identifier for the conversation
          */
-    @Getter private final String conversationId;
-    @Getter private final String userId1;
-    @Getter private final String userId2;
 
-    public ConversationDsResponseModel(String userId1, String userId2, String conversationId){
-        this.userId1 = userId1;
-        this.userId2 = userId2;
-        this.conversationId = conversationId;
-    }
+
 
 
 }

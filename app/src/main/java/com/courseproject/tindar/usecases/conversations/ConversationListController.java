@@ -31,8 +31,8 @@ public class ConversationListController {
         this.userInput = conversationListUserInput;
     }
 
-    public ArrayList<ConversationResponseModel> getActiveConversations (String userId){
+    public ArrayList<ConversationResponseModel> UpdateAllConversation (String userId){
         //call function in interactor
-        return userInput.getActiveConversations(userId);
+        return userInput.addOrUpdateAllConversations(userId);
     }
 }

@@ -48,8 +48,8 @@ public class ConversationListFragment extends Fragment {
             // Navigate to the chat page passing relevant data
             Bundle args = new Bundle();
             args.putString("username", selectedConversation.getConversationPartnerName());
-            args.putString("message", selectedConversation.getLastMessage());
-            args.putString("timestamp", selectedConversation.getLastMessageTime());
+//            args.putString("message", selectedConversation.getLastMessage());
+//            args.putString("timestamp", selectedConversation.getLastMessageTime());
 
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_conversations);
             navController.navigate(R.id.conversationRecyclerView, args);

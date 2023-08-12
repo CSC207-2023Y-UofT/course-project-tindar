@@ -16,8 +16,8 @@ package com.courseproject.tindar.usecases.conversations;
 public class ConversationResponseModel {
     private final String conversationId;
     private final String conversationPartnerName;
-    //private final String lastMessage;
-    //private final String lastMessageTime;
+    private final String lastMessage;
+    private final String lastMessageTime;
     // due to debugging and time constraints the lastMessage and last MessageTime will not
     //be implemented
 
