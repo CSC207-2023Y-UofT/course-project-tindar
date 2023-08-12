@@ -49,12 +49,9 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
         holder.mLastMessage.setText(mValues.get(position).getLastMessage());
         holder.mLastMessageTime.setText(mValues.get(position).getLastMessageTime());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mListener != null) {
-                    mListener.onItemClick(conversation);
-                }
+        holder.itemView.setOnClickListener(v -> {
+            if (mListener != null) {
+                mListener.onItemClick(conversation);
             }
         });
     }
