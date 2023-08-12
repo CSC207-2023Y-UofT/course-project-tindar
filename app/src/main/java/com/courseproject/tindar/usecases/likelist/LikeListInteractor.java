@@ -12,7 +12,7 @@ public class LikeListInteractor implements LikeListInputBoundary {
     /** likeListDsGateway for updating the database */
     private final LikeListDsGateway likeListDsGateway;
 
-/** Create LikeListDsGateway object
+/** Create LikeListInteractor object
  * @param likeListDsGateway LikeListDsGateway object*/
     public LikeListInteractor(LikeListDsGateway likeListDsGateway) {
         this.likeListDsGateway = likeListDsGateway;
