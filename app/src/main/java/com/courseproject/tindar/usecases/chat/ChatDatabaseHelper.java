@@ -8,7 +8,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Message;
+
+import com.courseproject.tindar.entities.ConversationModel;
+import com.courseproject.tindar.entities.MessageModel;
+import com.courseproject.tindar.entities.TindarMessage;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

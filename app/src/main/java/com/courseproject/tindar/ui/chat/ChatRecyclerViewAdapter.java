@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.courseproject.tindar.R;
 
-import com.courseproject.tindar.usecases.chat.MessageModel;
+import com.courseproject.tindar.entities.MessageModel;
 
 import java.util.ArrayList;
 

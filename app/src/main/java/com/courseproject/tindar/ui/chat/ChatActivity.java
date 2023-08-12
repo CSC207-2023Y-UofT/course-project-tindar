@@ -14,10 +14,10 @@ import android.widget.TextView;
 
 import com.courseproject.tindar.R;
 
-import com.courseproject.tindar.usecases.chat.MessageModel;
+import com.courseproject.tindar.entities.MessageModel;
 
 // TODO: remove TindarMessage import when database is properly connected
-import com.courseproject.tindar.usecases.chat.TindarMessage;
+import com.courseproject.tindar.entities.TindarMessage;
 
 // TODO: consider removing Timestamp import when database is properly connected
 import java.sql.Timestamp;

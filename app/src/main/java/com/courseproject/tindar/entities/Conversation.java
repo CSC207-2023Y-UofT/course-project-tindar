@@ -1,4 +1,4 @@
-package com.courseproject.tindar.usecases.chat;
+package com.courseproject.tindar.entities;
 
 import java.util.ArrayList;
 import java.sql.Timestamp;
