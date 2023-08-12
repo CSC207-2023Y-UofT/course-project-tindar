@@ -29,6 +29,13 @@ public class MainActivity extends AppCompatActivity {
     private String email;
     private String password;
 
+    /**
+     * Login Screen
+     * Allows user to input their email and password to login to their account
+     * or they can use the signup button to go to the signup page to create a new account
+     *
+     * this layer also checks for user's input being the correct account credentials
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
