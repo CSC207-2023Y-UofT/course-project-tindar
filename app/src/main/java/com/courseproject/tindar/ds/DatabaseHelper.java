@@ -780,7 +780,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     /**
      * Returns a user's match list in the form of userIds using their userId
      * @param userId of the user whose match list is to be retrieved
-     * @return ArrayList<String[]> of userIds of those who have matched with this user
+     * @return return list of userIds of those who have matched with this user
      */
     @Override
     public ArrayList<String[]> readMatchList(String userId) {
@@ -810,7 +810,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
      * Returns ArrayList<LikeListDsResponseModel> which can be used to obtain 
      * a list of display names corresponding to a list of userIds
      * @param userIds of the users
-     * @return ArrayList<LikeListDsResponseModel> containing the display names of the users with these userIds.
+     * @return list of LikeListDsResponseModel containing the display names of the users with these userIds.
      *          The display name at index i is the display name of the user with userId userIds[i].
      */
     @Override
