@@ -10,8 +10,7 @@ public class UserListInteractor implements UserListInputBoundary{
         this.userListDsGateway = userListDsGateway;
     }
 
-    @Override
-    public ArrayList<String> getAllUserIds(){
-        return userListDsGateway.getAllUserIds();
+    public ArrayList<String> getAllOtherUserIds(String userId){
+        return userListDsGateway.getAllOtherUserIds(userId);
     }
 }

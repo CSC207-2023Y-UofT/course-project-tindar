@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public interface LikeListDsGateway {
 
     /**
-     * check if user with userId likes user with otherUserId
+     * Check if user with userId likes user with otherUserId
      *
      * @param userId id of user who we are trying to check if he/she likes other user
      * @param otherUserId userId of user receiving a "like"
@@ -18,15 +18,51 @@ public interface LikeListDsGateway {
      */
     boolean checkLiked(String userId, String otherUserId);
 
+    /**
+     * Add a match between userId and otherUserId to the database
+     *
+     * @param userId id of user who we matching with otherUserId
+     * @param otherUserId same
+     */
     void addToMatched(String userId, String otherUserId);
 
+    /**
+     * Add a 'like' between userId and otherUserId to the database
+     *
+     * @param userId id of user who 'liked' otherUserId
+     * @param otherUserId userId of user receiving a 'like'
+     */
     void addLike(String userId, String otherUserId);
 
+    /**
+     * Remove a 'like' between userId and otherUserId from the database
+     *
+     * @param userId id of user who we are trying to check if he/she likes other user
+     * @param otherUserId userId of user receiving a "like"
+     */
     void removeLike(String userId, String otherUserId);
 
+    /**
+     * Remove a 'match' between userId and otherUserId from the database
+     *
+     * @param userId id of user who 'unmatched' otherUserId
+     * @param otherUserId userId of user who is being 'unmatched'
+     */
     void removeFromMatched(String userId, String otherUserId);
 
+    /**
+     * Read and return the userIds stored in a match list
+     *
+     * @param userId id of user match list we are reading
+     * @return return list of userIds in the match list
+     */
     ArrayList<String[]> readMatchList(String userId);
 
+    /**
+     * Read and return the display names of users stored in a match list
+     *
+     * @param userIds id of users in the match list
+     * @return return list of display names in the match list
+     */
     ArrayList<LikeListDsResponseModel> readDisplayNames(ArrayList<String> userIds);
 }
