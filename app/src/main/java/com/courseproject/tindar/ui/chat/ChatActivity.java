@@ -134,7 +134,22 @@ public class ChatActivity extends AppCompatActivity {
      * Currently implemented with hardcoded tests; will be reimplemented with the database.
      */
     private void loadMessages(){
-        return;
+        TindarMessage testMessage1 = new TindarMessage("message sent", new Timestamp(2023, 2, 25, 18, 0, 0, 0), this.userId, "user2");
+        TindarMessage testMessage2 = new TindarMessage("message sent", new Timestamp(2023, 3, 25, 18, 0, 0, 0), this.userId, "user2");
+        TindarMessage testMessage3 = new TindarMessage("message received", new Timestamp(2023, 4, 25, 18, 0, 0, 0),"user2", this.userId);
+        TindarMessage testMessage4 = new TindarMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus erat nisl, a scelerisque leo euismod nec. Ut dapibus auctor augue, quis tempor tellus tincidunt vel. Fusce ut odio mauris. Nam nec finibus enim. Duis et nisi tristique, luctus leo id, facilisis dolor. Phasellus ac auctor odio, non mollis magna. Suspendisse tortor ipsum, consectetur vitae metus et, accumsan luctus erat. Sed gravida, ipsum vel mattis maximus, orci arcu convallis nunc, sed sagittis metus felis ac sapien. Integer non pellentesque massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et dignissim erat. Integer at nibh ac mi ultricies pulvinar. Morbi nec arcu nisi. Duis eu ligula auctor, dictum tortor a, condimentum velit. Suspendisse potenti. Sed fermentum lobortis blandit.", new Timestamp(2023, 5, 25, 18, 0, 0, 0), this.userId, "user2");
+        TindarMessage testMessage5 = new TindarMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus erat nisl, a scelerisque leo euismod nec. Ut dapibus auctor augue, quis tempor tellus tincidunt vel. Fusce ut odio mauris. Nam nec finibus enim. Duis et nisi tristique, luctus leo id, facilisis dolor. Phasellus ac auctor odio, non mollis magna. Suspendisse tortor ipsum, consectetur vitae metus et, accumsan luctus erat. Sed gravida, ipsum vel mattis maximus, orci arcu convallis nunc, sed sagittis metus felis ac sapien. Integer non pellentesque massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et dignissim erat. Integer at nibh ac mi ultricies pulvinar. Morbi nec arcu nisi. Duis eu ligula auctor, dictum tortor a, condimentum velit. Suspendisse potenti. Sed fermentum lobortis blandit.", new Timestamp(2023, 5, 25, 18, 0, 0, 0),"user2", this.userId);
+
+        this.loadedMessages = new ArrayList<>();
+        this.loadedMessages.add(testMessage1);
+        this.loadedMessages.add(testMessage2);
+        this.loadedMessages.add(testMessage3);
+        this.loadedMessages.add(testMessage3);
+        this.loadedMessages.add(testMessage3);
+        this.loadedMessages.add(testMessage3);
+        this.loadedMessages.add(testMessage3);
+        this.loadedMessages.add(testMessage4);
+        this.loadedMessages.add(testMessage5);
     }
 
     // TODO: this should be refactored.
