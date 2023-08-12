@@ -40,7 +40,7 @@ public class HomeFragment extends Fragment {
     private ArrayList<String> allUserIds;
     private String userId;
 
-    DateFormat dateFormat = new SimpleDateFormat("mm-dd-yyyy");
+    DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

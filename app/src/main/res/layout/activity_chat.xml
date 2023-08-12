@@ -75,6 +75,6 @@
             android:background="@android:color/transparent"
             android:src="@drawable/baseline_send_32"
             app:tint="@color/colorPrimary"
-            />
+            android:contentDescription="Tap to send your typed message" />
     </RelativeLayout>
 </RelativeLayout>

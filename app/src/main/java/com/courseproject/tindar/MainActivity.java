@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
         LoginInteractor loginInteractor = new LoginInteractor(loginDatabaseHelper);
         LoginController loginController = new LoginController(loginInteractor);
 
-        loginController = new LoginController(loginInteractor);
-
         LoginController finalLoginController = loginController;
         loginButton.setOnClickListener(view -> {
             email = emailText.getText().toString();
