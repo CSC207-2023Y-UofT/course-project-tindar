@@ -690,7 +690,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
 
     /**
      * Adds a matched pair to the database.
-     * Precondition: userId < otherUserId.
+     * Precondition: userId < otherUserId (to avoid duplicates).
      * @param userId lesser userId in the match
      * @param otherUserId greater userId in the match
      * @param db database that this match will be added to
@@ -706,7 +706,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
 
     /**
      * Adds a matched pair to the database.
-     * Precondition: userId < otherUserId.
+     * Precondition: userId < otherUserId (to avoid duplicates).
      * @param userId lesser userId in the match
      * @param otherUserId greater userId in the match
      */
@@ -763,7 +763,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
 
     /**
      * Removes a matched pair fom the database.
-     * Precondition: userId < otherUserId.
+     * Precondition: userId < otherUserId (since we store them in this order).
      * @param userId lesser userId in the match
      * @param otherUserId greater userId in the match
      */
