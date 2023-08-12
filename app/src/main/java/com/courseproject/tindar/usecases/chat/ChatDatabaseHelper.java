@@ -109,9 +109,7 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
                 "(" +
                 KEY_CONVERSATION_ID + " INTEGER NOT NULL PRIMARY KEY," // Define a primary key
                 + KEY_USER_1 + " INTEGER, "
-                + KEY_USER_2 + " INTEGER, "
-                + KEY_CONVERSATION_LAST_INTERACTION_TIME + " INTEGER, "
-                + KEY_CONVERSATION_LAST_INTERACTION + " TEXT"
+                + KEY_USER_2 + " INTEGER"
                 + ")";
         db.execSQL(CREATE_MESSAGES_TABLE);
         db.execSQL(CREATE_CONVERSATIONS_TABLE);
