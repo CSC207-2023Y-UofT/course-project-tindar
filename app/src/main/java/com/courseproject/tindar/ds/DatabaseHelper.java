@@ -533,6 +533,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     }
 
     /**
+     * Takes a userId and returns a representation of the corresponding profile
      * @param userId of the profile to be retrieved
      * @return ViewProfilesDsResponseModel representing the profile with this userId
      */
