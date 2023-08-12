@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Layer: Use cases - containing interaction that drive conversation list functionality
+ * Layer: Use cases - connects controller to database gateway
  *.
- * What:
+ * What is it :
  * This Interactor class mainly implements method define in the ConversationListInputBoundary
  * interface - get/update the conversations for a given user.
  *.
@@ -53,11 +53,11 @@ public class ConversationListInteractor implements ConversationListInputBoundary
 
     private ConversationResponseModel convertToConversationResponse(ConversationDsResponseModel conversationDs) {
         String partnerName = ConversationResponseModel.getConversationPartnerName();
-        String lastMessage = ConversationResponseModel.getLastMessage();
-        String lastMessageTime = ConversationResponseModel.getLastMessageTime();
+//        String lastMessage = ConversationResponseModel.getLastMessage();
+//        String lastMessageTime = ConversationResponseModel.getLastMessageTime();
         String conversationId = ConversationResponseModel.getConversationId();
 
-        return new ConversationResponseModel(partnerName, lastMessage, lastMessageTime, conversationId);
+        return new ConversationResponseModel(partnerName, conversationId);
     }
 
     @Override

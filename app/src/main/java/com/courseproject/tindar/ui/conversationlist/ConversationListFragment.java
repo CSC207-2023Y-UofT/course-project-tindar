@@ -57,8 +57,8 @@ public class ConversationListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_conversation_list, container, false);
         ArrayList<ConversationResponseModel> convos = new ArrayList<>();
-        convos.add(new ConversationResponseModel("lisbeth", "how do you do", "20:20", "2"));
-        convos.add(new ConversationResponseModel("mikael", "silence", "20:50", "4"));
+        convos.add(new ConversationResponseModel("lisbeth",  "2"));
+        convos.add(new ConversationResponseModel("mikael",  "4"));
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();

@@ -34,8 +34,8 @@ public class ConversationListFragment extends Fragment {
         conversationListView = rootView.findViewById(R.id.conversationRecyclerView);
         // Replace this sample data with your actual conversation data
         conversationList = new ArrayList<>();
-        conversationList.add(new ConversationResponseModel("John Doe", "Hello!", "10:30 AM", "1"));
-        conversationList.add(new ConversationResponseModel("Jane Smith", "Hey there!", "11:15 AM", "2"));
+        conversationList.add(new ConversationResponseModel("John Doe",  "1"));
+        conversationList.add(new ConversationResponseModel("Jane Smith", "2"));
 
         ArrayAdapter<ConversationResponseModel> conversationListAdapter = new ArrayAdapter<>(
                 requireContext(), android.R.layout.simple_list_item_1, conversationList);
