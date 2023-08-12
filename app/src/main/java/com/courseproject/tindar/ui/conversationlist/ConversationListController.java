@@ -1,8 +1,8 @@
-package com.courseproject.tindar.ui.conversations;
+package com.courseproject.tindar.ui.conversationlist;
 
 
+import com.courseproject.tindar.usecases.conversationlist.ConversationResponseModel;
 import com.courseproject.tindar.usecases.conversations.ConversationListInputBoundary;
-import com.courseproject.tindar.usecases.conversations.ConversationResponseModel;
 
 import java.util.ArrayList;
 
@@ -19,6 +19,6 @@ public class ConversationListController {
 
     public ArrayList<ConversationResponseModel> getActiveConversations (String userId){
         //call function in interactor
-        return userInput.getActiveConversations(userId);
+        return userInput.getActiveConversationIds(userId);
     }
 }

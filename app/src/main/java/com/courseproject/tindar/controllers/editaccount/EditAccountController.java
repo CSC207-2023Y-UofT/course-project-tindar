@@ -5,8 +5,17 @@ import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
 
 import java.util.Objects;
 
+/**
+ * This class is responsible for handling user input from UI layer and working to edit user profile
+ *
+ */
 public class EditAccountController {
+    /**
+     * The input boundary interface for handling user input and processing.
+     */
     final EditAccountInputBoundary userInput;
+
+
 
     public EditAccountController(EditAccountInputBoundary EditAccountUserInput) {
         this.userInput = EditAccountUserInput;

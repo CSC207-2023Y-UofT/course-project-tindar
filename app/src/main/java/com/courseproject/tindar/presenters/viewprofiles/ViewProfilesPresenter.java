@@ -4,6 +4,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+/**
+ * The ViewProfilesPresenter class manages data related to user profile information
+ * for presentation in the UI.
+ */
 public class ViewProfilesPresenter extends ViewModel{
 
     private final MutableLiveData<String> DisplayNameText;
@@ -12,6 +16,10 @@ public class ViewProfilesPresenter extends ViewModel{
     private final MutableLiveData<String> LocationText;
     private final MutableLiveData<String> AboutMeText;
 
+    /**
+     * Constructs a new ViewProfilesPresenter object and initializes the LiveData fields
+     * with default values.
+     */
     public ViewProfilesPresenter() {
         DisplayNameText = new MutableLiveData<>();
         GenderText = new MutableLiveData<>();
@@ -26,6 +34,9 @@ public class ViewProfilesPresenter extends ViewModel{
         AboutMeText.setValue("About Me");
     }
 
+    /**
+     * Updates the data in the LiveData fields with new values.
+     */
     public void updateData() {
         DisplayNameText.setValue("Display Name2");
         GenderText.setValue("Gender2");
@@ -35,18 +46,49 @@ public class ViewProfilesPresenter extends ViewModel{
 
     }
 
+
+
+    /**
+     * Retrieves the LiveData containing the display name information.
+     *
+     * @return LiveData containing the display name text.
+     */
     public LiveData<String> getDisplayName() {
         return DisplayNameText;
     }
+
+    /**
+     * Retrieves the LiveData containing the gender information.
+     *
+     * @return LiveData containing the gender text.
+     */
     public LiveData<String> getGender() {
         return GenderText;
     }
+
+    /**
+     * Retrieves the LiveData containing the birthday information.
+     *
+     * @return LiveData containing the birthday text.
+     */
     public LiveData<String> getBirthday() {
         return BirthdayText;
     }
+
+    /**
+     * Retrieves the LiveData containing the location information.
+     *
+     * @return LiveData containing the location text.
+     */
     public LiveData<String> getLocation() {
         return LocationText;
     }
+
+    /**
+     * Retrieves the LiveData containing the "About Me" information.
+     *
+     * @return LiveData containing the "About Me" text.
+     */
     public LiveData<String> getAboutMe() {
         return AboutMeText;
     }
