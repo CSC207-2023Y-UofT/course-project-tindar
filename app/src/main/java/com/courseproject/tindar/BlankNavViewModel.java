@@ -14,6 +14,7 @@ public class BlankNavViewModel extends ViewModel {
      * user id for the logged in user
      */
     private final MutableLiveData<String> userId = new MutableLiveData<>();
+    private final MutableLiveData<Integer> viewProfileUserIdIndex = new MutableLiveData<>();
 
     /**
      * sets the user id passed from the MainActivity once the user logs in
@@ -32,4 +33,23 @@ public class BlankNavViewModel extends ViewModel {
     public LiveData<String> getUserId() {
         return userId;
     }
+
+    /**
+     * sets the ...
+     *
+     * @param viewProfileUserIdIndex
+     */
+    public void setViewProfileUserIdIndex(int viewProfileUserIdIndex) {
+        this.viewProfileUserIdIndex.setValue(viewProfileUserIdIndex);
+    }
+
+    /**
+     * gets the ...
+     *
+     * @return
+     */
+    public LiveData<Integer> getViewProfileUserIdIndex() {
+        return viewProfileUserIdIndex;
+    }
+
 }
