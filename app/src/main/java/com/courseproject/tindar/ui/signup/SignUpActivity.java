@@ -10,13 +10,13 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.courseproject.tindar.MainActivity;
 import com.courseproject.tindar.R;
 import com.courseproject.tindar.controllers.signup.SignUpController;
 import com.courseproject.tindar.ds.DatabaseHelper;
 import com.courseproject.tindar.entities.AccountFactory;
 import com.courseproject.tindar.presenters.signup.InvalidSignUpCredentials;
 import com.courseproject.tindar.presenters.signup.SignUpPresentationFormatter;
+import com.courseproject.tindar.ui.login.LoginActivity;
 import com.courseproject.tindar.usecases.signup.SignUpDsGateway;
 import com.courseproject.tindar.usecases.signup.SignUpInputBoundary;
 import com.courseproject.tindar.usecases.signup.SignUpInteractor;
@@ -94,7 +94,7 @@ public class SignUpActivity extends AppCompatActivity {
                     String successMessage = signUpController.createAccount(accountCredentials);
                     dialog.setMessage(successMessage);
                     dialog.setPositiveButton("OK", (dialogInterface, index) -> {
-                        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                         startActivity(intent);
                     });
                     dialog.show();
@@ -108,7 +108,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         // back button click listener
         backButton.setOnClickListener(view -> {
-            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
             startActivity(intent);
         });
     }
