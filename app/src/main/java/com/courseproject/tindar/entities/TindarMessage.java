@@ -2,7 +2,10 @@ package com.courseproject.tindar.entities;
 
 import java.sql.Timestamp;
 
- public class TindarMessage implements MessageModel {
+/**
+ * Currently models Tindar text messages. Implements MessageModel.
+ */
+public class TindarMessage implements MessageModel {
     private String messageId;
     private String text;
     private Timestamp creationTime;
@@ -10,11 +13,20 @@ import java.sql.Timestamp;
     private String sentToId;
 
     public TindarMessage(String text, Timestamp timestamp, String sentFromId, String sentToId){
-        this.text = text; 
+        this.text = text;
         this.creationTime = timestamp;
-        this.sentFromId = sentFromId; 
+        this.sentFromId = sentFromId;
         this.sentToId = sentToId;
-        this.messageId = sentFromId + sentToId + timestamp.toString(); 
+        this.messageId = "" + timestamp.getTime();
+        //implementation of messageId will probably be changed
+    }
+
+    public TindarMessage(String messageId, String text, Timestamp timestamp, String sentFromId, String sentToId){
+        this.text = text;
+        this.creationTime = timestamp;
+        this.sentFromId = sentFromId;
+        this.sentToId = sentToId;
+        this.messageId = messageId;
         //implementation of messageId will probably be changed
     }
 
@@ -23,7 +35,7 @@ import java.sql.Timestamp;
         return this.messageId;
     }
 
-    public String getMessageContent() {     
+    public String getMessageContent() {
         return this.text;
     }
 
@@ -40,7 +52,7 @@ import java.sql.Timestamp;
     }
 
     // Setter methods
-    /* 
+    /*
     protected void setMessageId(String messageId) {
         this.messageId = messageId;
     }
