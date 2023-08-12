@@ -3,14 +3,10 @@ package com.courseproject.tindar.controllers.signup;
 import static org.junit.Assert.assertEquals;
 
 import com.courseproject.tindar.presenters.signup.InvalidCredentials;
-import com.courseproject.tindar.usecases.editfilters.EditFiltersDsResponseModel;
-import com.courseproject.tindar.usecases.editfilters.EditFiltersInputBoundary;
 import com.courseproject.tindar.usecases.signup.SignUpInputBoundary;
 import com.courseproject.tindar.usecases.signup.SignUpRequestModel;
 
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 public class SignUpControllerUnitTest {
 

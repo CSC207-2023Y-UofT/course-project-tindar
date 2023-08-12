@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.courseproject.tindar.R;
+import com.courseproject.tindar.usecases.conversationlist.ConversationResponseModel;
 
 import java.util.ArrayList;
 
@@ -71,5 +72,19 @@ public class ConversationListFragment extends Fragment {
             recyclerView.setAdapter(new MyConversationRecyclerViewAdapter(convos));
         }
         return view;
-    }
-}
+    }   }
+//        RecyclerView recyclerView = null;
+//        if (view instanceof RecyclerView) {
+//            Context context = view.getContext();
+//            recyclerView = (RecyclerView) view;
+//            if (mColumnCount <= 1) {
+//                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+//            } else {
+//                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+//            }
+//            recyclerView.setAdapter(new MyConversationRecyclerViewAdapter(convos));
+//        }
+//
+//
+//        return view;
+//    }
