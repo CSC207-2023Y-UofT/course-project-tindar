@@ -39,16 +39,63 @@ import java.util.GregorianCalendar;
  */
 public class EditProfileFragment extends Fragment {
 
+    /**
+     * the user id of the current logged-in user
+     */
     private String userId;
+    /**
+     * the text view to show user's birthdate
+     */
     private TextView birthdateTextView;
-    private AutoCompleteTextView genderAutoCompleteTextView, locationAutoCompleteTextView;
-    private ArrayAdapter<String> genderArrayAdapter, locationArrayAdapter;
-    private EditText profilePictureLinkEditText, aboutMeEditText;
-    private Button profileSubmitButton;
+    /**
+     * the auto complete text view to show user's gender. auto complete text view is used to creates a dropdown for
+     * all possible choices of gender on click.
+     */
+    private AutoCompleteTextView genderAutoCompleteTextView;
+    /**
+     * the auto complete text view to show user's location. auto complete text view is used to creates a dropdown
+     * for all possible choices of gender on click.
+     */
+    private AutoCompleteTextView locationAutoCompleteTextView;
+    /**
+     * the array adapter to contain all possible choices of gender
+     */
+    private ArrayAdapter<String> genderArrayAdapter;
+    /**
+     * the array adapter to contain all possible choices of location
+     */
+    private ArrayAdapter<String> locationArrayAdapter;
+    /**
+     * the edit text to input link of profile picture
+     */
+    private EditText profilePictureLinkEditText;
+    /**
+     * the edit text to input statement to introduce the user to other users
+     */
+    private EditText aboutMeEditText;
+    /**
+     * the button to enable editing on the Edit Profile screen
+     */
     private ImageButton profileEditButton;
+    /**
+     * the button to submit the current input values of the profile information to update
+     */
+    private Button profileSubmitButton;
+    /**
+     * controller for the Edit Profile UI
+     */
     private EditProfileController editProfileController;
+    /**
+     * saved profile information retrieved
+     */
     private EditProfileResponseModel profileDsResponse;
 
+    /**
+     * creates Edit Profile fragment. Shared View Model is used to retrieve currently logged in user id, which is
+     * shared among the blank nav activity and the fragments under the activity
+     *
+     * @param savedInstanceState If the fragment is being re-created from a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +103,21 @@ public class EditProfileFragment extends Fragment {
         blankNavViewModel.getUserId().observe(requireActivity(), it -> userId = it);
     }
 
+    /**
+     * creates Edit Profile view. It instantiates Edit Profile controller, prepares dropdown menu for the
+     * possible choices of genders and locations, defines behaviour for the edit button and
+     * submit button, and define behaviour of date-picker pop-up for the birthdate edit on click of birthdate
+     * text view
+     *
+     * @param inflater           The LayoutInflater object that can be used to inflate
+     *                           any views in the fragment,
+     * @param container          If non-null, this is the parent view that the fragment's
+     *                           UI should be attached to.  The fragment should not add the view itself,
+     *                           but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     *                           from a previous saved state as given here.
+     * @return
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,11 +139,11 @@ public class EditProfileFragment extends Fragment {
         EditProfileInputBoundary editProfileInteractor = new EditProfileInteractor(editProfileDatabaseHelper);
         editProfileController = new EditProfileController(editProfileInteractor);
 
-        // creates dropdown menu for the gender
+        // prepares dropdown menu for the gender
         String[] genders = getResources().getStringArray(R.array.genders);
         genderArrayAdapter = new ArrayAdapter<>(getContext(), R.layout.dropdown_item, genders);
 
-        // creates dropdown menu for the location
+        // prepares dropdown menu for the location
         String[] locations = getResources().getStringArray(R.array.locations);
         locationArrayAdapter = new ArrayAdapter<>(getContext(), R.layout.dropdown_item, locations);
 
@@ -121,6 +183,13 @@ public class EditProfileFragment extends Fragment {
         return root;
     }
 
+    /**
+     * defines behaviour when user enters the fragment. It disables edit on the screen and re-fetches the data whenever
+     * user leaves and re-enters the fragment, so non-saved data wouldn't have remained on the screen.
+     * It also connects auto complete text view with the dropdown menu prepared.
+     *
+     * @return the Transition that will be used to move Views into the initial scene.
+     */
     @Nullable
     @Override
     public Object getEnterTransition() {

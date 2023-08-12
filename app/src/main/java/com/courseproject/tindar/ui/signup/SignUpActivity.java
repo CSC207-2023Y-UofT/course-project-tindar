@@ -15,7 +15,7 @@ import com.courseproject.tindar.R;
 import com.courseproject.tindar.controllers.signup.SignUpController;
 import com.courseproject.tindar.ds.DatabaseHelper;
 import com.courseproject.tindar.entities.AccountFactory;
-import com.courseproject.tindar.presenters.signup.InvalidCredentials;
+import com.courseproject.tindar.presenters.signup.InvalidSignUpCredentials;
 import com.courseproject.tindar.presenters.signup.SignUpPresentationFormatter;
 import com.courseproject.tindar.usecases.signup.SignUpDsGateway;
 import com.courseproject.tindar.usecases.signup.SignUpInputBoundary;
@@ -23,13 +23,46 @@ import com.courseproject.tindar.usecases.signup.SignUpInteractor;
 import com.courseproject.tindar.usecases.signup.SignUpPresenter;
 import com.courseproject.tindar.usecases.signup.SignUpRequestModel;
 
-public class SignUpActivity extends AppCompatActivity {
 
+/**
+ * A simple {@link AppCompatActivity} subclass. This is an activity for Sign Up screen.
+ */
+public class SignUpActivity extends AppCompatActivity {
+    /**
+     * the button to submit the siqn-up request
+     */
     Button signUpButton;
+    /**
+     * the button to navigate back to the login screen
+     */
     ImageButton backButton;
-    EditText displayNameEditText, emailEditText, passwordEditText, retypedPasswordEditText;
+    /**
+     * the edit text to input user's display name
+     */
+    EditText displayNameEditText;
+    /**
+     * the edit text to input user's email address
+     */
+    EditText emailEditText;
+    /**
+     * the edit text to input user's password
+     */
+    EditText passwordEditText;
+    /**
+     * the edit text to input re-typed password for the confirmation
+     */
+    EditText retypedPasswordEditText;
+    /**
+     * the controller for the Sign Up UI
+     */
     SignUpController signUpController;
 
+    /**
+     * creates Sign Up activity. It instantiates Sign Up controller, defines behaviour for the sign-up button and
+     * back button.
+     *
+     * @param savedInstanceState a reference to a Bundle object that is passed into the onCreate method
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,8 +88,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         // sign-up button click listener on submit
         signUpButton.setOnClickListener(view -> {
-            SignUpRequestModel accountCredentials = getAccountCredentialsInputValue(
-                    displayNameEditText, emailEditText, passwordEditText, retypedPasswordEditText);
+            SignUpRequestModel accountCredentials = getSignUpCredentialsInputValue();
             if (accountCredentials != null) {
                 try {
                     String successMessage = signUpController.createAccount(accountCredentials);
@@ -66,7 +98,7 @@ public class SignUpActivity extends AppCompatActivity {
                         startActivity(intent);
                     });
                     dialog.show();
-                } catch (InvalidCredentials e) {
+                } catch (InvalidSignUpCredentials e) {
                     dialog.setMessage(e.getMessage());
                     dialog.setPositiveButton("OK", null);
                     dialog.show();
@@ -81,15 +113,17 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    public SignUpRequestModel getAccountCredentialsInputValue(EditText displayNameEditText, EditText emailEditText,
-                                                 EditText passwordEditText, EditText retypedPasswordEditText) {
-
+    /**
+     * returns sign-up credential input values gathering texts from each edit fields
+     *
+     * @return sign-up credentials input values.
+     */
+    public SignUpRequestModel getSignUpCredentialsInputValue() {
+        // shows error message if user tries to submit without input value
         boolean isNoDisplayName = TextUtils.isEmpty(displayNameEditText.getText().toString());
         boolean isNoEmail = TextUtils.isEmpty(emailEditText.getText().toString());
         boolean isNoPassword = TextUtils.isEmpty(passwordEditText.getText().toString());
         boolean isNoRetypedPassword = TextUtils.isEmpty(retypedPasswordEditText.getText().toString());
-
-        // shows error message if user tries to submit without input value
         if (isNoDisplayName || isNoEmail || isNoPassword || isNoRetypedPassword) {
             if (isNoDisplayName) {displayNameEditText.setError("Please enter name.");}
             if (isNoEmail) {emailEditText.setError("Please enter name.");}

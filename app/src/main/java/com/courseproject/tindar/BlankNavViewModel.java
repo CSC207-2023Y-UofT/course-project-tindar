@@ -18,7 +18,7 @@ public class BlankNavViewModel extends ViewModel {
     /**
      * sets the user id passed from the MainActivity once the user logs in
      *
-     * @param userId
+     * @param userId the user id of the account
      */
     public void setUserId(String userId) {
         this.userId.setValue(userId);
