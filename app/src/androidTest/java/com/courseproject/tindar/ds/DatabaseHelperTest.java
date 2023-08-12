@@ -314,10 +314,9 @@ public class DatabaseHelperTest {
     @Test
     public void testGetAllUserIds(){
         ArrayList<String> userList = new ArrayList<>();
-        userList.add(userId);
         userList.add(otherUserId);
         userList.add(thirdUserId);
-        ArrayList<String> dbUserList = dbHelper.getAllUserIds();
+        ArrayList<String> dbUserList = dbHelper.getAllOtherUserIds(userId);
 
         assertEquals(userList, dbUserList);
     }
