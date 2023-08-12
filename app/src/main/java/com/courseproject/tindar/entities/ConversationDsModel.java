@@ -3,7 +3,7 @@ package com.courseproject.tindar.entities;
 /**
  * Used for manipulating conversation records with ChatDatabaseGateways
  */
-public interface ConversationModel{
+public interface ConversationDsModel {
 
     /**
      * Returns the ID of representation of a conversation

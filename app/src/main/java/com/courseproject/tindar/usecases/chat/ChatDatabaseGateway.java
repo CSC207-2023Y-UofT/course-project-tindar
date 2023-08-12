@@ -1,10 +1,9 @@
 package com.courseproject.tindar.usecases.chat;
 
-import com.courseproject.tindar.entities.ConversationModel;
+import com.courseproject.tindar.entities.ConversationDsModel;
 import com.courseproject.tindar.entities.MessageModel;
 
 import java.util.ArrayList;
-import java.sql.Timestamp;
 
 public interface ChatDatabaseGateway {
     /*
@@ -86,7 +85,7 @@ public interface ChatDatabaseGateway {
      * @return conversation ID of the newly-created/edited conversation if successful;
      *          null otherwise.
      */
-    String addOrUpdateConversation(ConversationModel newConversation);
+    String addOrUpdateConversation(ConversationDsModel newConversation);
 
     /**
      * Returns a representation of a specified conversation.
@@ -94,7 +93,7 @@ public interface ChatDatabaseGateway {
      * @return representation of the conversation matching this unique ID.
      *          null if no such conversation is found.
      */
-    ConversationModel getConversation(String conversationID);
+    ConversationDsModel getConversation(String conversationID);
 
     /*
      * Returns a representation of a specified conversation.
@@ -102,7 +101,7 @@ public interface ChatDatabaseGateway {
      * @return representation of the most recently-active conversation with these users.
      *          null if no such conversation is found.
      *\/
-    ConversationModel getConversation(String[] users);
+    ConversationDsModel getConversation(String[] users);
      */
 
     /**
@@ -110,12 +109,12 @@ public interface ChatDatabaseGateway {
      * @param userID the userID of the user whose list of conversations you want to retrieve
      * @return a list representing all conversations that the user is in
      */
-    ArrayList<ConversationModel> getUserConversationList(String userID);
+    ArrayList<ConversationDsModel> getUserConversationList(String userID);
 
     /**
      * @return list of all conversations in the database
      */
-    ArrayList<ConversationModel> getAllConversations();
+    ArrayList<ConversationDsModel> getAllConversations();
 
     /**
      * Deletes the record of a conversation.

@@ -9,7 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.courseproject.tindar.entities.ConversationModel;
+import com.courseproject.tindar.entities.ConversationDsModel;
 import com.courseproject.tindar.entities.MessageModel;
 import com.courseproject.tindar.entities.TindarMessage;
 
@@ -243,7 +243,7 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
      * null otherwise.
      */
     @Override
-    public String addOrUpdateConversation(ConversationModel newConversation) {
+    public String addOrUpdateConversation(ConversationDsModel newConversation) {
         return null;
     }
 
@@ -255,7 +255,7 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
      * null if no such conversation is found.
      */
     @Override
-    public ConversationModel getConversation(String conversationID) {
+    public ConversationDsModel getConversation(String conversationID) {
         return null;
     }
 
@@ -266,7 +266,7 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
      * @return a list representing all conversations that the user is in
      */
     @Override
-    public ArrayList<ConversationModel> getUserConversationList(String userID) {
+    public ArrayList<ConversationDsModel> getUserConversationList(String userID) {
         return null;
     }
 
@@ -274,7 +274,7 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper implements ChatDatabase
      * @return list of all conversations in the database
      */
     @Override
-    public ArrayList<ConversationModel> getAllConversations() {
+    public ArrayList<ConversationDsModel> getAllConversations() {
         return null;
     }
 
