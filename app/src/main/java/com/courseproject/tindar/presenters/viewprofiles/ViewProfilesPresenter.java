@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModel;
 
 public class ViewProfilesPresenter extends ViewModel{
 
-    private MutableLiveData<String> DisplayNameText;
-    private MutableLiveData<String> GenderText;
-    private MutableLiveData<String> BirthdayText;
-    private MutableLiveData<String> LocationText;
-    private MutableLiveData<String> AboutMeText;
+    private final MutableLiveData<String> DisplayNameText;
+    private final MutableLiveData<String> GenderText;
+    private final MutableLiveData<String> BirthdayText;
+    private final MutableLiveData<String> LocationText;
+    private final MutableLiveData<String> AboutMeText;
 
     public ViewProfilesPresenter() {
         DisplayNameText = new MutableLiveData<>();

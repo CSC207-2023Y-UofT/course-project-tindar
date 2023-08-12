@@ -17,7 +17,7 @@ public class EditProfileInteractorUnitTest {
     private static final String PROFILE_PICTURE_LINK = "https://aaa";
     private static final String ABOUT_ME = "Hello!";
 
-    EditProfileResponseModel mockEditProfileResponseModel =
+    final EditProfileResponseModel mockEditProfileResponseModel =
         new EditProfileResponseModel(DISPLAY_NAME, BIRTHDATE, GENDER, LOCATION, PROFILE_PICTURE_LINK, ABOUT_ME);
 
     private class MockEditProfileDsGateway implements EditProfileDsGateway {
@@ -36,7 +36,7 @@ public class EditProfileInteractorUnitTest {
         }
     }
 
-    EditProfileDsGateway mockEditProfileDsGateway = new MockEditProfileDsGateway();
+    final EditProfileDsGateway mockEditProfileDsGateway = new MockEditProfileDsGateway();
 
     @Test
     public void testGetProfile() {

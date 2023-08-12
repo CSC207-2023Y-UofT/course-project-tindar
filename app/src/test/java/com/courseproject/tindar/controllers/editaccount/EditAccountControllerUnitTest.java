@@ -15,7 +15,7 @@ public class EditAccountControllerUnitTest {
     private static final String EMAIL = "johndoe@email.com";
     private static final String PASSWORD = "J0HND03";
 
-    EditAccountDsResponseModel mockEditAccountResponseModel =
+    final EditAccountDsResponseModel mockEditAccountResponseModel =
             new EditAccountDsResponseModel(IS_ACTIVE_STATUS, EMAIL, PASSWORD);
 
     private class MockEditAccountUserInput implements EditAccountInputBoundary {
@@ -64,7 +64,7 @@ public class EditAccountControllerUnitTest {
         }
     }
 
-    EditAccountInputBoundary mockEditAccountUserInput = new MockEditAccountUserInput();
+    final EditAccountInputBoundary mockEditAccountUserInput = new MockEditAccountUserInput();
 
     @Test
     public void getAccount() {

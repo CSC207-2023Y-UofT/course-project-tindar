@@ -33,7 +33,7 @@
             android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:src="@drawable/baseline_arrow_back_32_white"
-            />
+            android:contentDescription="Tap here to go back" />
     </RelativeLayout>
 
     <!--Message display-->
@@ -75,6 +75,6 @@
             android:background="@android:color/transparent"
             android:src="@drawable/baseline_send_32"
             app:tint="@color/colorPrimary"
-            />
+            android:contentDescription="Tap to send your typed message" />
     </RelativeLayout>
 </RelativeLayout>

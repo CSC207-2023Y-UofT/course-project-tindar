@@ -71,15 +71,12 @@ public class ConversationListFragment extends Fragment {
             recyclerView.setAdapter(adapter);
 
             // Set click listener for conversation items
-            adapter.setOnItemClickListener(new MyConversationRecyclerViewAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(ConversationResponseModel conversation) {
-                    // Handle the click here, navigate to ChatActivity
-                    Intent intent = new Intent(requireActivity(), ChatActivity.class);
-                    intent.putExtra("conversation_partner_name", conversation.getUserName());
-                    // Pass any other necessary data
-                    startActivity(intent);
-                }
+            adapter.setOnItemClickListener(conversation -> {
+                // Handle the click here, navigate to ChatActivity
+                Intent intent = new Intent(requireActivity(), ChatActivity.class);
+                intent.putExtra("conversation_partner_name", conversation.getUserName());
+                // Pass any other necessary data
+                startActivity(intent);
             });
         }
 
