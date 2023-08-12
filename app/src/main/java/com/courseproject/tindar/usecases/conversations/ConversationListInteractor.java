@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 /**
  * What:
+ * In
+ * This Interactor class
  *
  * Why does it exists:
  *
