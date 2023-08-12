@@ -21,6 +21,7 @@ import com.courseproject.tindar.databinding.ActivityBlankNavBinding;
 
 public class BlankNavActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,7 @@ public class BlankNavActivity extends AppCompatActivity {
 
         // retrieves user Id passed from other activity
         Intent intent = getIntent();
-        String userId = intent.getStringExtra("user_id");
+        userId = intent.getStringExtra("user_id");
 
         // instantiates the blank nav view model and sets the user id that is currently logged in
         BlankNavViewModel blankNavViewModel = new ViewModelProvider(this).get(BlankNavViewModel.class);
@@ -71,6 +72,7 @@ public class BlankNavActivity extends AppCompatActivity {
             return true;
         } else if (currentItemId == R.id.action_settings) {
             Intent intent = new Intent(BlankNavActivity.this, SettingsActivity.class);
+            intent.putExtra("user_id", userId);
             startActivity(intent);
             return true;
         } else {

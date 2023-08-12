@@ -73,4 +73,7 @@
     <string name="new_password">New Password</string>
     <string name="current_password_2">Current Password</string>
     <string name="inputs_do_not_match">Inputs do not match</string>
+    <string name="email_already_used">Email already used</string>
+    <string name="current_password_incorrect">Current password incorrect</string>
+    <string name="password_validation">Current password</string>
 </resources>

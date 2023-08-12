@@ -49,7 +49,12 @@ public class EditAccountController {
      * @return true if email was successfully updated
      */
     public boolean updateEmail(String userId, String email) {
-        return this.userInput.updateEmail(userId, email);
+        if (email.isEmpty()) {
+            return false;
+        }
+        else {
+            return this.userInput.updateEmail(userId, email);
+        }
     }
 
     /** Change the password associated with an account.
