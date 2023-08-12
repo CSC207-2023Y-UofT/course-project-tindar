@@ -29,35 +29,116 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 
+/**
+ * Database Helper which implements database methods for Edit Profile, Edit Filters, Login, Sign Up, Like List, View
+ * Profile, User List, Edit Account features. This also implements method on creating database, on upgrading
+ * database, and to get database instance.
+ */
 public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway, LoginDsGateway, SignUpDsGateway, LikeListDsGateway, ViewProfilesDsGateway, UserListDsGateway, EditAccountDsGateway {
+    /**
+     * app database instance
+     */
     private static DatabaseHelper dbInstance;
+    /**
+     * test database instance
+     */
     private static DatabaseHelper testDbInstance;
-
+    /**
+     * table name for the accounts
+     */
     private static final String TABLE_ACCOUNTS = "accounts";
+    /**
+     * table name for the likes
+     */
     private static final String TABLE_LIKES = "likes";
+    /**
+     * table name for the matches
+     */
     private static final String TABLE_MATCHES = "matches";
-
+    /**
+     * column name for the id
+     */
     private static final String ID = "id";
+    /**
+     * column name for the is active status
+     */
     private static final String IS_ACTIVE_STATUS = "is_active_status";
+    /**
+     * column name for the email
+     */
     private static final String EMAIL = "is_email";
+    /**
+     * column name for the password
+     */
     private static final String PASSWORD = "password";
+    /**
+     * column name for the display name
+     */
     private static final String DISPLAY_NAME = "display_name";
+    /**
+     * column name for the first name
+     */
     private static final String FIRST_NAME = "first_name";
+    /**
+     * column name for the last name
+     */
     private static final String LAST_NAME = "last_name";
+    /**
+     * column name for the birthdate
+     */
     private static final String BIRTHDATE = "birthdate";
+    /**
+     * column name for the gender
+     */
     private static final String GENDER = "gender";
+    /**
+     * column name for the location
+     */
     private static final String LOCATION = "location";
+    /**
+     * column name for the link to the profile picture
+     */
     private static final String PROFILE_PICTURE_LINK = "profile_picture_link";
+    /**
+     * column name for the about me statement
+     */
     private static final String ABOUT_ME = "about_me";
+    /**
+     * column name for the user's preferred genders for potential match
+     */
     private static final String PREFERRED_GENDERS = "preferred_genders";
+    /**
+     * column name for the user's preferred locations for the potential match
+     */
     private static final String PREFERRED_LOCATIONS = "preferred_locations";
+    /**
+     * column name for the minimum age of the user's preferred age group for the potential match
+     */
     private static final String PREFERRED_AGE_MINIMUM = "preferred_age_minimum";
+    /**
+     * column name for the maximum age of the user's preferred age group for the potential match
+     */
     private static final String PREFERRED_AGE_MAXIMUM = "preferred_age_maximum";
+    /**
+     * column name for the user id
+     */
     private static final String USER_ID = "user_id";
+    /**
+     * column name for the user id, who is liked by another user
+     */
     private static final String LIKED_USER_ID = "liked_user_id";
+    /**
+     * column name for the 1st user id in the group
+     */
     private static final String USER_ID_1 = "user_id_1";
+    /**
+     * column name for the 2nd user id in the group
+     */
     private static final String USER_ID_2 = "user_id_2";
 
+    /**
+     * sql query to create accounts table. There is unique constraint for the email column
+     */
     private static final String CREATE_TABLE_ACCOUNTS_QUERY = "CREATE TABLE " + TABLE_ACCOUNTS + " ("
             + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + IS_ACTIVE_STATUS + " NUMBER(1) NOT NULL, "
@@ -76,6 +157,9 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
             + PREFERRED_AGE_MINIMUM + " TEXT NOT NULL, "
             + PREFERRED_AGE_MAXIMUM + " TEXT NOT NULL);";
 
+    /**
+     * sql query to create likes table. There is unique constraint in the combination of user id and liked user id
+     */
     private static final String CREATE_TABLE_LIKES_QUERY = "CREATE TABLE " + TABLE_LIKES + " ("
             + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + USER_ID + " INTEGER, "
@@ -84,6 +168,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
             + "FOREIGN KEY (" + LIKED_USER_ID + ") REFERENCES " + TABLE_ACCOUNTS + "(" + ID + "), "
             + "UNIQUE(" + USER_ID + ", " + LIKED_USER_ID + "));";
 
+    /**
+     * sql query to create matches table. There is unique constraint in the combination of 1st user id and 2nd user
+     * id in the group
+     */
     private static final String CREATE_TABLE_MATCHES_QUERY = "CREATE TABLE " + TABLE_MATCHES + " ("
             + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + USER_ID_1 + " INTEGER, "
@@ -123,12 +211,24 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return testDbInstance;
     }
 
+    /**
+     * constructs database helper
+     *
+     * @param context current context of the application where the database is constructed
+     * @param databaseName name of the database
+     */
     // access modifier is private so DatabaseHelper doesn't get directly instantiated. The instantiation of
     // DatabaseHelper should go through getInstance method.
     private DatabaseHelper(@Nullable Context context, String databaseName) {
         super(context, databaseName, null, 1);
     }
 
+    /**
+     * gets called when the database is being created. This creates tables and adds initial dummy data to the
+     * database
+     *
+     * @param db the database instance
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_ACCOUNTS_QUERY);
@@ -137,8 +237,14 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         addInitialData(db);
     }
 
-    // TODO: find an alternative way to alter tables when the database is upgraded so the tables are not
-    //  deleted everytime the database is upgraded.
+    /**
+     * gets called when there is change in the version of the database. This drops all existing tables and calls
+     * onCreate method to re-create the tables with the initial dummy data.
+     *
+     * @param db the database instance
+     * @param oldVersion old version number
+     * @param newVersion new version number
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ACCOUNTS);
@@ -148,9 +254,20 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     }
 
     /**
+     * cleans out all records in the database. This is for the testing purpose so each test can be run on
+     * the database with no record to avoid unintended noise in the testing
+     */
+    public void deleteAllDbRecords(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + TABLE_ACCOUNTS);
+        db.execSQL("delete from " + TABLE_LIKES);
+        db.execSQL("delete from " + TABLE_MATCHES);
+    }
+
+    /**
      * Adds dummy data to the database. This is for a demo purpose of the app.
      *
-     * @param db database instance
+     * @param db the database instance
      **/
     private void addInitialData(SQLiteDatabase db) {
         addAccount(true, "jack@someemail.com", "password_jack", "jack",
@@ -181,6 +298,27 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         addToMatched("1", "5", db);
     }
 
+    /**
+     * adds account to the account table for the database base instance passed as an argument
+     *
+     * @param isActiveStatus indicates whether the account is in active status or not
+     * @param email email address of the user
+     * @param password password of the account the user creates
+     * @param displayName display name of the user
+     * @param firstName first name of the user
+     * @param lastName last name of the user
+     * @param birthdate birthdate of the user
+     * @param gender gender of the user
+     * @param location location where the user lives in
+     * @param profilePictureLink link to the profile picture of the user
+     * @param aboutMe statement the user writes to introduce him/herself to other users
+     * @param preferredGenders list of user's preferred genders for the potential match
+     * @param preferredLocations list of user's preferred locations for the potential match
+     * @param preferredAgeMinimum minimum age of user's preferred age group for the potential match
+     * @param preferredAgeMaximum maximum age of user's preferred age group for the potential match
+     * @param db the database instance
+     * @return id of the user whose account is newly created
+     */
     private String addAccount(boolean isActiveStatus, String email, String password, String displayName,
                               String firstName, String lastName, java.util.Date birthdate, String gender, String location,
                               String profilePictureLink, String aboutMe, String preferredGenders,
@@ -210,6 +348,26 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return String.valueOf(insertedId);
     }
 
+    /**
+     * adds account to the account table. The database instance is obtained within the method.
+     *
+     * @param isActiveStatus indicates whether the account is in active status or not
+     * @param email email address of the user
+     * @param password password of the account the user creates
+     * @param displayName display name of the user
+     * @param firstName first name of the user
+     * @param lastName last name of the user
+     * @param birthdate birthdate of the user
+     * @param gender gender of the user
+     * @param location location where the user lives in
+     * @param profilePictureLink link to the profile picture of the user
+     * @param aboutMe statement the user writes to introduce him/herself to other users
+     * @param preferredGenders list of user's preferred genders for the potential match
+     * @param preferredLocations list of user's preferred locations for the potential match
+     * @param preferredAgeMinimum minimum age of user's preferred age group for the potential match
+     * @param preferredAgeMaximum maximum age of user's preferred age group for the potential match
+     * @return id of the user whose account is newly created
+     */
     public String addAccount(boolean isActiveStatus, String email, String password, String displayName, String firstName,
                              String lastName, java.util.Date birthdate, String gender, String location,
                              String profilePictureLink, String aboutMe, String preferredGenders,
@@ -222,6 +380,12 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
                 preferredAgeMaximum, db);
     }
 
+    /**
+     * adds account to the account table with the sign-up credentials
+     *
+     * @param signUpDsRequestModel sign-up credentials provided
+     * @return id of the user whose account is newly created
+     */
     @Override
     public String addAccount(SignUpDsRequestModel signUpDsRequestModel) {
         return addAccount(true, signUpDsRequestModel.getEmail(), signUpDsRequestModel.getPassword(),
@@ -229,6 +393,12 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
                 "", "", "", "", 19, 999);
     }
 
+    /**
+     * checks whether email address is already used by another user in the database
+     *
+     * @param email email address of the user
+     * @return true if email is already used; false otherwise
+     */
     @Override
     public boolean checkIfEmailAlreadyUsed(String email) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -391,7 +561,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return dsResponse;
     }
 
-    /** Updates the profile information of a user in the database. It includes birthdate, gender, location,
+    /** updates the profile information of a user in the database. It includes birthdate, gender, location,
      * profile picture link, and about me statement of the user.
      *
      * @param userId the user id of the account
@@ -411,6 +581,12 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         db.close();
     }
 
+    /**
+     * retrieves filters information of the user
+     *
+     * @param userId the user id of the account
+     * @return filters information of the user
+     */
     @Override
     public EditFiltersModel readFilters(String userId) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -443,6 +619,12 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return dsResponse;
     }
 
+    /**
+     * updates filters information of the user
+     *
+     * @param userId the user id of the account
+     * @param newFilters new filters information of the user to be updated
+     */
     @Override
     public void updateFilters(String userId, EditFiltersModel newFilters) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -475,13 +657,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         cursor.close();
 
         return userId;
-    }
-
-    public void deleteAllDbRecords(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from " + TABLE_ACCOUNTS);
-        db.execSQL("delete from " + TABLE_LIKES);
-        db.execSQL("delete from " + TABLE_MATCHES);
     }
 
     public boolean checkLiked(String userId, String otherUserId) {

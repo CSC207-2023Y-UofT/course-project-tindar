@@ -4,15 +4,44 @@ import java.util.Date;
 
 import lombok.Getter;
 
+/**
+ * data model for the profile on the fetch request
+ */
 public class EditProfileResponseModel {
 
+    /**
+     * display name of the user
+     */
     @Getter private final String displayName;
+    /**
+     * birthdate of the user
+     */
     @Getter private final Date birthdate;
+    /**
+     * gender of the user
+     */
     @Getter private final String gender;
+    /**
+     * location where the user lives in
+     */
     @Getter private final String location;
+    /**
+     * link to the profile picture of the user
+     */
     @Getter private final String profilePictureLink;
+    /**
+     * statement the user writes to introduce him/herself to other users
+     */
     @Getter private final String aboutMe;
 
+    /**
+     * @param displayName display name of the user
+     * @param birthdate birthdate of the user
+     * @param gender gender of the user
+     * @param location location where the user lives in
+     * @param profilePictureLink link to the profile picture of the user
+     * @param aboutMe statement the user writes to introduce him/herself to other users
+     */
     public EditProfileResponseModel(String displayName, Date birthdate, String gender, String location,
                                     String profilePictureLink,
                                     String aboutMe) {
