@@ -69,8 +69,7 @@ public class ChatActivity extends AppCompatActivity {
     private ImageButton sendMessageButton;
 // --Commented out by Inspection START (2023-08-12 09:10):
 //    /**
-//     * Navigation button. Current intention is for this button to take the user to their list of
-//     * conversations. In future, should take them to wherever they were prior to opening this chat.
+//     * Tak them to wherever they were prior to opening this chat.
 //     */
 //    private ImageButton backButton;
 // --Commented out by Inspection STOP (2023-08-12 09:10)
@@ -104,7 +103,7 @@ public class ChatActivity extends AppCompatActivity {
                 = findViewById(R.id.conversation_partner_display_name);
         this.chatInput = findViewById(R.id.new_chat_input);
         this.sendMessageButton = findViewById(R.id.button_send_message);
-        this.backButton = findViewById(R.id.back_button);
+        // this.backButton = findViewById(R.id.back_button);
 
         // getting the screen to display the correct name for the conversation partner
         this.conversationPartnerDisplayNameDisplay.setText(this.conversationPartnerDisplayName);
