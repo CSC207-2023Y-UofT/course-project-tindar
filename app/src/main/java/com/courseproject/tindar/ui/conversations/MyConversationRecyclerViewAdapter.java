@@ -46,8 +46,8 @@ import java.util.List;
         final ConversationResponseModel conversation = conversations.get(position);
 
         holder.partnerNameTextView.setText(conversation.getConversationPartnerName());
-        holder.lastMessageTextView.setText(conversation.getLastMessage());
-        holder.lastMessageTimeTextView.setText(conversation.getLastMessageTime());
+//        holder.lastMessageTextView.setText(conversation.getLastMessage());
+//        holder.lastMessageTimeTextView.setText(conversation.getLastMessageTime());
 
         holder.itemView.setOnClickListener(v -> {
             // Handle click event and open the chat activity here
