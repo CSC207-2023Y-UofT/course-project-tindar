@@ -17,7 +17,8 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
         android:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@drawable/baseline_arrow_back_32_white" />
+        app:srcCompat="@drawable/baseline_arrow_back_32_white"
+        android:contentDescription="Tap here to go back" />
 
     <TextView
         android:layout_width="wrap_content"
