@@ -4,80 +4,58 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.courseproject.tindar.BlankNavViewModel;
 import com.courseproject.tindar.R;
-import com.courseproject.tindar.controllers.userlist.UserListController;
-import com.courseproject.tindar.controllers.viewprofiles.ViewProfilesController;
 import com.courseproject.tindar.databinding.FragmentHomeBinding;
-import com.courseproject.tindar.ds.DatabaseHelper;
-import com.courseproject.tindar.usecases.userlist.UserListDsGateway;
-import com.courseproject.tindar.usecases.userlist.UserListInteractor;
-import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsGateway;
-import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsResponseModel;
-import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesInteractor;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import com.courseproject.tindar.ui.editfilters.EditFiltersFragment;
 
 public class HomeFragment extends Fragment {
-
-    ViewProfilesDsGateway viewProfilesDatabaseHelper = DatabaseHelper.getInstance(getContext());
-    ViewProfilesInteractor viewProfilesInteractor = new ViewProfilesInteractor(viewProfilesDatabaseHelper);
-    ViewProfilesController viewProfilesController = new ViewProfilesController(viewProfilesInteractor);
-
-    UserListDsGateway userListDatabaseHelper = DatabaseHelper.getInstance(getContext());
-    UserListInteractor userListInteractor = new UserListInteractor(userListDatabaseHelper);
-    UserListController userListController = new UserListController(userListInteractor);
-
     private FragmentHomeBinding binding;
-    private ArrayList<String> allUserIds;
-    private String userId;
 
-    DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-
+    /**
+     * Loads initial data for screen.
+     *
+     * @param savedInstanceState info from blank nav about user and app state.
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BlankNavViewModel blankNavViewModel = new ViewModelProvider(requireActivity()).get(BlankNavViewModel.class);
-        blankNavViewModel.getUserId().observe(requireActivity(), it -> userId = it);
-
-        allUserIds = userListController.getAllUserIds();
-//        allUserIds.remove(Integer.valueOf(userId));
     }
 
+    /**
+     * Loads View Profile screen to allow for updating the shown profile.
+     *
+     * @param inflater the LayoutInflater object.
+     * @param container all associated views.
+     * @param savedInstanceState info from blank nav about user and app state.
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        ViewProfilesDsResponseModel initialProfile = viewProfilesController.readNextProfile(allUserIds.get(0));
-        allUserIds.add(allUserIds.get(0));
-        allUserIds.remove(0);
+        Button homeButton = root.findViewById(R.id.button_home);
 
-        final TextView displayNameView = (TextView) root.findViewById(R.id.displayName);
-        displayNameView.setText(initialProfile.getDisplayName());
-
-        final TextView genderView = (TextView) root.findViewById(R.id.gender);
-        genderView.setText(initialProfile.getGender());
-
-        final TextView birthdayView = (TextView) root.findViewById(R.id.birthday);
-        birthdayView.setText(dateFormat.format(initialProfile.getBirthdate()));
-
-        final TextView locationView = (TextView) root.findViewById(R.id.location);
-        locationView.setText(initialProfile.getLocation());
-
-        final TextView aboutMeView = (TextView) root.findViewById(R.id.aboutMe);
-        aboutMeView.setText(initialProfile.getAboutMe());
+        homeButton.setOnClickListener(view -> {
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.layout_home, new ViewProfileFragment(), "view profile fragment"); //My second Fragment
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        });
 
         return root;
     }
 
+    /**
+     * Destroys loaded view.
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();

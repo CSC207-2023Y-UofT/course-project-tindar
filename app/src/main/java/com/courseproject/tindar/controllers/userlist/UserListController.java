@@ -12,7 +12,5 @@ public class UserListController {
         this.userInput = userInput;
     }
 
-    public ArrayList<String> getAllUserIds(){
-        return userInput.getAllUserIds();
-    }
+    public ArrayList<String> getAllOtherUserIds(String userId){return userInput.getAllOtherUserIds(userId);}
 }
