@@ -18,7 +18,7 @@ public class SignUpInteractorUnitTest {
     private static final String PASSWORD = "bell_password";
     private static final String EMAIL_ALREADY_IN_USE = "emailalreadyinuse@sometestemail.com";
 
-    private class MockSignUpDsGateway implements SignUpDsGateway {
+    private static class MockSignUpDsGateway implements SignUpDsGateway {
 
         private final String createdUserId;
         private final String email;
