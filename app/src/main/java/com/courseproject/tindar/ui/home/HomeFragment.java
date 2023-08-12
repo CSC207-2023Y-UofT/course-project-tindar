@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -38,11 +40,15 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.layout_home, new ViewProfileFragment(), "view profile fragment"); //My second Fragment
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        Button homeButton = root.findViewById(R.id.button_home);
+
+        homeButton.setOnClickListener(view -> {
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.layout_home, new ViewProfileFragment(), "view profile fragment"); //My second Fragment
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        });
 
         return root;
     }

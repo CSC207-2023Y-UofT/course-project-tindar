@@ -802,12 +802,14 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     }
 
     @Override
-    public ArrayList<String> getAllUserIds() {
+    public ArrayList<String> getAllOtherUserIds(String userId) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery("SELECT "
                 + ID
-                + " FROM " + TABLE_ACCOUNTS, null);
+                + " FROM " + TABLE_ACCOUNTS
+                + " WHERE " + ID + " !=?",
+                new String[]{userId});
 
         ArrayList<String> userIdsResponse = new ArrayList<>();
 
