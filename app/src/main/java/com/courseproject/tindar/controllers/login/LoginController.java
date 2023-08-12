@@ -1,8 +1,6 @@
 package com.courseproject.tindar.controllers.login;
 
-import com.courseproject.tindar.usecases.login.LoginDsGateway;
 import com.courseproject.tindar.usecases.login.LoginInputBoundary;
-import com.courseproject.tindar.usecases.login.LoginInteractor;
 
 public class LoginController {
 

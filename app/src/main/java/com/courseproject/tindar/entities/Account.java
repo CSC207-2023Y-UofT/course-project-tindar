@@ -1,8 +1,5 @@
 package com.courseproject.tindar.entities;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 /**
  *
  */
