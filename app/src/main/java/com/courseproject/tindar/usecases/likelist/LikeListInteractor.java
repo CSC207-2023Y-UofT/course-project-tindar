@@ -9,6 +9,7 @@ import java.util.Objects;
  **/
 public class LikeListInteractor implements LikeListInputBoundary {
 
+    /** likeListDsGateway for updating the database */
     private final LikeListDsGateway likeListDsGateway;
 
     public LikeListInteractor(LikeListDsGateway likeListDsGateway) {
@@ -22,8 +23,7 @@ public class LikeListInteractor implements LikeListInputBoundary {
      */
     @Override
     public void addLike(String userId, String otherUserId){
-        // This method adds otherUserId to list of userId 'likes', if the two uusers already liked
-        // each other, they are matched and added to match list
+
         likeListDsGateway.addLike(userId, otherUserId);
 
         if (likeListDsGateway.checkLiked(otherUserId, userId)) {
