@@ -34,9 +34,9 @@ public class LoginControllerUnitTest {
         }
     }
 
-    MockLoginDsGateway mockLoginDsGateway = new MockLoginDsGateway();
-    LoginInputBoundary userInput = new LoginInteractor(mockLoginDsGateway);
-    LoginController loginController = new LoginController(userInput);
+    final MockLoginDsGateway mockLoginDsGateway = new MockLoginDsGateway();
+    final LoginInputBoundary userInput = new LoginInteractor(mockLoginDsGateway);
+    final LoginController loginController = new LoginController(userInput);
 
     @Test
     public void checkCorrectUserPassword(){

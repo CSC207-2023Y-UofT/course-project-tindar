@@ -61,4 +61,6 @@
     <string name="dislike_button">dislike button</string>
     <string name="submit">Submit</string>
     <string name="my_profile">My Profile</string>
+
+    <string name="action_log_out">Log Out</string>
 </resources>

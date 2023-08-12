@@ -8,11 +8,11 @@ import java.sql.Timestamp;
 public interface MessageModel {
     
     // Getter methods 
-    public abstract String getMessageId();
-    public Timestamp getCreationTime();
-    public String getMessageContent();
-    public String getSentFromId();
-    public String getSentToId();
+    String getMessageId();
+    Timestamp getCreationTime();
+    String getMessageContent();
+    String getSentFromId();
+    String getSentToId();
 
     // Setter methods--not implemented because they don't seem like they should exist
     /* 

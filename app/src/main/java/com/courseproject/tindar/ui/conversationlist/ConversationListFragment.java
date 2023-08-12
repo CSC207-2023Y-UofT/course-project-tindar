@@ -1,18 +1,18 @@
 package com.courseproject.tindar.ui.conversationlist;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.courseproject.tindar.R;
+import com.courseproject.tindar.ui.chat.ChatActivity;
 import com.courseproject.tindar.usecases.conversationlist.ConversationResponseModel;
 
 import java.util.ArrayList;
@@ -61,16 +61,39 @@ public class ConversationListFragment extends Fragment {
         convos.add(new ConversationResponseModel("lisbeth", "how do you do", "20:20"));
         convos.add(new ConversationResponseModel("mikael", "silence", "20:50"));
         // Set the adapter
-        if (view instanceof RecyclerView) {
+
+        RecyclerView recyclerView = view.findViewById(R.id.list);
+        if (recyclerView != null) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyConversationRecyclerViewAdapter(convos));
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+            MyConversationRecyclerViewAdapter adapter = new MyConversationRecyclerViewAdapter(convos);
+            recyclerView.setAdapter(adapter);
+
+            // Set click listener for conversation items
+            adapter.setOnItemClickListener(conversation -> {
+                // Handle the click here, navigate to ChatActivity
+                Intent intent = new Intent(requireActivity(), ChatActivity.class);
+                intent.putExtra("conversation_partner_name", conversation.getUserName());
+                // Pass any other necessary data
+                startActivity(intent);
+            });
         }
+
         return view;
-    }
-}
+    }   }
+//        RecyclerView recyclerView = null;
+//        if (view instanceof RecyclerView) {
+//            Context context = view.getContext();
+//            recyclerView = (RecyclerView) view;
+//            if (mColumnCount <= 1) {
+//                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+//            } else {
+//                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+//            }
+//            recyclerView.setAdapter(new MyConversationRecyclerViewAdapter(convos));
+//        }
+//
+//
+//        return view;
+//    }

@@ -55,7 +55,7 @@ public class ChatRecyclerViewAdapter
      * @param parent   The ViewGroup into which the new View will be added after it is bound to
      *                 an adapter position.
      * @param viewType The view type of the new View.
-     * @return
+     * @return creates the viewholder
      */
     @NonNull
     @Override
@@ -108,7 +108,7 @@ public class ChatRecyclerViewAdapter
     /**
      * Categorizes items being cycled through
      * Feeds into onCreateViewHolder.
-     * @param position
+     * @param position index in the dataset of the current item for which ViewType is being obtained
      * @return 0 if the message originated from the current user; 1 otherwise
      */
     @Override
@@ -135,7 +135,6 @@ public class ChatRecyclerViewAdapter
         /**
          * TindarMessageViewHolder constructor.
          * @param itemView the view that this view holder is supposed to hold
-         * @return new TindarMessageViewHolder
          */
         public TindarMessageViewHolder(@NonNull View itemView) {
             super(itemView);

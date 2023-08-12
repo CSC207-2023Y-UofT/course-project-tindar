@@ -9,7 +9,6 @@ import android.widget.EditText;
 
 import android.content.Intent;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -30,6 +29,13 @@ public class MainActivity extends AppCompatActivity {
     private String email;
     private String password;
 
+    /**
+     * Login Screen
+     * Allows user to input their email and password to login to their account
+     * or they can use the signup button to go to the signup page to create a new account
+     * <p>
+     * this layer also checks for user's input being the correct account credentials
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -44,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
         LoginDsGateway loginDatabaseHelper = DatabaseHelper.getInstance(getApplicationContext());
         LoginInteractor loginInteractor = new LoginInteractor(loginDatabaseHelper);
         LoginController loginController = new LoginController(loginInteractor);
-
-        loginController = new LoginController(loginInteractor);
 
         LoginController finalLoginController = loginController;
         loginButton.setOnClickListener(view -> {

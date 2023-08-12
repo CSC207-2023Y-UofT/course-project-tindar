@@ -19,6 +19,15 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
 
     private final List<ConversationResponseModel> mValues;
 
+    public interface OnItemClickListener {
+        void onItemClick(ConversationResponseModel conversation);
+    }
+
+    private OnItemClickListener mListener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
     public MyConversationRecyclerViewAdapter(List<ConversationResponseModel> items) {
         mValues = items;
     }
@@ -32,11 +41,18 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        final ConversationResponseModel conversation = mValues.get(position);
+
         holder.mItem = mValues.get(position);
         holder.mUserName.setText(mValues.get(position).getUserName());
         holder.mLastMessage.setText(mValues.get(position).getLastMessage());
         holder.mLastMessageTime.setText(mValues.get(position).getLastMessageTime());
-        
+
+        holder.itemView.setOnClickListener(v -> {
+            if (mListener != null) {
+                mListener.onItemClick(conversation);
+            }
+        });
     }
 
     @Override

@@ -18,16 +18,14 @@ public class BlankNavViewModel extends ViewModel {
     /**
      * sets the user id passed from the MainActivity once the user logs in
      *
-     * @param userId
+     * @param userId the new userId
      */
     public void setUserId(String userId) {
         this.userId.setValue(userId);
     }
 
     /**
-     * gets the user id that is currently logged in
-     *
-     * @return
+     * @return the user id that is currently logged in
      */
     public LiveData<String> getUserId() {
         return userId;
