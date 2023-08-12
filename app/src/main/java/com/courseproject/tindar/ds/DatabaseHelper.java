@@ -536,8 +536,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return true;
     }
 
-    /** Retrieves profile information of a user from the database. It includes birthdate, gender, location,
-     * profile picture link, and about me statement of the user.
+    /** Retrieves profile information of a user from the database. It includes display name, birthdate, gender,
+     * location, profile picture link, and about me statement of the user.
      *
      * @param userId the user id of the account
      * @return profile information of the user
@@ -571,8 +571,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return dsResponse;
     }
 
-    /** updates the profile information of a user in the database. It includes birthdate, gender, location,
-     * profile picture link, and about me statement of the user.
+    /** updates the profile information of a user in the database. It includes display name, birthdate, gender,
+     * location, profile picture link, and about me statement of the user.
      *
      * @param userId the user id of the account
      * @param newProfile new profile information of the user
@@ -581,6 +581,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     public void updateProfile(String userId, EditProfileRequestModel newProfile) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
+        cv.put(DISPLAY_NAME, newProfile.getDisplayName());
         cv.put(BIRTHDATE, new java.sql.Date(newProfile.getBirthdate().getTime()).getTime());
         cv.put(GENDER, newProfile.getGender());
         cv.put(LOCATION, newProfile.getLocation());

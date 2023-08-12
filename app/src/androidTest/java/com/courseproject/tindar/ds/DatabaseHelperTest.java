@@ -98,11 +98,12 @@ public class DatabaseHelperTest {
     @Test
     public void testUpdateProfile() {
         EditProfileRequestModel newProfile = new EditProfileRequestModel(
-                new GregorianCalendar(1997, 11, 27).getTime(),
+                "fido", new GregorianCalendar(1997, 11, 27).getTime(),
                 "Other", "Vancouver", "https://bbb", "Nice to meet you"
         );
         dbHelper.updateProfile(userId, newProfile);
         ViewProfileResponseModel updatedProfile = dbHelper.readProfile(userId);
+        assertEquals("fido", updatedProfile.getDisplayName());
         assertEquals(new GregorianCalendar(1997, 11, 27).getTime(), updatedProfile.getBirthdate());
         assertEquals("Other", updatedProfile.getGender());
         assertEquals("Vancouver", updatedProfile.getLocation());
