@@ -1,4 +1,4 @@
-package com.courseproject.tindar.usecases.chat;
+package com.courseproject.tindar.ds;
 
 import java.util.Arrays;
 
@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.courseproject.tindar.entities.ConversationDsModel;
 import com.courseproject.tindar.entities.MessageModel;
 import com.courseproject.tindar.entities.TindarMessage;
+import com.courseproject.tindar.usecases.chat.ChatDatabaseGateway;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
