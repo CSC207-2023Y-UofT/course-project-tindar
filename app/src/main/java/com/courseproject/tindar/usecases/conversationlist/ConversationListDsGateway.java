@@ -7,5 +7,5 @@ public interface ConversationListDsGateway {
 
     ConversationMessageDsResponseModel readLastMessage(String conversationId);
 
-    ArrayList<String> readDisplayNamesForConversations(ArrayList<String> userIds);
+    ArrayList<String> readDisplayNames(ArrayList<String> userIds);
 }

@@ -254,7 +254,7 @@ public class DatabaseHelperTest {
         ArrayList<String> matchList = new ArrayList<>();
         matchList.add(userId);
         matchList.add(thirdUserId);
-        ArrayList<MatchListDsResponseModel> displayNames = dbHelper.readDisplayNames(matchList);
+        ArrayList<MatchListDsResponseModel> displayNames = dbHelper.readUserIdAndDisplayNames(matchList);
         assertEquals(displayNames.get(0).getUserId(), userId);
         assertEquals(displayNames.get(0).getDisplayName(), "bell");
         assertEquals(displayNames.get(1).getUserId(), thirdUserId);
@@ -359,7 +359,7 @@ public class DatabaseHelperTest {
         ArrayList<String> conversationList = new ArrayList<>();
         conversationList.add(userId);
         conversationList.add(otherUserId);
-        ArrayList<String> displayNames = dbHelper.readDisplayNamesForConversations(conversationList);
+        ArrayList<String> displayNames = dbHelper.readDisplayNames(conversationList);
         assertEquals(2, displayNames.size());
         assertEquals("bell", displayNames.get(0));
         assertEquals("roger", displayNames.get(1));
@@ -369,7 +369,7 @@ public class DatabaseHelperTest {
     public void testReadDisplayNamesForConversationsWithEmptyInputList() {
         // Test read display names returns list of user display names from database
         ArrayList<String> conversationList = new ArrayList<>();
-        ArrayList<String> displayNames = dbHelper.readDisplayNamesForConversations(conversationList);
+        ArrayList<String> displayNames = dbHelper.readDisplayNames(conversationList);
         assertEquals(0, displayNames.size());
     }
 

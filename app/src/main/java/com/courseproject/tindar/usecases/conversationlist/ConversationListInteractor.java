@@ -44,7 +44,7 @@ public class ConversationListInteractor implements ConversationListInputBoundary
         }
 
         ArrayList<String> conversationPartnerDisplayNames = conversationListDsGateway.
-                readDisplayNamesForConversations(conversationPartnerUserIds);
+                readDisplayNames(conversationPartnerUserIds);
 
         ArrayList<ConversationResponseModel> activeConversations = new ArrayList<>();
 

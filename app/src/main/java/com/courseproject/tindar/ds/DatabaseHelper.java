@@ -818,7 +818,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
      * @return return list of user display names
      */
     @Override
-    public ArrayList<MatchListDsResponseModel> readDisplayNames(ArrayList<String> userIds) {
+    public ArrayList<MatchListDsResponseModel> readUserIdAndDisplayNames(ArrayList<String> userIds) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         boolean doNotAddComma = true;
@@ -920,7 +920,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     }
 
     @Override
-    public ArrayList<String> readDisplayNamesForConversations(ArrayList<String> userIds) {
+    public ArrayList<String> readDisplayNames(ArrayList<String> userIds) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         boolean doNotAddComma = true;

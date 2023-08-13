@@ -36,7 +36,7 @@ public class MatchListInteractor implements MatchListInputBoundary {
             }
         }
 
-        ArrayList<MatchListDsResponseModel> matchedUsers = matchListDsGateway.readDisplayNames(matches);
+        ArrayList<MatchListDsResponseModel> matchedUsers = matchListDsGateway.readUserIdAndDisplayNames(matches);
 
         int numberOfMatches = matchedUsers.size();
         String[] displayNames = new String[numberOfMatches];

@@ -20,5 +20,5 @@ public interface MatchListDsGateway {
      * @param userIds id of users in the match list
      * @return return list of display names in the match list
      */
-    ArrayList<MatchListDsResponseModel> readDisplayNames(ArrayList<String> userIds);
+    ArrayList<MatchListDsResponseModel> readUserIdAndDisplayNames(ArrayList<String> userIds);
 }

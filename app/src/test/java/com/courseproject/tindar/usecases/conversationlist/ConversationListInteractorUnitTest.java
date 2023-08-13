@@ -52,7 +52,7 @@ public class ConversationListInteractorUnitTest {
         }
 
         @Override
-        public ArrayList<String> readDisplayNamesForConversations(ArrayList<String> userIds) {
+        public ArrayList<String> readDisplayNames(ArrayList<String> userIds) {
             ArrayList<String> displayNames = new ArrayList<>();
             displayNames.add(displayName);
             return displayNames;
