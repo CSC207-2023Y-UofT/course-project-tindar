@@ -33,18 +33,18 @@ public class BlankNavViewModel extends ViewModel {
     }
 
     /**
-     * sets the ...
+     * Sets the index of the view profile user ID.
      *
-     * @param viewProfileUserIdIndex
+     * @param viewProfileUserIdIndex The index to set for the view profile user ID.
      */
     public void setViewProfileUserIdIndex(int viewProfileUserIdIndex) {
         this.viewProfileUserIdIndex.setValue(viewProfileUserIdIndex);
     }
 
     /**
-     * gets the ...
+     * Retrieves the index of the view profile user ID.
      *
-     * @return
+     * @return The index of the view profile user ID.
      */
     public LiveData<Integer> getViewProfileUserIdIndex() {
         return viewProfileUserIdIndex;
