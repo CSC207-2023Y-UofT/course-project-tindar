@@ -6,13 +6,45 @@ import java.sql.Timestamp;
  * Currently models Tindar text messages. Implements MessageModel.
  */
  public class TindarMessage implements MessageModel {
+    /**
+     * the content of the message
+     */
     private final String text;
+    /**
+     * the time at which this message was created
+     */
     private final Timestamp creationTime;
+    /**
+     * the userID of the account that sent this message.
+     * should be an integer represented as a string.
+     */
     private final String sentFromId;
+    /**
+     * the userID of the account receiving this message.
+     * should be an integer represented as a string.
+     */
     private final String sentToId;
+    /**
+     * the unique ID representing this message.
+     * should be an integer represented as a string.
+     */
     private final String messageId;
+    /**
+     * the ID of the conversation where this message was sent.
+     * should be an integer represented as a string.
+     */
     private final String conversationId;
 
+    /**
+     * Creates a representation of a Tindar text message.
+     * Note that all ID parameters should be integers represented as strings.
+     * @param text the content of the message
+     * @param timestamp the time at which this message was created
+     * @param sentFromId the userID of the account that sent this message
+     * @param sentToId the userID of the account receiving this message
+     * @param messageId the unique ID representing this message
+     * @param conversationId the ID of the conversation where this message was sent
+     */
     public TindarMessage(String text, Timestamp timestamp, String sentFromId, String sentToId,
                          String messageId, String conversationId){
         this.text = text;
