@@ -1,8 +1,10 @@
 package com.courseproject.tindar.ui.home;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -61,6 +63,7 @@ public class SecondViewProfileFragment extends Fragment {
     TextView locationView;
     TextView aboutMeView;
     ImageView profilePic;
+    String profileLink;
 
     ViewProfilesController viewProfilesController;
 
@@ -191,8 +194,20 @@ public class SecondViewProfileFragment extends Fragment {
         ViewProfileResponseModel profile =
                 viewProfilesController.getProfile(otherUserId);
 
-        Bitmap bmImg = BitmapFactory.decodeFile(profile.getProfilePictureLink());
-        profilePic.setImageBitmap(bmImg);
+        profileLink = profile.getProfilePictureLink();
+        if (profileLink.equals("spongebob1.png")){
+            profilePic.setImageResource(R.drawable.spongebob1);
+        } else if (profileLink.equals("spongebob2.jpg")) {
+            profilePic.setImageResource(R.drawable.spongebob2);
+        } else if (profileLink.equals("spongebob3.jpg")) {
+            profilePic.setImageResource(R.drawable.spongebob3);
+        } else if (profileLink.equals("spongebob4.jpg")) {
+            profilePic.setImageResource(R.drawable.spongebob4);
+        } else if (profileLink.equals("spongebob5.jpg")) {
+            profilePic.setImageResource(R.drawable.spongebob5);
+        } else {
+            profilePic.setImageResource(R.drawable.kermit);
+        }
 
         displayNameView.setText(profile.getDisplayName());
         genderView.setText(profile.getGender());

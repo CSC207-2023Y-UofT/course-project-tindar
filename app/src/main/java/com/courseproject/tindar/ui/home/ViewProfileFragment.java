@@ -61,6 +61,7 @@ public class ViewProfileFragment extends Fragment {
     TextView locationView;
     TextView aboutMeView;
     ImageView profilePic;
+    String profileLink;
 
     ViewProfilesController viewProfilesController;
 
@@ -109,7 +110,7 @@ public class ViewProfileFragment extends Fragment {
         birthdateView = root.findViewById(R.id.text_view_birthdate_view_profile);
         locationView = root.findViewById(R.id.text_view_location_view_profile);
         aboutMeView = root.findViewById(R.id.text_view_about_me_view_profile);
-        profilePic = root.findViewById(R.id.image_view_profile_picture_second_view_profile);
+        profilePic = root.findViewById(R.id.image_view_profile_picture_view_profile);
 
         ViewProfileDsGateway viewProfilesDatabaseHelper = DatabaseHelper.getInstance(getContext());
         ViewProfileInputBoundary viewProfilesInteractor = new ViewProfileInteractor(viewProfilesDatabaseHelper);
@@ -186,8 +187,20 @@ public class ViewProfileFragment extends Fragment {
         ViewProfileResponseModel profile =
                 viewProfilesController.getProfile(otherUserId);
 
-        Bitmap bmImg = BitmapFactory.decodeFile(profile.getProfilePictureLink());
-        profilePic.setImageBitmap(bmImg);
+        profileLink = profile.getProfilePictureLink();
+        if (profileLink.equals("spongebob1.png")){
+            profilePic.setImageResource(R.drawable.spongebob1);
+        } else if (profileLink.equals("spongebob2.jpg")) {
+            profilePic.setImageResource(R.drawable.spongebob2);
+        } else if (profileLink.equals("spongebob3.jpg")) {
+            profilePic.setImageResource(R.drawable.spongebob3);
+        } else if (profileLink.equals("spongebob4.jpg")) {
+            profilePic.setImageResource(R.drawable.spongebob4);
+        } else if (profileLink.equals("spongebob5.jpg")) {
+            profilePic.setImageResource(R.drawable.spongebob5);
+        } else {
+            profilePic.setImageResource(R.drawable.kermit);
+        }
 
         displayNameView.setText(profile.getDisplayName());
         genderView.setText(profile.getGender());

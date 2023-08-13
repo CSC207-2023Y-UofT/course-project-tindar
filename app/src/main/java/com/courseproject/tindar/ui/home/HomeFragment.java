@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Button;
 
@@ -19,6 +20,7 @@ import com.courseproject.tindar.ui.editfilters.EditFiltersFragment;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
+    ImageView home;
 
     /**
      * Loads initial data for screen.
@@ -42,6 +44,9 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         Button homeButton = root.findViewById(R.id.button_home);
+        home = root.findViewById(R.id.image_view_home);
+        home.setImageResource(R.drawable.kermit);
+
 
         homeButton.setOnClickListener(view -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
