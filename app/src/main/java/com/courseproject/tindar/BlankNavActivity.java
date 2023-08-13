@@ -66,6 +66,7 @@ public class BlankNavActivity extends AppCompatActivity {
      * Populates menu with items
      *
      * @param menu collection of menu items associated with the activity
+     * @return true (boolean) when finished
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
