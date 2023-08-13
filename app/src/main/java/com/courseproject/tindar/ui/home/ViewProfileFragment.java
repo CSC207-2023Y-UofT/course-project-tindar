@@ -22,15 +22,19 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.courseproject.tindar.BlankNavViewModel;
 import com.courseproject.tindar.R;
-import com.courseproject.tindar.controllers.userlist.UserListController;
 import com.courseproject.tindar.controllers.viewprofiles.ViewProfilesController;
 import com.courseproject.tindar.databinding.FragmentViewProfileBinding;
 import com.courseproject.tindar.ds.DatabaseHelper;
+import com.courseproject.tindar.usecases.likelist.LikeListDsGateway;
+import com.courseproject.tindar.usecases.likelist.LikeListInputBoundary;
+import com.courseproject.tindar.usecases.likelist.LikeListInteractor;
 import com.courseproject.tindar.usecases.userlist.UserListDsGateway;
+import com.courseproject.tindar.usecases.userlist.UserListInputBoundary;
 import com.courseproject.tindar.usecases.userlist.UserListInteractor;
-import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsGateway;
-import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsResponseModel;
-import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesInteractor;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileDsGateway;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileResponseModel;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileInputBoundary;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileInteractor;
 
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -40,27 +44,24 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class ViewProfileFragment extends Fragment {
-
-    ViewProfilesDsGateway viewProfilesDatabaseHelper = DatabaseHelper.getInstance(getContext());
-    ViewProfilesInteractor viewProfilesInteractor = new ViewProfilesInteractor(viewProfilesDatabaseHelper);
-    ViewProfilesController viewProfilesController = new ViewProfilesController(viewProfilesInteractor);
-
-    UserListDsGateway userListDatabaseHelper = DatabaseHelper.getInstance(getContext());
-    UserListInteractor userListInteractor = new UserListInteractor(userListDatabaseHelper);
-    UserListController userListController = new UserListController(userListInteractor);
-
-    private BlankNavViewModel blankNavViewModel;
+    boolean doesLike;
     private int currentViewProfileUserIdIndex;
+    private String otherUserId;
 
+    private String userId;
+    private ArrayList<String> allUserIds;
+
+    private FragmentViewProfileBinding binding;
+    private BlankNavViewModel blankNavViewModel;
+
+    ImageButton likeButton;
     TextView displayNameView;
     TextView genderView;
     TextView birthdateView;
     TextView locationView;
     TextView aboutMeView;
 
-    private FragmentViewProfileBinding binding;
-    private ArrayList<String> allUserIds;
-    private String userId;
+    ViewProfilesController viewProfilesController;
 
     DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.CANADA );
 
@@ -74,8 +75,6 @@ public class ViewProfileFragment extends Fragment {
         blankNavViewModel = new ViewModelProvider(requireActivity()).get(BlankNavViewModel.class);
         blankNavViewModel.getUserId().observe(requireActivity(), it -> userId = it);
         blankNavViewModel.getViewProfileUserIdIndex().observe(requireActivity(), it -> currentViewProfileUserIdIndex = it);
-
-        allUserIds = userListController.getAllOtherUserIds(userId);
     }
 
     /**
@@ -103,6 +102,23 @@ public class ViewProfileFragment extends Fragment {
 
         ImageButton nextButton = root.findViewById(R.id.button_go_next_view_profile);
         ImageButton previousButton = root.findViewById(R.id.button_go_previous_view_profile);
+        likeButton = root.findViewById(R.id.button_like_view_profile);
+        displayNameView = root.findViewById(R.id.text_view_display_name_view_profile);
+        genderView = root.findViewById(R.id.text_view_gender_view_profile);
+        birthdateView = root.findViewById(R.id.text_view_birthdate_view_profile);
+        locationView = root.findViewById(R.id.text_view_location_view_profile);
+        aboutMeView = root.findViewById(R.id.text_view_about_me_view_profile);
+
+        ViewProfileDsGateway viewProfilesDatabaseHelper = DatabaseHelper.getInstance(getContext());
+        ViewProfileInputBoundary viewProfilesInteractor = new ViewProfileInteractor(viewProfilesDatabaseHelper);
+        UserListDsGateway userListDatabaseHelper = DatabaseHelper.getInstance(getContext());
+        UserListInputBoundary userListInteractor = new UserListInteractor(userListDatabaseHelper);
+        LikeListDsGateway likeListDatabaseHelper = DatabaseHelper.getInstance(getContext());
+        LikeListInputBoundary likeListInteractor = new LikeListInteractor(likeListDatabaseHelper);
+        viewProfilesController = new ViewProfilesController(viewProfilesInteractor,
+                userListInteractor, likeListInteractor);
+
+        allUserIds = viewProfilesController.getAllOtherUserIds(userId);
 
         if (currentViewProfileUserIdIndex == allUserIds.size() - 1) {
             nextButton.setEnabled(false);
@@ -123,13 +139,19 @@ public class ViewProfileFragment extends Fragment {
             goToAnotherProfile();
         });
 
-//        new DownloadImage((ImageView) binding.profilePicture).execute(profile.getProfilePictureLink());
+        likeButton.setOnClickListener(view -> {
+            if (!doesLike) {
+                viewProfilesController.addLike(userId, otherUserId);
+                doesLike = true;
+                likeButton.setImageResource(R.drawable.ic_star_big_on);
+            } else {
+                viewProfilesController.removeLike(userId, otherUserId);
+                doesLike = false;
+                likeButton.setImageResource(R.drawable.ic_star_big_off);
+            }
+        });
 
-        displayNameView = root.findViewById(R.id.text_view_display_name_view_profile);
-        genderView = root.findViewById(R.id.text_view_gender_view_profile);
-        birthdateView = root.findViewById(R.id.text_view_birthdate_view_profile);
-        locationView = root.findViewById(R.id.text_view_location_view_profile);
-        aboutMeView = root.findViewById(R.id.text_view_about_me_view_profile);
+//        new DownloadImage((ImageView) binding.profilePicture).execute(profile.getProfilePictureLink());
 
         return root;
     }
@@ -137,7 +159,17 @@ public class ViewProfileFragment extends Fragment {
     @Nullable
     @Override
     public Object getEnterTransition() {
+        otherUserId = allUserIds.get(currentViewProfileUserIdIndex);
+        doesLike = viewProfilesController.checkLiked(userId, otherUserId);
+
         setsProfile();
+
+        if (doesLike) {
+            likeButton.setImageResource(R.drawable.ic_star_big_on);
+        } else {
+            likeButton.setImageResource(R.drawable.ic_star_big_off);
+        }
+
         return super.getEnterTransition();
     }
 
@@ -177,8 +209,8 @@ public class ViewProfileFragment extends Fragment {
     }
 
     private void setsProfile() {
-        ViewProfilesDsResponseModel profile =
-                viewProfilesController.readNextProfile(allUserIds.get(currentViewProfileUserIdIndex));
+        ViewProfileResponseModel profile =
+                viewProfilesController.getProfile(otherUserId);
 
         displayNameView.setText(profile.getDisplayName());
         genderView.setText(profile.getGender());
@@ -190,7 +222,7 @@ public class ViewProfileFragment extends Fragment {
     private void goToAnotherProfile() {
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
 
-        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(
                 R.id.layout_view_profile, new SecondViewProfileFragment(), "second view profile fragment"
         ); //My second Fragment

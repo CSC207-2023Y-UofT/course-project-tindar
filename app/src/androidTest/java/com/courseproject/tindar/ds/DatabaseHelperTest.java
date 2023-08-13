@@ -18,10 +18,9 @@ import com.courseproject.tindar.usecases.conversationlist.ConversationMessageDsR
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileRequestModel;
-import com.courseproject.tindar.usecases.editprofile.EditProfileResponseModel;
-import com.courseproject.tindar.usecases.likelist.LikeListDsResponseModel;
+import com.courseproject.tindar.usecases.matchlist.MatchListDsResponseModel;
 import com.courseproject.tindar.usecases.signup.SignUpDsRequestModel;
-import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsResponseModel;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileResponseModel;
 
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -76,7 +75,7 @@ public class DatabaseHelperTest {
         SignUpDsRequestModel accountCredentials = new SignUpDsRequestModel("april", "april@someemail.com",
                 "aprilpassword");
         String createdUserId = dbHelper.addAccount(accountCredentials);
-        EditProfileResponseModel profile = dbHelper.readProfile(createdUserId);
+        ViewProfileResponseModel profile = dbHelper.readProfile(createdUserId);
         assertEquals("april", profile.getDisplayName());
     }
 
@@ -87,18 +86,7 @@ public class DatabaseHelperTest {
 
     @Test
     public void testReadProfile() {
-        EditProfileResponseModel testProfile = dbHelper.readProfile(userId);
-        assertEquals("bell", testProfile.getDisplayName());
-        assertEquals(new GregorianCalendar(2003, 9, 5).getTime(), testProfile.getBirthdate());
-        assertEquals("Female", testProfile.getGender());
-        assertEquals("Calgary", testProfile.getLocation());
-        assertEquals("https://ccc", testProfile.getProfilePictureLink());
-        assertEquals("I would like to", testProfile.getAboutMe());
-    }
-
-    @Test
-    public void testReadNextProfile() {
-        ViewProfilesDsResponseModel testProfile = dbHelper.readNextProfile(userId);
+        ViewProfileResponseModel testProfile = dbHelper.readProfile(userId);
         assertEquals("bell", testProfile.getDisplayName());
         assertEquals(new GregorianCalendar(2003, 9, 5).getTime(), testProfile.getBirthdate());
         assertEquals("Female", testProfile.getGender());
@@ -114,7 +102,7 @@ public class DatabaseHelperTest {
                 "Other", "Vancouver", "https://bbb", "Nice to meet you"
         );
         dbHelper.updateProfile(userId, newProfile);
-        EditProfileResponseModel updatedProfile = dbHelper.readProfile(userId);
+        ViewProfileResponseModel updatedProfile = dbHelper.readProfile(userId);
         assertEquals(new GregorianCalendar(1997, 11, 27).getTime(), updatedProfile.getBirthdate());
         assertEquals("Other", updatedProfile.getGender());
         assertEquals("Vancouver", updatedProfile.getLocation());
@@ -265,7 +253,7 @@ public class DatabaseHelperTest {
         ArrayList<String> matchList = new ArrayList<>();
         matchList.add(userId);
         matchList.add(thirdUserId);
-        ArrayList<LikeListDsResponseModel> displayNames = dbHelper.readDisplayNames(matchList);
+        ArrayList<MatchListDsResponseModel> displayNames = dbHelper.readDisplayNames(matchList);
         assertEquals(displayNames.get(0).getUserId(), userId);
         assertEquals(displayNames.get(0).getDisplayName(), "bell");
         assertEquals(displayNames.get(1).getUserId(), thirdUserId);

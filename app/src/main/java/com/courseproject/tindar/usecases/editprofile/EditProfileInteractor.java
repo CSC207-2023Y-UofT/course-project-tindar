@@ -19,16 +19,6 @@ public class EditProfileInteractor implements EditProfileInputBoundary {
     }
 
     /**
-     * gets profile information of the user
-     *
-     * @param userId the user id of the account
-     * @return profile information of the user
-     */
-    public EditProfileResponseModel getProfile(String userId) {
-        return editProfileDsGateway.readProfile(userId);
-    }
-
-    /**
      * updates profile information of the user
      *
      * @param userId the user id of the account
