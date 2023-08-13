@@ -337,6 +337,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         addToMatched("1", "2", db);
         addToMatched("1", "5", db);
         addConversation("1", "5", db);
+        addConversation("1", "2", db);
         ChatRequestModel message1 = new ChatRequestModel("first message sent",
                 java.sql.Timestamp.valueOf("2005-04-06 09:01:10"), "1", "5", "1");
         ChatRequestModel message2 = new ChatRequestModel("second message sent",
@@ -992,16 +993,22 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return dbResponse;
     }
 
-    // precondition userId < otherUserId
+    /**
+     * Finds the ID of the conversation with these accounts.
+     * Precondition: integer userId1 < integer userId2.
+     * @param userId1 the numerically lesser of the two users.
+     * @param userId2 the numerically greater of the two users.
+     * @return a string of the integer ID of this conversation in the database.
+     */
     @Override
-    public String findConversationId(String userId, String otherUserId) {
+    public String findConversationId(String userId1, String userId2) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery("SELECT "
                         + ID
                         + " FROM " + TABLE_CONVERSATIONS
-                        + " WHERE " + USER_ID_1 + " =? OR " + USER_ID_2 + " =?",
-                new String[]{userId, otherUserId});
+                        + " WHERE " + USER_ID_1 + " =? AND " + USER_ID_2 + " =?",
+                new String[]{userId1, userId2});
 
         if (cursor.getCount() < 1) {
             cursor.close();
@@ -1028,8 +1035,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
 
     /**
      * Creates a new message record in the chat database.
-     * Requires the messageId to have already been created.
-     * In other words, the MessageModel's messageId is non-null and unique.
+     * Requires the message to not have an ID yet.
      *
      * @param newMessage representation of the new message that this method will record.
      */
@@ -1044,7 +1050,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
      * Returns a list representing all messages in a given conversation
      *
      * @param conversationId id of the conversation
-     * @return a list representing all messages in the conversation with these users
+     * @return a list representing all messages in this conversation
      */
     @Override
     public ArrayList<MessageModel> readMessagesByConversationId(String conversationId) {

@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.courseproject.tindar.R;
+
 import com.courseproject.tindar.entities.MessageModel;
 
 import java.util.ArrayList;
@@ -47,6 +48,10 @@ public class ChatRecyclerViewAdapter
                                    String userID){
         this._displayedMessages = displayedMessages;
         this._userID = userID;
+    }
+
+    public void setMessageList(ArrayList<MessageModel> newMessageList){
+        this._displayedMessages = newMessageList;
     }
 
     /**
@@ -122,14 +127,11 @@ public class ChatRecyclerViewAdapter
     /** Holds the views for individual messages (I think) */
     public static class TindarMessageViewHolder extends RecyclerView.ViewHolder{
         // grabs views from row layout file and assigns them to variables
-
-        /** Contains the outer shell for the layout for a given message */
-        private RelativeLayout messageLayout;
         /**
          * Contains the text portion of the layout for a given message.
          * May be refactored later for better non-text support.
          */
-        private TextView messageContentLayout;
+        private final TextView messageContentLayout;
 
         /**
          * TindarMessageViewHolder constructor.
@@ -138,7 +140,6 @@ public class ChatRecyclerViewAdapter
         public TindarMessageViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            this.messageLayout = itemView.findViewById(R.id.layout_message);
             this.messageContentLayout = itemView.findViewById(R.id.message_content_layout);
         }
     }
