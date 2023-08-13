@@ -1,8 +1,8 @@
 package com.courseproject.tindar.ui.settings;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,6 +63,11 @@ public class ChangeEmailActivity extends AppCompatActivity {
         // When the submit change button is pressed,
         submitEmailChangeButton = findViewById(R.id.button_submit_email_change);
         submitEmailChangeButton.setOnClickListener(view -> {
+            if (TextUtils.isEmpty(changeEmailText.getText().toString())) {
+                changeEmailText.setError("Please enter email.");
+                return;
+            }
+
             // Checks if the email in both fields is the same.
             // If not, sends a pop-up informing the user the inputs do not match.
             if (changeEmailText.getText().toString().equals(changeEmailRetype.getText().toString())) {
@@ -81,9 +86,7 @@ public class ChangeEmailActivity extends AppCompatActivity {
                         startActivity(intent);
                     } else {
                         // This makes the popup window for the email already used alert.
-                        LayoutInflater inflater = (LayoutInflater)
-                                getSystemService(LAYOUT_INFLATER_SERVICE);
-                        View popupView = inflater.inflate(R.layout.popup_email_already_used, null);
+                        View popupView = View.inflate(ChangeEmailActivity.this, R.layout.popup_email_already_used, null);
 
                         // create the popup window
                         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -98,14 +101,13 @@ public class ChangeEmailActivity extends AppCompatActivity {
                         // dismiss the popup window when touched
                         popupView.setOnTouchListener((v, event) -> {
                             popupWindow.dismiss();
+                            v.performClick();
                             return true;
                         });
                     }
                 } else {
                     // This makes the popup for the incorrect password.
-                    LayoutInflater inflater = (LayoutInflater)
-                            getSystemService(LAYOUT_INFLATER_SERVICE);
-                    View popupView = inflater.inflate(R.layout.popup_current_password_incorrect, null);
+                    View popupView = View.inflate(ChangeEmailActivity.this, R.layout.popup_current_password_incorrect, null);
 
                     // create the popup window
                     int width = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -119,6 +121,7 @@ public class ChangeEmailActivity extends AppCompatActivity {
 
                     // dismiss the popup window when touched
                     popupView.setOnTouchListener((v, event) -> {
+                        v.performClick();
                         popupWindow.dismiss();
                         return true;
                     });
@@ -126,9 +129,7 @@ public class ChangeEmailActivity extends AppCompatActivity {
             }
             else {
                 // This creates the popup for if the emails do not match.
-                LayoutInflater inflater = (LayoutInflater)
-                        getSystemService(LAYOUT_INFLATER_SERVICE);
-                View popupView = inflater.inflate(R.layout.popup_inputs_dont_match, null);
+                View popupView = View.inflate(ChangeEmailActivity.this, R.layout.popup_inputs_dont_match, null);
 
                 // create the popup window
                 int width = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -142,6 +143,7 @@ public class ChangeEmailActivity extends AppCompatActivity {
 
                 // dismiss the popup window when touched
                 popupView.setOnTouchListener((v, event) -> {
+                    v.performClick();
                     popupWindow.dismiss();
                     return true;
                 });
