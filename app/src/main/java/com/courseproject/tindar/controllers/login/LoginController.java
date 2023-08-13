@@ -13,6 +13,10 @@ public class LoginController {
      */
     final LoginInputBoundary userInput;
 
+    /**
+     * Creates a new LoginController.
+     * @param loginUserInput the class that executes the changes based on user input.
+     */
     public LoginController(LoginInputBoundary loginUserInput){
         this.userInput = loginUserInput;
     }

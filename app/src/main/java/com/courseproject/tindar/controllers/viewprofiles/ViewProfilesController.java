@@ -50,8 +50,24 @@ public class ViewProfilesController {
         return viewProfilesUserInput.getProfile(userId);
     }
 
-    public ArrayList<String> getAllOtherUserIds(String userId){return userListUserInput.getAllOtherUserIds(userId);}
+    /**
+     * A list of all but one registered userId. Used for getting the list of profiles to display.
+     * @param userId the exempted userId
+     * @return a list of all registered userIds except for the one that is inputted.
+     */
+    public ArrayList<String> getAllOtherUserIds(String userId){
+        return userListUserInput.getAllOtherUserIds(userId);
+    }
 
+    /**
+     * Checks if a profile has already been liked.
+     * Used to determine the appearance of the like button and inform the current user
+     * of their status.
+     * @param userId the prospective "liker"
+     * @param otherUserId the prospective "likee"
+     * @return true if the account with ID userId is registered as having liked account otherUserId;
+     *          false otherwise.
+     */
     public boolean checkLiked(String userId, String otherUserId) {
         return likeListUserInput.checkLiked(userId, otherUserId);
     }

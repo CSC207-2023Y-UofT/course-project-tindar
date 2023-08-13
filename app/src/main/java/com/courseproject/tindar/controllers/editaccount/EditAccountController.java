@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 public class EditAccountController {
     /**
-     * The input boundary interface for handling user input and processing.
+     * The input boundary for processing user input.
      */
     final EditAccountInputBoundary userInput;
 
@@ -26,7 +26,7 @@ public class EditAccountController {
      * Retrieves an account's details.
      *
      * @param userId the user id of the account
-     * @return a EditAccountDsResponseModel holding the details of the account
+     * @return an EditAccountDsResponseModel holding the details of the account
      */
     public EditAccountDsResponseModel getAccount(String userId) {
         return userInput.getAccount(userId);
