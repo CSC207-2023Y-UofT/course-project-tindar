@@ -250,9 +250,9 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
      * @param context current context of the application where the database is constructed
      * @param databaseName name of the database
      */
-    // access modifier is private so DatabaseHelper doesn't get directly instantiated. The instantiation of
-    // DatabaseHelper should go through getInstance method.
     private DatabaseHelper(@Nullable Context context, String databaseName) {
+        // access modifier is private so DatabaseHelper doesn't get directly instantiated. The instantiation of
+        // DatabaseHelper should go through getInstance method.
         super(context, databaseName, null, 1);
     }
 
@@ -670,7 +670,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return userId;
     }
 
-    /** Check if either userId or other have liked each other
+    /**
+     * Checks if either of two users has liked the other
      * @param userId user who initiated a 'like' interaction
      * @param otherUserId user receiving a 'like' from userId
      * @return return true if users 'like' each other, false otherwise
@@ -692,10 +693,12 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return false;
     }
 
-    /** Add userId and otherUserId to match list after a match has occurred
-     * @param userId user who initiated 'like' interaction
-     * @param otherUserId user receiving a 'like from userId
-     * @param db database instance for storage of data
+    /**
+     * Adds a matched pair to the database.
+     * Precondition: userId < otherUserId (to avoid duplicates).
+     * @param userId lesser userId in the match
+     * @param otherUserId greater userId in the match
+     * @param db database that this match will be added to
      */
     public void addToMatched(String userId, String otherUserId, SQLiteDatabase db) {
         // precondition: userId < otherUserId. This is to avoid duplicates of
@@ -707,9 +710,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         db.insert(TABLE_MATCHES, null, cv);
     }
 
-    /** Calls addToMatched with userId values from LikeListInteractor
-     * @param userId user who initiated 'like' interaction
-     * @param otherUserId user receiving a 'like from userId
+    /**
+     * Adds a matched pair to the database.
+     * Precondition: userId < otherUserId (to avoid duplicates).
+     * @param userId lesser userId in the match
+     * @param otherUserId greater userId in the match
      */
     @Override
     public void addToMatched(String userId, String otherUserId) {
@@ -717,10 +722,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         addToMatched(userId, otherUserId, db);
     }
 
-    /** Adds otherUserId and userId like each other to database
-     * @param userId user who initiated 'like' interaction
-     * @param otherUserId user receiving a 'like from userId
-     * @param db database instance for storage of data
+    /**
+     * Adds that userId likes otherUserId in the database.
+     * @param userId of the 'liker'
+     * @param otherUserId userId of the 'likee'
+     * @param db database that this like will be added to
      */
     public void addLike(String userId, String otherUserId, SQLiteDatabase db) {
         ContentValues cv = new ContentValues();
@@ -730,9 +736,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         db.insert(TABLE_LIKES, null, cv);
     }
 
-    /** Calls addLike above with userId values from LikeListInteractor
-     * @param userId user who initiated 'like' interaction
-     * @param otherUserId user receiving a 'like from userId
+    /**
+     * Adds that userId likes otherUserId in the database.
+     * @param userId of the 'liker'
+     * @param otherUserId userId of the 'likee'
      */
     @Override
     public void addLike(String userId, String otherUserId) {
@@ -740,9 +747,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         addLike(userId, otherUserId, db);
     }
 
-    /** Removes userId and otherUserId from like list in database
-     * @param userId user who initiated 'like' interaction
-     * @param otherUserId user who received a 'like from userId
+    /**
+     * Removes the record that userId likes otherUserId in the database.
+     * @param userId of the 'liker'
+     * @param otherUserId userId of the 'likee'
      */
     @Override
     public void removeLike(String userId, String otherUserId) {
@@ -755,9 +763,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
                 new String[]{userId, otherUserId});
     }
 
-    /** Removes userId and otherUserId from database match list
-     * @param userId user who initiated 'like' interaction
-     * @param otherUserId user who received a 'like from userId
+    /**
+     * Removes a matched pair fom the database.
+     * Precondition: userId < otherUserId (since we store them in this order).
+     * @param userId lesser userId in the match
+     * @param otherUserId greater userId in the match
      */
     @Override
     public void removeFromMatched(String userId, String otherUserId) {
@@ -773,9 +783,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
                 new String[]{userId, otherUserId});
     }
 
-    /** Reads match list from database and returns ArrayList<String[]> of userIds
-     * @param userId user who's match list we are retrieving
-     * @return return list of userIds from match list
+    /**
+     * Returns a user's match list in the form of userIds using their userId
+     * @param userId of the user whose match list is to be retrieved
+     * @return return list of userIds of those who have matched with this user
      */
     @Override
     public ArrayList<String[]> readMatchList(String userId) {
@@ -801,11 +812,12 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return matchListResponse;
     }
 
-    /** Returns a list of Match list that is used to allow display names to be
-     * shown on screen when plugged into MatchListFragment. Essentially returning a list of
-     * display names
-     * @param userIds users who's display names we are retrieving
-     * @return return list of user display names
+    /**
+     * Returns ArrayList<LikeListDsResponseModel> which can be used to obtain 
+     * a list of display names corresponding to a list of userIds
+     * @param userIds of the users
+     * @return list of LikeListDsResponseModel containing the display names of the users with these userIds.
+     *          The display name at index i is the display name of the user with userId userIds[i].
      */
     @Override
     public ArrayList<MatchListDsResponseModel> readDisplayNames(ArrayList<String> userIds) {
