@@ -1,8 +1,9 @@
 package com.courseproject.tindar.controllers.editprofile;
 
 import com.courseproject.tindar.usecases.editprofile.EditProfileInputBoundary;
-import com.courseproject.tindar.usecases.editprofile.EditProfileResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileRequestModel;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileInputBoundary;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileResponseModel;
 
 /**
  * controller for the Edit Profile UI
@@ -11,15 +12,21 @@ public class EditProfileController {
     /**
      * interactor of the Edit Profile feature
      */
-    final EditProfileInputBoundary userInput;
+    final EditProfileInputBoundary editProfileUserInput;
+    /**
+     * interactor of the View Profile feature
+     */
+    final ViewProfileInputBoundary viewProfileUserInput;
 
     /**
      * constructs controller for the Edit Profile UI
      *
      * @param editProfileUserInput interactor of the Edit Profile feature
+     * @param viewProfileUserInput interactor of the View Profile feature
      */
-    public EditProfileController(EditProfileInputBoundary editProfileUserInput) {
-        this.userInput = editProfileUserInput;
+    public EditProfileController(EditProfileInputBoundary editProfileUserInput, ViewProfileInputBoundary viewProfileUserInput) {
+        this.editProfileUserInput = editProfileUserInput;
+        this.viewProfileUserInput = viewProfileUserInput;
     }
 
     /**
@@ -28,8 +35,8 @@ public class EditProfileController {
      * @param userId the user id of the account
      * @return profile information of the user
      */
-    public EditProfileResponseModel getProfile(String userId) {
-        return userInput.getProfile(userId);
+    public ViewProfileResponseModel getProfile(String userId) {
+        return viewProfileUserInput.getProfile(userId);
     }
 
     /**
@@ -39,6 +46,6 @@ public class EditProfileController {
      * @param newProfile new profile information to be updated
      */
     public void updateProfile(String userId, EditProfileRequestModel newProfile) {
-        userInput.updateProfile(userId, newProfile);
+        editProfileUserInput.updateProfile(userId, newProfile);
     }
 }

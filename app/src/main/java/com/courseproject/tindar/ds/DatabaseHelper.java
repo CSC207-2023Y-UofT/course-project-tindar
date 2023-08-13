@@ -9,22 +9,29 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.courseproject.tindar.entities.MessageModel;
+import com.courseproject.tindar.entities.TindarMessage;
+import com.courseproject.tindar.usecases.chat.ChatDsGateway;
+import com.courseproject.tindar.usecases.chat.ChatRequestModel;
+import com.courseproject.tindar.usecases.conversationlist.ConversationListDsGateway;
+import com.courseproject.tindar.usecases.conversationlist.ConversationMessageDsResponseModel;
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsGateway;
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersDsGateway;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsGateway;
 import com.courseproject.tindar.usecases.editprofile.EditProfileRequestModel;
-import com.courseproject.tindar.usecases.editprofile.EditProfileResponseModel;
 import com.courseproject.tindar.usecases.login.LoginDsGateway;
 import com.courseproject.tindar.usecases.likelist.LikeListDsGateway;
-import com.courseproject.tindar.usecases.likelist.LikeListDsResponseModel;
+import com.courseproject.tindar.usecases.matchlist.MatchListDsGateway;
+import com.courseproject.tindar.usecases.matchlist.MatchListDsResponseModel;
 import com.courseproject.tindar.usecases.userlist.UserListDsGateway;
-import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsGateway;
-import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsResponseModel;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileDsGateway;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileResponseModel;
 import com.courseproject.tindar.usecases.signup.SignUpDsGateway;
 import com.courseproject.tindar.usecases.signup.SignUpDsRequestModel;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
@@ -34,7 +41,9 @@ import java.util.GregorianCalendar;
  * Profile, User List, Edit Account features. This also implements method on creating database, on upgrading
  * database, and to get database instance.
  */
-public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway, LoginDsGateway, SignUpDsGateway, LikeListDsGateway, ViewProfilesDsGateway, UserListDsGateway, EditAccountDsGateway {
+public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway,
+        LoginDsGateway, SignUpDsGateway, LikeListDsGateway, ViewProfileDsGateway, UserListDsGateway,
+        MatchListDsGateway, EditAccountDsGateway, ConversationListDsGateway,ChatDsGateway {
     /**
      * app database instance
      */
@@ -55,6 +64,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
      * table name for the matches
      */
     private static final String TABLE_MATCHES = "matches";
+    private static final String TABLE_CONVERSATIONS = "conversations";
+    private static final String TABLE_MESSAGES = "messages";
     /**
      * column name for the id
      */
@@ -135,6 +146,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
      * column name for the 2nd user id in the group
      */
     private static final String USER_ID_2 = "user_id_2";
+    private static final String CREATION_TIME = "creation_time";
+    private static final String CONTENT = "content";
+    private static final String SENDER_ID = "sender_user_id";
+    private static final String RECIPIENT_ID = "recipient_user_id";
+    private static final String CONVERSATION_ID = "conversation_id";
 
     /**
      * sql query to create accounts table. There is unique constraint for the email column
@@ -179,6 +195,23 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
             + "FOREIGN KEY (" + USER_ID_1 + ") REFERENCES " + TABLE_ACCOUNTS + "(" + ID + "), "
             + "FOREIGN KEY (" + USER_ID_2 + ") REFERENCES " + TABLE_ACCOUNTS + "(" + ID + "), "
             + "UNIQUE(" + USER_ID_1 + ", " + USER_ID_2 + "));";
+
+    private static final String CREATE_TABLE_CONVERSATIONS_QUERY = "CREATE TABLE " + TABLE_CONVERSATIONS + "("
+            + ID + " INTEGER NOT NULL PRIMARY KEY," // Define a primary key
+            + USER_ID_1 + " INTEGER, "
+            + USER_ID_2 + " INTEGER, "
+            + "FOREIGN KEY (" + USER_ID_1 + ") REFERENCES " + TABLE_ACCOUNTS + "(" + ID + "), "
+            + "FOREIGN KEY (" + USER_ID_2 + ") REFERENCES " + TABLE_ACCOUNTS + "(" + ID + "), "
+            + "UNIQUE(" + USER_ID_1 + ", " + USER_ID_2 + "));";
+
+    private static final String CREATE_TABLE_MESSAGES_QUERY = "CREATE TABLE " + TABLE_MESSAGES + " ("
+            + ID + " INTEGER NOT NULL PRIMARY KEY," // Define a primary key
+            + CREATION_TIME + " INTEGER, "
+            + CONTENT + " TEXT, "
+            + SENDER_ID + " INTEGER, "
+            + RECIPIENT_ID + " INTEGER, "
+            + CONVERSATION_ID + " INTEGER, "
+            + "FOREIGN KEY (" + CONVERSATION_ID + ") REFERENCES " + TABLE_CONVERSATIONS + "(" + ID + "));";
 
     /**
      * returns DatabaseHelper instance. If the instance already exists it returns exiting instance, if not, it creates
@@ -234,6 +267,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         db.execSQL(CREATE_TABLE_ACCOUNTS_QUERY);
         db.execSQL(CREATE_TABLE_LIKES_QUERY);
         db.execSQL(CREATE_TABLE_MATCHES_QUERY);
+        db.execSQL(CREATE_TABLE_MESSAGES_QUERY);
+        db.execSQL(CREATE_TABLE_CONVERSATIONS_QUERY);
         addInitialData(db);
     }
 
@@ -250,6 +285,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ACCOUNTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIKES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MATCHES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MESSAGES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONVERSATIONS);
         onCreate(db);
     }
 
@@ -262,6 +299,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         db.execSQL("delete from " + TABLE_ACCOUNTS);
         db.execSQL("delete from " + TABLE_LIKES);
         db.execSQL("delete from " + TABLE_MATCHES);
+        db.execSQL("delete from " + TABLE_MESSAGES);
+        db.execSQL("delete from " + TABLE_CONVERSATIONS);
     }
 
     /**
@@ -504,7 +543,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
      * @return profile information of the user
      */
     @Override
-    public EditProfileResponseModel readProfile(String userId) {
+    public ViewProfileResponseModel readProfile(String userId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT "
                 + DISPLAY_NAME + ", "
@@ -519,47 +558,13 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
 
         cursor.moveToFirst();
 
-        EditProfileResponseModel dsResponse = new EditProfileResponseModel(
+        ViewProfileResponseModel dsResponse = new ViewProfileResponseModel(
             cursor.getString(0),
             new java.util.Date(cursor.getLong(1)),
             cursor.getString(2),
             cursor.getString(3),
             cursor.getString(4),
             cursor.getString(5)
-        );
-
-        cursor.close();
-        return dsResponse;
-    }
-
-    /**
-     * Takes a userId and returns a representation of the corresponding profile
-     * @param userId of the profile to be retrieved
-     * @return ViewProfilesDsResponseModel representing the profile with this userId
-     */
-    @Override
-    public ViewProfilesDsResponseModel readNextProfile(String userId) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT "
-                        + DISPLAY_NAME + ", "
-                        + BIRTHDATE + ", "
-                        + GENDER + ", "
-                        + LOCATION + ", "
-                        + PROFILE_PICTURE_LINK + ", "
-                        + ABOUT_ME
-                        + " FROM " + TABLE_ACCOUNTS
-                        + " WHERE " + ID + " =?",
-                new String[]{userId});
-
-        cursor.moveToFirst();
-
-        ViewProfilesDsResponseModel dsResponse = new ViewProfilesDsResponseModel(
-                cursor.getString(0),
-                new java.util.Date(cursor.getLong(1)),
-                cursor.getString(2),
-                cursor.getString(3),
-                cursor.getString(4),
-                cursor.getString(5)
         );
 
         cursor.close();
@@ -814,7 +819,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
      *          The display name at index i is the display name of the user with userId userIds[i].
      */
     @Override
-    public ArrayList<LikeListDsResponseModel> readDisplayNames(ArrayList<String> userIds) {
+    public ArrayList<MatchListDsResponseModel> readDisplayNames(ArrayList<String> userIds) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         boolean doNotAddComma = true;
@@ -837,11 +842,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
                         + " FROM " + TABLE_ACCOUNTS
                         + " WHERE " + ID + " IN " + userIdsString, null);
 
-        ArrayList<LikeListDsResponseModel> displayNamesResponse = new ArrayList<>();
+        ArrayList<MatchListDsResponseModel> displayNamesResponse = new ArrayList<>();
 
         if (cursor.moveToFirst()) {
             do {
-                displayNamesResponse.add(new LikeListDsResponseModel(cursor.getString(0), cursor.getString(1)));
+                displayNamesResponse.add(new MatchListDsResponseModel(cursor.getString(0), cursor.getString(1)));
             } while (cursor.moveToNext());
         }
 
@@ -869,6 +874,191 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
 
         cursor.close();
         return userIdsResponse;
+    }
+
+    // precondition: userId < otherUserId. This is to avoid duplicates of
+    // (userId, otherUserId) and (otherUserId, userId)
+    public void addConversation(String userId, String otherUserId, SQLiteDatabase db) {
+        ContentValues cv = new ContentValues();
+        cv.put(USER_ID_1, userId);
+        cv.put(USER_ID_2, otherUserId);
+
+        db.insert(TABLE_CONVERSATIONS, null, cv);
+    }
+
+    // precondition: userId < otherUserId. This is to avoid duplicates of
+    // (userId, otherUserId) and (otherUserId, userId)
+    @Override
+    public void addConversation(String userId, String otherUserId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        addConversation(userId, otherUserId, db);
+    }
+
+    @Override
+    public ArrayList<String[]> readConversationList(String userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT "
+                        + USER_ID_1 + ", "
+                        + USER_ID_2
+                        + " FROM " + TABLE_CONVERSATIONS
+                        + " WHERE " + USER_ID_1 + " =? OR " + USER_ID_2 + " =?",
+                new String[]{userId, userId});
+
+        ArrayList<String[]> matchListResponse = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                matchListResponse.add(new String[]{
+                        cursor.getString(0),
+                        cursor.getString(1)});
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return matchListResponse;
+    }
+
+    @Override
+    public ArrayList<String> readDisplayNamesForConversations(ArrayList<String> userIds) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        boolean doNotAddComma = true;
+        StringBuilder userIdsString = new StringBuilder("(");
+
+        for(String userId : userIds){
+            if(doNotAddComma){
+                doNotAddComma = false;
+            } else {
+                userIdsString.append(",");
+            }
+            userIdsString.append("'").append(userId).append("'");
+        }
+
+        userIdsString.append(")");
+
+        Cursor cursor = db.rawQuery("SELECT "
+                + DISPLAY_NAME
+                + " FROM " + TABLE_ACCOUNTS
+                + " WHERE " + ID + " IN " + userIdsString, null);
+
+        ArrayList<String> dbResponse = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                dbResponse.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return dbResponse;
+    }
+
+    @Override
+    public ConversationMessageDsResponseModel readLastMessage(String conversationId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT "
+                        + CONTENT + ", "
+                        + CREATION_TIME
+                        + " FROM " + TABLE_MESSAGES
+                        + " WHERE " + CONVERSATION_ID + " =?"
+                        + " ORDER BY " + CREATION_TIME + " DESC",
+                new String[]{conversationId});
+
+        if (cursor.getCount() < 1) {
+            return null;
+        }
+
+        cursor.moveToFirst();
+        ConversationMessageDsResponseModel dbResponse = new ConversationMessageDsResponseModel(
+                cursor.getString(0),
+                new Timestamp(cursor.getLong(1)));
+
+        cursor.close();
+        return dbResponse;
+    }
+
+    // precondition userId < otherUserId
+    @Override
+    public String findConversationId(String userId, String otherUserId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT "
+                        + ID
+                        + " FROM " + TABLE_CONVERSATIONS
+                        + " WHERE " + USER_ID_1 + " =? OR " + USER_ID_2 + " =?",
+                new String[]{userId, otherUserId});
+
+        if (cursor.getCount() < 1) {
+            cursor.close();
+            return null;
+        }
+
+        cursor.moveToFirst();
+        String dbResponse = cursor.getString(0);
+
+        cursor.close();
+        return dbResponse;
+    }
+
+    /**
+     * Creates a new message record in the chat database.
+     * Requires the messageId to have already been created.
+     * In other words, the MessageModel's messageId is non-null and unique.
+     *
+     * @param newMessage representation of the new message that this method will record.
+     */
+    @Override
+    public void addMessage(ChatRequestModel newMessage) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(CREATION_TIME, newMessage.getCreationTime().getTime());
+        values.put(CONTENT, newMessage.getText());
+        values.put(SENDER_ID, newMessage.getSentFromId());
+        values.put(RECIPIENT_ID, newMessage.getSentToId());
+        values.put(CONVERSATION_ID, newMessage.getConversationId());
+
+        db.insert(TABLE_MESSAGES, null, values);
+    }
+
+    /**
+     * Returns a list representing all messages in a given conversation
+     *
+     * @param conversationId id of the conversation
+     * @return a list representing all messages in the conversation with these users
+     */
+    @Override
+    public ArrayList<MessageModel> readMessagesByConversationId(String conversationId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT "
+                        + CONTENT + ", "
+                        + CREATION_TIME + ", "
+                        + SENDER_ID + ", "
+                        + RECIPIENT_ID + ", "
+                        + ID
+                        + " FROM " + TABLE_MESSAGES
+                        + " WHERE " + CONVERSATION_ID + " =?"
+                        + " ORDER BY " + CREATION_TIME,
+                new String[]{conversationId});
+
+        ArrayList<MessageModel> messageList = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                messageList.add(new TindarMessage(
+                        cursor.getString(0),
+                        new Timestamp(cursor.getLong(1)),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        conversationId));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return messageList;
     }
 }
 

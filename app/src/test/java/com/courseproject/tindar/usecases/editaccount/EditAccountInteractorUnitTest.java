@@ -10,7 +10,7 @@ public class EditAccountInteractorUnitTest {
     private final String EMAIL = "johndoe@email.com";
     private final String PASSWORD = "goodpassword";
 
-    EditAccountDsResponseModel mockEditAccountResponseModel =
+    final EditAccountDsResponseModel mockEditAccountResponseModel =
             new EditAccountDsResponseModel(IS_ACTIVE_STATUS, EMAIL, PASSWORD);
 
     private class MockEditAccountDsGateway implements EditAccountDsGateway {
@@ -60,10 +60,10 @@ public class EditAccountInteractorUnitTest {
         }
     }
 
-    EditAccountDsGateway mockEditAccountDsGateway = new MockEditAccountDsGateway();
+    final EditAccountDsGateway mockEditAccountDsGateway = new MockEditAccountDsGateway();
 
     @Test
-    public void getAccount() {
+    public void testGetAccount() {
         EditAccountInteractor testEditAccountInteractor = new EditAccountInteractor(mockEditAccountDsGateway);
         EditAccountDsResponseModel testEditAccountDsResponseModel = testEditAccountInteractor.getAccount(USER_ID);
         assertEquals(IS_ACTIVE_STATUS, testEditAccountDsResponseModel.getIsActiveStatus());
@@ -72,29 +72,26 @@ public class EditAccountInteractorUnitTest {
     }
 
     @Test
-    public void updateIsActiveStatus() {
+    public void testUpdateIsActiveStatus() {
         EditAccountInteractor testEditAccountInteractor = new EditAccountInteractor(mockEditAccountDsGateway);
         testEditAccountInteractor.updateIsActiveStatus(USER_ID, IS_ACTIVE_STATUS);
     }
 
     @Test
-    public void updateEmail() {
+    public void testUpdateEmail() {
         EditAccountInteractor testEditAccountInteractor = new EditAccountInteractor(mockEditAccountDsGateway);
         assertTrue(testEditAccountInteractor.updateEmail(USER_ID, EMAIL));
     }
 
     @Test
-    public void updatePassword() {
+    public void testUpdatePassword() {
         EditAccountInteractor testEditAccountInteractor = new EditAccountInteractor(mockEditAccountDsGateway);
         assertTrue(testEditAccountInteractor.updatePassword(USER_ID, PASSWORD));
     }
 
     @Test
-    public void updatePasswordEmpty() {
+    public void testUpdatePasswordTooShort() {
         EditAccountInteractor testEditAccountInteractor = new EditAccountInteractor(mockEditAccountDsGateway);
-        assertFalse(testEditAccountInteractor.updatePassword(USER_ID, ""));
+        assertFalse(testEditAccountInteractor.updatePassword(USER_ID, "short"));
     }
-
-
-
 }

@@ -26,9 +26,7 @@ public class BlankNavViewModel extends ViewModel {
     }
 
     /**
-     * gets the user id that is currently logged in
-     *
-     * @return
+     * @return the user id that is currently logged in
      */
     public LiveData<String> getUserId() {
         return userId;

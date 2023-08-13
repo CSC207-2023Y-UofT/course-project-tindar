@@ -2,7 +2,6 @@ package com.courseproject.tindar.controllers.editaccount;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
 import com.courseproject.tindar.usecases.editaccount.EditAccountInputBoundary;
@@ -15,7 +14,7 @@ public class EditAccountControllerUnitTest {
     private static final String EMAIL = "johndoe@email.com";
     private static final String PASSWORD = "J0HND03";
 
-    EditAccountDsResponseModel mockEditAccountResponseModel =
+    final EditAccountDsResponseModel mockEditAccountResponseModel =
             new EditAccountDsResponseModel(IS_ACTIVE_STATUS, EMAIL, PASSWORD);
 
     private class MockEditAccountUserInput implements EditAccountInputBoundary {
@@ -64,10 +63,10 @@ public class EditAccountControllerUnitTest {
         }
     }
 
-    EditAccountInputBoundary mockEditAccountUserInput = new MockEditAccountUserInput();
+    final EditAccountInputBoundary mockEditAccountUserInput = new MockEditAccountUserInput();
 
     @Test
-    public void getAccount() {
+    public void testGetAccount() {
         EditAccountController testEditAccountController = new EditAccountController(mockEditAccountUserInput);
         EditAccountDsResponseModel testEditAccountDsResponseModel = testEditAccountController.getAccount(USER_ID);
         assertEquals(IS_ACTIVE_STATUS, testEditAccountDsResponseModel.getIsActiveStatus());
@@ -76,33 +75,26 @@ public class EditAccountControllerUnitTest {
     }
 
     @Test
-    public void validatePassword() {
+    public void testValidatePassword() {
         EditAccountController testEditAccountController = new EditAccountController(mockEditAccountUserInput);
         assertTrue(testEditAccountController.validatePassword(USER_ID, PASSWORD));
     }
 
     @Test
-    public void updateIsActiveStatus() {
+    public void testUpdateIsActiveStatus() {
         EditAccountController testEditAccountController = new EditAccountController(mockEditAccountUserInput);
         testEditAccountController.updateIsActiveStatus(USER_ID, IS_ACTIVE_STATUS);
     }
 
     @Test
-    public void updateEmail() {
+    public void testUpdateEmail() {
         EditAccountController testEditAccountController = new EditAccountController(mockEditAccountUserInput);
         assertTrue(testEditAccountController.updateEmail(USER_ID, EMAIL));
     }
 
     @Test
-    public void updatePassword() {
+    public void testUpdatePassword() {
         EditAccountController testEditAccountController = new EditAccountController(mockEditAccountUserInput);
         assertTrue(testEditAccountController.updatePassword(USER_ID, PASSWORD));
     }
-
-    @Test
-    public void updatePasswordEmpty() {
-        EditAccountController testEditAccountController = new EditAccountController(mockEditAccountUserInput);
-        assertFalse(testEditAccountController.updatePassword(USER_ID, ""));
-    }
-
 }
