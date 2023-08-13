@@ -8,8 +8,8 @@ import com.courseproject.tindar.usecases.viewprofile.ViewProfileInputBoundary;
 import java.util.ArrayList;
 
 /**
- * This controller class accepts user input and connects it to back-end view profile, user list, and like list
- * interactors
+ * This controller class accepts user input and connects it to back-end view profile, user list,
+ * and like list interactors
  */
 public class ViewProfilesController {
     /**
@@ -40,12 +40,34 @@ public class ViewProfilesController {
         this.likeListUserInput = likeListUserInput;
     }
 
+    /**
+     * Reads the a user's profile information based on the provided user ID.
+     *
+     * @param userId The user ID of the user's account.
+     * @return A ViewProfilesDsResponseModel containing the above user's profile information.
+     */
     public ViewProfileResponseModel getProfile(String userId){
         return viewProfilesUserInput.getProfile(userId);
     }
 
-    public ArrayList<String> getAllOtherUserIds(String userId){return userListUserInput.getAllOtherUserIds(userId);}
+    /**
+     * A list of all but one registered userId. Used for getting the list of profiles to display.
+     * @param userId the exempted userId
+     * @return a list of all registered userIds except for the one that is inputted.
+     */
+    public ArrayList<String> getAllOtherUserIds(String userId){
+        return userListUserInput.getAllOtherUserIds(userId);
+    }
 
+    /**
+     * Checks if a profile has already been liked.
+     * Used to determine the appearance of the like button and inform the current user
+     * of their status.
+     * @param userId the prospective "liker"
+     * @param otherUserId the prospective "likee"
+     * @return true if the account with ID userId is registered as having liked account otherUserId;
+     *          false otherwise.
+     */
     public boolean checkLiked(String userId, String otherUserId) {
         return likeListUserInput.checkLiked(userId, otherUserId);
     }
