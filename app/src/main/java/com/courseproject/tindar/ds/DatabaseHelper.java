@@ -42,7 +42,7 @@ import java.util.GregorianCalendar;
  * database, and to get database instance.
  */
 public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGateway, EditFiltersDsGateway,
-        LoginDsGateway, SignUpDsGateway, LikeListDsGateway, ViewProfilesDsGateway, UserListDsGateway,
+        LoginDsGateway, SignUpDsGateway, LikeListDsGateway, ViewProfileDsGateway, UserListDsGateway,
         MatchListDsGateway, EditAccountDsGateway, ConversationListDsGateway,ChatDsGateway {
     /**
      * app database instance
