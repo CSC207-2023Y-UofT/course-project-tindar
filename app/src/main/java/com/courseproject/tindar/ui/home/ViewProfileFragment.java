@@ -60,6 +60,8 @@ public class ViewProfileFragment extends Fragment {
     TextView birthdateView;
     TextView locationView;
     TextView aboutMeView;
+    ImageView profilePic;
+    String profileLink;
 
     ViewProfilesController viewProfilesController;
 
@@ -108,6 +110,7 @@ public class ViewProfileFragment extends Fragment {
         birthdateView = root.findViewById(R.id.text_view_birthdate_view_profile);
         locationView = root.findViewById(R.id.text_view_location_view_profile);
         aboutMeView = root.findViewById(R.id.text_view_about_me_view_profile);
+        profilePic = root.findViewById(R.id.image_view_profile_picture_view_profile);
 
         ViewProfileDsGateway viewProfilesDatabaseHelper = DatabaseHelper.getInstance(getContext());
         ViewProfileInputBoundary viewProfilesInteractor = new ViewProfileInteractor(viewProfilesDatabaseHelper);
@@ -151,8 +154,6 @@ public class ViewProfileFragment extends Fragment {
             }
         });
 
-//        new DownloadImage((ImageView) binding.profilePicture).execute(profile.getProfilePictureLink());
-
         return root;
     }
 
@@ -182,35 +183,26 @@ public class ViewProfileFragment extends Fragment {
         binding = null;
     }
 
-    /**
-     * Downloads image from link.
-     */
-    private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
-        ImageView profilePicture;
-
-        public DownloadImage(ImageView profilePicture) {
-            this.profilePicture = profilePicture;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            profilePicture.setImageBitmap(result);
-        }
-    }
-
     private void setsProfile() {
         ViewProfileResponseModel profile =
                 viewProfilesController.getProfile(otherUserId);
+
+        // This is only a temporary implementation for demo purposes.
+        // The plan is to download pic from an external source and show it.
+        profileLink = profile.getProfilePictureLink();
+        if (profileLink.equals("spongebob1.png")){
+            profilePic.setImageResource(R.drawable.spongebob1);
+        } else if (profileLink.equals("spongebob2.jpg")) {
+            profilePic.setImageResource(R.drawable.spongebob2);
+        } else if (profileLink.equals("spongebob3.jpg")) {
+            profilePic.setImageResource(R.drawable.spongebob3);
+        } else if (profileLink.equals("spongebob4.jpg")) {
+            profilePic.setImageResource(R.drawable.spongebob4);
+        } else if (profileLink.equals("spongebob5.jpg")) {
+            profilePic.setImageResource(R.drawable.spongebob5);
+        } else {
+            profilePic.setImageResource(R.drawable.kermit);
+        }
 
         displayNameView.setText(profile.getDisplayName());
         genderView.setText(profile.getGender());

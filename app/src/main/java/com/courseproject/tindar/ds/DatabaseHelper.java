@@ -312,23 +312,23 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     private void addInitialData(SQLiteDatabase db) {
         addAccount(true, "jack@someemail.com", "password_jack", "jack",
                 "Jack", "Brown", new GregorianCalendar(2000, 1, 26).getTime(),
-                "Male", "Toronto", "https://www.cartoonbucket.com/cartoons/stanley-with-spongebob/", "Hi", "Female, Other",
+                "Male", "Toronto", "spongebob5.jpg", "Hi", "Female, Other",
                 "Toronto", 20, 25, db);
         addAccount(true, "amy@someotheremail.com", "password_amy", "amy",
                 "Amy", "Smith", new GregorianCalendar(2000, 7, 2).getTime(),
-                "Female", "Montreal", "https://www.cartoonbucket.com/cartoons/stanley-with-spongebob/", "Hello","Male",
+                "Female", "Montreal", "spongebob4.jpg", "Hello","Male",
                 "Montreal, Toronto", 23, 27, db);
         addAccount(true, "bell@exampleemail.com", "somepassword", "bell",
                 "Bell", "Robin", new GregorianCalendar(2003, 9, 5).getTime(),
-                "Female", "Calgary", "https://www.cartoonbucket.com/cartoons/stanley-with-spongebob/", "I would like to",
+                "Female", "Calgary", "spongebob3.jpg", "I would like to",
                 "Female, Male", "Calgary, Vancouver", 19, 999, db);
         addAccount(true, "rogers@exampleemail.com", "someotherpassword", "roger",
                 "roger", "fido", new GregorianCalendar(2003, 12, 3).getTime(),
-                "Female", "Calgary", "https://www.cartoonbucket.com/cartoons/stanley-with-spongebob/", "I would like to",
+                "Female", "Calgary", "spongebob2.jpg", "I would like to",
                 "Female, Male", "Calgary, Vancouver", 19, 999, db);
         addAccount(true, "telus@exampleemail.com", "somethirdpassword", "ted",
                 "ted", "telus", new GregorianCalendar(2001, 12, 3).getTime(),
-                "Male", "Toronto", "https://www.cartoonbucket.com/cartoons/stanley-with-spongebob/", "I would like to",
+                "Male", "Toronto", "spongebob1.png", "I would like to",
                 "Female, Male", "Calgary, Vancouver", 19, 999, db);
         addLike("1", "2", db);
         addLike("2", "1", db);
