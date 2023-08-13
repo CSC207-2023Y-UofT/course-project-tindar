@@ -2,6 +2,7 @@ package com.courseproject.tindar.ui.editprofile;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,13 @@ import com.courseproject.tindar.controllers.editprofile.EditProfileController;
 import com.courseproject.tindar.databinding.FragmentEditProfileBinding;
 import com.courseproject.tindar.ds.DatabaseHelper;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsGateway;
-import com.courseproject.tindar.usecases.editprofile.EditProfileResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileInputBoundary;
 import com.courseproject.tindar.usecases.editprofile.EditProfileInteractor;
 import com.courseproject.tindar.usecases.editprofile.EditProfileRequestModel;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileDsGateway;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileInputBoundary;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileInteractor;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileResponseModel;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -43,6 +47,10 @@ public class EditProfileFragment extends Fragment {
      * the user id of the current logged-in user
      */
     private String userId;
+    /**
+     * the edit text to input display name
+     */
+    private EditText displayNameEditText;
     /**
      * the text view to show user's birthdate
      */
@@ -88,7 +96,7 @@ public class EditProfileFragment extends Fragment {
     /**
      * saved profile information retrieved
      */
-    private EditProfileResponseModel profileDsResponse;
+    private ViewProfileResponseModel profileDsResponse;
 
     /**
      * creates Edit Profile fragment. Shared View Model is used to retrieve currently logged in user id, which is
@@ -116,7 +124,7 @@ public class EditProfileFragment extends Fragment {
      *                           but this can be used to generate the LayoutParams of the view.
      * @param savedInstanceState If non-null, this fragment is being re-constructed
      *                           from a previous saved state as given here.
-     * @return
+     * @return created view
      */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -126,6 +134,7 @@ public class EditProfileFragment extends Fragment {
         View root = binding.getRoot();
 
         // finds components and assigns each to a variable
+        displayNameEditText = root.findViewById(R.id.edit_text_display_name);
         birthdateTextView = root.findViewById(R.id.text_view_birthday);
         genderAutoCompleteTextView = root.findViewById(R.id.auto_complete_text_view_gender);
         locationAutoCompleteTextView = root.findViewById(R.id.auto_complete_text_view_location);
@@ -137,7 +146,9 @@ public class EditProfileFragment extends Fragment {
         // instantiates controller
         EditProfileDsGateway editProfileDatabaseHelper = DatabaseHelper.getInstance(getActivity());
         EditProfileInputBoundary editProfileInteractor = new EditProfileInteractor(editProfileDatabaseHelper);
-        editProfileController = new EditProfileController(editProfileInteractor);
+        ViewProfileDsGateway viewProfileDatabaseHelper = DatabaseHelper.getInstance(getActivity());
+        ViewProfileInputBoundary viewProfileInteractor = new ViewProfileInteractor(viewProfileDatabaseHelper);
+        editProfileController = new EditProfileController(editProfileInteractor, viewProfileInteractor);
 
         // prepares dropdown menu for the gender
         String[] genders = getResources().getStringArray(R.array.genders);
@@ -154,8 +165,10 @@ public class EditProfileFragment extends Fragment {
         profileSubmitButton.setOnClickListener(view -> {
             try {
                 EditProfileRequestModel newProfile = getProfileInputValues();
-                editProfileController.updateProfile(userId, newProfile);
-                setEditEnabled(false);
+                if (newProfile != null) {
+                    editProfileController.updateProfile(userId, newProfile);
+                    setEditEnabled(false);
+                }
             } catch (ParseException e) {
                 birthdateTextView.setText(DateFormat.getDateInstance().format(profileDsResponse.getBirthdate()));
             }
@@ -200,6 +213,7 @@ public class EditProfileFragment extends Fragment {
         profileDsResponse = editProfileController.getProfile(userId);
 
         // renders user profile to the screen
+        displayNameEditText.setText(profileDsResponse.getDisplayName());
         birthdateTextView.setText(DateFormat.getDateInstance().format(profileDsResponse.getBirthdate()));
         genderAutoCompleteTextView.setText(profileDsResponse.getGender());
         locationAutoCompleteTextView.setText(profileDsResponse.getLocation());
@@ -221,7 +235,14 @@ public class EditProfileFragment extends Fragment {
      * @return profile input values.
      */
     private EditProfileRequestModel getProfileInputValues()  throws ParseException {
+        // shows error message if user tries to submit without display name
+        if (TextUtils.isEmpty(displayNameEditText.getText().toString())) {
+            displayNameEditText.setError("Please enter name.");
+            return null;
+        }
+
         return new EditProfileRequestModel(
+            displayNameEditText.getText().toString(),
             DateFormat.getDateInstance(DateFormat.DEFAULT).parse(birthdateTextView.getText().toString()),
             genderAutoCompleteTextView.getText().toString(),
             locationAutoCompleteTextView.getText().toString(),
@@ -239,6 +260,7 @@ public class EditProfileFragment extends Fragment {
     private void setEditEnabled(boolean enabled) {
         profileEditButton.setVisibility(enabled ? View.INVISIBLE : View.VISIBLE);
         profileSubmitButton.setEnabled(enabled);
+        displayNameEditText.setEnabled(enabled);
         birthdateTextView.setEnabled(enabled);
         genderAutoCompleteTextView.setEnabled(enabled);
         locationAutoCompleteTextView.setEnabled(enabled);

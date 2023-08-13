@@ -13,14 +13,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.courseproject.tindar.BlankNavViewModel;
+import com.courseproject.tindar.controllers.matchlist.MatchListController;
 import com.courseproject.tindar.ui.chat.ChatActivity;
 import com.courseproject.tindar.R;
-import com.courseproject.tindar.controllers.likelist.LikeListController;
 import com.courseproject.tindar.ds.DatabaseHelper;
-import com.courseproject.tindar.usecases.likelist.LikeListInputBoundary;
-import com.courseproject.tindar.usecases.likelist.LikeListInteractor;
-import com.courseproject.tindar.usecases.likelist.LikeListDsGateway;
-import com.courseproject.tindar.usecases.likelist.LikeListResponseModel;
+import com.courseproject.tindar.usecases.matchlist.MatchListInputBoundary;
+import com.courseproject.tindar.usecases.matchlist.MatchListInteractor;
+import com.courseproject.tindar.usecases.matchlist.MatchListDsGateway;
+import com.courseproject.tindar.usecases.matchlist.MatchListResponseModel;
 
 /** This fragment class provides the list view for the match list, including a list view display
  * of users by their display names. Also pass through userId of 'clicked' users to ChatActivity
@@ -34,12 +34,12 @@ public class MatchListFragment extends Fragment{
     /** listView instance to display match list in list format */
     private ListView listView;
 
-    /** likeListController to accept use input */
-    private LikeListController likeListController;
+    /** matchListController to accept use input */
+    private MatchListController matchListController;
 
     /** list containing userIds in the match list */
     private String[] matchedUserIds;
-    LikeListResponseModel matchedUsers;
+    MatchListResponseModel matchedUsers;
 
     /** This method creates the match list fragment activity, allows to save and recover state
      * information
@@ -67,9 +67,9 @@ public class MatchListFragment extends Fragment{
         View contentView = inflater.inflate(R.layout.fragment_match_list, container, false);
 
         listView = contentView.findViewById(R.id.match_list_view);
-        LikeListDsGateway likeListDatabaseHelper = DatabaseHelper.getInstance(getContext());
-        LikeListInputBoundary likeListInteractor = new LikeListInteractor(likeListDatabaseHelper);
-        likeListController = new LikeListController(likeListInteractor);
+        MatchListDsGateway matchListDatabaseHelper = DatabaseHelper.getInstance(getContext());
+        MatchListInputBoundary matchListInteractor = new MatchListInteractor(matchListDatabaseHelper);
+        matchListController = new MatchListController(matchListInteractor);
 
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
             Intent intent = new Intent(requireActivity(), ChatActivity.class);
@@ -89,7 +89,7 @@ public class MatchListFragment extends Fragment{
      */
     @Override
     public Object getEnterTransition() {
-        matchedUsers = likeListController.getDisplayNamesForMatches(userId);
+        matchedUsers = matchListController.getDisplayNamesForMatches(userId);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(),
                 android.R.layout.simple_list_item_1, matchedUsers.getDisplayNames());

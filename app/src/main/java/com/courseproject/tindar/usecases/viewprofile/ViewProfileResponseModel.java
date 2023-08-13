@@ -1,18 +1,19 @@
-package com.courseproject.tindar.usecases.editprofile;
+package com.courseproject.tindar.usecases.viewprofile;
 
 import java.util.Date;
 
 import lombok.Getter;
 
 /**
- * data model for the profile on the fetch request
+ * data model for the profile on the fetch/update request
  */
-public class EditProfileResponseModel {
+public class ViewProfileResponseModel {
 
     /**
      * display name of the user
      */
-    @Getter private final String displayName;
+    @Getter
+    private final String displayName;
     /**
      * birthdate of the user
      */
@@ -35,6 +36,8 @@ public class EditProfileResponseModel {
     @Getter private final String aboutMe;
 
     /**
+     * Constructs response model for viewing profile
+     *
      * @param displayName display name of the user
      * @param birthdate birthdate of the user
      * @param gender gender of the user
@@ -42,7 +45,7 @@ public class EditProfileResponseModel {
      * @param profilePictureLink link to the profile picture of the user
      * @param aboutMe statement the user writes to introduce him/herself to other users
      */
-    public EditProfileResponseModel(String displayName, Date birthdate, String gender, String location,
+    public ViewProfileResponseModel(String displayName, Date birthdate, String gender, String location,
                                     String profilePictureLink,
                                     String aboutMe) {
         this.displayName = displayName;

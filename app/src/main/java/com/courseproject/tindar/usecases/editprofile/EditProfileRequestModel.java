@@ -8,6 +8,11 @@ import lombok.Getter;
  * data model for the profile on the update request
  */
 public class EditProfileRequestModel {
+
+    /**
+     * display name of the user
+     */
+    @Getter private final String displayName;
     /**
      * birthdate of the user
      */
@@ -30,13 +35,20 @@ public class EditProfileRequestModel {
     @Getter private final String aboutMe;
 
     /**
+     * Constructs Edit Profile Model for fetching and updating profile
+     *
+     * @param displayName display name of the user
      * @param birthdate birthdate of the user
      * @param gender gender of the user
      * @param location location where the user lives in
      * @param profilePictureLink link to the profile picture of the user
      * @param aboutMe statement the user writes to introduce him/herself to other users
      */
-    public EditProfileRequestModel(Date birthdate, String gender, String location, String profilePictureLink, String aboutMe) {
+
+    public EditProfileRequestModel(String displayName, Date birthdate, String gender, String location,
+                                   String profilePictureLink,
+                                   String aboutMe) {
+        this.displayName = displayName;
         this.birthdate = birthdate;
         this.gender = gender;
         this.location = location;
