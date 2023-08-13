@@ -17,7 +17,7 @@ public interface EditAccountDsGateway {
      * Updates the active status of the user account.
      *
      * @param userId         The ID of the user account to be updated.
-     * @param isActiveStatus The new active status value.
+     * @param isActiveStatus The new active status value. True if active; false otherwise.
      */
     void updateIsActiveStatus(String userId, boolean isActiveStatus);
 
