@@ -60,6 +60,7 @@ public class SecondViewProfileFragment extends Fragment {
     TextView birthdateView;
     TextView locationView;
     TextView aboutMeView;
+    ImageView profilePic;
 
     ViewProfilesController viewProfilesController;
 
@@ -108,6 +109,7 @@ public class SecondViewProfileFragment extends Fragment {
         birthdateView = root.findViewById(R.id.text_view_birthdate_second_view_profile);
         locationView = root.findViewById(R.id.text_view_location_second_view_profile);
         aboutMeView = root.findViewById(R.id.text_view_about_me_second_view_profile);
+        profilePic = root.findViewById(R.id.image_view_profile_picture_second_view_profile);
 
         ViewProfileDsGateway viewProfilesDatabaseHelper = DatabaseHelper.getInstance(getContext());
         ViewProfileInputBoundary viewProfilesInteractor = new ViewProfileInteractor(viewProfilesDatabaseHelper);
@@ -184,32 +186,13 @@ public class SecondViewProfileFragment extends Fragment {
     /**
      * Downloads image from link.
      */
-    private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
-        ImageView profilePicture;
-
-        public DownloadImage(ImageView profilePicture) {
-            this.profilePicture = profilePicture;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            profilePicture.setImageBitmap(result);
-        }
-    }
 
     private void setsProfile() {
         ViewProfileResponseModel profile =
                 viewProfilesController.getProfile(otherUserId);
+
+        Bitmap bmImg = BitmapFactory.decodeFile(profile.getProfilePictureLink());
+        profilePic.setImageBitmap(bmImg);
 
         displayNameView.setText(profile.getDisplayName());
         genderView.setText(profile.getGender());
