@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.courseproject.tindar.databinding.FragmentConversationBinding;
@@ -17,23 +18,38 @@ import java.util.List;
  */
 public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyConversationRecyclerViewAdapter.ViewHolder> {
 
+    /** The list of ConversationResponseModel items to be displayed. */
     private final List<ConversationResponseModel> mValues;
 
+    /** Interface for handling item click events. */
     public interface OnItemClickListener {
         void onItemClick(ConversationResponseModel conversation);
     }
 
+    /** The listener for item click events. */
     private OnItemClickListener mListener;
 
+    /**
+     * Sets the listener for item click events.
+     *
+     * @param listener The listener to be set.
+     */
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
+
+    /**
+     * Constructs a new MyConversationRecyclerViewAdapter with the provided list of items.
+     *
+     * @param items The list of ConversationResponseModel items.
+     */
     public MyConversationRecyclerViewAdapter(List<ConversationResponseModel> items) {
         mValues = items;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         return new ViewHolder(FragmentConversationBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
 
@@ -60,7 +76,7 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
         return mValues.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView mUserName;
         public final TextView mLastMessage;
         public final TextView mLastMessageTime;
@@ -75,6 +91,7 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
             
         }
 
+        @NonNull
         @Override
         public String toString() {
             return super.toString() + " '" + mLastMessage.getText() + "'";

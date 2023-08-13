@@ -26,14 +26,17 @@ import com.courseproject.tindar.usecases.conversationlist.ConversationResponseMo
 import java.util.ArrayList;
 
 /**
- * A fragment representing a list of Items.
+ * Layer : UI Layer
+ *.
+ * What:
+ * A fragment representing a list of conversations.
+ * This fragment displays a list of active conversations and allows users to click on a conversation
+ * to navigate to the chat screen.
  */
 public class ConversationListFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
+    private final int mColumnCount = 1;
 
     String userId;
     RecyclerView recyclerView;
@@ -46,7 +49,13 @@ public class ConversationListFragment extends Fragment {
     public ConversationListFragment() {
     }
 
-    // TODO: Customize parameter initialization
+
+    /**
+     * Creates a new instance of the ConversationListFragment.
+     *
+     * @param columnCount The number of columns in the layout.
+     * @return A new instance of ConversationListFragment.
+     */
     @SuppressWarnings("unused")
     public static ConversationListFragment newInstance(int columnCount) {
         ConversationListFragment fragment = new ConversationListFragment();
@@ -56,6 +65,12 @@ public class ConversationListFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Called when the fragment is being created. This method initializes the fragment's behavior,
+     * retrieves arguments, and prepares necessary resources.
+     *
+     * @param savedInstanceState A Bundle containing saved state information, if available.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,10 +78,19 @@ public class ConversationListFragment extends Fragment {
         blankNavViewModel.getUserId().observe(requireActivity(), it -> userId = it);
 
         if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            int mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
     }
 
+    /**
+     * Called when it's time for the fragment to create its user interface view hierarchy.
+     * This method inflates the fragment's layout, configures the UI elements, and sets up listeners.
+     *
+     * @param inflater           The LayoutInflater object that can be used to inflate views.
+     * @param container          The parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState A Bundle containing saved state information, if available.
+     * @return The root View of the fragment's layout.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -88,6 +112,13 @@ public class ConversationListFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Called to retrieve the enter transition that will be used for this fragment
+     * when it's entering the screen.
+     * This method typically prepares and returns a transition animation.
+     *
+     * @return An object representing the enter transition animation.
+     */
     @Nullable
     @Override
     public Object getEnterTransition() {
