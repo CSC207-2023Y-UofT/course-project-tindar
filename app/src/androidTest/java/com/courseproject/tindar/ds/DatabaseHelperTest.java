@@ -14,6 +14,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.courseproject.tindar.entities.MessageModel;
 import com.courseproject.tindar.usecases.chat.ChatRequestModel;
+import com.courseproject.tindar.usecases.conversationlist.ConversationDsResponseModel;
 import com.courseproject.tindar.usecases.conversationlist.ConversationMessageDsResponseModel;
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersModel;
@@ -254,7 +255,7 @@ public class DatabaseHelperTest {
         ArrayList<String> matchList = new ArrayList<>();
         matchList.add(userId);
         matchList.add(thirdUserId);
-        ArrayList<MatchListDsResponseModel> displayNames = dbHelper.readDisplayNames(matchList);
+        ArrayList<MatchListDsResponseModel> displayNames = dbHelper.readUserIdAndDisplayNames(matchList);
         assertEquals(displayNames.get(0).getUserId(), userId);
         assertEquals(displayNames.get(0).getDisplayName(), "bell");
         assertEquals(displayNames.get(1).getUserId(), thirdUserId);
@@ -322,6 +323,14 @@ public class DatabaseHelperTest {
     }
 
     @Test
+    public void testAddConversationTwiceAndFindConversationId() {
+        dbHelper.addConversation(userId, otherUserId);
+        dbHelper.addConversation(userId, otherUserId);
+        ArrayList<ConversationDsResponseModel> conversationList = dbHelper.readConversationList(userId);
+        assertEquals(1, conversationList.size());
+    }
+
+    @Test
     public void testFindConversationIdWithNonExistingConversation() {
         String conversationId = dbHelper.findConversationId("some-user-11", "some-other-user-101");
         assertNull(conversationId);
@@ -331,15 +340,17 @@ public class DatabaseHelperTest {
     public void testReadConversationList() {
         dbHelper.addConversation(userId, otherUserId);
         dbHelper.addConversation(userId, thirdUserId);
-        ArrayList<String[]> conversationList = dbHelper.readConversationList(userId);
+        ArrayList<ConversationDsResponseModel> conversationList = dbHelper.readConversationList(userId);
         assertEquals(2, conversationList.size());
-        assertArrayEquals(new String[]{userId, otherUserId}, conversationList.get(0));
-        assertArrayEquals(new String[]{userId, thirdUserId}, conversationList.get(1));
+        assertEquals(userId, conversationList.get(0).getUserId1());
+        assertEquals(otherUserId, conversationList.get(0).getUserId2());
+        assertEquals(userId, conversationList.get(1).getUserId1());
+        assertEquals(thirdUserId, conversationList.get(1).getUserId2());
     }
 
     @Test
     public void testReadConversationListWithNoConversation() {
-        ArrayList<String[]> conversationList = dbHelper.readConversationList(userId);
+        ArrayList<ConversationDsResponseModel> conversationList = dbHelper.readConversationList(userId);
         assertEquals(0, conversationList.size());
     }
 
@@ -349,7 +360,7 @@ public class DatabaseHelperTest {
         ArrayList<String> conversationList = new ArrayList<>();
         conversationList.add(userId);
         conversationList.add(otherUserId);
-        ArrayList<String> displayNames = dbHelper.readDisplayNamesForConversations(conversationList);
+        ArrayList<String> displayNames = dbHelper.readDisplayNames(conversationList);
         assertEquals(2, displayNames.size());
         assertEquals("bell", displayNames.get(0));
         assertEquals("roger", displayNames.get(1));
@@ -359,7 +370,7 @@ public class DatabaseHelperTest {
     public void testReadDisplayNamesForConversationsWithEmptyInputList() {
         // Test read display names returns list of user display names from database
         ArrayList<String> conversationList = new ArrayList<>();
-        ArrayList<String> displayNames = dbHelper.readDisplayNamesForConversations(conversationList);
+        ArrayList<String> displayNames = dbHelper.readDisplayNames(conversationList);
         assertEquals(0, displayNames.size());
     }
 

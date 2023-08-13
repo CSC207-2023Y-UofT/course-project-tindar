@@ -7,12 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.courseproject.tindar.BlankNavViewModel;
 import com.courseproject.tindar.R;
+import com.courseproject.tindar.controllers.conversationlist.ConversationListController;
+import com.courseproject.tindar.ds.DatabaseHelper;
 import com.courseproject.tindar.ui.chat.ChatActivity;
+import com.courseproject.tindar.usecases.conversationlist.ConversationListDsGateway;
+import com.courseproject.tindar.usecases.conversationlist.ConversationListInputBoundary;
+import com.courseproject.tindar.usecases.conversationlist.ConversationListInteractor;
 import com.courseproject.tindar.usecases.conversationlist.ConversationResponseModel;
 
 import java.util.ArrayList;
@@ -26,6 +34,10 @@ public class ConversationListFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+
+    String userId;
+    RecyclerView recyclerView;
+    ConversationListController conversationListController;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -47,6 +59,8 @@ public class ConversationListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        BlankNavViewModel blankNavViewModel = new ViewModelProvider(requireActivity()).get(BlankNavViewModel.class);
+        blankNavViewModel.getUserId().observe(requireActivity(), it -> userId = it);
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
@@ -57,43 +71,48 @@ public class ConversationListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_conversation_list, container, false);
-        ArrayList<ConversationResponseModel> convos = new ArrayList<>();
-        convos.add(new ConversationResponseModel("lisbeth", "how do you do", "20:20"));
-        convos.add(new ConversationResponseModel("mikael", "silence", "20:50"));
-        // Set the adapter
 
-        RecyclerView recyclerView = view.findViewById(R.id.list);
+        // Set the adapter
+        recyclerView = view.findViewById(R.id.list);
         if (recyclerView != null) {
             Context context = view.getContext();
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        }
 
-            MyConversationRecyclerViewAdapter adapter = new MyConversationRecyclerViewAdapter(convos);
+        // instantiates controller
+        ConversationListDsGateway conversationListDatabaseHelper = DatabaseHelper.getInstance(getContext());
+        ConversationListInputBoundary conversationListInteractor =
+                new ConversationListInteractor(conversationListDatabaseHelper);
+        conversationListController = new ConversationListController(conversationListInteractor);
+
+        return view;
+    }
+
+    @Nullable
+    @Override
+    public Object getEnterTransition() {
+        ArrayList<ConversationResponseModel> conversations = conversationListController.getAllActiveConversations(userId);
+
+        if (recyclerView != null) {
+
+            MyConversationRecyclerViewAdapter adapter = new MyConversationRecyclerViewAdapter(conversations);
             recyclerView.setAdapter(adapter);
 
             // Set click listener for conversation items
             adapter.setOnItemClickListener(conversation -> {
                 // Handle the click here, navigate to ChatActivity
                 Intent intent = new Intent(requireActivity(), ChatActivity.class);
-                intent.putExtra("conversation_partner_name", conversation.getUserName());
+                intent.putExtra("current_user_id", userId);
+                intent.putExtra("conversation_partner_id", conversation.getConversationPartnerId());
+                intent.putExtra("conversation_partner_display_name", conversation.getConversationPartnerName());
                 // Pass any other necessary data
                 startActivity(intent);
             });
         }
 
-        return view;
-    }   }
-//        RecyclerView recyclerView = null;
-//        if (view instanceof RecyclerView) {
-//            Context context = view.getContext();
-//            recyclerView = (RecyclerView) view;
-//            if (mColumnCount <= 1) {
-//                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-//            } else {
-//                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-//            }
-//            recyclerView.setAdapter(new MyConversationRecyclerViewAdapter(convos));
-//        }
-//
-//
-//        return view;
-//    }
+        return super.getEnterTransition();
+    }
+}
+
+
+
