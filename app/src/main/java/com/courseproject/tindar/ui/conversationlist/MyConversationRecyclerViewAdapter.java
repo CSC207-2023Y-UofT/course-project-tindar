@@ -60,7 +60,7 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
         return mValues.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView mUserName;
         public final TextView mLastMessage;
         public final TextView mLastMessageTime;

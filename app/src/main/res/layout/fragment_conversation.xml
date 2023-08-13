@@ -28,7 +28,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="7dp"
-                tools:text="10:00" />
+                tools:text="10:00"
+                tools:ignore="RelativeOverlap" />
         </RelativeLayout>
 
         <TextView

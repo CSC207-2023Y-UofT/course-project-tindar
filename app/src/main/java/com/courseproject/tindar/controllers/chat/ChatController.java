@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class ChatController {
 
-    ChatInputBoundary userInput;
+    private final ChatInputBoundary userInput;
 
     public ChatController(ChatInputBoundary chatUserInput) {
         this.userInput = chatUserInput;

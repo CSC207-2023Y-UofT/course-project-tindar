@@ -82,4 +82,9 @@
     <string name="current_password_incorrect">Current password incorrect</string>
     <string name="password_validation">Current password</string>
     <string name="password_not_six_long">Passwords must be at least 6 characters long.</string>
+    <string name="username">Username</string>
+    <string name="tap_here_to_go_back">Tap here to go back</string>
+    <string name="message">Message</string>
+    <string name="tap_to_send_your_typed_message">Tap to send your typed message</string>
+    <string name="conversations">Conversations</string>
 </resources>

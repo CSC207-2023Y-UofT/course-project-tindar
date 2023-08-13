@@ -1,11 +1,6 @@
 package com.courseproject.tindar.ui.home;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +33,6 @@ import com.courseproject.tindar.usecases.viewprofile.ViewProfileResponseModel;
 import com.courseproject.tindar.usecases.viewprofile.ViewProfileInputBoundary;
 import com.courseproject.tindar.usecases.viewprofile.ViewProfileInteractor;
 
-import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -67,7 +61,7 @@ public class SecondViewProfileFragment extends Fragment {
 
     ViewProfilesController viewProfilesController;
 
-    DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.CANADA );
+    private final DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.CANADA );
 
     /**
      * Loads initial data for screen.
@@ -197,18 +191,25 @@ public class SecondViewProfileFragment extends Fragment {
         // This is only a temporary implementation for demo purposes.
         // The plan is to download pic from an external source and show it.
         profileLink = profile.getProfilePictureLink();
-        if (profileLink.equals("spongebob1.png")){
-            profilePic.setImageResource(R.drawable.spongebob1);
-        } else if (profileLink.equals("spongebob2.jpg")) {
-            profilePic.setImageResource(R.drawable.spongebob2);
-        } else if (profileLink.equals("spongebob3.jpg")) {
-            profilePic.setImageResource(R.drawable.spongebob3);
-        } else if (profileLink.equals("spongebob4.jpg")) {
-            profilePic.setImageResource(R.drawable.spongebob4);
-        } else if (profileLink.equals("spongebob5.jpg")) {
-            profilePic.setImageResource(R.drawable.spongebob5);
-        } else {
-            profilePic.setImageResource(R.drawable.kermit);
+        switch (profileLink) {
+            case "spongebob1.png":
+                profilePic.setImageResource(R.drawable.spongebob1);
+                break;
+            case "spongebob2.jpg":
+                profilePic.setImageResource(R.drawable.spongebob2);
+                break;
+            case "spongebob3.jpg":
+                profilePic.setImageResource(R.drawable.spongebob3);
+                break;
+            case "spongebob4.jpg":
+                profilePic.setImageResource(R.drawable.spongebob4);
+                break;
+            case "spongebob5.jpg":
+                profilePic.setImageResource(R.drawable.spongebob5);
+                break;
+            default:
+                profilePic.setImageResource(R.drawable.kermit);
+                break;
         }
 
         displayNameView.setText(profile.getDisplayName());

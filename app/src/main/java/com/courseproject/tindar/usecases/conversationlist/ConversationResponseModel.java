@@ -24,12 +24,12 @@ public class ConversationResponseModel {
     /**
      * Constructs a new ConversationResponseModel object with the provided details.
      *
-     * @param conversationPartnerId
+     * @param conversationPartnerId the user id of the conversation partner
      * @param conversationPartnerName the display name of the conversation partner
      *                                // @param lastMessage a preview of their last message
      *                                // @param lastMessageTime a time stamp of their last message
-     * @param lastMessage
-     * @param lastMessageTime
+     * @param lastMessage the last message of the conversation
+     * @param lastMessageTime the creation time of the last message of the conversation
      */
     public ConversationResponseModel(String conversationPartnerId, String conversationPartnerName, String lastMessage, String lastMessageTime){
         this.conversationPartnerId = conversationPartnerId;
