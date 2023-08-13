@@ -12,7 +12,7 @@ public class ChatInteractor implements ChatPresenter, ChatActivityController{
     private String[] userIds;
     private String conversationId;
     private ArrayList<MessageModel> messageList;
-    private ArrayList<ChatPresenter> observers;
+    private final ArrayList<ChatPresenter> observers;
 
     public ChatInteractor(ChatDsGateway chatDsHelper, String userId,
                           String conversationPartnerUserId){
@@ -20,11 +20,12 @@ public class ChatInteractor implements ChatPresenter, ChatActivityController{
         this.userId = userId;
         this.conversationPartnerUserId = conversationPartnerUserId;
         this.messageList = new ArrayList<>();
+        this.observers = new ArrayList<>();
 
         if(Integer.parseInt(this.userId) < Integer.parseInt(this.conversationPartnerUserId)){
-            String[] userIds = {userId, conversationPartnerUserId};
+            this.userIds = new String[]{userId, conversationPartnerUserId};
         } else {
-            String[] userIds = {conversationPartnerUserId, userId};
+            this.userIds = new String[]{conversationPartnerUserId, userId};
         }
 
         this.conversationId = this.chatDsHelper.findConversationId(this.userIds[0], this.userIds[1]);

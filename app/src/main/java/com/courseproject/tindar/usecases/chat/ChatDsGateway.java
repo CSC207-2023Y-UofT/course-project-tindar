@@ -30,7 +30,7 @@ public interface ChatDsGateway {
      * Returns a list representing all messages in a given conversation
      *
      * @param conversationId id of the conversation
-     * @return a list representing all messages in this conversation
+     * @return a list representing all messages in this conversation. empty list if no messages.
      */
     ArrayList<MessageModel> readMessagesByConversationId(String conversationId);
 }
