@@ -187,6 +187,8 @@ public class ViewProfileFragment extends Fragment {
         ViewProfileResponseModel profile =
                 viewProfilesController.getProfile(otherUserId);
 
+        // This is only a temporary implementation for demo purposes.
+        // The plan is to download pic from an external source and show it.
         profileLink = profile.getProfilePictureLink();
         if (profileLink.equals("spongebob1.png")){
             profilePic.setImageResource(R.drawable.spongebob1);
