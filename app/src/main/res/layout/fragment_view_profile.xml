@@ -10,11 +10,6 @@
     tools:context=".ui.home.HomeFragment"
     android:id="@+id/layout_view_profile">
 
-    <FrameLayout
-        android:id="@+id/assistant_home_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <TextView
         android:id="@+id/text_view_display_name_view_profile"
         android:layout_width="match_parent"

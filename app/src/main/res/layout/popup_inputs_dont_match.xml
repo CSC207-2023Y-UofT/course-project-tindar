@@ -7,7 +7,6 @@
 
 
     <TextView
-        android:id="@+id/popup_inputs_wrong"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/inputs_do_not_match"

@@ -7,7 +7,6 @@
 
 
     <TextView
-        android:id="@+id/email_already_used"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/email_already_used"

@@ -61,7 +61,7 @@
             android:layout_toStartOf="@id/button_send_message"
             android:hint="@string/message"
             android:inputType="text"
-            />
+            android:autofillHints="" />
 
         <ImageButton
             android:id="@+id/button_send_message"

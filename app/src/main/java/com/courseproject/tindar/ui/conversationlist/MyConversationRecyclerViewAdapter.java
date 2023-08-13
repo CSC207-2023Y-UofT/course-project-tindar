@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.courseproject.tindar.databinding.FragmentConversationBinding;
@@ -32,8 +33,9 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
         mValues = items;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         return new ViewHolder(FragmentConversationBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
 
@@ -75,6 +77,7 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
             
         }
 
+        @NonNull
         @Override
         public String toString() {
             return super.toString() + " '" + mLastMessage.getText() + "'";
