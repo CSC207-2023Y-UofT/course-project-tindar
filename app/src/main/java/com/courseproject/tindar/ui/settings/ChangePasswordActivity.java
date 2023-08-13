@@ -1,8 +1,8 @@
 package com.courseproject.tindar.ui.settings;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,6 +63,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
         // When the button to submit password changes is pressed,
         submitPasswordChangeButton = findViewById(R.id.button_submit_password_change);
         submitPasswordChangeButton.setOnClickListener(view -> {
+            if (TextUtils.isEmpty(changePasswordText.getText().toString())) {
+                changePasswordText.setError("Please enter password.");
+                return;
+            }
+
             // Checks if both new passwords are the same.
             // If not, sends a pop-up saying inputs do not match.
             if (changePasswordText.getText().toString().equals(changePasswordRetype.getText().toString())) {
@@ -79,10 +84,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                     else {
-                        // Creates popup window to say passwords don't match.
-                        LayoutInflater inflater = (LayoutInflater)
-                                getSystemService(LAYOUT_INFLATER_SERVICE);
-                        View popupView = inflater.inflate(R.layout.popup_password_not_long, null);
+                        // Creates popup window to say passwords is not long enough
+                        View popupView = View.inflate(ChangePasswordActivity.this, R.layout.popup_password_not_long, null);
 
                         // create the popup window
                         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -96,6 +99,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
                         // dismiss the popup window when touched
                         popupView.setOnTouchListener((v, event) -> {
+                            v.performClick();
                             popupWindow.dismiss();
                             return true;
                         });
@@ -103,9 +107,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 }
                 else {
                     // Creates pop window to say the current password is incorrect.
-                    LayoutInflater inflater = (LayoutInflater)
-                            getSystemService(LAYOUT_INFLATER_SERVICE);
-                    View popupView = inflater.inflate(R.layout.popup_current_password_incorrect, null);
+                    View popupView = View.inflate(ChangePasswordActivity.this, R.layout.popup_current_password_incorrect, null);
 
                     // create the popup window
                     int width = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -119,6 +121,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
                     // dismiss the popup window when touched
                     popupView.setOnTouchListener((v, event) -> {
+                        v.performClick();
                         popupWindow.dismiss();
                         return true;
                     });
@@ -126,9 +129,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             }
             else {
                 // Creates the popup window to say passwords do not match.
-                LayoutInflater inflater = (LayoutInflater)
-                        getSystemService(LAYOUT_INFLATER_SERVICE);
-                View popupView = inflater.inflate(R.layout.popup_inputs_dont_match, null);
+                View popupView = View.inflate(ChangePasswordActivity.this, R.layout.popup_inputs_dont_match, null);
 
                 // create the popup window
                 int width = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -142,6 +143,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
                 // dismiss the popup window when touched
                 popupView.setOnTouchListener((v, event) -> {
+                    v.performClick();
                     popupWindow.dismiss();
                     return true;
                 });

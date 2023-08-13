@@ -20,6 +20,9 @@ public class EditAccountInteractor implements EditAccountInputBoundary {
     }
 
     public boolean updatePassword(String userId, String password) {
+        if (password.length() < 6) {
+            return false;
+        }
         return this.editAccountDsGateway.updatePassword(userId, password);
     }
 }
