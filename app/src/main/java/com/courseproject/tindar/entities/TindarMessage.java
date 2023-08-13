@@ -3,7 +3,8 @@ package com.courseproject.tindar.entities;
 import java.sql.Timestamp;
 
 /**
- * Currently models Tindar text messages. Implements MessageModel.
+ * Models Tindar text messages which have been processed by the database (have message IDs).
+ * Implements MessageModel.
  */
  public class TindarMessage implements MessageModel {
     /**
