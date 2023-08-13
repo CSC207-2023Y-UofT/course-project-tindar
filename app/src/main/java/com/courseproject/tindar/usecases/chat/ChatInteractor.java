@@ -1,18 +1,18 @@
 package com.courseproject.tindar.usecases.chat;
 
-import com.courseproject.tindar.ds.ChatDatabaseHelper;
+import com.courseproject.tindar.ds.DatabaseHelper;
 import com.courseproject.tindar.entities.MessageModel;
 
 import java.util.ArrayList;
 
 public class ChatInteractor implements ChatPresenter, ChatActivityController{
-    private final ChatDatabaseHelper chatDsHelper;
+    private final ChatDsGateway chatDsHelper;
     private final String userId;
     private String conversationPartnerUserId;
     private String[] userIds;
     private ArrayList<MessageModel> messageList;
 
-    public ChatInteractor(ChatDatabaseHelper chatDsHelper, String userId,
+    public ChatInteractor(ChatDsGateway chatDsHelper, String userId,
                           String conversationPartnerUserId){
         this.chatDsHelper = chatDsHelper;
         this.userId = userId;
@@ -33,7 +33,7 @@ public class ChatInteractor implements ChatPresenter, ChatActivityController{
      * @param newMessageModel MessageModel representing the newly sent message
      */
     @Override
-    public void sendMessage(MessageModel newMessageModel) {
+    public void sendMessage(ChatRequestModel newMessageModel) {
         this.chatDsHelper.addMessage(newMessageModel);
     }
 
@@ -47,6 +47,6 @@ public class ChatInteractor implements ChatPresenter, ChatActivityController{
      */
     @Override
     public ArrayList<MessageModel> getMessageList(String[] userIds) {
-        return this.chatDsHelper.loadAllConversationMessages(userIds);
+        return null;
     }
 }

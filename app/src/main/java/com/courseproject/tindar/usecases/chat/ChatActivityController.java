@@ -12,5 +12,5 @@ public interface ChatActivityController {
      * Called whenever the user presses send on a non-empty message.
      * Adds the message to the database and notifies observers.
      */
-    void sendMessage(MessageModel newMessageModel);
+    void sendMessage(ChatRequestModel newMessageModel);
 }

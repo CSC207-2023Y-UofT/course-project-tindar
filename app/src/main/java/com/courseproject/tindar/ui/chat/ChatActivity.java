@@ -21,6 +21,7 @@ import com.courseproject.tindar.entities.TindarMessage;
 import com.courseproject.tindar.usecases.chat.ChatActivityController;
 import com.courseproject.tindar.usecases.chat.ChatInteractor;
 import com.courseproject.tindar.usecases.chat.ChatPresenter;
+import com.courseproject.tindar.usecases.chat.ChatRequestModel;
 
 // TODO: consider removing Timestamp import when database is properly connected
 import java.sql.Timestamp;
@@ -200,10 +201,10 @@ public class ChatActivity extends AppCompatActivity {
      */
     public void sentMessage(View v){
         String input = (this.chatInput.getText()).toString();
-        MessageModel newMessage = new TindarMessage(input, new Timestamp(System.currentTimeMillis()),
-                this.userId, this.otherUserId, "fix", "fix");
+        ChatRequestModel newMessage = new ChatRequestModel(input, new Timestamp(System.currentTimeMillis()),
+                this.userId, this.otherUserId, "fix");
         this.chatActivityController.sendMessage(newMessage);
-        this.loadedMessages.add(newMessage);
+        this.loadedMessages.add(null);
         this.chatInput.getText().clear();
 
         this.adapter.notifyDataSetChanged();
