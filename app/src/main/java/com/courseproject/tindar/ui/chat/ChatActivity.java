@@ -144,14 +144,16 @@ public class ChatActivity extends AppCompatActivity {
      */
     public void sentMessage(View v){
         String input = (this.chatInput.getText()).toString();
-        ChatRequestModel newMessage = new ChatRequestModel(input, new Timestamp(System.currentTimeMillis()),
-                this.userId, this.otherUserId, this.chatInteractor.getConversationId());
-        this.chatInteractor.sendMessage(newMessage);
+        if(!input.isEmpty()){
+            ChatRequestModel newMessage = new ChatRequestModel(input, new Timestamp(System.currentTimeMillis()),
+                    this.userId, this.otherUserId, this.chatInteractor.getConversationId());
+            this.chatInteractor.sendMessage(newMessage);
 
-        // UI
-        this.chatInput.getText().clear();
-        this.adapter.setMessageList(this.chatInteractor.getMessageList());
-        this.adapter.notifyDataSetChanged();
+            // UI
+            this.chatInput.getText().clear();
+            this.adapter.setMessageList(this.chatInteractor.getMessageList());
+            this.adapter.notifyDataSetChanged();
+        }
     }
 
     public void backButtonPressed(View v){

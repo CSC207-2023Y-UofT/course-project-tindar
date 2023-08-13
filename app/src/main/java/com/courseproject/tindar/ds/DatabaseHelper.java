@@ -337,6 +337,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         addToMatched("1", "2", db);
         addToMatched("1", "5", db);
         addConversation("1", "5", db);
+        addConversation("1", "2", db);
         ChatRequestModel message1 = new ChatRequestModel("first message sent",
                 java.sql.Timestamp.valueOf("2005-04-06 09:01:10"), "1", "5", "1");
         ChatRequestModel message2 = new ChatRequestModel("second message sent",
@@ -1006,7 +1007,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         Cursor cursor = db.rawQuery("SELECT "
                         + ID
                         + " FROM " + TABLE_CONVERSATIONS
-                        + " WHERE " + USER_ID_1 + " =? OR " + USER_ID_2 + " =?",
+                        + " WHERE " + USER_ID_1 + " =? AND " + USER_ID_2 + " =?",
                 new String[]{userId1, userId2});
 
         if (cursor.getCount() < 1) {
