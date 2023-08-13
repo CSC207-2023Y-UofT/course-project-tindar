@@ -18,12 +18,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.courseproject.tindar.databinding.ActivityBlankNavBinding;
 
+/**
+ * Class containing code that manages the navigation drawer and settings triple dot dropdown
+ */
 public class BlankNavActivity extends AppCompatActivity {
+    // android class that assists with configuration of the navigation ui
     private AppBarConfiguration mAppBarConfiguration;
 
     /**
      * Creates the home page and navigation drawer that persists when user is logged in.
      * Associated with each of the fragments that are accessible from the navigation drawer.
+     *
+     * @param savedInstanceState last saved state of each activity in the app
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +64,8 @@ public class BlankNavActivity extends AppCompatActivity {
 
     /**
      * Populates menu with items
+     *
+     * @param menu collection of menu items associated with the activity
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
