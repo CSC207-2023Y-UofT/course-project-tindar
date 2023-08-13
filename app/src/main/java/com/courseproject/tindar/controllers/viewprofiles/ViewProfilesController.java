@@ -1,30 +1,80 @@
 package com.courseproject.tindar.controllers.viewprofiles;
 
-import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesDsResponseModel;
-import com.courseproject.tindar.usecases.viewprofiles.ViewProfilesInputBoundary;
+import com.courseproject.tindar.usecases.likelist.LikeListInputBoundary;
+import com.courseproject.tindar.usecases.userlist.UserListInputBoundary;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileResponseModel;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileInputBoundary;
+
+import java.util.ArrayList;
 
 /**
- * The ViewProfilesController class is responsible for managing the viewing of user profiles
- *  and interactions related to profile data.
- *
+ * This controller class accepts user input and connects it to back-end view profile, user list,
+ * and like list interactors
  */
-
 public class ViewProfilesController {
-    final ViewProfilesInputBoundary userInput;
+    /**
+     * interactor of the View Profile feature
+     */
+    final ViewProfileInputBoundary viewProfilesUserInput;
+    /**
+     * interactor of the User List feature
+     */
+    final UserListInputBoundary userListUserInput;
+    /**
+     * interactor of the List List feature
+     */
+    final LikeListInputBoundary likeListUserInput;
 
-    public ViewProfilesController(ViewProfilesInputBoundary userInput) {
-        this.userInput = userInput;
+    /**
+     * Constructs controller for the view profiles UI to read profile, get all other user list, and like or remove
+     * like another user
+     *
+     * @param viewProfilesUserInput interactor of the View Profile feature
+     * @param userListUserInput interactor of the User List feature
+     * @param likeListUserInput interactor of the Like List feature
+     */
+    public ViewProfilesController(ViewProfileInputBoundary viewProfilesUserInput,
+                                  UserListInputBoundary userListUserInput, LikeListInputBoundary likeListUserInput) {
+        this.viewProfilesUserInput = viewProfilesUserInput;
+        this.userListUserInput = userListUserInput;
+        this.likeListUserInput = likeListUserInput;
     }
 
     /**
-     * Reads the next user profile information based on the provided user ID.
+     * Reads the a user's profile information based on the provided user ID.
      *
-     * @param userId The user ID for which to retrieve the next profile information.
-     * @return A ViewProfilesDsResponseModel containing the next user profile information.
+     * @param userId The user ID of the user's account.
+     * @return A ViewProfilesDsResponseModel containing the above user's profile information.
      */
-
-    public ViewProfilesDsResponseModel readNextProfile(String userId){
-        return userInput.readNextProfile(userId);
+    public ViewProfileResponseModel getProfile(String userId){
+        return viewProfilesUserInput.getProfile(userId);
     }
 
+    public ArrayList<String> getAllOtherUserIds(String userId){return userListUserInput.getAllOtherUserIds(userId);}
+
+    public boolean checkLiked(String userId, String otherUserId) {
+        return likeListUserInput.checkLiked(userId, otherUserId);
+    }
+
+    /**
+     * Accept the users input to like' a profile
+     *
+     * @param userId the users input to initiate 'like'
+     * @param otherUserId the user being 'liked'
+     */
+    public void addLike(String userId, String otherUserId){
+        // User input of userId liking otherUserId
+        this.likeListUserInput.addLike(userId, otherUserId);
+    }
+
+    /**
+     * Accept the users input to remove a 'like' of a profile
+     *
+     * @param userId the users input to remove 'like'
+     * @param otherUserId the user being 'unliked'
+     */
+    public void removeLike(String userId, String otherUserId){
+        // User input of userId unliking otherUserId
+        this.likeListUserInput.removeLike(userId, otherUserId);
+    }
 }

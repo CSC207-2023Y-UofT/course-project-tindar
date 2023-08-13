@@ -14,6 +14,7 @@ public interface MessageModel {
     String getMessageContent();
     String getSentFromId();
     String getSentToId();
+    String getConversationId();
 
     // Setter methods--not implemented because they don't seem like they should exist
     /* 

@@ -23,10 +23,13 @@ import com.courseproject.tindar.controllers.editprofile.EditProfileController;
 import com.courseproject.tindar.databinding.FragmentEditProfileBinding;
 import com.courseproject.tindar.ds.DatabaseHelper;
 import com.courseproject.tindar.usecases.editprofile.EditProfileDsGateway;
-import com.courseproject.tindar.usecases.editprofile.EditProfileResponseModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileInputBoundary;
 import com.courseproject.tindar.usecases.editprofile.EditProfileInteractor;
 import com.courseproject.tindar.usecases.editprofile.EditProfileRequestModel;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileDsGateway;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileInputBoundary;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileInteractor;
+import com.courseproject.tindar.usecases.viewprofile.ViewProfileResponseModel;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -88,7 +91,7 @@ public class EditProfileFragment extends Fragment {
     /**
      * saved profile information retrieved
      */
-    private EditProfileResponseModel profileDsResponse;
+    private ViewProfileResponseModel profileDsResponse;
 
     /**
      * creates Edit Profile fragment. Shared View Model is used to retrieve currently logged in user id, which is
@@ -116,7 +119,7 @@ public class EditProfileFragment extends Fragment {
      *                           but this can be used to generate the LayoutParams of the view.
      * @param savedInstanceState If non-null, this fragment is being re-constructed
      *                           from a previous saved state as given here.
-     * @return
+     * @return created view
      */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -137,7 +140,9 @@ public class EditProfileFragment extends Fragment {
         // instantiates controller
         EditProfileDsGateway editProfileDatabaseHelper = DatabaseHelper.getInstance(getActivity());
         EditProfileInputBoundary editProfileInteractor = new EditProfileInteractor(editProfileDatabaseHelper);
-        editProfileController = new EditProfileController(editProfileInteractor);
+        ViewProfileDsGateway viewProfileDatabaseHelper = DatabaseHelper.getInstance(getActivity());
+        ViewProfileInputBoundary viewProfileInteractor = new ViewProfileInteractor(viewProfileDatabaseHelper);
+        editProfileController = new EditProfileController(editProfileInteractor, viewProfileInteractor);
 
         // prepares dropdown menu for the gender
         String[] genders = getResources().getStringArray(R.array.genders);
