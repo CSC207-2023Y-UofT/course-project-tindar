@@ -47,4 +47,6 @@ public interface LikeListDsGateway {
      * @param otherUserId userId of user who is being 'unmatched'
      */
     void removeFromMatched(String userId, String otherUserId);
+
+    void addConversation(String userId, String otherUserId);
 }

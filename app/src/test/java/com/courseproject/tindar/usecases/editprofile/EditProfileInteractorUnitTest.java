@@ -9,6 +9,7 @@ import java.util.GregorianCalendar;
 
 public class EditProfileInteractorUnitTest {
     private static final String USER_ID = "99";
+    private static final String DISPLAY_NAME = "fido";
     private static final Date BIRTHDATE = new GregorianCalendar(1999, 3, 10).getTime();
     private static final String GENDER = "Male";
     private static final String LOCATION = "Toronto";
@@ -20,6 +21,7 @@ public class EditProfileInteractorUnitTest {
         @Override
         public void updateProfile(String userId, EditProfileRequestModel newProfile) {
             assertEquals(USER_ID, userId);
+            assertEquals(DISPLAY_NAME, newProfile.getDisplayName());
             assertEquals(BIRTHDATE, newProfile.getBirthdate());
             assertEquals(GENDER, newProfile.getGender());
             assertEquals(LOCATION, newProfile.getLocation());
@@ -33,7 +35,7 @@ public class EditProfileInteractorUnitTest {
     @Test
     public void testUpdateProfile() {
         EditProfileInteractor testEditProfileInteractor = new EditProfileInteractor(mockEditProfileDsGateway);
-        EditProfileRequestModel newProfile = new EditProfileRequestModel(BIRTHDATE, GENDER, LOCATION,
+        EditProfileRequestModel newProfile = new EditProfileRequestModel(DISPLAY_NAME, BIRTHDATE, GENDER, LOCATION,
                 PROFILE_PICTURE_LINK, ABOUT_ME);
         testEditProfileInteractor.updateProfile(USER_ID, newProfile);
     }

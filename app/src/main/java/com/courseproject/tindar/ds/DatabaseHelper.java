@@ -13,6 +13,7 @@ import com.courseproject.tindar.entities.MessageModel;
 import com.courseproject.tindar.entities.TindarMessage;
 import com.courseproject.tindar.usecases.chat.ChatDsGateway;
 import com.courseproject.tindar.usecases.chat.ChatRequestModel;
+import com.courseproject.tindar.usecases.conversationlist.ConversationDsResponseModel;
 import com.courseproject.tindar.usecases.conversationlist.ConversationListDsGateway;
 import com.courseproject.tindar.usecases.conversationlist.ConversationMessageDsResponseModel;
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsGateway;
@@ -250,9 +251,9 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
      * @param context current context of the application where the database is constructed
      * @param databaseName name of the database
      */
-    // access modifier is private so DatabaseHelper doesn't get directly instantiated. The instantiation of
-    // DatabaseHelper should go through getInstance method.
     private DatabaseHelper(@Nullable Context context, String databaseName) {
+        // access modifier is private so DatabaseHelper doesn't get directly instantiated. The instantiation of
+        // DatabaseHelper should go through getInstance method.
         super(context, databaseName, null, 1);
     }
 
@@ -335,6 +336,16 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         addLike("5", "1", db);
         addToMatched("1", "2", db);
         addToMatched("1", "5", db);
+        addConversation("1", "5", db);
+        ChatRequestModel message1 = new ChatRequestModel("first message sent",
+                java.sql.Timestamp.valueOf("2005-04-06 09:01:10"), "1", "5", "1");
+        ChatRequestModel message2 = new ChatRequestModel("second message sent",
+                java.sql.Timestamp.valueOf("2005-04-06 09:01:17"), "1", "5", "1");
+        ChatRequestModel message3 = new ChatRequestModel("third message sent",
+                java.sql.Timestamp.valueOf("2005-04-06 09:02:10"), "5", "1", "1");
+        addMessage(message1, db);
+        addMessage(message2, db);
+        addMessage(message3, db);
     }
 
     /**
@@ -536,8 +547,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return true;
     }
 
-    /** Retrieves profile information of a user from the database. It includes birthdate, gender, location,
-     * profile picture link, and about me statement of the user.
+    /** Retrieves profile information of a user from the database. It includes display name, birthdate, gender,
+     * location, profile picture link, and about me statement of the user.
      *
      * @param userId the user id of the account
      * @return profile information of the user
@@ -571,8 +582,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return dsResponse;
     }
 
-    /** updates the profile information of a user in the database. It includes birthdate, gender, location,
-     * profile picture link, and about me statement of the user.
+    /** updates the profile information of a user in the database. It includes display name, birthdate, gender,
+     * location, profile picture link, and about me statement of the user.
      *
      * @param userId the user id of the account
      * @param newProfile new profile information of the user
@@ -581,6 +592,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     public void updateProfile(String userId, EditProfileRequestModel newProfile) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
+        cv.put(DISPLAY_NAME, newProfile.getDisplayName());
         cv.put(BIRTHDATE, new java.sql.Date(newProfile.getBirthdate().getTime()).getTime());
         cv.put(GENDER, newProfile.getGender());
         cv.put(LOCATION, newProfile.getLocation());
@@ -669,7 +681,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return userId;
     }
 
-    /** Check if either userId or other have liked each other
+    /**
+     * Checks if either of two users has liked the other
      * @param userId user who initiated a 'like' interaction
      * @param otherUserId user receiving a 'like' from userId
      * @return return true if users 'like' each other, false otherwise
@@ -691,10 +704,12 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return false;
     }
 
-    /** Add userId and otherUserId to match list after a match has occurred
-     * @param userId user who initiated 'like' interaction
-     * @param otherUserId user receiving a 'like from userId
-     * @param db database instance for storage of data
+    /**
+     * Adds a matched pair to the database.
+     * Precondition: userId < otherUserId (to avoid duplicates).
+     * @param userId lesser userId in the match
+     * @param otherUserId greater userId in the match
+     * @param db database that this match will be added to
      */
     public void addToMatched(String userId, String otherUserId, SQLiteDatabase db) {
         // precondition: userId < otherUserId. This is to avoid duplicates of
@@ -706,9 +721,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         db.insert(TABLE_MATCHES, null, cv);
     }
 
-    /** Calls addToMatched with userId values from LikeListInteractor
-     * @param userId user who initiated 'like' interaction
-     * @param otherUserId user receiving a 'like from userId
+    /**
+     * Adds a matched pair to the database.
+     * Precondition: userId < otherUserId (to avoid duplicates).
+     * @param userId lesser userId in the match
+     * @param otherUserId greater userId in the match
      */
     @Override
     public void addToMatched(String userId, String otherUserId) {
@@ -716,10 +733,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         addToMatched(userId, otherUserId, db);
     }
 
-    /** Adds otherUserId and userId like each other to database
-     * @param userId user who initiated 'like' interaction
-     * @param otherUserId user receiving a 'like from userId
-     * @param db database instance for storage of data
+    /**
+     * Adds that userId likes otherUserId in the database.
+     * @param userId of the 'liker'
+     * @param otherUserId userId of the 'likee'
+     * @param db database that this like will be added to
      */
     public void addLike(String userId, String otherUserId, SQLiteDatabase db) {
         ContentValues cv = new ContentValues();
@@ -729,9 +747,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         db.insert(TABLE_LIKES, null, cv);
     }
 
-    /** Calls addLike above with userId values from LikeListInteractor
-     * @param userId user who initiated 'like' interaction
-     * @param otherUserId user receiving a 'like from userId
+    /**
+     * Adds that userId likes otherUserId in the database.
+     * @param userId of the 'liker'
+     * @param otherUserId userId of the 'likee'
      */
     @Override
     public void addLike(String userId, String otherUserId) {
@@ -739,9 +758,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         addLike(userId, otherUserId, db);
     }
 
-    /** Removes userId and otherUserId from like list in database
-     * @param userId user who initiated 'like' interaction
-     * @param otherUserId user who received a 'like from userId
+    /**
+     * Removes the record that userId likes otherUserId in the database.
+     * @param userId of the 'liker'
+     * @param otherUserId userId of the 'likee'
      */
     @Override
     public void removeLike(String userId, String otherUserId) {
@@ -754,9 +774,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
                 new String[]{userId, otherUserId});
     }
 
-    /** Removes userId and otherUserId from database match list
-     * @param userId user who initiated 'like' interaction
-     * @param otherUserId user who received a 'like from userId
+    /**
+     * Removes a matched pair fom the database.
+     * Precondition: userId < otherUserId (since we store them in this order).
+     * @param userId lesser userId in the match
+     * @param otherUserId greater userId in the match
      */
     @Override
     public void removeFromMatched(String userId, String otherUserId) {
@@ -772,9 +794,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
                 new String[]{userId, otherUserId});
     }
 
-    /** Reads match list from database and returns ArrayList<String[]> of userIds
-     * @param userId user who's match list we are retrieving
-     * @return return list of userIds from match list
+    /**
+     * Returns a user's match list in the form of userIds using their userId
+     * @param userId of the user whose match list is to be retrieved
+     * @return return list of userIds of those who have matched with this user
      */
     @Override
     public ArrayList<String[]> readMatchList(String userId) {
@@ -800,14 +823,15 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return matchListResponse;
     }
 
-    /** Returns a list of Match list that is used to allow display names to be
-     * shown on screen when plugged into MatchListFragment. Essentially returning a list of
-     * display names
-     * @param userIds users who's display names we are retrieving
-     * @return return list of user display names
+    /**
+     * Returns ArrayList<LikeListDsResponseModel> which can be used to obtain 
+     * a list of display names corresponding to a list of userIds
+     * @param userIds of the users
+     * @return list of LikeListDsResponseModel containing the display names of the users with these userIds.
+     *          The display name at index i is the display name of the user with userId userIds[i].
      */
     @Override
-    public ArrayList<MatchListDsResponseModel> readDisplayNames(ArrayList<String> userIds) {
+    public ArrayList<MatchListDsResponseModel> readUserIdAndDisplayNames(ArrayList<String> userIds) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         boolean doNotAddComma = true;
@@ -883,31 +907,33 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     }
 
     @Override
-    public ArrayList<String[]> readConversationList(String userId) {
+    public ArrayList<ConversationDsResponseModel> readConversationList(String userId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT "
+                        + ID + ", "
                         + USER_ID_1 + ", "
                         + USER_ID_2
                         + " FROM " + TABLE_CONVERSATIONS
                         + " WHERE " + USER_ID_1 + " =? OR " + USER_ID_2 + " =?",
                 new String[]{userId, userId});
 
-        ArrayList<String[]> matchListResponse = new ArrayList<>();
+        ArrayList<ConversationDsResponseModel> dbResponse = new ArrayList<>();
 
         if (cursor.moveToFirst()) {
             do {
-                matchListResponse.add(new String[]{
+                dbResponse.add(new ConversationDsResponseModel(
                         cursor.getString(0),
-                        cursor.getString(1)});
+                        cursor.getString(1),
+                        cursor.getString(2)));
             } while (cursor.moveToNext());
         }
 
         cursor.close();
-        return matchListResponse;
+        return dbResponse;
     }
 
     @Override
-    public ArrayList<String> readDisplayNamesForConversations(ArrayList<String> userIds) {
+    public ArrayList<String> readDisplayNames(ArrayList<String> userIds) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         boolean doNotAddComma = true;
@@ -989,6 +1015,17 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return dbResponse;
     }
 
+    public void addMessage(ChatRequestModel newMessage, SQLiteDatabase db) {
+        ContentValues values = new ContentValues();
+        values.put(CREATION_TIME, newMessage.getCreationTime().getTime());
+        values.put(CONTENT, newMessage.getText());
+        values.put(SENDER_ID, newMessage.getSentFromId());
+        values.put(RECIPIENT_ID, newMessage.getSentToId());
+        values.put(CONVERSATION_ID, newMessage.getConversationId());
+
+        db.insert(TABLE_MESSAGES, null, values);
+    }
+
     /**
      * Creates a new message record in the chat database.
      * Requires the messageId to have already been created.
@@ -1000,14 +1037,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     public void addMessage(ChatRequestModel newMessage) {
         SQLiteDatabase db = getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(CREATION_TIME, newMessage.getCreationTime().getTime());
-        values.put(CONTENT, newMessage.getText());
-        values.put(SENDER_ID, newMessage.getSentFromId());
-        values.put(RECIPIENT_ID, newMessage.getSentToId());
-        values.put(CONVERSATION_ID, newMessage.getConversationId());
-
-        db.insert(TABLE_MESSAGES, null, values);
+        addMessage(newMessage, db);
     }
 
     /**

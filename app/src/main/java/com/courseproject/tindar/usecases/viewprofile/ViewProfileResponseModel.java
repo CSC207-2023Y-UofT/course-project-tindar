@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Getter;
 
 /**
- * data model for the profile on the fetch request
+ * data model for the profile on the fetch/update request
  */
 public class ViewProfileResponseModel {
 

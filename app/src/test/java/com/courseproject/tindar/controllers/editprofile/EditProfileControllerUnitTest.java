@@ -2,8 +2,8 @@ package com.courseproject.tindar.controllers.editprofile;
 
 import static org.junit.Assert.assertEquals;
 
-import com.courseproject.tindar.usecases.editprofile.EditProfileRequestModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileInputBoundary;
+import com.courseproject.tindar.usecases.editprofile.EditProfileRequestModel;
 import com.courseproject.tindar.usecases.viewprofile.ViewProfileInputBoundary;
 import com.courseproject.tindar.usecases.viewprofile.ViewProfileResponseModel;
 
@@ -28,6 +28,7 @@ public class EditProfileControllerUnitTest {
         @Override
         public void updateProfile(String userId, EditProfileRequestModel newProfile) {
             assertEquals(USER_ID, userId);
+            assertEquals(DISPLAY_NAME, newProfile.getDisplayName());
             assertEquals(BIRTHDATE, newProfile.getBirthdate());
             assertEquals(GENDER, newProfile.getGender());
             assertEquals(LOCATION, newProfile.getLocation());
@@ -61,7 +62,7 @@ public class EditProfileControllerUnitTest {
     @Test
     public void testUpdateProfile() {
         EditProfileController testEditProfileController = new EditProfileController(mockEditProfileUserInput, mockViewProfileUserInput);
-        EditProfileRequestModel newProfile = new EditProfileRequestModel(BIRTHDATE, GENDER, LOCATION,
+        EditProfileRequestModel newProfile = new EditProfileRequestModel(DISPLAY_NAME, BIRTHDATE, GENDER, LOCATION,
                 PROFILE_PICTURE_LINK, ABOUT_ME);
         testEditProfileController.updateProfile(USER_ID, newProfile);
     }

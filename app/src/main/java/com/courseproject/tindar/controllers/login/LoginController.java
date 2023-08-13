@@ -2,10 +2,21 @@ package com.courseproject.tindar.controllers.login;
 
 import com.courseproject.tindar.usecases.login.LoginInputBoundary;
 
+/**
+ * This class is responsible for handling user's input for authenticating and accessing login of
+ * their account
+ */
 public class LoginController {
 
+    /**
+     * Input boundary interface used for handling user's input and processing user's info
+     */
     final LoginInputBoundary userInput;
 
+    /**
+     * Creates a new LoginController.
+     * @param loginUserInput the class that executes the changes based on user input.
+     */
     public LoginController(LoginInputBoundary loginUserInput){
         this.userInput = loginUserInput;
     }

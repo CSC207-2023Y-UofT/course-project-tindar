@@ -40,7 +40,7 @@ public class MatchListInteractorUnitTest {
         }
 
         @Override
-        public ArrayList<MatchListDsResponseModel> readDisplayNames(ArrayList<String> userIds) {
+        public ArrayList<MatchListDsResponseModel> readUserIdAndDisplayNames(ArrayList<String> userIds) {
             // Method that reads the display names of the userIds in the users match list
             ArrayList<MatchListDsResponseModel> displayNameList = new ArrayList<>();
             displayNameList.add(displayName);
