@@ -1,8 +1,7 @@
 package com.courseproject.tindar.usecases.editaccount;
 
 /**
- * This class is the interactor of the edit account feature, where it
- * serves as the interactor for the edit account feature.
+ *  This class is the interactor of the edit account feature.
  *  It implements the EditAccountInputBoundary interface to handle interactions and
  *  operations related to account editing.
  *

@@ -1,6 +1,6 @@
 package com.courseproject.tindar.usecases.editaccount;
 /**
- * The EditAccountDsResponseModel class represents the response model for account editing operations.
+ * The EditAccountDsResponseModel class represents an account for easier editing operations.
  * It holds information about the account's attributes.
  */
 public class EditAccountDsResponseModel {
@@ -11,7 +11,7 @@ public class EditAccountDsResponseModel {
     /**
      * Constructs a new EditAccountDsResponseModel object with the provided attributes.
      *
-     * @param isActiveStatus The active status of the account.
+     * @param isActiveStatus The active status of the account. True if active; false otherwise.
      * @param email          The email address of the account.
      * @param password       The password of the account.
      */
@@ -25,7 +25,7 @@ public class EditAccountDsResponseModel {
     /**
      * Retrieves the active status of the account.
      *
-     * @return The active status value.
+     * @return The active status value. True if active; false otherwise.
      */
     public boolean getIsActiveStatus() {
         return this.isActiveStatus;
