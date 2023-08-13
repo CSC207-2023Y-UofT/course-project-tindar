@@ -216,6 +216,7 @@
                 android:id="@+id/edit_text_about_me"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
+                android:gravity="start"
                 android:enabled="false"
                 android:inputType="none"
                 android:importantForAutofill="no" />
