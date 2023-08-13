@@ -13,6 +13,7 @@ import com.courseproject.tindar.entities.MessageModel;
 import com.courseproject.tindar.entities.TindarMessage;
 import com.courseproject.tindar.usecases.chat.ChatDsGateway;
 import com.courseproject.tindar.usecases.chat.ChatRequestModel;
+import com.courseproject.tindar.usecases.conversationlist.ConversationDsResponseModel;
 import com.courseproject.tindar.usecases.conversationlist.ConversationListDsGateway;
 import com.courseproject.tindar.usecases.conversationlist.ConversationMessageDsResponseModel;
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsGateway;
@@ -335,6 +336,16 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         addLike("5", "1", db);
         addToMatched("1", "2", db);
         addToMatched("1", "5", db);
+        addConversation("1", "5", db);
+        ChatRequestModel message1 = new ChatRequestModel("first message sent",
+                java.sql.Timestamp.valueOf("2005-04-06 09:01:10"), "1", "5", "1");
+        ChatRequestModel message2 = new ChatRequestModel("second message sent",
+                java.sql.Timestamp.valueOf("2005-04-06 09:01:17"), "1", "5", "1");
+        ChatRequestModel message3 = new ChatRequestModel("third message sent",
+                java.sql.Timestamp.valueOf("2005-04-06 09:02:10"), "5", "1", "1");
+        addMessage(message1, db);
+        addMessage(message2, db);
+        addMessage(message3, db);
     }
 
     /**
@@ -820,7 +831,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
      *          The display name at index i is the display name of the user with userId userIds[i].
      */
     @Override
-    public ArrayList<MatchListDsResponseModel> readDisplayNames(ArrayList<String> userIds) {
+    public ArrayList<MatchListDsResponseModel> readUserIdAndDisplayNames(ArrayList<String> userIds) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         boolean doNotAddComma = true;
@@ -896,31 +907,33 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     }
 
     @Override
-    public ArrayList<String[]> readConversationList(String userId) {
+    public ArrayList<ConversationDsResponseModel> readConversationList(String userId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT "
+                        + ID + ", "
                         + USER_ID_1 + ", "
                         + USER_ID_2
                         + " FROM " + TABLE_CONVERSATIONS
                         + " WHERE " + USER_ID_1 + " =? OR " + USER_ID_2 + " =?",
                 new String[]{userId, userId});
 
-        ArrayList<String[]> matchListResponse = new ArrayList<>();
+        ArrayList<ConversationDsResponseModel> dbResponse = new ArrayList<>();
 
         if (cursor.moveToFirst()) {
             do {
-                matchListResponse.add(new String[]{
+                dbResponse.add(new ConversationDsResponseModel(
                         cursor.getString(0),
-                        cursor.getString(1)});
+                        cursor.getString(1),
+                        cursor.getString(2)));
             } while (cursor.moveToNext());
         }
 
         cursor.close();
-        return matchListResponse;
+        return dbResponse;
     }
 
     @Override
-    public ArrayList<String> readDisplayNamesForConversations(ArrayList<String> userIds) {
+    public ArrayList<String> readDisplayNames(ArrayList<String> userIds) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         boolean doNotAddComma = true;
@@ -1008,6 +1021,17 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return dbResponse;
     }
 
+    public void addMessage(ChatRequestModel newMessage, SQLiteDatabase db) {
+        ContentValues values = new ContentValues();
+        values.put(CREATION_TIME, newMessage.getCreationTime().getTime());
+        values.put(CONTENT, newMessage.getText());
+        values.put(SENDER_ID, newMessage.getSentFromId());
+        values.put(RECIPIENT_ID, newMessage.getSentToId());
+        values.put(CONVERSATION_ID, newMessage.getConversationId());
+
+        db.insert(TABLE_MESSAGES, null, values);
+    }
+
     /**
      * Creates a new message record in the chat database.
      * Requires the message to not have an ID yet.
@@ -1018,14 +1042,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     public void addMessage(ChatRequestModel newMessage) {
         SQLiteDatabase db = getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(CREATION_TIME, newMessage.getCreationTime().getTime());
-        values.put(CONTENT, newMessage.getText());
-        values.put(SENDER_ID, newMessage.getSentFromId());
-        values.put(RECIPIENT_ID, newMessage.getSentToId());
-        values.put(CONVERSATION_ID, newMessage.getConversationId());
-
-        db.insert(TABLE_MESSAGES, null, values);
+        addMessage(newMessage, db);
     }
 
     /**

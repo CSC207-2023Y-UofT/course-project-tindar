@@ -44,7 +44,7 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
         final ConversationResponseModel conversation = mValues.get(position);
 
         holder.mItem = mValues.get(position);
-        holder.mUserName.setText(mValues.get(position).getUserName());
+        holder.mUserName.setText(mValues.get(position).getConversationPartnerName());
         holder.mLastMessage.setText(mValues.get(position).getLastMessage());
         holder.mLastMessageTime.setText(mValues.get(position).getLastMessageTime());
 

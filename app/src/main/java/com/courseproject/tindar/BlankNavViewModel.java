@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModel;
 public class BlankNavViewModel extends ViewModel {
 
     /**
-     * user id for the logged in user
+     * user id for the logged-in user
      */
     private final MutableLiveData<String> userId = new MutableLiveData<>();
     private final MutableLiveData<Integer> viewProfileUserIdIndex = new MutableLiveData<>();
@@ -34,18 +34,18 @@ public class BlankNavViewModel extends ViewModel {
     }
 
     /**
-     * sets the ...
+     * Sets the index of the next profile to view in the view profiles dataset.
      *
-     * @param viewProfileUserIdIndex
+     * @param viewProfileUserIdIndex The index of the next profile to display.
      */
     public void setViewProfileUserIdIndex(int viewProfileUserIdIndex) {
         this.viewProfileUserIdIndex.setValue(viewProfileUserIdIndex);
     }
 
     /**
-     * gets the ...
+     * Retrieves the index of the current profile being viewed.
      *
-     * @return
+     * @return The index in the view profile dataset.
      */
     public LiveData<Integer> getViewProfileUserIdIndex() {
         return viewProfileUserIdIndex;
