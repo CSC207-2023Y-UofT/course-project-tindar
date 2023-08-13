@@ -24,13 +24,15 @@ public class UserListInteractorUnitTest {
     @Test
     public void getUserListOne() {
         MockUserListDsGateway userListDsGateway = new MockUserListDsGateway();
-        assertEquals(USERLIST, userListDsGateway.getAllOtherUserIds(USER_ID_1));
+        UserListInputBoundary userListUserInput = new UserListInteractor(userListDsGateway);
+        assertEquals(USERLIST, userListUserInput.getAllOtherUserIds(USER_ID_1));
     }
 
     @Test
     public void getUserListTwo() {
         MockUserListDsGateway userListDsGateway = new MockUserListDsGateway();
-        assertEquals(USERLIST, userListDsGateway.getAllOtherUserIds(USER_ID_2));
+        UserListInputBoundary userListUserInput = new UserListInteractor(userListDsGateway);
+        assertEquals(USERLIST, userListUserInput.getAllOtherUserIds(USER_ID_2));
     }
 
 }
