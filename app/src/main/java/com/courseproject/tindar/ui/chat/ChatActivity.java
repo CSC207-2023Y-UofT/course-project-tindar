@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.courseproject.tindar.R;
 
+import com.courseproject.tindar.ds.DatabaseHelper;
 import com.courseproject.tindar.entities.MessageModel;
 
 // TODO: remove TindarMessage import when database is properly connected
@@ -32,9 +33,9 @@ import java.util.ArrayList;
  * This displays the messages, bar at the top, navigation buttons, and inputs for conversing.
  * This java file and dictates the bigger picture of one-on-one chat display
  * and functionality of the buttons on the screen.
- * -------------------------------------------------------------------------------------------------
+ * <p>
  * Will add button functionality as other features are implemented.
- * -------------------------------------------------------------------------------------------------
+ * <p>
  * Display layout is in activity_chat.xml.
  * Given a list of messages and basic info,
  * ChatRecyclerViewAdapter.java handles displaying messages.
@@ -69,22 +70,11 @@ public class ChatActivity extends AppCompatActivity {
     /** List of messages that are already loaded and ready to be displayed by RecyclerView. */
     private ArrayList<MessageModel> loadedMessages;
 
-    /** Chat controller handling user inputs */
-    private ChatActivityController chatActivityController;
-
-    /** Chat presenter handling display models */
-    private ChatPresenter chatPresenter;
+    /** Chat interactor handling user inputs */
+    private ChatInteractor chatInteractor;
 
     /** Where the user types their messages. */
     private EditText chatInput;
-    /** The user presses this button to send their typed message in chatInput */
-    private ImageButton sendMessageButton;
-// --Commented out by Inspection START (2023-08-12 09:10):
-//    /**
-//     * Tak them to wherever they were prior to opening this chat.
-//     */
-//    private ImageButton backButton;
-// --Commented out by Inspection STOP (2023-08-12 09:10)
 
     /** Displays messages. */
     private RecyclerView chatRecyclerView;
@@ -111,12 +101,14 @@ public class ChatActivity extends AppCompatActivity {
         this.conversationPartnerDisplayName
                 = intent.getStringExtra("conversation_partner_display_name");
 
+        this.chatInteractor =
+                new ChatInteractor(DatabaseHelper.getInstance(getApplicationContext()),
+                        this.userId, this.otherUserId);
+
         // setting input and view instance variables to match what's in the display
         this.conversationPartnerDisplayNameDisplay
                 = findViewById(R.id.conversation_partner_display_name);
         this.chatInput = findViewById(R.id.new_chat_input);
-        this.sendMessageButton = findViewById(R.id.button_send_message);
-        // this.backButton = findViewById(R.id.back_button);
 
         // getting the screen to display the correct name for the conversation partner
         this.conversationPartnerDisplayNameDisplay.setText(this.conversationPartnerDisplayName);
@@ -203,7 +195,7 @@ public class ChatActivity extends AppCompatActivity {
         String input = (this.chatInput.getText()).toString();
         ChatRequestModel newMessage = new ChatRequestModel(input, new Timestamp(System.currentTimeMillis()),
                 this.userId, this.otherUserId, "fix");
-        this.chatActivityController.sendMessage(newMessage);
+        this.chatInteractor.sendMessage(newMessage);
         this.loadedMessages.add(null);
         this.chatInput.getText().clear();
 

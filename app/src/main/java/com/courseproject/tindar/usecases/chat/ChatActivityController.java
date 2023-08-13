@@ -13,4 +13,16 @@ public interface ChatActivityController {
      * Adds the message to the database and notifies observers.
      */
     void sendMessage(ChatRequestModel newMessageModel);
+
+    /**
+     * Add object that should be notified when a message is sent to this conversation
+     * @param newObserver object that should be notified when a message is sent to this conversation
+     */
+    void addChatObserver(ChatPresenter newObserver);
+
+    /**
+     * remove object from list of objects that should be notified of new messages
+     * @param observer object that should no longer be notified
+     */
+    void deleteChatObserver(ChatPresenter observer);
 }

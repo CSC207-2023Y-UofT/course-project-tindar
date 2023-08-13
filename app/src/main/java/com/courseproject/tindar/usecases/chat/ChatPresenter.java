@@ -16,4 +16,10 @@ public interface ChatPresenter {
      *          If no messages exist, then an empty list is returned.
      */
     ArrayList<MessageModel> getMessageList(String[] userIds);
+
+    /**
+     * Adds a message to the message list.
+     * @param newMessage new message to be added
+     */
+    void updateMessageList(MessageModel newMessage);
 }

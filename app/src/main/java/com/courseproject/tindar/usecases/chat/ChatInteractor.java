@@ -38,6 +38,26 @@ public class ChatInteractor implements ChatPresenter, ChatActivityController{
     }
 
     /**
+     * Add object that should be notified when a message is sent to this conversation
+     *
+     * @param newObserver object that should be notified when a message is sent to this conversation
+     */
+    @Override
+    public void addChatObserver(ChatPresenter newObserver) {
+
+    }
+
+    /**
+     * remove object from list of objects that should be notified of new messages
+     *
+     * @param observer object that should no longer be notified
+     */
+    @Override
+    public void deleteChatObserver(ChatPresenter observer) {
+
+    }
+
+    /**
      * Given userIds, returns a list of messages between the users in chronological order.
      * If no messages exist, then an empty list is returned.
      *
@@ -48,5 +68,19 @@ public class ChatInteractor implements ChatPresenter, ChatActivityController{
     @Override
     public ArrayList<MessageModel> getMessageList(String[] userIds) {
         return this.messageList;
+    }
+
+    /**
+     * Adds a message to the message list.
+     *
+     * @param newMessage new message to be added
+     */
+    @Override
+    public void updateMessageList(MessageModel newMessage) {
+
+    }
+
+    private void notifyObservers(){
+        return;
     }
 }
