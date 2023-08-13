@@ -130,12 +130,4 @@ public class ConversationListInteractor implements ConversationListInputBoundary
 //        int numberOfMatches = matchedUsers.size();
 //        String[] displayNames = new String[numberOfMatches];
 //        String[] userIds = new String[numberOfMatches];
-//        for (int i = 0; i < numberOfMatches; i++) {
-//            displayNames[i] = matchedUsers.get(i).getDisplayName();
-//            userIds[i] = matchedUsers.get(i).getUserId();
-//        }
-//
-//        return new LikeListResponseModel(userIds, displayNames);
-//    }
-//}
 //
