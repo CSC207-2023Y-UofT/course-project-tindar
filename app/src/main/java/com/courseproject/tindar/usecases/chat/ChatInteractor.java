@@ -47,6 +47,6 @@ public class ChatInteractor implements ChatPresenter, ChatActivityController{
      */
     @Override
     public ArrayList<MessageModel> getMessageList(String[] userIds) {
-        return null;
+        return this.messageList;
     }
 }
