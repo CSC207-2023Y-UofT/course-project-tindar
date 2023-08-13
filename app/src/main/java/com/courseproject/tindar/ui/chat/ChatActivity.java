@@ -18,6 +18,7 @@ import com.courseproject.tindar.entities.MessageModel;
 
 // TODO: remove TindarMessage import when database is properly connected
 import com.courseproject.tindar.entities.TindarMessage;
+import com.courseproject.tindar.usecases.chat.ChatInteractor;
 
 // TODO: consider removing Timestamp import when database is properly connected
 import java.sql.Timestamp;
@@ -64,6 +65,9 @@ public class ChatActivity extends AppCompatActivity {
     private TextView conversationPartnerDisplayNameDisplay;
     /** List of messages that are already loaded and ready to be displayed by RecyclerView. */
     private ArrayList<MessageModel> loadedMessages;
+
+    /** Chat Interactor handling back-end */
+    private ChatInteractor chatInteractor;
 
     /** Where the user types their messages. */
     private EditText chatInput;

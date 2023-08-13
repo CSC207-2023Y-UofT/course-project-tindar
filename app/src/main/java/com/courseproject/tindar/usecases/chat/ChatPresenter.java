@@ -6,24 +6,14 @@ import java.util.ArrayList;
 
 /**
  * Creates and maintains an ArrayList of MessageModels for ChatActivity to display.
- * Pulls information from the message database using a ChatDatabaseGateway.
  */
-public class ChatPresenter {
-    private ArrayList<MessageModel> messageList;
-    private ChatDatabaseGateway chatDatabaseGateway;
-    private String[] userIDs;
-
-    public ChatPresenter(String[] userIDs){
-        this.userIDs = userIDs;
-        this.messageList = new ArrayList<>();
-        //this.chatDatabaseGateway = new ChatDatabaseHelper(this.userIDs); // TODO
-    }
-
-    public ArrayList<MessageModel> getMessageList(){
-        return this.messageList;
-    }
-
-    public void loadMessages(){
-        // TODO: use ChatDatabaseGateway to get message info, and update the list accordingly
-    }
+public interface ChatPresenter {
+    /**
+     * Given userIds, returns a list of messages between the users in chronological order.
+     * If no messages exist, then an empty list is returned.
+     * @param userIds the userIds of the users in the conversation.
+     * @return a list of messages between the users in chronological order.
+     *          If no messages exist, then an empty list is returned.
+     */
+    ArrayList<MessageModel> getMessageList(String[] userIds);
 }
