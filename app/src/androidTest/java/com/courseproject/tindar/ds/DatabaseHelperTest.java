@@ -322,6 +322,14 @@ public class DatabaseHelperTest {
     }
 
     @Test
+    public void testAddConversationTwiceAndFindConversationId() {
+        dbHelper.addConversation(userId, otherUserId);
+        dbHelper.addConversation(userId, otherUserId);
+        ArrayList<ConversationDsResponseModel> conversationList = dbHelper.readConversationList(userId);
+        assertEquals(1, conversationList.size());
+    }
+
+    @Test
     public void testFindConversationIdWithNonExistingConversation() {
         String conversationId = dbHelper.findConversationId("some-user-11", "some-other-user-101");
         assertNull(conversationId);
@@ -336,7 +344,7 @@ public class DatabaseHelperTest {
         assertEquals(userId, conversationList.get(0).getUserId1());
         assertEquals(otherUserId, conversationList.get(0).getUserId2());
         assertEquals(userId, conversationList.get(1).getUserId1());
-        assertEquals(thirdUserId, conversationList.get(0).getUserId2());
+        assertEquals(thirdUserId, conversationList.get(1).getUserId2());
     }
 
     @Test

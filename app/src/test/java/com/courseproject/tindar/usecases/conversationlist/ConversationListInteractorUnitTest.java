@@ -39,11 +39,6 @@ public class ConversationListInteractorUnitTest {
         }
 
         @Override
-        public void addConversation(String userId, String otherUserId) {
-
-        }
-
-        @Override
         public ArrayList<ConversationDsResponseModel> readConversationList(String userId) {
             ArrayList<ConversationDsResponseModel> conversationList = new ArrayList<>();
             ConversationDsResponseModel conversationFromDs = new ConversationDsResponseModel(CONVERSATION_ID, userId1, userId2);

@@ -1,9 +1,9 @@
 package com.courseproject.tindar.usecases.likelist;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.courseproject.tindar.usecases.matchlist.MatchListDsResponseModel;
 
 import org.junit.Test;
 
@@ -20,12 +20,14 @@ public class LikeListInteractorUnitTest {
         boolean isLiked;
         ArrayList<String> matchList;
         ArrayList<String> likeList;
+        ArrayList<String> conversationList;
 
         public MockLikeListDsGateway(boolean isLiked, ArrayList<String> matchList,
-                                     ArrayList<String> likeList) {
+                                     ArrayList<String> likeList, ArrayList<String> conversationList) {
             this.isLiked = isLiked;
             this.matchList = matchList;
             this.likeList = likeList;
+            this.conversationList = conversationList;
         }
 
         @Override
@@ -57,6 +59,11 @@ public class LikeListInteractorUnitTest {
             // Method that unmatches userId and otherUserId
             matchList.remove(userId + " is matched " + otherUserId);
         }
+
+        @Override
+        public void addConversation(String userId, String otherUserId) {
+            conversationList.add(userId + " has conversation with " + otherUserId);
+        }
     }
 
     @Test
@@ -64,8 +71,9 @@ public class LikeListInteractorUnitTest {
         // Test that USER_ID_1 likes USER_ID_2
         ArrayList<String> matchList = new ArrayList<>();
         ArrayList<String> likeList = new ArrayList<>();
+        ArrayList<String> conversationList = new ArrayList<>();
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(true, matchList,
-                likeList);
+                likeList, conversationList);
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
         boolean doesLike = likeListInteractor.checkLiked(USER_ID_1, USER_ID_2);
         assertTrue(doesLike);
@@ -76,12 +84,14 @@ public class LikeListInteractorUnitTest {
         // Test that USER_ID_1 and USER_ID_2 are matched when both users "like" each other
         ArrayList<String> matchList = new ArrayList<>();
         ArrayList<String> likeList = new ArrayList<>();
+        ArrayList<String> conversationList = new ArrayList<>();
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(true, matchList,
-                likeList);
+                likeList, conversationList);
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
         likeListInteractor.addLike(USER_ID_1, USER_ID_2);
         assertEquals(USER_ID_1 + " likes " + USER_ID_2, likeList.get(0));
         assertEquals(USER_ID_1 + " is matched " + USER_ID_2, matchList.get(0));
+        assertEquals(USER_ID_1 + " has conversation with " + USER_ID_2, conversationList.get(0));
     }
 
     @Test
@@ -89,12 +99,14 @@ public class LikeListInteractorUnitTest {
         // Test that USER_ID_1 and USER_ID_2 are matched when both users "like" each other
         ArrayList<String> matchList = new ArrayList<>();
         ArrayList<String> likeList = new ArrayList<>();
+        ArrayList<String> conversationList = new ArrayList<>();
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(true, matchList,
-                likeList);
+                likeList, conversationList);
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
         likeListInteractor.addLike(USER_ID_2, USER_ID_1);
         assertEquals(USER_ID_2 + " likes " + USER_ID_1, likeList.get(0));
         assertEquals(USER_ID_1 + " is matched " + USER_ID_2, matchList.get(0));
+        assertEquals(USER_ID_1 + " has conversation with " + USER_ID_2, conversationList.get(0));
     }
 
     @Test
@@ -102,12 +114,14 @@ public class LikeListInteractorUnitTest {
         // Test that USER_ID_1 is added to USER_ID_2 likeList, but not match the users.
         ArrayList<String> matchList = new ArrayList<>();
         ArrayList<String> likeList = new ArrayList<>();
+        ArrayList<String> conversationList = new ArrayList<>();
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(false, matchList,
-                likeList);
+                likeList, conversationList);
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
         likeListInteractor.addLike(USER_ID_1, USER_ID_2);
         assertEquals(USER_ID_1 + " likes " + USER_ID_2, likeList.get(0));
         assertTrue(matchList.isEmpty());
+        assertTrue(conversationList.isEmpty());
     }
 
     @Test
@@ -116,8 +130,9 @@ public class LikeListInteractorUnitTest {
         // unmatched
         ArrayList<String> matchList = new ArrayList<>();
         ArrayList<String> likeList = new ArrayList<>();
+        ArrayList<String> conversationList = new ArrayList<>();
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(true, matchList,
-                likeList);
+                likeList, conversationList);
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
         likeListInteractor.addLike(USER_ID_1, USER_ID_2);
         assertEquals(USER_ID_1 + " likes " + USER_ID_2, likeList.get(0));
@@ -125,6 +140,7 @@ public class LikeListInteractorUnitTest {
         likeListInteractor.removeLike(USER_ID_1, USER_ID_2);
         assertTrue(likeList.isEmpty());
         assertTrue(matchList.isEmpty());
+        assertFalse(conversationList.isEmpty());
     }
 
     @Test
@@ -133,8 +149,9 @@ public class LikeListInteractorUnitTest {
         // unmatched.
         ArrayList<String> matchList = new ArrayList<>();
         ArrayList<String> likeList = new ArrayList<>();
+        ArrayList<String> conversationList = new ArrayList<>();
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(true, matchList,
-                likeList);
+                likeList, conversationList);
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
         likeListInteractor.addLike(USER_ID_2, USER_ID_1);
         assertEquals(USER_ID_2 + " likes " + USER_ID_1, likeList.get(0));
@@ -142,6 +159,7 @@ public class LikeListInteractorUnitTest {
         likeListInteractor.removeLike(USER_ID_2, USER_ID_1);
         assertTrue(likeList.isEmpty());
         assertTrue(matchList.isEmpty());
+        assertFalse(conversationList.isEmpty());
     }
 
     @Test
@@ -149,12 +167,14 @@ public class LikeListInteractorUnitTest {
         // Test removing a like where the two users are not matched
         ArrayList<String> matchList = new ArrayList<>();
         ArrayList<String> likeList = new ArrayList<>();
+        ArrayList<String> conversationList = new ArrayList<>();
         LikeListDsGateway likeListDsGateway = new MockLikeListDsGateway(false, matchList,
-                likeList);
+                likeList, conversationList);
         LikeListInteractor likeListInteractor = new LikeListInteractor(likeListDsGateway);
         likeListInteractor.addLike(USER_ID_1, USER_ID_2);
         assertEquals(USER_ID_1 + " likes " + USER_ID_2, likeList.get(0));
         assertTrue(matchList.isEmpty());
+        assertTrue(conversationList.isEmpty());
         likeListInteractor.removeLike(USER_ID_1, USER_ID_2);
         assertTrue(likeList.isEmpty());
     }

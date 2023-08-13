@@ -42,8 +42,10 @@ public class LikeListInteractor implements LikeListInputBoundary {
             // duplicate records of (userId, otherUserId) and (otherUserId, userId) in the database
             if (Integer.parseInt(userId) < Integer.parseInt(otherUserId)) {
                 likeListDsGateway.addToMatched(userId, otherUserId);
+                likeListDsGateway.addConversation(userId, otherUserId);
             } else {
                 likeListDsGateway.addToMatched(otherUserId, userId);
+                likeListDsGateway.addConversation(otherUserId, userId);
             }
         }
     }
