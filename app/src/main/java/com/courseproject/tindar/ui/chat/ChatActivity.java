@@ -9,19 +9,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.courseproject.tindar.R;
 
+import com.courseproject.tindar.controllers.chat.ChatController;
 import com.courseproject.tindar.ds.DatabaseHelper;
 import com.courseproject.tindar.entities.MessageModel;
 
 // TODO: remove TindarMessage import when database is properly connected
-import com.courseproject.tindar.entities.TindarMessage;
-import com.courseproject.tindar.usecases.chat.ChatActivityController;
+import com.courseproject.tindar.usecases.chat.ChatInputBoundary;
 import com.courseproject.tindar.usecases.chat.ChatInteractor;
-import com.courseproject.tindar.usecases.chat.ChatPresenter;
 import com.courseproject.tindar.usecases.chat.ChatRequestModel;
 
 // TODO: consider removing Timestamp import when database is properly connected
@@ -59,6 +57,8 @@ public class ChatActivity extends AppCompatActivity {
      */
     private String otherUserId;
 
+    private String conversationId;
+
     /**
      * Display name of current user's conversation partner.
      * Needed to display the proper info onscreen so that users know who they're chatting with.
@@ -70,8 +70,8 @@ public class ChatActivity extends AppCompatActivity {
     /** List of messages that are already loaded and ready to be displayed by RecyclerView. */
     private ArrayList<MessageModel> loadedMessages;
 
-    /** Chat interactor handling user inputs */
-    private ChatInteractor chatInteractor;
+    /** Chat controller handling user inputs */
+    private ChatController chatController;
 
     /** Where the user types their messages. */
     private EditText chatInput;
@@ -101,9 +101,9 @@ public class ChatActivity extends AppCompatActivity {
         this.conversationPartnerDisplayName
                 = intent.getStringExtra("conversation_partner_display_name");
 
-        this.chatInteractor =
-                new ChatInteractor(DatabaseHelper.getInstance(getApplicationContext()),
-                        this.userId, this.otherUserId);
+        ChatInputBoundary chatInteractor =
+                new ChatInteractor(DatabaseHelper.getInstance(getApplicationContext()));
+        this.chatController = new ChatController(chatInteractor);
 
         // setting input and view instance variables to match what's in the display
         this.conversationPartnerDisplayNameDisplay
@@ -113,10 +113,12 @@ public class ChatActivity extends AppCompatActivity {
         // getting the screen to display the correct name for the conversation partner
         this.conversationPartnerDisplayNameDisplay.setText(this.conversationPartnerDisplayName);
 
+        this.conversationId = this.chatController.getConversationId(this.userId, this.otherUserId);
+
         // Everything after this in this method handles messages and message display.
         // To be honest, I still don't fully understand all of it
 
-        this.adapter = new ChatRecyclerViewAdapter(this.chatInteractor.getMessageList(),
+        this.adapter = new ChatRecyclerViewAdapter(this.chatController.getMessageList(this.conversationId),
                 this.userId);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
@@ -146,12 +148,12 @@ public class ChatActivity extends AppCompatActivity {
         String input = (this.chatInput.getText()).toString();
         if(!input.isEmpty()){
             ChatRequestModel newMessage = new ChatRequestModel(input, new Timestamp(System.currentTimeMillis()),
-                    this.userId, this.otherUserId, this.chatInteractor.getConversationId());
-            this.chatInteractor.sendMessage(newMessage);
+                    this.userId, this.otherUserId, conversationId);
+            this.chatController.sendMessage(newMessage);
 
             // UI
             this.chatInput.getText().clear();
-            this.adapter.setMessageList(this.chatInteractor.getMessageList());
+            this.adapter.setMessageList(this.chatController.getMessageList(conversationId));
             this.adapter.notifyDataSetChanged();
         }
     }

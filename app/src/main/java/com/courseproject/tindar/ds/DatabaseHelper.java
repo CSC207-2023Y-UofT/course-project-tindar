@@ -336,14 +336,14 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         addLike("5", "1", db);
         addToMatched("1", "2", db);
         addToMatched("1", "5", db);
-        addConversation("1", "5", db);
         addConversation("1", "2", db);
+        addConversation("1", "5", db);
         ChatRequestModel message1 = new ChatRequestModel("first message sent",
-                java.sql.Timestamp.valueOf("2005-04-06 09:01:10"), "1", "5", "1");
+                java.sql.Timestamp.valueOf("2005-04-06 09:01:10"), "1", "2", "1");
         ChatRequestModel message2 = new ChatRequestModel("second message sent",
-                java.sql.Timestamp.valueOf("2005-04-06 09:01:17"), "1", "5", "1");
+                java.sql.Timestamp.valueOf("2005-04-06 09:01:17"), "1", "2", "1");
         ChatRequestModel message3 = new ChatRequestModel("third message sent",
-                java.sql.Timestamp.valueOf("2005-04-06 09:02:10"), "5", "1", "1");
+                java.sql.Timestamp.valueOf("2005-04-06 09:02:10"), "2", "1", "1");
         addMessage(message1, db);
         addMessage(message2, db);
         addMessage(message3, db);

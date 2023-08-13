@@ -73,7 +73,7 @@ public class ConversationListInteractorUnitTest {
     }
 
     @Test
-    public void testGetAllActiveConversationsReversed() {
+    public void testGetAllActiveConversationsUserIdReversed() {
         ConversationMessageDsResponseModel lastMessage = new ConversationMessageDsResponseModel(LAST_MESSAGE_1, LAST_MESSAGE_TIME_1);
         ConversationListDsGateway conversationListDsGateway = new MockConversationListDsGateway(USER_ID_1, USER_ID_3, lastMessage, USER_DISPLAY_NAME_1);
         ConversationListInteractor conversationListInteractor = new ConversationListInteractor(conversationListDsGateway);
