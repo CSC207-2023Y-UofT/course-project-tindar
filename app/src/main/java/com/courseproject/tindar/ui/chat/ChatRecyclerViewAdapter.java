@@ -50,6 +50,10 @@ public class ChatRecyclerViewAdapter
         this._userID = userID;
     }
 
+    public void setMessageList(ArrayList<MessageModel> newMessageList){
+        this._displayedMessages = newMessageList;
+    }
+
     /**
      * Creates and adds TindarMessageViewHolder objects to the parent ViewGroup
      * @param parent   The ViewGroup into which the new View will be added after it is bound to
@@ -123,9 +127,6 @@ public class ChatRecyclerViewAdapter
     /** Holds the views for individual messages (I think) */
     public static class TindarMessageViewHolder extends RecyclerView.ViewHolder{
         // grabs views from row layout file and assigns them to variables
-
-        /** Contains the outer shell for the layout for a given message */
-        private final RelativeLayout messageLayout;
         /**
          * Contains the text portion of the layout for a given message.
          * May be refactored later for better non-text support.
@@ -139,7 +140,6 @@ public class ChatRecyclerViewAdapter
         public TindarMessageViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            this.messageLayout = itemView.findViewById(R.id.layout_message);
             this.messageContentLayout = itemView.findViewById(R.id.message_content_layout);
         }
     }

@@ -150,6 +150,7 @@ public class ChatActivity extends AppCompatActivity {
 
         // UI
         this.chatInput.getText().clear();
+        this.adapter.setMessageList(this.chatInteractor.getMessageList());
         this.adapter.notifyDataSetChanged();
     }
 
