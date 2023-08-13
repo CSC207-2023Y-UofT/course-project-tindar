@@ -10,7 +10,9 @@ public class ChatInteractor implements ChatPresenter, ChatActivityController{
     private final String userId;
     private String conversationPartnerUserId;
     private String[] userIds;
+    private String conversationId;
     private ArrayList<MessageModel> messageList;
+    private ArrayList<ChatPresenter> observers;
 
     public ChatInteractor(ChatDsGateway chatDsHelper, String userId,
                           String conversationPartnerUserId){
@@ -24,6 +26,10 @@ public class ChatInteractor implements ChatPresenter, ChatActivityController{
         } else {
             String[] userIds = {conversationPartnerUserId, userId};
         }
+
+        this.conversationId = this.chatDsHelper.findConversationId(this.userIds[0], this.userIds[1]);
+        this.messageList = this.chatDsHelper.readMessagesByConversationId(this.conversationId);
+        this.observers.add(this);
     }
 
     /**
@@ -44,7 +50,9 @@ public class ChatInteractor implements ChatPresenter, ChatActivityController{
      */
     @Override
     public void addChatObserver(ChatPresenter newObserver) {
-
+        if (!this.observers.contains(newObserver)) {
+            this.observers.add(newObserver);
+        };
     }
 
     /**
@@ -54,7 +62,7 @@ public class ChatInteractor implements ChatPresenter, ChatActivityController{
      */
     @Override
     public void deleteChatObserver(ChatPresenter observer) {
-
+        this.observers.remove(observer);
     }
 
     /**
@@ -77,10 +85,6 @@ public class ChatInteractor implements ChatPresenter, ChatActivityController{
      */
     @Override
     public void updateMessageList(MessageModel newMessage) {
-
-    }
-
-    private void notifyObservers(){
-        return;
+        // TODO
     }
 }
