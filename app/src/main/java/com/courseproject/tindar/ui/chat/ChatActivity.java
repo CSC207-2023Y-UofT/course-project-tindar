@@ -116,62 +116,13 @@ public class ChatActivity extends AppCompatActivity {
         // Everything after this in this method handles messages and message display.
         // To be honest, I still don't fully understand all of it
 
-        this.loadMessages(); // calling the method that loads messages from the database
-
-        this.adapter = new ChatRecyclerViewAdapter(loadedMessages, this.userId);
+        this.adapter = new ChatRecyclerViewAdapter(this.chatInteractor.getMessageList(),
+                this.userId);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
         this.chatRecyclerView = findViewById(R.id.chat_recycler_view); // matches recycler to layout
         this.chatRecyclerView.setAdapter(adapter);
         this.chatRecyclerView.setLayoutManager(linearLayoutManager);
-    }
-
-    // TODO: this should be implemented properly
-    // and call a different class for the messages. probably conversation.
-    /**
-     * Loads or adds to the list of messages to be displayed,
-     * which is stored in the instance variable loadedMessages.
-     * Called by OnCreate. Should also be called whenever the user wants to load more messages.
-     * ---------------------------------------------------------------------------------------------
-     * Currently implemented with hardcoded tests; will be reimplemented with the database.
-     */
-    private void loadMessages(){
-        TindarMessage testMessage1 = new TindarMessage("message sent", new Timestamp(2023, 2, 25, 18, 0, 0, 0),
-                this.userId, "user2", "101", "7");
-        TindarMessage testMessage2 = new TindarMessage("message sent", new Timestamp(2023, 3, 25, 18, 0, 0, 0),
-                this.userId, "user2", "102", "7");
-        TindarMessage testMessage3 = new TindarMessage("message received", new Timestamp(2023, 4, 25, 18, 0, 0, 0),
-                "user2", this.userId, "103", "7");
-        TindarMessage testMessage4 = new TindarMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                "Etiam maximus erat nisl, a scelerisque leo euismod nec. Ut dapibus auctor augue, quis tempor tellus " +
-                "tincidunt vel. Fusce ut odio mauris. Nam nec finibus enim. Duis et nisi tristique, luctus leo id, " +
-                "facilisis dolor. Phasellus ac auctor odio, non mollis magna. Suspendisse tortor ipsum, consectetur " +
-                "vitae metus et, accumsan luctus erat. Sed gravida, ipsum vel mattis maximus, orci arcu convallis " +
-                "nunc, sed sagittis metus felis ac sapien. Integer non pellentesque massa. Lorem ipsum dolor sit " +
-                "amet, consectetur adipiscing elit. Sed et dignissim erat. Integer at nibh ac mi ultricies pulvinar. " +
-                "Morbi nec arcu nisi. Duis eu ligula auctor, dictum tortor a, condimentum velit. Suspendisse potenti." +
-                " Sed fermentum lobortis blandit.", new Timestamp(2023, 5, 25, 18, 0, 0, 0), this.userId, "user2", "104", "7");
-        TindarMessage testMessage5 = new TindarMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                "Etiam maximus erat nisl, a scelerisque leo euismod nec. Ut dapibus auctor augue, quis tempor tellus " +
-                "tincidunt vel. Fusce ut odio mauris. Nam nec finibus enim. Duis et nisi tristique, luctus leo id, " +
-                "facilisis dolor. Phasellus ac auctor odio, non mollis magna. Suspendisse tortor ipsum, consectetur " +
-                "vitae metus et, accumsan luctus erat. Sed gravida, ipsum vel mattis maximus, orci arcu convallis " +
-                "nunc, sed sagittis metus felis ac sapien. Integer non pellentesque massa. Lorem ipsum dolor sit " +
-                "amet, consectetur adipiscing elit. Sed et dignissim erat. Integer at nibh ac mi ultricies pulvinar. " +
-                "Morbi nec arcu nisi. Duis eu ligula auctor, dictum tortor a, condimentum velit. Suspendisse potenti." +
-                " Sed fermentum lobortis blandit.", new Timestamp(2023, 5, 25, 18, 0, 0, 0),"user2", this.userId,
-                "105", "7");
-
-        this.loadedMessages = new ArrayList<>();
-        this.loadedMessages.add(testMessage1);
-        this.loadedMessages.add(testMessage2);
-        this.loadedMessages.add(testMessage3);
-        this.loadedMessages.add(testMessage3);
-        this.loadedMessages.add(testMessage3);
-        this.loadedMessages.add(testMessage3);
-        this.loadedMessages.add(testMessage3);
-        this.loadedMessages.add(testMessage4);
-        this.loadedMessages.add(testMessage5);
     }
 
     // TODO: this should be refactored.
@@ -194,11 +145,11 @@ public class ChatActivity extends AppCompatActivity {
     public void sentMessage(View v){
         String input = (this.chatInput.getText()).toString();
         ChatRequestModel newMessage = new ChatRequestModel(input, new Timestamp(System.currentTimeMillis()),
-                this.userId, this.otherUserId, "fix");
+                this.userId, this.otherUserId, this.chatInteractor.getConversationId());
         this.chatInteractor.sendMessage(newMessage);
-        this.loadedMessages.add(null);
-        this.chatInput.getText().clear();
 
+        // UI
+        this.chatInput.getText().clear();
         this.adapter.notifyDataSetChanged();
     }
 

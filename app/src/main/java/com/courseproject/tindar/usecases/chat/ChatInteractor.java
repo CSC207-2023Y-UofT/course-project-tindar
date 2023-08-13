@@ -28,7 +28,7 @@ public class ChatInteractor implements ChatPresenter, ChatActivityController{
         }
 
         this.conversationId = this.chatDsHelper.findConversationId(this.userIds[0], this.userIds[1]);
-        this.messageList = this.chatDsHelper.readMessagesByConversationId(this.conversationId);
+        this.updateMessageList();
         this.observers.add(this);
     }
 
@@ -41,6 +41,9 @@ public class ChatInteractor implements ChatPresenter, ChatActivityController{
     @Override
     public void sendMessage(ChatRequestModel newMessageModel) {
         this.chatDsHelper.addMessage(newMessageModel);
+        for (ChatPresenter i: observers){
+            i.updateMessageList();
+        }
     }
 
     /**
@@ -69,22 +72,27 @@ public class ChatInteractor implements ChatPresenter, ChatActivityController{
      * Given userIds, returns a list of messages between the users in chronological order.
      * If no messages exist, then an empty list is returned.
      *
-     * @param userIds the userIds of the users in the conversation.
      * @return a list of messages between the users in chronological order.
      * If no messages exist, then an empty list is returned.
      */
     @Override
-    public ArrayList<MessageModel> getMessageList(String[] userIds) {
+    public ArrayList<MessageModel> getMessageList() {
         return this.messageList;
     }
 
     /**
-     * Adds a message to the message list.
-     *
-     * @param newMessage new message to be added
+     * refreshes the message list based on what's currently in the database
      */
     @Override
-    public void updateMessageList(MessageModel newMessage) {
-        // TODO
+    public void updateMessageList() {
+        this.messageList = this.chatDsHelper.readMessagesByConversationId(this.conversationId);
+    }
+
+    /**
+     * @return conversation ID of the conversation that is being presented
+     */
+    @Override
+    public String getConversationId() {
+        return this.conversationId;
     }
 }

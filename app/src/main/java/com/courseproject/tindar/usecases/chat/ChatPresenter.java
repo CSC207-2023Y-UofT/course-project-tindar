@@ -11,15 +11,18 @@ public interface ChatPresenter {
     /**
      * Given userIds, returns a list of messages between the users in chronological order.
      * If no messages exist, then an empty list is returned.
-     * @param userIds the userIds of the users in the conversation.
      * @return a list of messages between the users in chronological order.
      *          If no messages exist, then an empty list is returned.
      */
-    ArrayList<MessageModel> getMessageList(String[] userIds);
+    ArrayList<MessageModel> getMessageList();
 
     /**
-     * Adds a message to the message list.
-     * @param newMessage new message to be added
+     * refreshes the message list based on what's currently in the database
      */
-    void updateMessageList(MessageModel newMessage);
+    void updateMessageList();
+
+    /**
+     * @return conversation ID of the conversation that is being presented
+     */
+    String getConversationId();
 }
