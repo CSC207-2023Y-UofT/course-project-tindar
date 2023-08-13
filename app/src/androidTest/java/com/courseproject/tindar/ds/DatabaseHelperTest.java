@@ -2,6 +2,7 @@ package com.courseproject.tindar.ds;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -11,6 +12,9 @@ import android.content.Context;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.courseproject.tindar.entities.MessageModel;
+import com.courseproject.tindar.usecases.chat.ChatRequestModel;
+import com.courseproject.tindar.usecases.conversationlist.ConversationMessageDsResponseModel;
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersModel;
 import com.courseproject.tindar.usecases.editprofile.EditProfileRequestModel;
@@ -319,5 +323,109 @@ public class DatabaseHelperTest {
         ArrayList<String> dbUserList = dbHelper.getAllOtherUserIds(userId);
 
         assertEquals(userList, dbUserList);
+    }
+
+    @Test
+    public void testAddConversationAndFindConversationId() {
+        dbHelper.addConversation(userId, otherUserId);
+        String conversationId = dbHelper.findConversationId(userId, otherUserId);
+        assertNotNull(conversationId);
+    }
+
+    @Test
+    public void testFindConversationIdWithNonExistingConversation() {
+        String conversationId = dbHelper.findConversationId("some-user-11", "some-other-user-101");
+        assertNull(conversationId);
+    }
+
+    @Test
+    public void testReadConversationList() {
+        dbHelper.addConversation(userId, otherUserId);
+        dbHelper.addConversation(userId, thirdUserId);
+        ArrayList<String[]> conversationList = dbHelper.readConversationList(userId);
+        assertEquals(2, conversationList.size());
+        assertArrayEquals(new String[]{userId, otherUserId}, conversationList.get(0));
+        assertArrayEquals(new String[]{userId, thirdUserId}, conversationList.get(1));
+    }
+
+    @Test
+    public void testReadConversationListWithNoConversation() {
+        ArrayList<String[]> conversationList = dbHelper.readConversationList(userId);
+        assertEquals(0, conversationList.size());
+    }
+
+    @Test
+    public void testReadDisplayNamesForConversations() {
+        // Test read display names returns list of user display names from database
+        ArrayList<String> conversationList = new ArrayList<>();
+        conversationList.add(userId);
+        conversationList.add(otherUserId);
+        ArrayList<String> displayNames = dbHelper.readDisplayNamesForConversations(conversationList);
+        assertEquals(2, displayNames.size());
+        assertEquals("bell", displayNames.get(0));
+        assertEquals("roger", displayNames.get(1));
+    }
+
+    @Test
+    public void testReadDisplayNamesForConversationsWithEmptyInputList() {
+        // Test read display names returns list of user display names from database
+        ArrayList<String> conversationList = new ArrayList<>();
+        ArrayList<String> displayNames = dbHelper.readDisplayNamesForConversations(conversationList);
+        assertEquals(0, displayNames.size());
+    }
+
+    @Test
+    public void testAddMessageAndReadMessagesByConversationId() {
+        ChatRequestModel message1 = new ChatRequestModel("first message sent",
+                java.sql.Timestamp.valueOf("2005-04-06 09:01:10"), userId, otherUserId, "7");
+        ChatRequestModel message2 = new ChatRequestModel("third message sent",
+                java.sql.Timestamp.valueOf("2005-04-06 09:02:10"), otherUserId, userId, "7");
+        ChatRequestModel message3 = new ChatRequestModel("second message sent",
+                java.sql.Timestamp.valueOf("2005-04-06 09:01:17"), userId, otherUserId, "7");
+        ChatRequestModel message4 = new ChatRequestModel("another message sent",
+                java.sql.Timestamp.valueOf("2005-04-06 09:02:07"), userId, thirdUserId, "8");
+        dbHelper.addMessage(message1);
+        dbHelper.addMessage(message2);
+        dbHelper.addMessage(message3);
+        dbHelper.addMessage(message4);
+        ArrayList<MessageModel> retrievedMessages = dbHelper.readMessagesByConversationId("7");
+        assertEquals(3, retrievedMessages.size());
+        assertEquals("first message sent", retrievedMessages.get(0).getMessageContent());
+        assertEquals(java.sql.Timestamp.valueOf("2005-04-06 09:01:10"), retrievedMessages.get(0).getCreationTime());
+        assertEquals(userId, retrievedMessages.get(0).getSentFromId());
+        assertEquals(otherUserId, retrievedMessages.get(0).getSentToId());
+        assertEquals("7", retrievedMessages.get(0).getConversationId());
+        assertEquals("second message sent", retrievedMessages.get(1).getMessageContent());
+        assertEquals("third message sent", retrievedMessages.get(2).getMessageContent());
+        assertEquals(otherUserId, retrievedMessages.get(2).getSentFromId());
+        assertEquals(userId, retrievedMessages.get(2).getSentToId());
+    }
+
+    @Test
+    public void testReadMessagesByConversationIdWithNoMessage() {
+        ArrayList<MessageModel> retrievedMessages = dbHelper.readMessagesByConversationId("7");
+        assertEquals(0, retrievedMessages.size());
+    }
+
+    @Test
+    public void testReadLastMessage() {
+        ChatRequestModel message1 = new ChatRequestModel("first message sent",
+                java.sql.Timestamp.valueOf("2005-04-06 09:01:10"), userId, otherUserId, "7");
+        ChatRequestModel message2 = new ChatRequestModel("third message sent",
+                java.sql.Timestamp.valueOf("2005-04-06 09:02:10"), otherUserId, userId, "7");
+        ChatRequestModel message3 = new ChatRequestModel("second message sent",
+                java.sql.Timestamp.valueOf("2005-04-06 09:01:17"), userId, otherUserId, "7");
+        dbHelper.addMessage(message1);
+        dbHelper.addMessage(message2);
+        dbHelper.addMessage(message3);
+        ConversationMessageDsResponseModel retrievedMessage = dbHelper.readLastMessage("7");
+        assertEquals("third message sent", retrievedMessage.getLastMessage());
+        assertEquals(java.sql.Timestamp.valueOf("2005-04-06 09:02:10"), retrievedMessage.getLastMessageTime());
+    }
+
+    @Test
+    public void testReadLastMessageWithNoMessage() {
+        ConversationMessageDsResponseModel retrievedMessage = dbHelper.readLastMessage("7");
+        assertNull(retrievedMessage);
     }
 }
