@@ -14,6 +14,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.courseproject.tindar.entities.MessageModel;
 import com.courseproject.tindar.usecases.chat.ChatRequestModel;
+import com.courseproject.tindar.usecases.conversationlist.ConversationDsResponseModel;
 import com.courseproject.tindar.usecases.conversationlist.ConversationMessageDsResponseModel;
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsResponseModel;
 import com.courseproject.tindar.usecases.editfilters.EditFiltersModel;
@@ -330,15 +331,17 @@ public class DatabaseHelperTest {
     public void testReadConversationList() {
         dbHelper.addConversation(userId, otherUserId);
         dbHelper.addConversation(userId, thirdUserId);
-        ArrayList<String[]> conversationList = dbHelper.readConversationList(userId);
+        ArrayList<ConversationDsResponseModel> conversationList = dbHelper.readConversationList(userId);
         assertEquals(2, conversationList.size());
-        assertArrayEquals(new String[]{userId, otherUserId}, conversationList.get(0));
-        assertArrayEquals(new String[]{userId, thirdUserId}, conversationList.get(1));
+        assertEquals(userId, conversationList.get(0).getUserId1());
+        assertEquals(otherUserId, conversationList.get(0).getUserId2());
+        assertEquals(userId, conversationList.get(1).getUserId1());
+        assertEquals(thirdUserId, conversationList.get(0).getUserId2());
     }
 
     @Test
     public void testReadConversationListWithNoConversation() {
-        ArrayList<String[]> conversationList = dbHelper.readConversationList(userId);
+        ArrayList<ConversationDsResponseModel> conversationList = dbHelper.readConversationList(userId);
         assertEquals(0, conversationList.size());
     }
 

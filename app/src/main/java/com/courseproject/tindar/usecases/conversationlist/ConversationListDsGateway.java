@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public interface ConversationListDsGateway {
     void addConversation(String userId, String otherUserId);
-    ArrayList<String[]> readConversationList(String userId);
+    ArrayList<ConversationDsResponseModel> readConversationList(String userId);
 
     ConversationMessageDsResponseModel readLastMessage(String conversationId);
 
