@@ -34,13 +34,30 @@ import java.util.ArrayList;
  * to navigate to the chat screen.
  */
 public class ConversationListFragment extends Fragment {
-
+    
+    /**
+     * The argument key for specifying the column count in a bundle or intent.
+     */
     private static final String ARG_COLUMN_COUNT = "column-count";
+
+    /**
+     * The default column count value for the RecyclerView.
+     */
     private final int mColumnCount = 1;
 
-
+    /**
+     * The ID of the user associated with the conversation list.
+     */
     String userId;
+    
+    /**
+     * The RecyclerView used to display the list of conversations.
+     */
     RecyclerView recyclerView;
+
+    /**
+     * The controller responsible for managing the conversation list.
+     */
     ConversationListController conversationListController;
 
     /**
