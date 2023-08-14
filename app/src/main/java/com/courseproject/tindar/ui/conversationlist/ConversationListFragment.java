@@ -38,6 +38,7 @@ public class ConversationListFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     private final int mColumnCount = 1;
 
+
     String userId;
     RecyclerView recyclerView;
     ConversationListController conversationListController;
@@ -78,6 +79,7 @@ public class ConversationListFragment extends Fragment {
         blankNavViewModel.getUserId().observe(requireActivity(), it -> userId = it);
 
         if (getArguments() != null) {
+
             int mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
     }

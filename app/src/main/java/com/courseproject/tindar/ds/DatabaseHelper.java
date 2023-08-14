@@ -312,23 +312,23 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     private void addInitialData(SQLiteDatabase db) {
         addAccount(true, "jack@someemail.com", "password_jack", "jack",
                 "Jack", "Brown", new GregorianCalendar(2000, 1, 26).getTime(),
-                "Male", "Toronto", "https://www.cartoonbucket.com/cartoons/stanley-with-spongebob/", "Hi", "Female, Other",
+                "Male", "Toronto", "spongebob5.jpg", "Hi", "Female, Other",
                 "Toronto", 20, 25, db);
         addAccount(true, "amy@someotheremail.com", "password_amy", "amy",
                 "Amy", "Smith", new GregorianCalendar(2000, 7, 2).getTime(),
-                "Female", "Montreal", "https://www.cartoonbucket.com/cartoons/stanley-with-spongebob/", "Hello","Male",
+                "Female", "Montreal", "spongebob4.jpg", "Hello","Male",
                 "Montreal, Toronto", 23, 27, db);
         addAccount(true, "bell@exampleemail.com", "somepassword", "bell",
                 "Bell", "Robin", new GregorianCalendar(2003, 9, 5).getTime(),
-                "Female", "Calgary", "https://www.cartoonbucket.com/cartoons/stanley-with-spongebob/", "I would like to",
+                "Female", "Calgary", "spongebob3.jpg", "I would like to",
                 "Female, Male", "Calgary, Vancouver", 19, 999, db);
         addAccount(true, "rogers@exampleemail.com", "someotherpassword", "roger",
                 "roger", "fido", new GregorianCalendar(2003, 12, 3).getTime(),
-                "Female", "Calgary", "https://www.cartoonbucket.com/cartoons/stanley-with-spongebob/", "I would like to",
+                "Female", "Calgary", "spongebob2.jpg", "I would like to",
                 "Female, Male", "Calgary, Vancouver", 19, 999, db);
         addAccount(true, "telus@exampleemail.com", "somethirdpassword", "ted",
                 "ted", "telus", new GregorianCalendar(2001, 12, 3).getTime(),
-                "Male", "Toronto", "https://www.cartoonbucket.com/cartoons/stanley-with-spongebob/", "I would like to",
+                "Male", "Toronto", "spongebob1.png", "I would like to",
                 "Female, Male", "Calgary, Vancouver", 19, 999, db);
         addLike("1", "2", db);
         addLike("2", "1", db);
@@ -336,13 +336,14 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         addLike("5", "1", db);
         addToMatched("1", "2", db);
         addToMatched("1", "5", db);
+        addConversation("1", "2", db);
         addConversation("1", "5", db);
         ChatRequestModel message1 = new ChatRequestModel("first message sent",
-                java.sql.Timestamp.valueOf("2005-04-06 09:01:10"), "1", "5", "1");
+                java.sql.Timestamp.valueOf("2005-04-06 09:01:10"), "1", "2", "1");
         ChatRequestModel message2 = new ChatRequestModel("second message sent",
-                java.sql.Timestamp.valueOf("2005-04-06 09:01:17"), "1", "5", "1");
+                java.sql.Timestamp.valueOf("2005-04-06 09:01:17"), "1", "2", "1");
         ChatRequestModel message3 = new ChatRequestModel("third message sent",
-                java.sql.Timestamp.valueOf("2005-04-06 09:02:10"), "5", "1", "1");
+                java.sql.Timestamp.valueOf("2005-04-06 09:02:10"), "2", "1", "1");
         addMessage(message1, db);
         addMessage(message2, db);
         addMessage(message3, db);
@@ -992,16 +993,22 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return dbResponse;
     }
 
-    // precondition userId < otherUserId
+    /**
+     * Finds the ID of the conversation with these accounts.
+     * Precondition: integer userId1 < integer userId2.
+     * @param userId1 the numerically lesser of the two users.
+     * @param userId2 the numerically greater of the two users.
+     * @return a string of the integer ID of this conversation in the database.
+     */
     @Override
-    public String findConversationId(String userId, String otherUserId) {
+    public String findConversationId(String userId1, String userId2) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery("SELECT "
                         + ID
                         + " FROM " + TABLE_CONVERSATIONS
-                        + " WHERE " + USER_ID_1 + " =? OR " + USER_ID_2 + " =?",
-                new String[]{userId, otherUserId});
+                        + " WHERE " + USER_ID_1 + " =? AND " + USER_ID_2 + " =?",
+                new String[]{userId1, userId2});
 
         if (cursor.getCount() < 1) {
             cursor.close();
@@ -1028,8 +1035,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
 
     /**
      * Creates a new message record in the chat database.
-     * Requires the messageId to have already been created.
-     * In other words, the MessageModel's messageId is non-null and unique.
+     * Requires the message to not have an ID yet.
      *
      * @param newMessage representation of the new message that this method will record.
      */
@@ -1044,7 +1050,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
      * Returns a list representing all messages in a given conversation
      *
      * @param conversationId id of the conversation
-     * @return a list representing all messages in the conversation with these users
+     * @return a list representing all messages in this conversation
      */
     @Override
     public ArrayList<MessageModel> readMessagesByConversationId(String conversationId) {

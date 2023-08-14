@@ -1,9 +1,6 @@
 package com.courseproject.tindar.ui.home;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +33,6 @@ import com.courseproject.tindar.usecases.viewprofile.ViewProfileResponseModel;
 import com.courseproject.tindar.usecases.viewprofile.ViewProfileInputBoundary;
 import com.courseproject.tindar.usecases.viewprofile.ViewProfileInteractor;
 
-import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,10 +56,12 @@ public class ViewProfileFragment extends Fragment {
     TextView birthdateView;
     TextView locationView;
     TextView aboutMeView;
+    ImageView profilePic;
+    String profileLink;
 
     ViewProfilesController viewProfilesController;
 
-    DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.CANADA );
+    private final DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.CANADA );
 
     /**
      * Loads initial data for screen.
@@ -108,6 +106,7 @@ public class ViewProfileFragment extends Fragment {
         birthdateView = root.findViewById(R.id.text_view_birthdate_view_profile);
         locationView = root.findViewById(R.id.text_view_location_view_profile);
         aboutMeView = root.findViewById(R.id.text_view_about_me_view_profile);
+        profilePic = root.findViewById(R.id.image_view_profile_picture_view_profile);
 
         ViewProfileDsGateway viewProfilesDatabaseHelper = DatabaseHelper.getInstance(getContext());
         ViewProfileInputBoundary viewProfilesInteractor = new ViewProfileInteractor(viewProfilesDatabaseHelper);
@@ -151,8 +150,6 @@ public class ViewProfileFragment extends Fragment {
             }
         });
 
-//        new DownloadImage((ImageView) binding.profilePicture).execute(profile.getProfilePictureLink());
-
         return root;
     }
 
@@ -182,35 +179,33 @@ public class ViewProfileFragment extends Fragment {
         binding = null;
     }
 
-    /**
-     * Downloads image from link.
-     */
-    private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
-        ImageView profilePicture;
-
-        public DownloadImage(ImageView profilePicture) {
-            this.profilePicture = profilePicture;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            profilePicture.setImageBitmap(result);
-        }
-    }
-
     private void setsProfile() {
         ViewProfileResponseModel profile =
                 viewProfilesController.getProfile(otherUserId);
+
+        // This is only a temporary implementation for demo purposes.
+        // The plan is to download pic from an external source and show it.
+        profileLink = profile.getProfilePictureLink();
+        switch (profileLink) {
+            case "spongebob1.png":
+                profilePic.setImageResource(R.drawable.spongebob1);
+                break;
+            case "spongebob2.jpg":
+                profilePic.setImageResource(R.drawable.spongebob2);
+                break;
+            case "spongebob3.jpg":
+                profilePic.setImageResource(R.drawable.spongebob3);
+                break;
+            case "spongebob4.jpg":
+                profilePic.setImageResource(R.drawable.spongebob4);
+                break;
+            case "spongebob5.jpg":
+                profilePic.setImageResource(R.drawable.spongebob5);
+                break;
+            default:
+                profilePic.setImageResource(R.drawable.kermit);
+                break;
+        }
 
         displayNameView.setText(profile.getDisplayName());
         genderView.setText(profile.getGender());

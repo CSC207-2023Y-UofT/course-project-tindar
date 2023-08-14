@@ -7,9 +7,6 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_up">Sign Up</string>
     <string name="action_log_in">Log in</string>
-    <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">Login failed</string>
 
     <!-- Strings related to signup -->
@@ -33,9 +30,6 @@
     <string name="preferred_age_group">Preferred Age Group</string>
     <string name="minimum_age">minimum age</string>
     <string name="maximum_age">maximum age</string>
-    <string name="click_to_edit_preferred_genders">Click to edit Preferred Genders</string>
-    <string name="click_to_edit_preferred_locations">Click to edit Preferred Locations</string>
-    <string name="click_to_edit_preferred_age_group">Click to edit Preferred Age Group</string>
     <string-array name="genders">
         <item>Female</item>
         <item>Male</item>
@@ -48,13 +42,9 @@
         <item>Vancouver</item>
     </string-array>
     <string name="title_activity_blank_nav">blankNav</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_placeholder">Placeholder</string>
     <string name="menu_match_list">Matches</string>
     <string name="menu_my_profile">My Profile</string>
     <string name="menu_filters">Filters</string>
@@ -74,12 +64,15 @@
     <string name="submit_password">Submit Password</string>
     <string name="retype_email">Retype Email</string>
     <string name="new_email">New Email</string>
-    <string name="current_password">Current Password</string>
     <string name="new_password">New Password</string>
-    <string name="current_password_2">Current Password</string>
     <string name="inputs_do_not_match">Inputs do not match</string>
     <string name="email_already_used">Email already used</string>
     <string name="current_password_incorrect">Current password incorrect</string>
     <string name="password_validation">Current password</string>
     <string name="password_not_six_long">Passwords must be at least 6 characters long.</string>
+    <string name="username">Username</string>
+    <string name="tap_here_to_go_back">Tap here to go back</string>
+    <string name="message">Message</string>
+    <string name="tap_to_send_your_typed_message">Tap to send your typed message</string>
+    <string name="conversations">Conversations</string>
 </resources>

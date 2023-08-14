@@ -3,25 +3,41 @@ package com.courseproject.tindar.entities;
 import java.sql.Timestamp;
 
 /**
- * Why does this exist? 
+ * Interface for message models containing the info that get passed to our Views
  */
-
 public interface MessageModel {
     
     // Getter methods 
-    String getMessageId();
-    Timestamp getCreationTime();
-    String getMessageContent();
-    String getSentFromId();
-    String getSentToId();
-    String getConversationId();
 
-    // Setter methods--not implemented because they don't seem like they should exist
-    /* 
-    protected void setMessageId(String messageId);
-    protected void setText(String text);
-    protected void setTimestamp(Timestamp timestamp);
-    protected void setSentFrom(String sentFrom);
-    protected void setSentTo(String sentTo);
-    */
+    /**
+     * @return the messageId for this message. should be an integer represented as a string.
+     */
+    String getMessageId();
+
+    /**
+     * @return the time at which this message was created
+     */
+    Timestamp getCreationTime();
+
+    /**
+     * @return a string representing the content of this message
+     */
+    String getMessageContent();
+
+    /**
+     * @return  the userID of the one who sent this message.
+     *          should be an integer represented as a string.
+     */
+    String getSentFromId();
+    /**
+     * @return  the userID of the account receiving this message.
+     *          should be an integer represented as a string.
+     */
+    String getSentToId();
+
+    /**
+     * @return  the ID of the conversation where this message was sent.
+     *          should be an integer represented as a string.
+     */
+    String getConversationId();
 }

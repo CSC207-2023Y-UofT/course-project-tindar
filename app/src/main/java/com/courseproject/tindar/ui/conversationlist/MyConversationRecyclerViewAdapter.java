@@ -47,6 +47,7 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
         mValues = items;
     }
 
+
     /**
      * Called to create a new ViewHolder for representing an item in the RecyclerView.
      *
@@ -55,6 +56,7 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
      * @return A new instance of ViewHolder representing an item view.
      * @throws IllegalArgumentException if {@code parent} is null.
      */
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -96,6 +98,7 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
         return mValues.size();
     }
 
+
     /**
      * ViewHolder class that extends RecyclerView.ViewHolder for holding view components of
      * individual items in the RecyclerView.
@@ -104,6 +107,7 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
         /**
          * TextView displaying the username in the item view.
          */
+
         public final TextView mUserName;
 
         /**
@@ -143,6 +147,7 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
          *
          * @return A string containing the class name and the text of the last message.
          */
+
         @NonNull
         @Override
         public String toString() {

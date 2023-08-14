@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_signup"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -18,7 +17,7 @@
         android:layout_marginTop="0dp"
         android:backgroundTint="@color/colorPrimary"
         app:srcCompat="@drawable/baseline_arrow_back_32_white"
-        android:contentDescription="Tap here to go back" />
+        android:contentDescription="@string/tap_here_to_go_back" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -48,7 +47,8 @@
         android:hint="@string/your_name"
         android:inputType="textPersonName"
         android:padding="15dp"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/edit_text_email_sign_up"
@@ -60,7 +60,8 @@
         android:layout_marginBottom="10dp"
         android:padding="15dp"
         android:inputType="textEmailAddress"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/edit_text_password_sign_up"
@@ -72,7 +73,8 @@
         android:layout_marginBottom="10dp"
         android:padding="15dp"
         android:inputType="textPassword"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/edit_text_password_retyped_sign_up"
@@ -83,7 +85,8 @@
         android:layout_marginRight="20dp"
         android:padding="15dp"
         android:inputType="textPassword"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:autofillHints="" />
 
     <RelativeLayout
         android:layout_width="match_parent"

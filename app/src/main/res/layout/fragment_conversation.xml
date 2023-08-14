@@ -6,11 +6,13 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
+<!--    Removing Linear Layout creates a view different than expected-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        tools:ignore="UselessParent">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -28,7 +30,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="7dp"
-                tools:text="10:00" />
+                tools:text="10:00"
+                tools:ignore="RelativeOverlap" />
         </RelativeLayout>
 
         <TextView

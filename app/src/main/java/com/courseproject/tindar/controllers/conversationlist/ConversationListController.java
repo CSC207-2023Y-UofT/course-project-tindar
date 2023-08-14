@@ -20,8 +20,10 @@ import java.util.ArrayList;
  */
 public class ConversationListController {
 
+
     /** The input boundary for conversation list operations. */
-    ConversationListInputBoundary userInput;
+    private final ConversationListInputBoundary userInput;
+
 
     /**
      * Constructs a new ConversationListController with the provided ConversationListInputBoundary.
