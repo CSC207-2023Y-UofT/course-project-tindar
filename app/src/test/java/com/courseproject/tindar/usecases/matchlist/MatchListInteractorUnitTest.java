@@ -18,13 +18,8 @@ public class MatchListInteractorUnitTest {
     private static final MatchListDsResponseModel DISPLAY_NAME_2 = new MatchListDsResponseModel(USER_ID_2, USER_DISPLAY_NAME_2);
 
     private static class MockMatchListDsGateway implements MatchListDsGateway {
-        final ArrayList<String> matchList;
-        final ArrayList<String> likeList;
         final MatchListDsResponseModel displayName;
-        public MockMatchListDsGateway(boolean isLiked, ArrayList<String> matchList,
-                                     ArrayList<String> likeList, MatchListDsResponseModel displayName) {
-            this.matchList = matchList;
-            this.likeList = likeList;
+        public MockMatchListDsGateway(MatchListDsResponseModel displayName) {
             this.displayName = displayName;
         }
 
@@ -51,8 +46,8 @@ public class MatchListInteractorUnitTest {
         // Tests tht getDisplayNamesForMatches returns display names in userId match list
         ArrayList<String> matchList = new ArrayList<>();
         ArrayList<String> likeList = new ArrayList<>();
-        MatchListDsGateway matchListDsGateway = new MatchListInteractorUnitTest.MockMatchListDsGateway(true, matchList,
-                likeList, DISPLAY_NAME_2);
+        MatchListDsGateway matchListDsGateway = new MatchListInteractorUnitTest.MockMatchListDsGateway(
+                DISPLAY_NAME_2);
         MatchListInteractor matchListInteractor = new MatchListInteractor(matchListDsGateway);
         MatchListResponseModel matchedUsers = matchListInteractor.getDisplayNamesForMatches(USER_ID_1);
         assertArrayEquals(new String[]{USER_DISPLAY_NAME_2}, matchedUsers.getDisplayNames());
@@ -64,8 +59,8 @@ public class MatchListInteractorUnitTest {
         // Tests tht getDisplayNamesForMatches returns display names in otherUserId match list
         ArrayList<String> matchList = new ArrayList<>();
         ArrayList<String> likeList = new ArrayList<>();
-        MatchListDsGateway matchListDsGateway = new MatchListInteractorUnitTest.MockMatchListDsGateway(true, matchList,
-                likeList, DISPLAY_NAME_1);
+        MatchListDsGateway matchListDsGateway = new MatchListInteractorUnitTest.MockMatchListDsGateway(
+                DISPLAY_NAME_1);
         MatchListInteractor matchListInteractor = new MatchListInteractor(matchListDsGateway);
         MatchListResponseModel matchedUsers = matchListInteractor.getDisplayNamesForMatches(USER_ID_2);
         assertArrayEquals(new String[]{USER_DISPLAY_NAME_1}, matchedUsers.getDisplayNames());
