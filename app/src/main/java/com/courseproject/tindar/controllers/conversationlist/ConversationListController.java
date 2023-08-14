@@ -18,7 +18,6 @@ import java.util.ArrayList;
  * The controller acts as a bridge between UI and use case layers, ensuring a clear separation of
  * responsibilities.
  */
-
 public class ConversationListController {
 
     /** The input boundary for conversation list operations. */
