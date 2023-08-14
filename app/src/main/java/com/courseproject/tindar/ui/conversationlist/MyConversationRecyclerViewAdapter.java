@@ -76,7 +76,6 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final ConversationResponseModel conversation = mValues.get(position);
 
-        holder.mItem = mValues.get(position);
         holder.mUserName.setText(mValues.get(position).getConversationPartnerName());
         holder.mLastMessage.setText(mValues.get(position).getLastMessage());
         holder.mLastMessageTime.setText(mValues.get(position).getLastMessageTime());
@@ -119,11 +118,6 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
          * TextView displaying the time of the last message in the item view.
          */
         public final TextView mLastMessageTime;
-
-        /**
-         * Model representing the conversation response for the item.
-         */
-        public ConversationResponseModel mItem;
 
         /**
          * Constructor to create a ViewHolder instance.

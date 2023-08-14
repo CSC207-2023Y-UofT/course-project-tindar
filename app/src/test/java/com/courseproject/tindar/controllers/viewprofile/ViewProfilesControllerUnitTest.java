@@ -29,7 +29,7 @@ public class ViewProfilesControllerUnitTest {
     private static final String USER_ID_2 = "user2";
     private static final boolean DOES_LIKE = true;
 
-    ViewProfileResponseModel mockViewProfileResponseModel =
+    final ViewProfileResponseModel mockViewProfileResponseModel =
             new ViewProfileResponseModel(DISPLAY_NAME, BIRTHDATE, GENDER, LOCATION, PROFILE_PICTURE_LINK, ABOUT_ME);
 
     /**
@@ -82,9 +82,9 @@ public class ViewProfilesControllerUnitTest {
         }
     }
 
-    ViewProfileInputBoundary mockViewProfileUserInput = new MockViewProfileUserInput();
-    UserListInputBoundary mockUserListUserInput = new MockUserListUserInput();
-    LikeListInputBoundary mockLikeListUserInput = new MockLikeListUserInput();
+    final ViewProfileInputBoundary mockViewProfileUserInput = new MockViewProfileUserInput();
+    final UserListInputBoundary mockUserListUserInput = new MockUserListUserInput();
+    final LikeListInputBoundary mockLikeListUserInput = new MockLikeListUserInput();
 
     @Test
     public void testGetProfile() {

@@ -137,7 +137,7 @@ public class ChatActivity extends AppCompatActivity {
             // UI
             this.chatInput.getText().clear();
             this.adapter.setMessageList(this.chatController.getMessageList(conversationId));
-            this.adapter.notifyDataSetChanged();
+            this.adapter.notifyItemChanged(-1);
         }
     }
 

@@ -26,10 +26,10 @@ public class ConversationListInteractorUnitTest {
     private static class MockConversationListDsGateway implements ConversationListDsGateway {
         /** Mock implementation of ConversationListDsGateway for testing purposes **/
 
-        String userId1;
-        String userId2;
-        ConversationMessageDsResponseModel lastMessage;
-        String displayName;
+        final String userId1;
+        final String userId2;
+        final ConversationMessageDsResponseModel lastMessage;
+        final String displayName;
 
         public MockConversationListDsGateway(String userId1, String userId2, ConversationMessageDsResponseModel lastMessage, String displayName) {
             this.userId1 = userId1;

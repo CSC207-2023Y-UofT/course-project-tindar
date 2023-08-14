@@ -94,11 +94,6 @@ public class ConversationListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         BlankNavViewModel blankNavViewModel = new ViewModelProvider(requireActivity()).get(BlankNavViewModel.class);
         blankNavViewModel.getUserId().observe(requireActivity(), it -> userId = it);
-
-        if (getArguments() != null) {
-
-            int mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     /**

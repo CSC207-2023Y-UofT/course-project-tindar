@@ -17,7 +17,7 @@ public class ViewProfileInteractorUnitTest {
     private static final String PROFILE_PICTURE_LINK = "https://aaa";
     private static final String ABOUT_ME = "Hello!";
 
-    ViewProfileResponseModel mockViewProfileResponseModel =
+    final ViewProfileResponseModel mockViewProfileResponseModel =
             new ViewProfileResponseModel(DISPLAY_NAME, BIRTHDATE, GENDER, LOCATION, PROFILE_PICTURE_LINK, ABOUT_ME);
 
     private class MockViewProfileDsGateway implements ViewProfileDsGateway {
@@ -27,7 +27,7 @@ public class ViewProfileInteractorUnitTest {
         }
     }
 
-    ViewProfileDsGateway mockViewProfileDsGateway = new ViewProfileInteractorUnitTest.MockViewProfileDsGateway();
+    final ViewProfileDsGateway mockViewProfileDsGateway = new ViewProfileInteractorUnitTest.MockViewProfileDsGateway();
 
     @Test
     public void testGetProfile() {

@@ -17,10 +17,10 @@ public class LikeListInteractorUnitTest {
 
     private static class MockLikeListDsGateway implements LikeListDsGateway {
         /** Mock implementation of LikeListDsGateway for testing purposes **/
-        boolean isLiked;
-        ArrayList<String> matchList;
-        ArrayList<String> likeList;
-        ArrayList<String> conversationList;
+        final boolean isLiked;
+        final ArrayList<String> matchList;
+        final ArrayList<String> likeList;
+        final ArrayList<String> conversationList;
 
         public MockLikeListDsGateway(boolean isLiked, ArrayList<String> matchList,
                                      ArrayList<String> likeList, ArrayList<String> conversationList) {
