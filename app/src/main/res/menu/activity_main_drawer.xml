@@ -23,6 +23,6 @@
         <item
             android:id="@+id/nav_conversations"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Conversations" />
+            android:title="@string/conversations" />
     </group>
 </menu>

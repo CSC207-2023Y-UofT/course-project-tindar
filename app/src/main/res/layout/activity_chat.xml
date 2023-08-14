@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="Username"
+            android:text="@string/username"
             android:textSize="32sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
@@ -33,7 +33,7 @@
             android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:src="@drawable/baseline_arrow_back_32_white"
-            android:contentDescription="Tap here to go back" />
+            android:contentDescription="@string/tap_here_to_go_back" />
     </RelativeLayout>
 
     <!--Message display-->
@@ -59,9 +59,9 @@
             android:layout_width="match_parent"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/button_send_message"
-            android:hint="Message"
+            android:hint="@string/message"
             android:inputType="text"
-            />
+            android:autofillHints="" />
 
         <ImageButton
             android:id="@+id/button_send_message"
@@ -75,6 +75,6 @@
             android:background="@android:color/transparent"
             android:src="@drawable/baseline_send_32"
             app:tint="@color/colorPrimary"
-            android:contentDescription="Tap to send your typed message" />
+            android:contentDescription="@string/tap_to_send_your_typed_message" />
     </RelativeLayout>
 </RelativeLayout>

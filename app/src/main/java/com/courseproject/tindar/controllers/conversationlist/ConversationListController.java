@@ -23,7 +23,7 @@ public class ConversationListController {
     //
     // Takes user input frontend and pass it onto Interactor
 
-    ConversationListInputBoundary userInput;
+    private final ConversationListInputBoundary userInput;
 
 
     public ConversationListController(ConversationListInputBoundary conversationListUserInput){

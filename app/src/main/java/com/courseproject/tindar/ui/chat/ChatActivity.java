@@ -15,7 +15,6 @@ import com.courseproject.tindar.R;
 
 import com.courseproject.tindar.controllers.chat.ChatController;
 import com.courseproject.tindar.ds.DatabaseHelper;
-import com.courseproject.tindar.entities.MessageModel;
 
 // TODO: remove TindarMessage import when database is properly connected
 import com.courseproject.tindar.usecases.chat.ChatInputBoundary;
@@ -24,7 +23,6 @@ import com.courseproject.tindar.usecases.chat.ChatRequestModel;
 
 // TODO: consider removing Timestamp import when database is properly connected
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
 /**
  * For the one-on-one chat screen for specific conversations.
@@ -59,25 +57,12 @@ public class ChatActivity extends AppCompatActivity {
 
     private String conversationId;
 
-    /**
-     * Display name of current user's conversation partner.
-     * Needed to display the proper info onscreen so that users know who they're chatting with.
-     */
-    private String conversationPartnerDisplayName;
-
-    /** Displays name of current user's conversation partner. */
-    private TextView conversationPartnerDisplayNameDisplay;
-    /** List of messages that are already loaded and ready to be displayed by RecyclerView. */
-    private ArrayList<MessageModel> loadedMessages;
-
     /** Chat controller handling user inputs */
     private ChatController chatController;
 
     /** Where the user types their messages. */
     private EditText chatInput;
 
-    /** Displays messages. */
-    private RecyclerView chatRecyclerView;
     /** Still not sure what this does. I think this manages chatRecyclerView. */
     private ChatRecyclerViewAdapter adapter;
 
@@ -98,20 +83,18 @@ public class ChatActivity extends AppCompatActivity {
         //      - flagged in issue #51
         this.userId = intent.getStringExtra("current_user_id");
         this.otherUserId = intent.getStringExtra("conversation_partner_id");
-        this.conversationPartnerDisplayName
-                = intent.getStringExtra("conversation_partner_display_name");
+        String conversationPartnerDisplayName = intent.getStringExtra("conversation_partner_display_name");
 
         ChatInputBoundary chatInteractor =
                 new ChatInteractor(DatabaseHelper.getInstance(getApplicationContext()));
         this.chatController = new ChatController(chatInteractor);
 
         // setting input and view instance variables to match what's in the display
-        this.conversationPartnerDisplayNameDisplay
-                = findViewById(R.id.conversation_partner_display_name);
+        TextView conversationPartnerDisplayNameDisplay = findViewById(R.id.conversation_partner_display_name);
         this.chatInput = findViewById(R.id.new_chat_input);
 
         // getting the screen to display the correct name for the conversation partner
-        this.conversationPartnerDisplayNameDisplay.setText(this.conversationPartnerDisplayName);
+        conversationPartnerDisplayNameDisplay.setText(conversationPartnerDisplayName);
 
         this.conversationId = this.chatController.getConversationId(this.userId, this.otherUserId);
 
@@ -122,9 +105,9 @@ public class ChatActivity extends AppCompatActivity {
                 this.userId);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
-        this.chatRecyclerView = findViewById(R.id.chat_recycler_view); // matches recycler to layout
-        this.chatRecyclerView.setAdapter(adapter);
-        this.chatRecyclerView.setLayoutManager(linearLayoutManager);
+        RecyclerView chatRecyclerView = findViewById(R.id.chat_recycler_view); // matches recycler to layout
+        chatRecyclerView.setAdapter(adapter);
+        chatRecyclerView.setLayoutManager(linearLayoutManager);
     }
 
     // TODO: this should be refactored.
