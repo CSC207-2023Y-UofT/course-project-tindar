@@ -13,19 +13,20 @@ import com.courseproject.tindar.controllers.editaccount.EditAccountController;
 import com.courseproject.tindar.ds.DatabaseHelper;
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsGateway;
 import com.courseproject.tindar.usecases.editaccount.EditAccountInteractor;
-
+/** This class implements the ability to change the users password after creating an account
+ */
 public class ChangePasswordActivity extends AppCompatActivity {
-    // Button that sends the user back to the settings screen.
+    /** Button that sends the user back to the settings screen.*/
     ImageButton changePasswordBackButton;
-    // Button that submits the changes to the password.
+    /** Button that submits the changes to the password.*/
     Button submitPasswordChangeButton;
-    // Text box that contains the new password.
+    /** Text box that contains the new password.*/
     EditText changePasswordText;
-    // Text box to type the new password a second time.
+    /** Text box to type the new password a second time.*/
     EditText changePasswordRetype;
-    // Text box to type the current password for validation.
+    /** Text box to type the current password for validation.*/
     EditText changePasswordValidation;
-    // The user id of the account.
+    /** The user id of the account.*/
     String userId;
 
     /**

@@ -40,7 +40,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /** This class implements a second home view fragment in order to switch between profiles
- * to like/unline
+ * to like/unlike.
  */
 public class SecondViewProfileFragment extends Fragment {
     /** boolean to see if a user does like the other */

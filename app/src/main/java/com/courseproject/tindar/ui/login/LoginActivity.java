@@ -19,12 +19,16 @@ import com.courseproject.tindar.ui.signup.SignUpActivity;
 import com.courseproject.tindar.usecases.login.LoginDsGateway;
 import com.courseproject.tindar.usecases.login.LoginInteractor;
 
+/** This class implements the Login Activity for the front end. Allows the user to see and manipulate
+ * the log-in actions */
 public class LoginActivity extends AppCompatActivity {
-
+    /** edit email text box */
     private EditText emailText;
+    /** edit password text box */
     private EditText passwordText;
-
+    /** string containing the users email */
     private String email;
+    /** string containing the users password */
     private String password;
 
     /**
