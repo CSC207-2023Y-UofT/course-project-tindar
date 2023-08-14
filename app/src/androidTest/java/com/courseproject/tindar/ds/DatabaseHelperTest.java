@@ -66,13 +66,8 @@ public class DatabaseHelperTest {
         dbHelper.close();
     }
 
-    // TODO: addAccount is indirectly tested in the Read methods. addAccount to be fully tested once there is
-    //  DatabaseHelper method which reads the remaining columns of accounts table other than what ReadProfile method
-    //  reads and returns
-
     @Test
     public void testAddAccount() {
-        //TODO: get readAccount to check if the value inserted is right
         SignUpDsRequestModel accountCredentials = new SignUpDsRequestModel("april", "april@someemail.com",
                 "aprilpassword");
         String createdUserId = dbHelper.addAccount(accountCredentials);
