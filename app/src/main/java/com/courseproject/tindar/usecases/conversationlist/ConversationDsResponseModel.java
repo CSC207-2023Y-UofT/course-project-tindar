@@ -2,7 +2,9 @@ package com.courseproject.tindar.usecases.conversationlist;
 
 import lombok.Getter;
 
-// Response Model for the data saving layer, information directed to the database
+    /**
+     * Response Model for the data saving layer, information directed to the database
+      */
 public class ConversationDsResponseModel {
     @Getter private final String conversationId;
     @Getter private final String userId1;

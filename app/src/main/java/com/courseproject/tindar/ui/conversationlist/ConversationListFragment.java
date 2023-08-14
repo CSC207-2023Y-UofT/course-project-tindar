@@ -26,15 +26,38 @@ import com.courseproject.tindar.usecases.conversationlist.ConversationResponseMo
 import java.util.ArrayList;
 
 /**
- * A fragment representing a list of Items.
+ * Layer : UI Layer
+ *.
+ * What:
+ * A fragment representing a list of conversations.
+ * This fragment displays a list of active conversations and allows users to click on a conversation
+ * to navigate to the chat screen.
  */
 public class ConversationListFragment extends Fragment {
-
-    // TODO: Customize parameter argument names
+    
+    /**
+     * The argument key for specifying the column count in a bundle or intent.
+     */
     private static final String ARG_COLUMN_COUNT = "column-count";
 
+    /**
+     * The default column count value for the RecyclerView.
+     */
+    private final int mColumnCount = 1;
+
+    /**
+     * The ID of the user associated with the conversation list.
+     */
     String userId;
+    
+    /**
+     * The RecyclerView used to display the list of conversations.
+     */
     RecyclerView recyclerView;
+
+    /**
+     * The controller responsible for managing the conversation list.
+     */
     ConversationListController conversationListController;
 
     /**
@@ -44,7 +67,13 @@ public class ConversationListFragment extends Fragment {
     public ConversationListFragment() {
     }
 
-    // TODO: Customize parameter initialization
+
+    /**
+     * Creates a new instance of the ConversationListFragment.
+     *
+     * @param columnCount The number of columns in the layout.
+     * @return A new instance of ConversationListFragment.
+     */
     @SuppressWarnings("unused")
     public static ConversationListFragment newInstance(int columnCount) {
         ConversationListFragment fragment = new ConversationListFragment();
@@ -54,6 +83,12 @@ public class ConversationListFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Called when the fragment is being created. This method initializes the fragment's behavior,
+     * retrieves arguments, and prepares necessary resources.
+     *
+     * @param savedInstanceState A Bundle containing saved state information, if available.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +96,15 @@ public class ConversationListFragment extends Fragment {
         blankNavViewModel.getUserId().observe(requireActivity(), it -> userId = it);
     }
 
+    /**
+     * Called when it's time for the fragment to create its user interface view hierarchy.
+     * This method inflates the fragment's layout, configures the UI elements, and sets up listeners.
+     *
+     * @param inflater           The LayoutInflater object that can be used to inflate views.
+     * @param container          The parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState A Bundle containing saved state information, if available.
+     * @return The root View of the fragment's layout.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,6 +126,13 @@ public class ConversationListFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Called to retrieve the enter transition that will be used for this fragment
+     * when it's entering the screen.
+     * This method typically prepares and returns a transition animation.
+     *
+     * @return An object representing the enter transition animation.
+     */
     @Nullable
     @Override
     public Object getEnterTransition() {
