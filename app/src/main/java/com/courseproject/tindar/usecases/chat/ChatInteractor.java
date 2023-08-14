@@ -4,9 +4,19 @@ import com.courseproject.tindar.entities.MessageModel;
 
 import java.util.ArrayList;
 
+/**
+ * Implements the changes requested by the controller
+ */
 public class ChatInteractor implements ChatInputBoundary {
+    /**
+     * the database helper used to update the databse
+     */
     private final ChatDsGateway chatDsHelper;
 
+    /**
+     * Creates a ChatInteracter object.
+     * @param chatDsHelper the ChatDsGateway that this interactor uses to update the database.
+     */
     public ChatInteractor(ChatDsGateway chatDsHelper){
         this.chatDsHelper = chatDsHelper;
     }
@@ -36,8 +46,8 @@ public class ChatInteractor implements ChatInputBoundary {
     }
 
     /**
-     *      * @param userId the id of the user in the conversation
-     *      * @param otherUserId the id of the other user in the conversation
+     * @param userId the id of the user in the conversation
+     * @param otherUserId the id of the other user in the conversation
      * @return conversation ID of the conversation that is being presented
      */
     @Override
