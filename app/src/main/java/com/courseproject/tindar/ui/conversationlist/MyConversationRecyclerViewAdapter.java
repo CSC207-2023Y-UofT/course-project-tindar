@@ -45,7 +45,6 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final ConversationResponseModel conversation = mValues.get(position);
 
-        holder.mItem = mValues.get(position);
         holder.mUserName.setText(mValues.get(position).getConversationPartnerName());
         holder.mLastMessage.setText(mValues.get(position).getLastMessage());
         holder.mLastMessageTime.setText(mValues.get(position).getLastMessageTime());
@@ -66,7 +65,6 @@ public class MyConversationRecyclerViewAdapter extends RecyclerView.Adapter<MyCo
         public final TextView mUserName;
         public final TextView mLastMessage;
         public final TextView mLastMessageTime;
-        public ConversationResponseModel mItem;
 
         public ViewHolder(FragmentConversationBinding binding) {
             super(binding.getRoot());
