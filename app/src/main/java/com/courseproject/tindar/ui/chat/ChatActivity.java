@@ -55,6 +55,9 @@ public class ChatActivity extends AppCompatActivity {
      */
     private String otherUserId;
 
+    /**
+     * ID of the conversation being shown. Should be an integer as a string.
+     */
     private String conversationId;
 
     /** Chat controller handling user inputs */
@@ -122,7 +125,7 @@ public class ChatActivity extends AppCompatActivity {
     /**
      * Called when sendMessageButton is called. Creates the new message, and informs adapter
      * that it needs to update the display.
-     * ---------------------------------------------------------------------------------------------
+     * <p>
      * Currently just adds the message to loadedMessages.
      * Will probably call some sort of conversationManager class and be slightly reimplemented
      * with the database.
@@ -141,6 +144,10 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Called when the back button is pressed. Takes user to previous screen.
+     * @param v the view on which the button was pressed?
+     */
     public void backButtonPressed(View v){
         super.onBackPressed();
     }

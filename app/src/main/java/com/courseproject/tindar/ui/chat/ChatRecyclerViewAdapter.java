@@ -22,7 +22,6 @@ import java.util.ArrayList;
     - constants for switch/if-else statements or remove them entirely
  */
 
-
 /**
  * I think this feeds into the RecyclerView for the one-on-one chat messages.
  * Still very confused about what it actually does.
@@ -49,6 +48,10 @@ public class ChatRecyclerViewAdapter
         this._userID = userID;
     }
 
+    /**
+     * sets the messages list. used to update the message list.
+     * @param newMessageList new message list
+     */
     public void setMessageList(ArrayList<MessageModel> newMessageList){
         this._displayedMessages = newMessageList;
     }

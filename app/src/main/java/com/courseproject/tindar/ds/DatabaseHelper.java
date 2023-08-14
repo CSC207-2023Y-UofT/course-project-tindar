@@ -65,7 +65,13 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
      * table name for the matches
      */
     private static final String TABLE_MATCHES = "matches";
+    /**
+     * table name for conversations
+     */
     private static final String TABLE_CONVERSATIONS = "conversations";
+    /**
+     * table name for messages
+     */
     private static final String TABLE_MESSAGES = "messages";
     /**
      * column name for the id
@@ -147,10 +153,25 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
      * column name for the 2nd user id in the group
      */
     private static final String USER_ID_2 = "user_id_2";
+    /**
+     * column name for message creation time
+     */
     private static final String CREATION_TIME = "creation_time";
+    /**
+     * column name for message content time
+     */
     private static final String CONTENT = "content";
+    /**
+     * column name for message sender ID
+     */
     private static final String SENDER_ID = "sender_user_id";
+    /**
+     * column name for message recipient ID
+     */
     private static final String RECIPIENT_ID = "recipient_user_id";
+    /**
+     * column name for message conversation ID
+     */
     private static final String CONVERSATION_ID = "conversation_id";
 
     /**
@@ -197,6 +218,9 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
             + "FOREIGN KEY (" + USER_ID_2 + ") REFERENCES " + TABLE_ACCOUNTS + "(" + ID + "), "
             + "UNIQUE(" + USER_ID_1 + ", " + USER_ID_2 + "));";
 
+    /**
+     * sql query to create conversations table.
+     */
     private static final String CREATE_TABLE_CONVERSATIONS_QUERY = "CREATE TABLE " + TABLE_CONVERSATIONS + "("
             + ID + " INTEGER NOT NULL PRIMARY KEY," // Define a primary key
             + USER_ID_1 + " INTEGER, "
@@ -205,6 +229,9 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
             + "FOREIGN KEY (" + USER_ID_2 + ") REFERENCES " + TABLE_ACCOUNTS + "(" + ID + "), "
             + "UNIQUE(" + USER_ID_1 + ", " + USER_ID_2 + "));";
 
+    /**
+     * sql query to create messages table
+     */
     private static final String CREATE_TABLE_MESSAGES_QUERY = "CREATE TABLE " + TABLE_MESSAGES + " ("
             + ID + " INTEGER NOT NULL PRIMARY KEY," // Define a primary key
             + CREATION_TIME + " INTEGER, "
@@ -661,6 +688,12 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         db.close();
     }
 
+    /**
+     * gets userId for an account from its email and password
+     * @param email for identification
+     * @param password for identification
+     * @return userId with the corresponding account info
+     */
     @Override
     public String readUserId(String email, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -867,6 +900,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return displayNamesResponse;
     }
 
+    /**
+     * returns list of all userIds other than the one given
+     * @param userId userId not to include
+     * @return list of all userIds other than the one given
+     */
     @Override
     public ArrayList<String> getAllOtherUserIds(String userId) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -889,8 +927,14 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return userIdsResponse;
     }
 
-    // precondition: userId < otherUserId. This is to avoid duplicates of
-    // (userId, otherUserId) and (otherUserId, userId)
+    /**
+     * Adds a conversation between two users to the record.
+     * precondition: userId < otherUserId. This is to avoid duplicates of
+     * (userId, otherUserId) and (otherUserId, userId).
+     * @param userId lesser userId
+     * @param otherUserId greater userId
+     * @param db database to add the conversation to
+     */
     public void addConversation(String userId, String otherUserId, SQLiteDatabase db) {
         ContentValues cv = new ContentValues();
         cv.put(USER_ID_1, userId);
@@ -899,14 +943,24 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         db.insert(TABLE_CONVERSATIONS, null, cv);
     }
 
-    // precondition: userId < otherUserId. This is to avoid duplicates of
-    // (userId, otherUserId) and (otherUserId, userId)
+    /**
+     * Adds a conversation between two users to the record.
+     * precondition: userId < otherUserId. This is to avoid duplicates of
+     * (userId, otherUserId) and (otherUserId, userId).
+     * @param userId lesser userId
+     * @param otherUserId greater userId
+     */
     @Override
     public void addConversation(String userId, String otherUserId) {
         SQLiteDatabase db = this.getWritableDatabase();
         addConversation(userId, otherUserId, db);
     }
 
+    /**
+     * returns a list of conversations that the user is in
+     * @param userId user for which you want the conversation list
+     * @return list of ConversationDsResponseModel objects representing the conversations
+     */
     @Override
     public ArrayList<ConversationDsResponseModel> readConversationList(String userId) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -933,6 +987,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return dbResponse;
     }
 
+    /**
+     * @param userIds for which to get display names
+     * @return list of display names of the users with these userIDs
+     */
     @Override
     public ArrayList<String> readDisplayNames(ArrayList<String> userIds) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -968,6 +1026,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return dbResponse;
     }
 
+    /**
+     * Retrieves representation of the most recent message in this conversation
+     * @param conversationId of the conversation
+     * @return representation of last message in the conversation
+     */
     @Override
     public ConversationMessageDsResponseModel readLastMessage(String conversationId) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -1022,6 +1085,13 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
         return dbResponse;
     }
 
+    /**
+     * Creates a new message record in the chat database.
+     * Requires the message to not have an ID yet.
+     *
+     * @param newMessage representation of the new message that this method will record.
+     * @param db database to update
+     */
     public void addMessage(ChatRequestModel newMessage, SQLiteDatabase db) {
         ContentValues values = new ContentValues();
         values.put(CREATION_TIME, newMessage.getCreationTime().getTime());

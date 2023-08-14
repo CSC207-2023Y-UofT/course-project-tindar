@@ -6,10 +6,20 @@ import com.courseproject.tindar.usecases.chat.ChatRequestModel;
 
 import java.util.ArrayList;
 
+/**
+ * What the user manipulates via their actions in the chat screen.
+ */
 public class ChatController {
 
+    /**
+     * ChatInputBoundary that this controller uses to act.
+     */
     private final ChatInputBoundary userInput;
 
+    /**
+     * Creates a new ChatController.
+     * @param chatUserInput ChatInputBoundary that this controller uses to act.
+     */
     public ChatController(ChatInputBoundary chatUserInput) {
         this.userInput = chatUserInput;
     }
