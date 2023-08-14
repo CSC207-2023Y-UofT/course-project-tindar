@@ -39,28 +39,43 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+/** This class implements a second home view fragment in order to switch between profiles
+ * to like/unline
+ */
 public class SecondViewProfileFragment extends Fragment {
+    /** boolean to see if a user does like the other */
     boolean doesLike;
+    /** current user id index */
     private int currentViewProfileUserIdIndex;
+    /** the other users userId*/
     private String otherUserId;
-
+    /** the current users userId */
     private String userId;
+    /** a list containing all userIds */
     private ArrayList<String> allUserIds;
-
+    /** FragmentHomeBinding instance to help display second view profile screen */
     private FragmentSecondViewProfileBinding binding;
+    /** BlankViewModel instance for a blank view */
     private BlankNavViewModel blankNavViewModel;
-
+    /** image of like button */
     ImageButton likeButton;
+    /** text veiw of display name */
     TextView displayNameView;
+    /** text view of preferred gender */
     TextView genderView;
+    /** text view of birthdate */
     TextView birthdateView;
+    /** text view of location */
     TextView locationView;
+    /** text view of about me information*/
     TextView aboutMeView;
+    /** profile photo image */
     ImageView profilePic;
+    /** string link to profile */
     String profileLink;
-
+    /** ViewProfilesController instance for methods*/
     ViewProfilesController viewProfilesController;
-
+    /** instantiate a DateFormat to have a consistent date format */
     private final DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.CANADA );
 
     /**
