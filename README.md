@@ -10,10 +10,19 @@ This project was mostly intended to be a learning experience in software design 
 #### Overall design
 This project was one for a course emphasizing the importance of Clean Architecture (CA) and SOLID. This is why our packages are organized into layers then features. While this was a hassle at times, writing in a very modular manner made testing and refactoring far easier.
 #### Design patterns
-We won't list every example of design pattern use, but we'll note a few of them.
-- **Dependency injection**: in many cases (e.g. our database request and response models), we avoid hardcoding method parameters by passing around objects that follow a particular interface. One example: the class TindarMessage. They're used in every chat-related class to pull or pass message details, but only DatabaseHelper.java creates TindarMessage objects.
-- **Strategy**: there was a variation on strategy used for displaying messages to vs. messages from the user. Instead of writing an explicit interface (we weren't familiar with front-end and couldn't figure out how to best express the desired layout through an attribute or class method), all the message xml layout files have the same names for analogous sections.
-- **Observer**: there was an observer pattern used in Chat, but it was ultimately removed from the final product because the other observers would be on other devices and this app runs locally.
+There are some design patterns we used in the project
+
+- **Dependency injection**: 
+  - We instantiate the database helper object, presentation formatter object, factory object outside the interactor and pass them into the interactor. Similarly, we instantiate the interactor object outside the controller and pass it into the controller. This avoids hard dependency and enables independent unit testing by injecting mock implementation of objects to what is tested. 
+  - in many cases (e.g. our database request and response models), we avoid hardcoding method parameters by passing around objects that follow a particular interface. One example: the class TindarMessage. They're used in every chat-related class to pull or pass message details, but only DatabaseHelper.java creates TindarMessage objects.
+- **Strategy**: 
+  - Although not explicit, we create DsGateway interface for the database helper class so if different strategy is used for the data-saving layer, we can create different class for data-saving but use the same interface to have the same methods required by the use case layer.
+  - there was a variation on strategy used for displaying messages to vs. messages from the user. Instead of writing an explicit interface (we weren't familiar with front-end and couldn't figure out how to best express the desired layout through an attribute or class method), all the message xml layout files have the same names for analogous sections.
+- **Observer**: 
+  - there was an observer pattern used in Chat, but it was ultimately removed from the final product because the other observers would be on other devices and this app runs locally.
+  - Although we didn't write it, we utilize observer pattern provided by the Android Studio ViewModel class. The view model object is shared by an activity and the fragments under the activity. In each fragment where we utilize the data sharing by the ViewModel class, the data change within the view model object across all fragments and the activity involved is observed.
+- **Factory**:
+  - We utilize the Factory pattern in Account entity creation and Filters entity creation. Although currently there are no other variation of Account nor Filters, as the app further develops, we would like to have more variety of Account type or Filters type to support other types of user (e.g. premium user). Factory class would take care of the creation process for the related objects with different types.
 
 ### Challenges and future directions
 All the developers were new to Android front-end development, so learning front-end for this project was a challenge. Using tutorials, overcoming perfectionism and the need to perfectly understand everything we write, and asking each other for help were all essential to our progress.
