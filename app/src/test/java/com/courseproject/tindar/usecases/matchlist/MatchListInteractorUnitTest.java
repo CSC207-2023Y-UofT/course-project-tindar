@@ -44,8 +44,6 @@ public class MatchListInteractorUnitTest {
     @Test
     public void testGetDisplayNamesForMatches() {
         // Tests tht getDisplayNamesForMatches returns display names in userId match list
-        ArrayList<String> matchList = new ArrayList<>();
-        ArrayList<String> likeList = new ArrayList<>();
         MatchListDsGateway matchListDsGateway = new MatchListInteractorUnitTest.MockMatchListDsGateway(
                 DISPLAY_NAME_2);
         MatchListInteractor matchListInteractor = new MatchListInteractor(matchListDsGateway);
@@ -57,8 +55,6 @@ public class MatchListInteractorUnitTest {
     @Test
     public void testGetDisplayNamesForMatchesReversed() {
         // Tests tht getDisplayNamesForMatches returns display names in otherUserId match list
-        ArrayList<String> matchList = new ArrayList<>();
-        ArrayList<String> likeList = new ArrayList<>();
         MatchListDsGateway matchListDsGateway = new MatchListInteractorUnitTest.MockMatchListDsGateway(
                 DISPLAY_NAME_1);
         MatchListInteractor matchListInteractor = new MatchListInteractor(matchListDsGateway);
