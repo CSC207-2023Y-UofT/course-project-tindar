@@ -71,17 +71,14 @@ public class ChatRecyclerViewAdapter
          */
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;
-        switch(viewType){
-            case 0:
-                view = inflater.inflate(R.layout.recycler_row_message_sent,
-                        parent, false);
-                return new TindarMessageViewHolder(view);
-            case 1:
-                view = inflater.inflate(R.layout.recycler_row_message_received,
-                        parent, false);
-                return new TindarMessageViewHolder(view);
+        if(viewType==0){
+            view = inflater.inflate(R.layout.recycler_row_message_sent,
+                    parent, false);
+        } else {
+            view = inflater.inflate(R.layout.recycler_row_message_received,
+                    parent, false);
         }
-        return null;
+        return new TindarMessageViewHolder(view);
     }
 
     /**

@@ -21,7 +21,7 @@ public class EditProfileControllerUnitTest {
     private static final String PROFILE_PICTURE_LINK = "https://aaa";
     private static final String ABOUT_ME = "Hello!";
 
-    ViewProfileResponseModel mockViewProfileResponseModel =
+    final ViewProfileResponseModel mockViewProfileResponseModel =
         new ViewProfileResponseModel(DISPLAY_NAME, BIRTHDATE, GENDER, LOCATION, PROFILE_PICTURE_LINK, ABOUT_ME);
 
     private static class MockEditProfileUserInput implements EditProfileInputBoundary {
@@ -44,8 +44,8 @@ public class EditProfileControllerUnitTest {
         }
     }
 
-    ViewProfileInputBoundary mockViewProfileUserInput = new MockViewProfileUserInput();
-    EditProfileInputBoundary mockEditProfileUserInput = new MockEditProfileUserInput();
+    final ViewProfileInputBoundary mockViewProfileUserInput = new MockViewProfileUserInput();
+    final EditProfileInputBoundary mockEditProfileUserInput = new MockEditProfileUserInput();
 
     @Test
     public void testGetProfile() {

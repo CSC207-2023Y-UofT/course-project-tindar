@@ -19,10 +19,10 @@ public class MatchListInteractorUnitTest {
 
     private static class MockMatchListDsGateway implements MatchListDsGateway {
         /** Mock implementation of MatchListDsGateway for testing purposes **/
-        boolean isLiked;
-        ArrayList<String> matchList;
-        ArrayList<String> likeList;
-        MatchListDsResponseModel displayName;
+        final boolean isLiked;
+        final ArrayList<String> matchList;
+        final ArrayList<String> likeList;
+        final MatchListDsResponseModel displayName;
         public MockMatchListDsGateway(boolean isLiked, ArrayList<String> matchList,
                                      ArrayList<String> likeList, MatchListDsResponseModel displayName) {
             this.isLiked = isLiked;

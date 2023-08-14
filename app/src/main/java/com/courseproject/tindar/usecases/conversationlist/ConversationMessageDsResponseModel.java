@@ -5,8 +5,10 @@ import java.sql.Timestamp;
 import lombok.Getter;
 
 public class ConversationMessageDsResponseModel {
-    @Getter String lastMessage;
-    @Getter Timestamp lastMessageTime;
+    @Getter
+    final String lastMessage;
+    @Getter
+    final Timestamp lastMessageTime;
 
     public ConversationMessageDsResponseModel(String lastMessage, Timestamp lastMessageTime) {
         this.lastMessage = lastMessage;
