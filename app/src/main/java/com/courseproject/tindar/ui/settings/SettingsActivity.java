@@ -7,15 +7,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.courseproject.tindar.BlankNavActivity;
 import com.courseproject.tindar.R;
-
+/** This class implements settings activity that allows the user to change account information
+ * like email or password.
+ */
 public class SettingsActivity extends AppCompatActivity {
-    // Button that sends user to change email screen.
+    /** Button that sends user to change email screen.*/
     Button changeEmailButton;
-    // Button that sends user to change password screen.
+    /** Button that sends user to change password screen.*/
     Button changePasswordButton;
-    // Button that sends user back to the home screen.
+    /** Button that sends user back to the home screen.*/
     ImageButton settingsBackButton;
-    // userId of the account.
+    /** userId of the account.*/
     String userId;
 
     /**

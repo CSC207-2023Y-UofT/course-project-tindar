@@ -14,23 +14,25 @@ import com.courseproject.tindar.ds.DatabaseHelper;
 import com.courseproject.tindar.usecases.editaccount.EditAccountDsGateway;
 import com.courseproject.tindar.usecases.editaccount.EditAccountInteractor;
 
+/** This class implements the ability to change the users long-in email after creating an account
+ */
 public class ChangeEmailActivity extends AppCompatActivity {
-    // Button that sends user back to the settings screen.
+    /** Button that sends user back to the settings screen. */
     ImageButton changeEmailBackButton;
-    // Button that submits changes to the email.
+    /** Button that submits changes to the email.*/
     Button submitEmailChangeButton;
-    // Text box to put in new email.
+    /** Text box to put in new email.*/
     EditText changeEmailText;
-    // Text box to put in new email again.
+    /** Text box to put in new email again.*/
     EditText changeEmailRetype;
-    // Text box to put in the current password for validation.
+    /** Text box to put in the current password for validation.*/
     EditText changeEmailPasswordValidation;
-    // userId of the account.
+    /*8 userId of the account.*/
     String userId;
 
     /**
      * Creates the email change screen for the user to view.
-     *
+     * @param savedInstanceState the saved instance state
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -14,9 +14,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.courseproject.tindar.R;
 import com.courseproject.tindar.databinding.FragmentHomeBinding;
-
+/** This class implements the home screen fragment of the app */
 public class HomeFragment extends Fragment {
+    /** FragmentHomeBinding instance to help display home page */
     private FragmentHomeBinding binding;
+    /** ImageView of home screen */
     ImageView home;
 
     /**
