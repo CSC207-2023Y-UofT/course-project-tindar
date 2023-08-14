@@ -54,6 +54,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
      */
     private static DatabaseHelper testDbInstance;
     /**
+     * current database version
+     */
+    private static final int databaseVersion = 2;
+    /**
      * table name for the accounts
      */
     private static final String TABLE_ACCOUNTS = "accounts";
@@ -281,7 +285,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
     private DatabaseHelper(@Nullable Context context, String databaseName) {
         // access modifier is private so DatabaseHelper doesn't get directly instantiated. The instantiation of
         // DatabaseHelper should go through getInstance method.
-        super(context, databaseName, null, 1);
+        super(context, databaseName, null, databaseVersion);
     }
 
     /**
@@ -310,12 +314,14 @@ public class DatabaseHelper extends SQLiteOpenHelper implements EditProfileDsGat
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ACCOUNTS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIKES);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MATCHES);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MESSAGES);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONVERSATIONS);
-        onCreate(db);
+        if (oldVersion < newVersion) {
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_ACCOUNTS);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIKES);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_MATCHES);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_MESSAGES);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONVERSATIONS);
+            onCreate(db);
+        }
     }
 
     /**
