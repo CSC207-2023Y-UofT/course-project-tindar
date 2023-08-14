@@ -18,14 +18,11 @@ public class MatchListInteractorUnitTest {
     private static final MatchListDsResponseModel DISPLAY_NAME_2 = new MatchListDsResponseModel(USER_ID_2, USER_DISPLAY_NAME_2);
 
     private static class MockMatchListDsGateway implements MatchListDsGateway {
-        /** Mock implementation of MatchListDsGateway for testing purposes **/
-        final boolean isLiked;
         final ArrayList<String> matchList;
         final ArrayList<String> likeList;
         final MatchListDsResponseModel displayName;
         public MockMatchListDsGateway(boolean isLiked, ArrayList<String> matchList,
                                      ArrayList<String> likeList, MatchListDsResponseModel displayName) {
-            this.isLiked = isLiked;
             this.matchList = matchList;
             this.likeList = likeList;
             this.displayName = displayName;
