@@ -22,11 +22,21 @@ import java.util.Objects;
 public class ConversationListInteractor implements ConversationListInputBoundary {
     private final ConversationListDsGateway conversationListDsGateway;
 
+    /**
+     * Constructor to initialize the ConversationListInteractor with a ConversationListDsGateway.
+     *
+     * @param conversationListDsGateway The data source gateway for conversation list data.
+     */
     public ConversationListInteractor(ConversationListDsGateway conversationListDsGateway) {
         this.conversationListDsGateway = conversationListDsGateway;
     }
-    //TODO : do NOT review yet since it may change with database helper function
 
+    /**
+     * Retrieves an ArrayList of active conversations for a given user.
+     *
+     * @param userId The user ID for which to fetch active conversations.
+     * @return An ArrayList of ConversationResponseModel representing active conversations.
+     */
     public ArrayList<ConversationResponseModel> getAllActiveConversations(String userId) {
         ArrayList<ConversationDsResponseModel> conversationUserGroupList =
                 conversationListDsGateway.readConversationList(userId);
